@@ -10,6 +10,9 @@
   --accent-strong: #bd9dff;
   --accent-dark: #7353bd;
   --cream: #fffdf8;
+  --site-max: 1180px;
+  --site-gutter: clamp(22px, 4.8vw, 96px);
+  --site-pad: max(var(--site-gutter), calc((100vw - var(--site-max)) / 2));
 }
 
 * {
@@ -51,11 +54,11 @@ h3 {
   z-index: 20;
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 28px;
+  gap: 18px;
   align-items: center;
-  width: min(1180px, calc(100vw - 32px));
-  min-height: 58px;
-  padding: 8px 10px 8px 18px;
+  width: min(var(--site-max), calc(100vw - 32px));
+  min-height: 54px;
+  padding: 6px 8px 6px 16px;
   border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 999px;
   color: #fff;
@@ -74,14 +77,14 @@ h3 {
 
 .brand {
   gap: 9px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 800;
   white-space: nowrap;
 }
 
 .brand-mark {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -94,17 +97,17 @@ h3 {
 
 .nav-links {
   justify-content: center;
-  gap: 8px;
+  gap: 4px;
 }
 
 .nav-links a {
-  min-height: 36px;
+  min-height: 34px;
   display: inline-flex;
   align-items: center;
-  padding: 0 14px;
+  padding: 0 10px;
   border-radius: 999px;
   color: rgba(255, 255, 255, 0.86);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
 }
 
@@ -114,9 +117,9 @@ h3 {
 }
 
 .nav-cta {
-  min-height: 42px;
+  min-height: 38px;
   justify-content: center;
-  padding: 0 20px;
+  padding: 0 16px;
   border-radius: 999px;
   color: var(--ink);
   background: #fff;
@@ -130,7 +133,7 @@ h3 {
   min-height: 760px;
   display: flex;
   align-items: end;
-  padding: 150px max(38px, calc((100vw - 1180px) / 2)) 76px;
+  padding: 150px var(--site-pad) 76px;
   color: #fff;
   isolation: isolate;
   overflow: hidden;
@@ -263,7 +266,7 @@ h3 {
 
 .hero-card {
   position: absolute;
-  right: max(38px, calc((100vw - 1180px) / 2));
+  right: var(--site-pad);
   bottom: 76px;
   width: min(380px, calc(100vw - 76px));
   padding: 24px;
@@ -310,7 +313,7 @@ h3 {
 .content-section,
 .accent-section,
 .contact-layout {
-  padding: 94px max(38px, calc((100vw - 1180px) / 2));
+  padding: 94px var(--site-pad);
 }
 
 .split-section {
@@ -475,7 +478,7 @@ a.route-card:hover {
   min-height: 620px;
   display: flex;
   align-items: center;
-  padding: 100px max(38px, calc((100vw - 1180px) / 2));
+  padding: 100px var(--site-pad);
   color: #fff;
   isolation: isolate;
   background:
@@ -485,6 +488,14 @@ a.route-card:hover {
 
 .image-band > div {
   max-width: 820px;
+}
+
+.content-section > *,
+.accent-section > *,
+.split-section > *,
+.contact-layout > *,
+.site-footer > * {
+  max-width: var(--site-max);
 }
 
 .image-band .btn {
@@ -658,7 +669,7 @@ textarea {
   display: flex;
   justify-content: space-between;
   gap: 28px;
-  padding: 42px max(38px, calc((100vw - 1180px) / 2));
+  padding: 42px var(--site-pad);
   color: #fff;
   background: var(--deep);
 }
@@ -683,7 +694,6 @@ textarea {
 }
 
 .home-page {
-  --home-gutter: clamp(22px, 4.8vw, 96px);
   --paper: #f7f6f2;
   --panel: #ece7f7;
   --line: #ded8e8;
@@ -705,47 +715,14 @@ textarea {
 
 .home-module {
   width: 100%;
-  margin: 0;
-}
-
-.home-page .site-header {
-  top: 26px;
-  width: calc(100vw - (var(--home-gutter) * 2));
-  min-height: 46px;
-  padding: 5px 6px 5px 16px;
-  border-color: rgba(255, 255, 255, 0.22);
-  border-radius: 999px;
-  background: rgba(7, 8, 16, 0.34);
-  box-shadow: none;
-}
-
-.home-page .brand {
-  font-size: 12px;
-}
-
-.home-page .brand-mark {
-  width: 22px;
-  height: 22px;
-  font-size: 12px;
-}
-
-.home-page .nav-links a {
-  min-height: 30px;
-  padding: 0 11px;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.home-page .nav-cta {
-  min-height: 34px;
-  padding: 0 16px;
-  font-size: 11px;
+  max-width: var(--site-max);
+  margin: 0 auto;
 }
 
 .home-hero {
   position: relative;
   min-height: 100vh;
-  padding: 0 var(--home-gutter);
+  padding: 0 var(--site-pad);
   color: #fff;
   overflow: hidden;
   isolation: isolate;
@@ -758,7 +735,7 @@ textarea {
   position: relative;
   min-height: 100vh;
   display: grid;
-  grid-template-columns: minmax(42vw, 1.15fr) minmax(28vw, 0.85fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
   grid-template-rows: auto auto;
   align-items: end;
   gap: 48px;
@@ -777,7 +754,7 @@ textarea {
 
 .home-hero-copy h1 {
   max-width: none;
-  font-size: clamp(72px, 7.4vw, 156px);
+  font-size: clamp(72px, 7vw, 118px);
   line-height: 0.93;
   font-weight: 500;
   letter-spacing: 0;
@@ -792,7 +769,7 @@ textarea {
   grid-column: 2;
   grid-row: 2;
   align-self: end;
-  max-width: 34vw;
+  max-width: 390px;
   justify-self: end;
   margin-bottom: 8px;
 }
@@ -852,7 +829,7 @@ textarea {
 .plans-block,
 .testimonial-block,
 .faq-block {
-  padding: 92px var(--home-gutter);
+  padding: 92px var(--site-pad);
 }
 
 .about-block {
@@ -861,7 +838,7 @@ textarea {
 
 .about-module {
   display: grid;
-  grid-template-columns: minmax(220px, 25vw) minmax(0, 1fr);
+  grid-template-columns: minmax(220px, 0.28fr) minmax(0, 1fr);
   gap: clamp(42px, 6vw, 120px);
   align-items: start;
 }
@@ -939,7 +916,7 @@ textarea {
 
 .story-media-grid {
   display: grid;
-  grid-template-columns: minmax(24vw, 0.85fr) minmax(34vw, 1fr);
+  grid-template-columns: minmax(260px, 0.85fr) minmax(0, 1fr);
   gap: 14px;
   align-items: end;
   margin-top: 26px;
@@ -974,7 +951,7 @@ textarea {
 }
 
 .services-showcase {
-  padding: 78px var(--home-gutter) 88px;
+  padding: 78px var(--site-pad) 88px;
   background: var(--accent);
 }
 
@@ -982,7 +959,8 @@ textarea {
   margin-bottom: 38px;
 }
 
-.service-card-row {
+.service-card-row,
+.quick-link-row {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
@@ -1029,6 +1007,36 @@ textarea {
   margin-top: auto;
   border-radius: 8px;
   object-fit: cover;
+}
+
+.service-tile .btn {
+  width: 100%;
+  margin-top: 14px;
+}
+
+.quick-link-row {
+  margin-top: 14px;
+}
+
+.quick-link-card {
+  min-height: 118px;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  padding: 18px;
+  border-radius: 10px;
+  color: #fff;
+  background: var(--deep);
+}
+
+.quick-link-card b {
+  font-size: 17px;
+}
+
+.quick-link-card span {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  line-height: 1.45;
 }
 
 .join-block {
@@ -1078,6 +1086,11 @@ textarea {
   line-height: 1.45;
 }
 
+.step-list a {
+  color: var(--accent-dark);
+  font-weight: 800;
+}
+
 .join-block figure img {
   width: 100%;
   height: 460px;
@@ -1085,7 +1098,7 @@ textarea {
 }
 
 .coach-band {
-  padding: 72px var(--home-gutter);
+  padding: 72px var(--site-pad);
   background: #fff;
 }
 
@@ -1137,7 +1150,7 @@ textarea {
 }
 
 .coach-copy p {
-  max-width: 52vw;
+  max-width: 620px;
   margin: 18px 0 24px;
   color: rgba(255, 255, 255, 0.76);
   line-height: 1.55;
@@ -1369,7 +1382,7 @@ textarea {
   min-height: 620px;
   display: flex;
   align-items: center;
-  padding: 100px var(--home-gutter);
+  padding: 100px var(--site-pad);
   color: #fff;
   background:
     linear-gradient(90deg, rgba(5, 8, 14, 0.72), rgba(5, 8, 14, 0.15)),
@@ -1382,7 +1395,7 @@ textarea {
 }
 
 .bottom-cta p {
-  max-width: 42vw;
+  max-width: 520px;
   margin-top: 18px;
   color: rgba(255, 255, 255, 0.78);
   line-height: 1.55;
@@ -1527,11 +1540,6 @@ textarea {
     border-radius: 22px;
   }
 
-  .home-page .site-header {
-    width: calc(100vw - 32px);
-    border-radius: 20px;
-  }
-
   .nav-links {
     grid-column: 1 / -1;
     order: 3;
@@ -1598,6 +1606,7 @@ textarea {
 
   .story-media-grid,
   .service-card-row,
+  .quick-link-row,
   .plan-row,
   .testimonial-content {
     grid-template-columns: 1fr;
@@ -1615,11 +1624,6 @@ textarea {
 @media (max-width: 640px) {
   .site-header {
     top: 10px;
-    width: calc(100vw - 20px);
-  }
-
-  .home-page .site-header {
-    top: 12px;
     width: calc(100vw - 20px);
   }
 
@@ -1683,23 +1687,6 @@ textarea {
     flex-direction: column;
   }
 
-  .home-hero,
-  .about-block,
-  .join-block,
-  .plans-block,
-  .testimonial-block,
-  .faq-block,
-  .bottom-cta,
-  .services-showcase,
-  .coach-band {
-    padding-left: 22px;
-    padding-right: 22px;
-  }
-
-  .home-page {
-    --home-gutter: 22px;
-  }
-
   .hero-module {
     min-height: 760px;
     padding-top: 168px;
@@ -1742,6 +1729,7 @@ textarea {
   }
 
   .service-card-row,
+  .quick-link-row,
   .plan-row,
   .cert-row {
     grid-template-columns: 1fr;
