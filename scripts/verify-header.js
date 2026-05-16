@@ -45,6 +45,11 @@ const shouldScreenshot = process.env.SCREENSHOT === "1";
       const initialBorderWidth = await page
         .locator(".site-header")
         .evaluate((node) => getComputedStyle(node).borderBottomWidth);
+      const initialTextColor = await page
+        .locator(".nav-links a")
+        .first()
+        .evaluate((node) => getComputedStyle(node).color);
+      const initialBrandColor = await page.locator(".brand").evaluate((node) => getComputedStyle(node).color);
 
       await page.mouse.wheel(0, 500);
       await page.waitForTimeout(220);
@@ -52,6 +57,10 @@ const shouldScreenshot = process.env.SCREENSHOT === "1";
       const scrolledBorderWidth = await page
         .locator(".site-header")
         .evaluate((node) => getComputedStyle(node).borderBottomWidth);
+      const scrolledTextColor = await page
+        .locator(".nav-links a")
+        .first()
+        .evaluate((node) => getComputedStyle(node).color);
 
       await page.mouse.wheel(0, -500);
       await page.waitForTimeout(260);
@@ -73,7 +82,7 @@ const shouldScreenshot = process.env.SCREENSHOT === "1";
       }
 
       console.log(
-        `${pageName} ${item.name}: header=${Math.round(initial.width)}x${Math.round(initial.height)}, overflow=${overflow}, border=${initialBorderWidth}->${scrolledBorderWidth}, hidden=${hidden}, shown=${shown}, submenu=${submenuVisible}, errors=${errors.length}`,
+        `${pageName} ${item.name}: header=${Math.round(initial.width)}x${Math.round(initial.height)}, overflow=${overflow}, border=${initialBorderWidth}->${scrolledBorderWidth}, text=${initialTextColor}->${scrolledTextColor}, brand=${initialBrandColor}, hidden=${hidden}, shown=${shown}, submenu=${submenuVisible}, errors=${errors.length}`,
       );
 
       if (
@@ -81,6 +90,9 @@ const shouldScreenshot = process.env.SCREENSHOT === "1";
         overflow > 1 ||
         initialBorderWidth !== "0px" ||
         scrolledBorderWidth === "0px" ||
+        initialTextColor !== "rgb(255, 255, 255)" ||
+        initialBrandColor !== "rgb(255, 255, 255)" ||
+        scrolledTextColor === "rgb(255, 255, 255)" ||
         !hidden ||
         !shown ||
         !submenuVisible
