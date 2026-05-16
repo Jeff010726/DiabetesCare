@@ -1,0 +1,21 @@
+{
+  "name": "diabetescare",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static site for NutriAll Diabetes Care.",
+  "scripts": {
+    "verify:header": "node scripts/verify-header.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jeff010726/DiabetesCare.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Jeff010726/DiabetesCare/issues"
+  },
+  "homepage": "https://github.com/Jeff010726/DiabetesCare#readme",
+  "devDependencies": {
+    "playwright": "^1.60.0"
+  }
+}
