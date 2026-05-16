@@ -99,20 +99,77 @@ h3 {
   gap: 4px;
 }
 
-.nav-links a {
+.nav-links a,
+.nav-menu > button {
   min-height: 34px;
   display: inline-flex;
   align-items: center;
   padding: 0 10px;
+  border: 0;
   border-radius: 999px;
   color: rgba(255, 255, 255, 0.86);
+  background: transparent;
+  font: inherit;
   font-size: 12px;
   font-weight: 700;
+  cursor: pointer;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-menu:hover > button,
+.nav-menu:focus-within > button {
   color: #fff;
   background: rgba(255, 255, 255, 0.12);
+}
+
+.nav-menu {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-menu > button::after {
+  width: 0;
+  height: 0;
+  margin-left: 6px;
+  border-top: 4px solid currentColor;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  content: "";
+}
+
+.nav-submenu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  min-width: 170px;
+  display: grid;
+  gap: 4px;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  background: rgba(8, 9, 21, 0.88);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 6px);
+  transition: opacity 160ms ease, transform 160ms ease;
+  backdrop-filter: blur(18px);
+}
+
+.nav-menu:hover .nav-submenu,
+.nav-menu:focus-within .nav-submenu {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+.nav-submenu a {
+  min-height: 36px;
+  justify-content: flex-start;
+  padding: 0 12px;
+  color: rgba(255, 255, 255, 0.82);
+  white-space: nowrap;
 }
 
 .nav-cta {
@@ -1536,6 +1593,33 @@ textarea {
     justify-content: flex-start;
     overflow-x: auto;
     padding-bottom: 2px;
+  }
+
+  .nav-menu {
+    gap: 4px;
+  }
+
+  .nav-menu > button {
+    pointer-events: none;
+  }
+
+  .nav-submenu {
+    position: static;
+    min-width: 0;
+    display: inline-flex;
+    gap: 4px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    backdrop-filter: none;
+  }
+
+  .nav-submenu a {
+    min-height: 34px;
   }
 
   .hero,
