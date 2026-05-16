@@ -2,7 +2,7 @@
   "name": "diabetescare",
   "version": "1.0.0",
   "private": true,
-  "description": "Static site for NutriAll Diabetes Care.",
+  "description": "Static site for XT Diabetes Care.",
   "scripts": {
     "verify:header": "node scripts/verify-header.js"
   },

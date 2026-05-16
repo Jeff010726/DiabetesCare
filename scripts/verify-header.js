@@ -33,7 +33,7 @@ const shouldScreenshot = process.env.SCREENSHOT === "1";
       const errors = [];
 
       page.on("pageerror", (error) => errors.push(error.message));
-      await page.goto(pagePath);
+      await page.goto(pagePath, { waitUntil: "domcontentloaded" });
       await page.waitForTimeout(650);
 
       if (shouldScreenshot && pageName === "index.html") {
@@ -42,20 +42,49 @@ const shouldScreenshot = process.env.SCREENSHOT === "1";
 
       const initial = await page.locator(".site-header").boundingBox();
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+      const initialBorderWidth = await page
+        .locator(".site-header")
+        .evaluate((node) => getComputedStyle(node).borderBottomWidth);
 
       await page.mouse.wheel(0, 500);
       await page.waitForTimeout(220);
       const hidden = await page.locator(".site-header").evaluate((node) => node.classList.contains("is-hidden"));
+      const scrolledBorderWidth = await page
+        .locator(".site-header")
+        .evaluate((node) => getComputedStyle(node).borderBottomWidth);
 
       await page.mouse.wheel(0, -500);
       await page.waitForTimeout(260);
       const shown = await page.locator(".site-header").evaluate((node) => !node.classList.contains("is-hidden"));
+      let submenuVisible = true;
+
+      if (item.name === "desktop") {
+        await page.evaluate(() => window.scrollTo(0, 0));
+        await page.waitForTimeout(320);
+        await page.locator(".nav-menu > button").hover();
+        await page.waitForTimeout(360);
+        submenuVisible = await page
+          .locator(".nav-submenu")
+          .evaluate((node) => {
+            const style = getComputedStyle(node);
+            const rect = node.getBoundingClientRect();
+            return style.pointerEvents === "auto" && Number(style.opacity) > 0.95 && rect.height > 0;
+          });
+      }
 
       console.log(
-        `${pageName} ${item.name}: header=${Math.round(initial.width)}x${Math.round(initial.height)}, overflow=${overflow}, hidden=${hidden}, shown=${shown}, errors=${errors.length}`,
+        `${pageName} ${item.name}: header=${Math.round(initial.width)}x${Math.round(initial.height)}, overflow=${overflow}, border=${initialBorderWidth}->${scrolledBorderWidth}, hidden=${hidden}, shown=${shown}, submenu=${submenuVisible}, errors=${errors.length}`,
       );
 
-      if (errors.length || overflow > 1 || !hidden || !shown) {
+      if (
+        errors.length ||
+        overflow > 1 ||
+        initialBorderWidth !== "0px" ||
+        scrolledBorderWidth === "0px" ||
+        !hidden ||
+        !shown ||
+        !submenuVisible
+      ) {
         if (errors.length) {
           console.log(errors.join("\n"));
         }
