@@ -13,8 +13,20 @@ export default function Home() {
   const heroPumpTrainingSrc = `${import.meta.env.BASE_URL}hero-pump-training.webp`;
   const heroCgmSrc = `${import.meta.env.BASE_URL}hero-cgm.webp`;
   const tanPhotoSrc = `${import.meta.env.BASE_URL}tan-profile.webp`;
+  const insuranceLogoSrc = (file: string) => `${import.meta.env.BASE_URL}insurance/${file}`;
   const fallbackTanPhoto =
     "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80";
+  const insuranceLogos = [
+    { name: "Medicare", file: "medicare.webp" },
+    { name: "Humana", file: "humana.webp" },
+    { name: "Healthfirst", file: "healthfirst.webp" },
+    { name: "MagnaCare", file: "magnacare.webp" },
+    { name: "Insurance partner", file: "insurance-partner-1.webp" },
+    { name: "Insurance partner", file: "insurance-partner-2.webp" },
+    { name: "Insurance partner", file: "insurance-partner-3.webp" },
+    { name: "Insurance partner", file: "insurance-partner-4.webp" },
+    { name: "Insurance partner", file: "insurance-partner-5.webp" }
+  ];
 
   const slides = [
     {
@@ -79,8 +91,8 @@ export default function Home() {
               alt="Background" 
               className="absolute inset-0 w-full h-full object-cover"
             />
-            {/* Lighter gradient overlay so dark text is readable */}
-            <div className="absolute inset-0 bg-gradient-to-r from-white/78 via-white/50 md:to-transparent to-white/25"></div>
+            {/* Gradient overlay keeps hero copy readable across all slides */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 md:to-transparent to-white/60"></div>
             
             <div className="absolute inset-0 flex items-center">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
@@ -141,6 +153,52 @@ export default function Home() {
         >
            <ChevronRight className="w-8 h-8" />
         </button>
+      </section>
+
+      {/* Insurance Network Section */}
+      <section className="py-16 bg-white border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 items-center">
+            <div>
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-brand-purple-light)] text-[var(--color-brand-purple)] font-semibold text-sm mb-6 border border-[var(--color-brand-purple)]/15">
+                <ShieldCheck className="w-4 h-4 text-[var(--color-brand-pink)]" />
+                Insurance coverage
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-5 leading-tight">
+                We are now In-Network with MOST of the insurance
+              </h2>
+              <p className="text-lg text-gray-600 leading-relaxed mb-6">
+                Including but not limited to the plans shown here. Coverage varies by plan, so our team verifies benefits before care begins.
+              </p>
+              <Link
+                to="/coverage"
+                className="inline-flex items-center justify-center gap-2 bg-[var(--color-brand-purple)] text-white px-6 py-3 rounded-full font-bold hover:bg-[var(--color-brand-purple)]/90 transition-all shadow-md"
+              >
+                Check coverage <ArrowRight className="w-5 h-5" />
+              </Link>
+            </div>
+
+            <div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                {insuranceLogos.map((logo, index) => (
+                  <div
+                    key={`${logo.file}-${index}`}
+                    className="h-28 bg-gray-50 rounded-2xl border border-gray-100 flex items-center justify-center p-5 shadow-sm hover:shadow-md transition-shadow"
+                  >
+                    <img
+                      src={insuranceLogoSrc(logo.file)}
+                      alt={`${logo.name} logo`}
+                      className="max-h-16 max-w-full object-contain"
+                    />
+                  </div>
+                ))}
+              </div>
+              <p className="text-sm text-gray-500 mt-4">
+                Logos are examples of in-network or commonly supported insurance plans and are not a complete list.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Expert Profile Section */}
@@ -418,7 +476,7 @@ export default function Home() {
               <h2 className="text-3xl md:text-4xl font-bold mb-4">We are your diabetes care assistants.</h2>
               <p className="text-purple-100 text-lg">
                 Refer your newly diagnosed patients or those needing structured self-management education. 
-                We handle the thorough education—so you can focus on medical decision-making. 
+                We handle the thorough education so you can focus on medical decision-making. 
                 ADCES Accredited.
               </p>
             </div>

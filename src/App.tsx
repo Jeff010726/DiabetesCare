@@ -7,6 +7,7 @@ import CGM from './pages/CGM';
 import Providers from './pages/Providers';
 import Coverage from './pages/Coverage';
 import Recipes from './pages/Recipes';
+import RecipeDetail from './pages/RecipeDetail';
 import Contact from './pages/Contact';
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="providers" element={<Providers />} />
         <Route path="coverage" element={<Coverage />} />
         <Route path="recipes" element={<Recipes />} />
+        <Route path="recipes/:slug" element={<RecipeDetail />} />
         <Route path="contact" element={<Contact />} />
       </Route>
     </Routes>
