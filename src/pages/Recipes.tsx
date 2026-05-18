@@ -1,15 +1,22 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Clock3, HeartPulse, Utensils, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { assetPath, recipes } from "../lib/recipes";
+import { assetPath, type Recipe } from "../lib/recipes";
 
 function carbsFromNutrition(nutrition: string[], fallback: string) {
-  const match = nutrition.find((item) => item.toLowerCase().includes("carbohydrate"));
-  return match?.replace("carbohydrates", "carbs") ?? fallback;
+  const carbTerms = ["carbohydrate", "carbohydrates", "carbohidrato", "carbohidratos", "hidratos", "碳水", "炭水化物", "탄수화물"];
+  const match = nutrition.find((item) => {
+    const normalized = item.toLowerCase();
+    return carbTerms.some((term) => normalized.includes(term));
+  });
+
+  return match?.replace(/carbohydrates/i, "carbs") ?? fallback;
 }
 
 export default function Recipes() {
   const { t } = useTranslation("servicePages");
+  const { t: tRecipes } = useTranslation("recipes");
+  const localizedRecipes = tRecipes("items", { returnObjects: true }) as Recipe[];
 
   return (
     <div className="bg-white">
@@ -31,7 +38,7 @@ export default function Recipes() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {recipes.map((recipe) => (
+            {localizedRecipes.map((recipe) => (
               <Link
                 key={recipe.slug}
                 to={`/recipes/${recipe.slug}`}

@@ -2,16 +2,18 @@ import { Link } from "react-router-dom";
 import { Menu, X, Activity, ChevronDown, ArrowRight, BookOpen, MonitorSmartphone, Stethoscope, Utensils } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { assetPath, recipes } from "../../lib/recipes";
+import { assetPath, type Recipe } from "../../lib/recipes";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Navbar() {
   const { t } = useTranslation();
+  const { t: tRecipes } = useTranslation("recipes");
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const toggle = () => setIsOpen(!isOpen);
-  const featuredRecipes = recipes.slice(0, 4);
+  const localizedRecipes = tRecipes("items", { returnObjects: true }) as Recipe[];
+  const featuredRecipes = localizedRecipes.slice(0, 4);
   const services = [
     {
       name: t("services.classes.name"),

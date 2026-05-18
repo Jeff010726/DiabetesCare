@@ -1,12 +1,14 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, Clock3, HeartPulse, Printer, ShieldCheck, Utensils, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { assetPath, recipes } from "../lib/recipes";
+import { assetPath, type Recipe } from "../lib/recipes";
 
 export default function RecipeDetail() {
   const { t } = useTranslation("servicePages");
+  const { t: tRecipes } = useTranslation("recipes");
   const { slug } = useParams();
-  const recipe = recipes.find((item) => item.slug === slug);
+  const localizedRecipes = tRecipes("items", { returnObjects: true }) as Recipe[];
+  const recipe = localizedRecipes.find((item) => item.slug === slug);
 
   if (!recipe) {
     return (
