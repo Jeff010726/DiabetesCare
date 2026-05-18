@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Activity } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -8,9 +7,18 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <Activity className="h-6 w-6 text-[var(--color-brand-purple)]" />
+              <span className="w-9 h-9 rounded-xl bg-white border border-[var(--color-brand-purple)]/10 flex items-center justify-center overflow-hidden shadow-sm">
+                <img
+                  src={`${import.meta.env.BASE_URL}logo.png`}
+                  alt="XT Diabetes Care logo"
+                  className="w-7 h-7 object-contain"
+                  onError={(event) => {
+                    event.currentTarget.style.display = "none";
+                  }}
+                />
+              </span>
               <span className="font-heading font-bold text-xl text-[var(--color-brand-purple)] tracking-tight">
-                Nutriall
+                XT Diabetes Care
               </span>
             </Link>
             <p className="text-gray-500 text-sm">
@@ -42,7 +50,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-200 flex justify-between items-center text-sm text-gray-500">
-          <p>&copy; {new Date().getFullYear()} Nutriall Wellness Center LLC. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} XT Diabetes Care. All rights reserved.</p>
         </div>
       </div>
     </footer>

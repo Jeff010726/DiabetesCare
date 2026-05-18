@@ -42,7 +42,7 @@ export default function Contact() {
                  </div>
                  <div>
                     <h4 className="text-lg font-bold mb-1">Address</h4>
-                    <p className="text-gray-600">Nutriall Wellness Center LLC<br/>123 Health Way, Suite 100<br/>City, State 12345</p>
+                    <p className="text-gray-600">XT Diabetes Care<br/>123 Health Way, Suite 100<br/>City, State 12345</p>
                  </div>
               </div>
               
@@ -62,7 +62,7 @@ export default function Contact() {
                  </div>
                  <div>
                     <h4 className="text-lg font-bold mb-1">Email</h4>
-                    <p className="text-gray-600">hello@nutriallwellness.com</p>
+                    <p className="text-gray-600">hello@xtdiabetescare.com</p>
                  </div>
               </div>
 

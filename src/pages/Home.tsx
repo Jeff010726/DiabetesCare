@@ -450,7 +450,7 @@ export default function Home() {
                   </div>
                </div>
                <div>
-                  <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900">Why Choose Nutriall Wellness?</h2>
+                  <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900">Why Choose XT Diabetes Care?</h2>
                   <p className="text-lg text-gray-600 mb-6">
                     We are dedicated exclusively to diabetes education and management. Unlike general clinics, this is our only focus. 
                   </p>

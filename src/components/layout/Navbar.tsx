@@ -54,9 +54,18 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-20">
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center gap-2">
-              <Activity className="h-8 w-8 text-[var(--color-brand-purple)]" />
-              <span className="font-heading font-bold text-2xl text-[var(--color-brand-purple)] tracking-tight">
-                Nutriall
+              <span className="w-10 h-10 rounded-xl bg-[var(--color-brand-purple-light)] border border-[var(--color-brand-purple)]/10 flex items-center justify-center overflow-hidden">
+                <img
+                  src={`${import.meta.env.BASE_URL}logo.png`}
+                  alt="XT Diabetes Care logo"
+                  className="w-8 h-8 object-contain"
+                  onError={(event) => {
+                    event.currentTarget.style.display = "none";
+                  }}
+                />
+              </span>
+              <span className="font-heading font-bold text-xl lg:text-2xl text-[var(--color-brand-purple)] tracking-tight">
+                XT Diabetes Care
               </span>
             </Link>
           </div>

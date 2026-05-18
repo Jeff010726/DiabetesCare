@@ -13,7 +13,7 @@ export default function Providers() {
             Partnering with Physicians <br/> to Improve Patient Outcomes
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Nutriall Wellness Center acts as an extension of your practice. We provide the 
+            XT Diabetes Care acts as an extension of your practice. We provide the 
             intensive, systemic diabetes self-management education your patients need, 
             completely covered by insurance.
           </p>
