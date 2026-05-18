@@ -80,7 +80,7 @@ export default function Home() {
               className="absolute inset-0 w-full h-full object-cover"
             />
             {/* Lighter gradient overlay so dark text is readable */}
-            <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 md:to-transparent to-white/60"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-white/78 via-white/50 md:to-transparent to-white/25"></div>
             
             <div className="absolute inset-0 flex items-center">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
