@@ -21,6 +21,18 @@ export const zhCN = {
       viewAllRecipes: "查看全部食谱",
       prepSuffix: "准备",
     },
+    memberInvite: {
+      close: "\u5173\u95ed\u4f1a\u5458\u9080\u8bf7",
+      imageAlt: "XT Diabetes Care \u4fdd\u9669\u53cb\u597d\u7167\u62a4\u6a2a\u5e45",
+      bannerTitle: "\u6211\u4eec 99% \u7684\u5ba2\u6237",
+      bannerHighlight: "\u901a\u8fc7\u4fdd\u9669\u652f\u4ed8 $0\uff01",
+      badge: "\u514d\u8d39\u4f1a\u5458\u66f4\u65b0",
+      title: "\u514d\u8d39\u6ce8\u518c\u6210\u4e3a\u4f1a\u5458",
+      desc: "\u4f18\u5148\u83b7\u53d6 XT Diabetes Care \u6700\u65b0\u6d88\u606f\uff0c\u5305\u62ec\u6700\u65b0\u98df\u8c31\u3001\u516c\u5f00\u6559\u7a0b\u3001\u4f18\u60e0\u4fe1\u606f\u548c\u514d\u8d39\u798f\u5229\u3002",
+      benefits: ["\u6700\u65b0\u63a7\u7cd6\u53cb\u597d\u98df\u8c31", "\u516c\u5f00\u6559\u7a0b\u548c\u8bfe\u7a0b\u6d88\u606f", "\u4f18\u60e0\u3001\u63d0\u9192\u548c\u514d\u8d39\u8d44\u6e90"],
+      cta: "\u514d\u8d39\u52a0\u5165",
+      later: "\u7a0d\u540e\u518d\u8bf4",
+    },
     services: {
       classes: {
         name: "糖尿病课程",

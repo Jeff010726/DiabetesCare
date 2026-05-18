@@ -21,6 +21,18 @@ export const es = {
       viewAllRecipes: "Ver todas las recetas",
       prepSuffix: "prep.",
     },
+    memberInvite: {
+      close: "Cerrar invitación para miembros",
+      imageAlt: "Banner de atención compatible con seguro de XT Diabetes Care",
+      bannerTitle: "El 99% de nuestros clientes",
+      bannerHighlight: "paga $0 con su seguro",
+      badge: "Actualizaciones gratuitas para miembros",
+      title: "Regístrese gratis para ser miembro",
+      desc: "Reciba antes las novedades de XT Diabetes Care, incluidas las recetas más recientes, tutoriales públicos, ofertas especiales y beneficios gratuitos.",
+      benefits: ["Recetas nuevas pensadas para la glucosa", "Tutoriales públicos y noticias de clases", "Ofertas, recordatorios y recursos gratuitos"],
+      cta: "Unirse gratis",
+      later: "Quizá más tarde",
+    },
     services: {
       classes: {
         name: "Clases de diabetes",

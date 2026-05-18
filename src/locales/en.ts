@@ -23,6 +23,18 @@ export const en = {
       viewAllRecipes: "View All Recipes",
       prepSuffix: "prep",
     },
+    memberInvite: {
+      close: "Close member invitation",
+      imageAlt: "XT Diabetes Care insurance-friendly care banner",
+      bannerTitle: "99% of our clients",
+      bannerHighlight: "pay $0 with their insurance!",
+      badge: "Free member updates",
+      title: "Register free to become a member",
+      desc: "Get priority access to XT Diabetes Care updates, including the latest recipes, public tutorials, special offers, and free benefits.",
+      benefits: ["Latest glucose-aware recipes", "Public tutorials and class news", "Offers, reminders, and free resources"],
+      cta: "Join free",
+      later: "Maybe later",
+    },
     services: {
       classes: {
         name: "Diabetes Classes",

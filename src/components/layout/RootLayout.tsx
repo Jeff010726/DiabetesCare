@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import MemberInviteModal from "./MemberInviteModal";
 
 export default function RootLayout() {
   const { i18n } = useTranslation();
@@ -24,6 +25,7 @@ export default function RootLayout() {
         <Outlet />
       </main>
       <Footer />
+      <MemberInviteModal />
     </div>
   );
 }
