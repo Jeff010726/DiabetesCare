@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { Menu, X, Activity, ChevronDown, ArrowRight, BookOpen, MonitorSmartphone, Stethoscope, Utensils } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { assetPath, recipes } from "../../lib/recipes";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Navbar() {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
@@ -11,41 +14,41 @@ export default function Navbar() {
   const featuredRecipes = recipes.slice(0, 4);
   const services = [
     {
-      name: "Diabetes Classes",
+      name: t("services.classes.name"),
       path: "/classes",
-      desc: "Structured education for food, medication, exercise, and daily routines.",
+      desc: t("services.classes.desc"),
       icon: BookOpen,
       tone: "text-[var(--color-brand-purple)] bg-[var(--color-brand-purple-light)]"
     },
     {
-      name: "Insulin Pump Training",
+      name: t("services.pump.name"),
       path: "/pump-training",
-      desc: "Hands-on setup and confidence building for modern pump systems.",
+      desc: t("services.pump.desc"),
       icon: Activity,
       tone: "text-[var(--color-brand-pink)] bg-[var(--color-brand-pink-light)]"
     },
     {
-      name: "CGM Training & Reports",
+      name: t("services.cgm.name"),
       path: "/cgm",
-      desc: "Sensor setup, app support, and glucose pattern interpretation.",
+      desc: t("services.cgm.desc"),
       icon: MonitorSmartphone,
       tone: "text-yellow-600 bg-yellow-50"
     },
     {
-      name: "For Providers",
+      name: t("services.providers.name"),
       path: "/providers",
-      desc: "Referral resources and diabetes education support for clinics.",
+      desc: t("services.providers.desc"),
       icon: Stethoscope,
       tone: "text-green-600 bg-green-50"
     }
   ];
 
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Services", dropdown: services, type: "services" },
-    { name: "Coverage", path: "/coverage" },
-    { name: "Recipes", dropdown: featuredRecipes, type: "recipes" },
-    { name: "Contact", path: "/contact" },
+    { name: t("nav.home"), path: "/" },
+    { name: t("nav.services"), dropdown: services, type: "services" },
+    { name: t("nav.coverage"), path: "/coverage" },
+    { name: t("nav.recipes"), dropdown: featuredRecipes, type: "recipes" },
+    { name: t("nav.contact"), path: "/contact" },
   ];
 
   return (
@@ -57,7 +60,7 @@ export default function Navbar() {
               <span className="w-10 h-10 rounded-xl bg-[var(--color-brand-purple-light)] border border-[var(--color-brand-purple)]/10 flex items-center justify-center overflow-hidden">
                 <img
                   src={`${import.meta.env.BASE_URL}logo.png`}
-                  alt="XT Diabetes Care logo"
+                  alt={t("brand.logoAlt")}
                   className="w-8 h-8 object-contain"
                   onError={(event) => {
                     event.currentTarget.style.display = "none";
@@ -65,7 +68,7 @@ export default function Navbar() {
                 />
               </span>
               <span className="font-heading font-bold text-xl lg:text-2xl text-[var(--color-brand-purple)] tracking-tight">
-                XT Diabetes Care
+                {t("brand.name")}
               </span>
             </Link>
           </div>
@@ -95,14 +98,14 @@ export default function Navbar() {
                         <div className="bg-white rounded-2xl shadow-[0_24px_70px_-28px_rgba(31,41,55,0.38)] border border-gray-100 overflow-hidden">
                           <div className="p-5 bg-[var(--color-brand-purple-light)]/35 border-b border-[var(--color-brand-purple)]/10 flex items-center justify-between gap-4">
                             <div>
-                              <p className="text-sm font-semibold text-[var(--color-brand-purple)]">Healthy Recipes</p>
-                              <p className="text-sm text-gray-600">Glucose-aware meals with practical portions and clear steps.</p>
+                              <p className="text-sm font-semibold text-[var(--color-brand-purple)]">{t("nav.healthyRecipes")}</p>
+                              <p className="text-sm text-gray-600">{t("nav.recipesDescription")}</p>
                             </div>
                             <Link
                               to="/recipes"
                               className="inline-flex items-center gap-2 text-sm font-bold text-[var(--color-brand-purple)] hover:underline underline-offset-4 whitespace-nowrap"
                             >
-                              View all <ArrowRight className="w-4 h-4" />
+                              {t("nav.viewAll")} <ArrowRight className="w-4 h-4" />
                             </Link>
                           </div>
                           <div className="grid grid-cols-2 gap-4 p-5">
@@ -122,7 +125,7 @@ export default function Navbar() {
                                   <p className="text-sm font-bold text-gray-900 leading-snug group-hover/item:text-[var(--color-brand-purple)] transition-colors line-clamp-2">
                                     {recipe.title}
                                   </p>
-                                  <p className="text-xs text-gray-500 mt-1">{recipe.prepTime} prep</p>
+                                  <p className="text-xs text-gray-500 mt-1">{recipe.prepTime} {t("nav.prepSuffix")}</p>
                                 </div>
                               </Link>
                             ))}
@@ -156,6 +159,7 @@ export default function Navbar() {
                   )}
                 </div>
               ))}
+              <LanguageSwitcher />
             </div>
           </div>
           
@@ -175,6 +179,9 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg overflow-y-auto max-h-[calc(100vh-80px)]">
+            <div className="px-3 py-2">
+              <LanguageSwitcher />
+            </div>
             {navLinks.map((link) => (
               <div key={link.name}>
                 {link.dropdown ? (
@@ -212,7 +219,7 @@ export default function Navbar() {
                             className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-bold text-[var(--color-brand-purple)] hover:bg-[var(--color-brand-purple-light)]"
                           >
                             <Utensils className="w-4 h-4" />
-                            View All Recipes
+                            {t("nav.viewAllRecipes")}
                           </Link>
                         )}
                       </div>

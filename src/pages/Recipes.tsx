@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Clock3, HeartPulse, Utensils, Users } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { assetPath, recipes } from "../lib/recipes";
 
-function carbsFromNutrition(nutrition: string[]) {
+function carbsFromNutrition(nutrition: string[], fallback: string) {
   const match = nutrition.find((item) => item.toLowerCase().includes("carbohydrate"));
-  return match?.replace("carbohydrates", "carbs") ?? "Carb details inside";
+  return match?.replace("carbohydrates", "carbs") ?? fallback;
 }
 
 export default function Recipes() {
+  const { t } = useTranslation("servicePages");
+
   return (
     <div className="bg-white">
       <section className="bg-[var(--color-brand-purple-light)]/40 border-b border-[var(--color-brand-purple)]/10 py-20">
@@ -15,11 +18,11 @@ export default function Recipes() {
           <div className="max-w-3xl">
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-[var(--color-brand-purple)] font-semibold text-sm mb-6 border border-[var(--color-brand-purple)]/15 shadow-sm">
               <Utensils className="w-4 h-4 text-[var(--color-brand-pink)]" />
-              Blood-sugar-friendly ideas
+              {t("recipes.badge")}
             </span>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-5">Healthy Recipes</h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-5">{t("recipes.title")}</h1>
             <p className="text-xl text-gray-600 leading-relaxed">
-              Practical meals, snacks, and sides adapted for glucose awareness without making food feel clinical.
+              {t("recipes.subtitle")}
             </p>
           </div>
         </div>
@@ -73,7 +76,7 @@ export default function Recipes() {
                   <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                     <span className="inline-flex items-center gap-2 text-sm font-semibold text-gray-700">
                       <HeartPulse className="w-4 h-4 text-green-500" />
-                      {carbsFromNutrition(recipe.nutrition)}
+                      {carbsFromNutrition(recipe.nutrition, t("recipes.carbFallback"))}
                     </span>
                     <ArrowRight className="w-5 h-5 text-[var(--color-brand-purple)] group-hover:translate-x-1 transition-transform" />
                   </div>

@@ -1,17 +1,19 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, Clock3, HeartPulse, Printer, ShieldCheck, Utensils, Users } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { assetPath, recipes } from "../lib/recipes";
 
 export default function RecipeDetail() {
+  const { t } = useTranslation("servicePages");
   const { slug } = useParams();
   const recipe = recipes.find((item) => item.slug === slug);
 
   if (!recipe) {
     return (
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">Recipe not found</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-4">{t("recipes.notFound")}</h1>
         <Link to="/recipes" className="text-[var(--color-brand-purple)] font-bold underline underline-offset-4">
-          Back to recipes
+          {t("recipes.back")}
         </Link>
       </div>
     );
@@ -23,7 +25,7 @@ export default function RecipeDetail() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <Link to="/recipes" className="inline-flex items-center gap-2 text-[var(--color-brand-purple)] font-bold mb-8 hover:underline underline-offset-4">
             <ArrowLeft className="w-4 h-4" />
-            Back to recipes
+            {t("recipes.back")}
           </Link>
 
           <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 items-center">
@@ -40,17 +42,17 @@ export default function RecipeDetail() {
               <div className="grid sm:grid-cols-3 gap-4">
                 <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
                   <Clock3 className="w-5 h-5 text-[var(--color-brand-pink)] mb-2" />
-                  <p className="text-sm text-gray-500">Prep</p>
+                  <p className="text-sm text-gray-500">{t("recipes.prep")}</p>
                   <p className="font-bold text-gray-900">{recipe.prepTime}</p>
                 </div>
                 <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
                   <Utensils className="w-5 h-5 text-[var(--color-brand-purple)] mb-2" />
-                  <p className="text-sm text-gray-500">Cook</p>
+                  <p className="text-sm text-gray-500">{t("recipes.cook")}</p>
                   <p className="font-bold text-gray-900">{recipe.cookTime}</p>
                 </div>
                 <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
                   <Users className="w-5 h-5 text-yellow-500 mb-2" />
-                  <p className="text-sm text-gray-500">Servings</p>
+                  <p className="text-sm text-gray-500">{t("recipes.servings")}</p>
                   <p className="font-bold text-gray-900">{recipe.servings}</p>
                 </div>
               </div>
@@ -64,7 +66,7 @@ export default function RecipeDetail() {
           <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-start">
             <div className="space-y-10">
               <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 md:p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Ingredients</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("recipes.ingredients")}</h2>
                 <ul className="space-y-3">
                   {recipe.ingredients.map((ingredient) => (
                     <li key={ingredient} className="flex gap-3 text-gray-700 leading-relaxed">
@@ -76,7 +78,7 @@ export default function RecipeDetail() {
               </div>
 
               <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 md:p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Instructions</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("recipes.instructions")}</h2>
                 <ol className="space-y-5">
                   {recipe.instructions.map((step, index) => (
                     <li key={step} className="flex gap-4 text-gray-700 leading-relaxed">
@@ -97,18 +99,18 @@ export default function RecipeDetail() {
                     <HeartPulse className="w-6 h-6" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900">Diabetes Note</h2>
+                    <h2 className="text-xl font-bold text-gray-900">{t("recipes.diabetesNote")}</h2>
                     <p className="text-gray-600 mt-2 leading-relaxed">{recipe.diabetesNote}</p>
                   </div>
                 </div>
                 <div className="bg-white/80 rounded-2xl p-4 border border-white">
-                  <h3 className="font-bold text-gray-900 mb-2">Carb Awareness</h3>
+                  <h3 className="font-bold text-gray-900 mb-2">{t("recipes.carbAwareness")}</h3>
                   <p className="text-gray-600 leading-relaxed">{recipe.carbAwareness}</p>
                 </div>
               </div>
 
               <div className="bg-white rounded-3xl border border-gray-100 shadow-sm p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">Nutrition Highlights</h2>
+                <h2 className="text-xl font-bold text-gray-900 mb-4">{t("recipes.nutrition")}</h2>
                 <ul className="space-y-3">
                   {recipe.nutrition.map((item) => (
                     <li key={item} className="flex items-center gap-3 text-gray-700">
@@ -121,10 +123,10 @@ export default function RecipeDetail() {
 
               <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
                 <div className="p-5 border-b border-gray-100 flex items-center justify-between">
-                  <h2 className="text-lg font-bold text-gray-900">Original Recipe Card</h2>
+                  <h2 className="text-lg font-bold text-gray-900">{t("recipes.originalCard")}</h2>
                   <Printer className="w-5 h-5 text-[var(--color-brand-purple)]" />
                 </div>
-                <img src={assetPath(recipe.originalCard)} alt={`${recipe.title} recipe card`} className="w-full h-auto" />
+                <img src={assetPath(recipe.originalCard)} alt={t("recipes.cardAlt", { title: recipe.title })} className="w-full h-auto" />
               </div>
             </aside>
           </div>
