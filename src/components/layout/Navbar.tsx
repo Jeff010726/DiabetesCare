@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Menu, X, Activity, ChevronDown, ArrowRight, BookOpen, MonitorSmartphone, Stethoscope, Utensils } from "lucide-react";
+import { Menu, X, Activity, ChevronDown, ArrowRight, BookOpen, MonitorSmartphone, Stethoscope, Utensils, UserRound } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { assetPath, type Recipe } from "../../lib/recipes";
@@ -162,6 +162,13 @@ export default function Navbar() {
                 </div>
               ))}
               <LanguageSwitcher />
+              <Link
+                to="/member"
+                className="inline-flex items-center gap-2 bg-[var(--color-brand-purple)] text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-[var(--color-brand-purple)]/90 transition-colors shadow-sm"
+              >
+                <UserRound className="w-4 h-4" />
+                {t("nav.member")}
+              </Link>
             </div>
           </div>
           
@@ -184,6 +191,14 @@ export default function Navbar() {
             <div className="px-3 py-2">
               <LanguageSwitcher />
             </div>
+            <Link
+              to="/member"
+              onClick={toggle}
+              className="mx-3 mb-2 flex items-center justify-center gap-2 bg-[var(--color-brand-purple)] text-white px-4 py-3 rounded-xl text-sm font-bold hover:bg-[var(--color-brand-purple)]/90 transition-colors"
+            >
+              <UserRound className="w-4 h-4" />
+              {t("nav.member")}
+            </Link>
             {navLinks.map((link) => (
               <div key={link.name}>
                 {link.dropdown ? (
