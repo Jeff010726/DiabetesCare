@@ -207,13 +207,11 @@ export default function Home() {
       </section>
 
       {/* Expert Profile Section */}
-      <section className="py-24 bg-[var(--color-brand-purple-light)]/35 border-y border-[var(--color-brand-purple)]/10">
+      <section className="py-14 md:py-16 bg-[var(--color-brand-purple-light)]/30 border-y border-[var(--color-brand-purple)]/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-12 xl:gap-16 items-center">
-            <div className="relative order-2 lg:order-1">
-              <div className="absolute -left-6 -top-6 hidden sm:block w-28 h-28 rounded-full bg-[var(--color-brand-pink)]/20" />
-              <div className="absolute -right-4 -bottom-4 hidden sm:block w-36 h-36 rounded-full bg-yellow-200/35" />
-              <div className="relative overflow-hidden rounded-[2rem] bg-white shadow-[0_24px_70px_-32px_rgba(31,41,55,0.45)] border border-white">
+          <div className="grid lg:grid-cols-[340px_1fr] xl:grid-cols-[360px_1fr] gap-8 xl:gap-10 items-center">
+            <div className="relative order-2 lg:order-1 max-w-[320px] sm:max-w-[360px] lg:max-w-none mx-auto w-full">
+              <div className="relative overflow-hidden rounded-3xl bg-white shadow-[0_18px_50px_-30px_rgba(31,41,55,0.45)] border border-white">
                 <img
                   src={tanPhotoSrc}
                   onError={(event) => {
@@ -221,25 +219,25 @@ export default function Home() {
                     event.currentTarget.src = fallbackTanPhoto;
                   }}
                   alt={t("expert.photoAlt")}
-                  className="w-full aspect-[4/5] sm:aspect-[16/11] lg:aspect-[4/5] object-cover object-center"
+                  className="w-full h-[300px] sm:h-[340px] lg:h-[390px] object-cover object-center"
                 />
-                <div className="absolute left-4 right-4 bottom-4 bg-white/92 backdrop-blur-md rounded-2xl p-4 shadow-lg border border-white/80">
-                  <p className="text-sm font-semibold text-[var(--color-brand-purple)] mb-1">{t("expert.languagesLabel")}</p>
-                  <p className="text-gray-700 font-medium">{t("expert.languages")}</p>
+                <div className="absolute left-3 right-3 bottom-3 bg-white/92 backdrop-blur-md rounded-2xl p-3 shadow-md border border-white/80">
+                  <p className="text-xs font-semibold text-[var(--color-brand-purple)] mb-0.5">{t("expert.languagesLabel")}</p>
+                  <p className="text-sm text-gray-700 font-medium leading-snug">{t("expert.languages")}</p>
                 </div>
               </div>
             </div>
 
             <div className="order-1 lg:order-2">
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-[var(--color-brand-purple)] font-semibold text-sm mb-6 border border-[var(--color-brand-purple)]/15 shadow-sm">
+              <span className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white text-[var(--color-brand-purple)] font-semibold text-sm mb-4 border border-[var(--color-brand-purple)]/15 shadow-sm">
                 <BadgeCheck className="w-4 h-4 text-[var(--color-brand-pink)]" />
                 {t("expert.badge")}
               </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 leading-tight">
                 {t("expert.namePrefix")} <span className="text-[var(--color-brand-purple)]">{t("expert.credentials")}</span>
               </h2>
-              <p className="text-lg text-gray-500 font-medium mb-6">{t("expert.preferredName")}</p>
-              <div className="space-y-5 text-lg text-gray-600 leading-relaxed mb-8">
+              <p className="text-base text-gray-500 font-medium mb-4">{t("expert.preferredName")}</p>
+              <div className="space-y-3 text-base md:text-lg text-gray-600 leading-relaxed mb-6 max-w-3xl">
                 <p>
                   {t("expert.bio1")}
                 </p>
@@ -248,32 +246,32 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="grid sm:grid-cols-3 gap-4 mb-8">
-                <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-                  <GraduationCap className="w-7 h-7 text-[var(--color-brand-purple)] mb-3" />
-                  <h3 className="font-bold text-gray-900 mb-1">{t("expert.cards.nutritionTitle")}</h3>
-                  <p className="text-sm text-gray-500">{t("expert.cards.nutritionDesc")}</p>
+              <div className="grid sm:grid-cols-3 gap-3 mb-5">
+                <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
+                  <GraduationCap className="w-5 h-5 text-[var(--color-brand-purple)] mb-2" />
+                  <h3 className="text-sm font-bold text-gray-900 mb-1">{t("expert.cards.nutritionTitle")}</h3>
+                  <p className="text-xs text-gray-500 leading-relaxed">{t("expert.cards.nutritionDesc")}</p>
                 </div>
-                <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-                  <Activity className="w-7 h-7 text-[var(--color-brand-pink)] mb-3" />
-                  <h3 className="font-bold text-gray-900 mb-1">{t("expert.cards.diabetesTitle")}</h3>
-                  <p className="text-sm text-gray-500">{t("expert.cards.diabetesDesc")}</p>
+                <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
+                  <Activity className="w-5 h-5 text-[var(--color-brand-pink)] mb-2" />
+                  <h3 className="text-sm font-bold text-gray-900 mb-1">{t("expert.cards.diabetesTitle")}</h3>
+                  <p className="text-xs text-gray-500 leading-relaxed">{t("expert.cards.diabetesDesc")}</p>
                 </div>
-                <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-                  <Dumbbell className="w-7 h-7 text-yellow-500 mb-3" />
-                  <h3 className="font-bold text-gray-900 mb-1">{t("expert.cards.fitnessTitle")}</h3>
-                  <p className="text-sm text-gray-500">{t("expert.cards.fitnessDesc")}</p>
+                <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
+                  <Dumbbell className="w-5 h-5 text-yellow-500 mb-2" />
+                  <h3 className="text-sm font-bold text-gray-900 mb-1">{t("expert.cards.fitnessTitle")}</h3>
+                  <p className="text-xs text-gray-500 leading-relaxed">{t("expert.cards.fitnessDesc")}</p>
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm mb-8">
+              <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm mb-6 max-w-3xl">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[var(--color-brand-purple-light)] text-[var(--color-brand-purple)] flex items-center justify-center shrink-0">
-                    <Languages className="w-6 h-6" />
+                  <div className="w-10 h-10 rounded-xl bg-[var(--color-brand-purple-light)] text-[var(--color-brand-purple)] flex items-center justify-center shrink-0">
+                    <Languages className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{t("expert.focusTitle")}</h3>
-                    <p className="text-gray-600">
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">{t("expert.focusTitle")}</h3>
+                    <p className="text-sm md:text-base text-gray-600 leading-relaxed">
                       {t("expert.focusDesc")}
                     </p>
                   </div>
@@ -282,7 +280,7 @@ export default function Home() {
 
               <Link
                 to="/contact"
-                className="inline-flex items-center justify-center gap-2 bg-[var(--color-brand-purple)] text-white px-8 py-4 rounded-full font-bold hover:bg-[var(--color-brand-purple)]/90 transition-all shadow-lg hover:shadow-xl w-full sm:w-auto"
+                className="inline-flex items-center justify-center gap-2 bg-[var(--color-brand-purple)] text-white px-6 py-3 rounded-full font-bold hover:bg-[var(--color-brand-purple)]/90 transition-all shadow-md hover:shadow-lg w-full sm:w-auto"
               >
                 {t("expert.cta")} <ArrowRight className="w-5 h-5" />
               </Link>
