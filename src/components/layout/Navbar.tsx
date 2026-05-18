@@ -59,11 +59,11 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-20">
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center gap-2">
-              <span className="w-10 h-10 rounded-xl bg-[var(--color-brand-purple-light)] border border-[var(--color-brand-purple)]/10 flex items-center justify-center overflow-hidden">
+              <span className="w-10 h-10 flex items-center justify-center">
                 <img
                   src={`${import.meta.env.BASE_URL}logo.png`}
                   alt={t("brand.logoAlt")}
-                  className="w-8 h-8 object-contain"
+                  className="w-9 h-9 object-contain"
                   onError={(event) => {
                     event.currentTarget.style.display = "none";
                   }}

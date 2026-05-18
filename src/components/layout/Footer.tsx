@@ -10,11 +10,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <span className="w-9 h-9 rounded-xl bg-white border border-[var(--color-brand-purple)]/10 flex items-center justify-center overflow-hidden shadow-sm">
+              <span className="w-9 h-9 flex items-center justify-center">
                 <img
                   src={`${import.meta.env.BASE_URL}logo.png`}
                   alt={t("brand.logoAlt")}
-                  className="w-7 h-7 object-contain"
+                  className="w-8 h-8 object-contain"
                   onError={(event) => {
                     event.currentTarget.style.display = "none";
                   }}
