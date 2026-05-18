@@ -33,24 +33,24 @@ export default function CGM() {
           ))}
         </div>
 
-        <div className="bg-[var(--color-brand-purple-light)]/40 rounded-3xl p-8 md:p-16 flex flex-col md:flex-row gap-12 items-center">
+        <div className="bg-[var(--color-brand-purple-light)]/40 rounded-3xl p-5 sm:p-8 md:p-16 flex flex-col md:flex-row gap-8 md:gap-12 items-center">
           <div className="flex-1 w-full order-2 md:order-1">
-             <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-white flex flex-col items-center text-center">
-                  <Smartphone className="w-8 h-8 text-[var(--color-brand-purple)] mb-3" />
-                  <span className="font-semibold">{t("cgm.features.appSetup")}</span>
+             <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                <div className="min-h-32 sm:min-h-36 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-white flex flex-col items-center justify-center text-center">
+                  <Smartphone className="w-7 h-7 sm:w-8 sm:h-8 text-[var(--color-brand-purple)] mb-3" />
+                  <span className="text-base sm:text-lg font-semibold leading-tight">{t("cgm.features.appSetup")}</span>
                 </div>
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-white flex flex-col items-center text-center mt-8">
-                  <Activity className="w-8 h-8 text-[var(--color-brand-pink)] mb-3" />
-                  <span className="font-semibold">{t("cgm.features.arrowTrends")}</span>
+                <div className="min-h-32 sm:min-h-36 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-white flex flex-col items-center justify-center text-center md:mt-8">
+                  <Activity className="w-7 h-7 sm:w-8 sm:h-8 text-[var(--color-brand-pink)] mb-3" />
+                  <span className="text-base sm:text-lg font-semibold leading-tight">{t("cgm.features.arrowTrends")}</span>
                 </div>
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-white flex flex-col items-center text-center -mt-8">
-                  <FileLineChart className="w-8 h-8 text-yellow-500 mb-3" />
-                  <span className="font-semibold">{t("cgm.features.agpReports")}</span>
+                <div className="min-h-32 sm:min-h-36 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-white flex flex-col items-center justify-center text-center md:-mt-8">
+                  <FileLineChart className="w-7 h-7 sm:w-8 sm:h-8 text-yellow-500 mb-3" />
+                  <span className="text-base sm:text-lg font-semibold leading-tight">{t("cgm.features.agpReports")}</span>
                 </div>
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-white flex flex-col items-center text-center">
-                  <LineChart className="w-8 h-8 text-green-500 mb-3" />
-                  <span className="font-semibold">{t("cgm.features.timeInRange")}</span>
+                <div className="min-h-32 sm:min-h-36 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-white flex flex-col items-center justify-center text-center">
+                  <LineChart className="w-7 h-7 sm:w-8 sm:h-8 text-green-500 mb-3" />
+                  <span className="text-base sm:text-lg font-semibold leading-tight">{t("cgm.features.timeInRange")}</span>
                 </div>
              </div>
           </div>

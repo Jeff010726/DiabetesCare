@@ -12,6 +12,7 @@ import "./homeI18n";
 export default function Home() {
   const { t } = useTranslation("home");
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const heroDiabetesCareSrc = `${import.meta.env.BASE_URL}hero-diabetes-care.webp`;
   const heroPumpTrainingSrc = `${import.meta.env.BASE_URL}hero-pump-training.webp`;
   const heroCgmSrc = `${import.meta.env.BASE_URL}hero-cgm.webp`;
@@ -75,11 +76,30 @@ export default function Home() {
   }, [slides.length]);
 
   const slide = slides[currentSlide];
+  const goToPreviousSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  const goToNextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
+  const handleTouchEnd = (clientX: number) => {
+    if (touchStartX === null) return;
+
+    const distance = touchStartX - clientX;
+    if (Math.abs(distance) > 45) {
+      if (distance > 0) {
+        goToNextSlide();
+      } else {
+        goToPreviousSlide();
+      }
+    }
+    setTouchStartX(null);
+  };
 
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="relative overflow-hidden h-[85vh] min-h-[600px] bg-gray-50">
+      <section
+        className="relative overflow-hidden h-[calc(100svh-80px)] min-h-[640px] md:h-[85vh] md:min-h-[600px] bg-gray-50 touch-pan-y"
+        onTouchStart={(event) => setTouchStartX(event.touches[0].clientX)}
+        onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0].clientX)}
+      >
         <AnimatePresence mode="sync">
           <motion.div
             key={currentSlide}
@@ -97,7 +117,7 @@ export default function Home() {
             {/* Gradient overlay keeps hero copy readable across all slides */}
             <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 md:to-transparent to-white/60"></div>
             
-            <div className="absolute inset-0 flex items-center">
+            <div className="absolute inset-0 flex items-center pb-20 md:pb-0">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
                 <div className="max-w-3xl pt-16">
                   <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-brand-purple)]/10 text-[var(--color-brand-purple)] font-medium text-sm mb-6 border border-[var(--color-brand-purple)]/20 shadow-sm">
@@ -132,7 +152,7 @@ export default function Home() {
         </AnimatePresence>
 
         {/* Slider Controls */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 z-20">
+        <div className="absolute bottom-5 md:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 z-20 rounded-full bg-white/70 px-3 py-2 backdrop-blur-sm md:bg-transparent md:p-0 md:backdrop-blur-none">
           {slides.map((_, i) => (
             <button
               key={i}
@@ -145,14 +165,14 @@ export default function Home() {
         
         {/* Navigation Arrows */}
         <button 
-          onClick={() => setCurrentSlide(prev => (prev - 1 + slides.length) % slides.length)}
+          onClick={goToPreviousSlide}
           className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-14 h-14 bg-white/60 hover:bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-[var(--color-brand-purple)] transition-all border border-white/50 shadow-sm hidden md:flex"
           aria-label={t("hero.previousSlide")}
         >
            <ChevronLeft className="w-8 h-8" />
         </button>
         <button 
-          onClick={() => setCurrentSlide(prev => (prev + 1) % slides.length)}
+          onClick={goToNextSlide}
           className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-14 h-14 bg-white/60 hover:bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-[var(--color-brand-purple)] transition-all border border-white/50 shadow-sm hidden md:flex"
           aria-label={t("hero.nextSlide")}
         >
