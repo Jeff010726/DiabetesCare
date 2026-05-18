@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 
-const dismissedKey = "xt-member-invite-dismissed";
 const authKey = "xt-member-authenticated";
 
 export default function MemberInviteModal() {
@@ -12,15 +11,16 @@ export default function MemberInviteModal() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    if (pathname === "/member") return;
+    if (pathname !== "/") {
+      setIsOpen(false);
+      return;
+    }
 
     const isAuthenticated = window.localStorage.getItem(authKey) === "true";
-    const dismissed = window.sessionStorage.getItem(dismissedKey) === "true";
-    setIsOpen(!isAuthenticated && !dismissed);
+    setIsOpen(!isAuthenticated);
   }, [pathname]);
 
   const close = () => {
-    window.sessionStorage.setItem(dismissedKey, "true");
     setIsOpen(false);
   };
 
