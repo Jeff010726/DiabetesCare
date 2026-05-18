@@ -1,34 +1,50 @@
 import { Link } from "react-router-dom";
-import { Menu, X, Activity, ChevronDown } from "lucide-react";
+import { Menu, X, Activity, ChevronDown, ArrowRight, BookOpen, MonitorSmartphone, Stethoscope, Utensils } from "lucide-react";
 import { useState } from "react";
+import { assetPath, recipes } from "../../lib/recipes";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const toggle = () => setIsOpen(!isOpen);
+  const featuredRecipes = recipes.slice(0, 4);
+  const services = [
+    {
+      name: "Diabetes Classes",
+      path: "/classes",
+      desc: "Structured education for food, medication, exercise, and daily routines.",
+      icon: BookOpen,
+      tone: "text-[var(--color-brand-purple)] bg-[var(--color-brand-purple-light)]"
+    },
+    {
+      name: "Insulin Pump Training",
+      path: "/pump-training",
+      desc: "Hands-on setup and confidence building for modern pump systems.",
+      icon: Activity,
+      tone: "text-[var(--color-brand-pink)] bg-[var(--color-brand-pink-light)]"
+    },
+    {
+      name: "CGM Training & Reports",
+      path: "/cgm",
+      desc: "Sensor setup, app support, and glucose pattern interpretation.",
+      icon: MonitorSmartphone,
+      tone: "text-yellow-600 bg-yellow-50"
+    },
+    {
+      name: "For Providers",
+      path: "/providers",
+      desc: "Referral resources and diabetes education support for clinics.",
+      icon: Stethoscope,
+      tone: "text-green-600 bg-green-50"
+    }
+  ];
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { 
-      name: "Services", 
-      dropdown: [
-        { name: "Diabetes Classes", path: "/classes" },
-        { name: "Insulin Pump Training", path: "/pump-training" },
-        { name: "CGM Training & Reports", path: "/cgm" },
-        { name: "For Providers", path: "/providers" },
-      ]
-    },
+    { name: "Services", dropdown: services, type: "services" },
     { name: "Coverage", path: "/coverage" },
-    { 
-      name: "Recipes",
-      dropdown: [
-        { name: "Low-Carb Zucchini Noodles", path: "/recipes" },
-        { name: "Mediterranean Salmon", path: "/recipes" },
-        { name: "Chia Seed Pudding", path: "/recipes" },
-        { name: "View All Recipes", path: "/recipes" },
-      ]
-    },
+    { name: "Recipes", dropdown: featuredRecipes, type: "recipes" },
     { name: "Contact", path: "/contact" },
   ];
 
@@ -65,18 +81,68 @@ export default function Navbar() {
                   )}
                   
                   {link.dropdown && (
-                    <div className="absolute left-0 mt-0 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 pt-2">
-                       <div className="bg-white rounded-xl shadow-lg border border-gray-100 py-2 overflow-hidden">
-                         {link.dropdown.map((subLink, idx) => (
-                           <Link
-                             key={idx}
-                             to={subLink.path}
-                             className={`block px-4 py-2.5 text-sm text-gray-700 hover:bg-[var(--color-brand-purple-light)] hover:text-[var(--color-brand-purple)] transition-colors ${subLink.name === "View All Recipes" ? "border-t border-gray-100 font-medium" : ""}`}
-                           >
-                             {subLink.name}
-                           </Link>
-                         ))}
-                       </div>
+                    <div className={`absolute mt-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 pt-3 ${link.type === "recipes" ? "right-0 w-[min(760px,calc(100vw-2rem))]" : "left-0 w-[min(560px,calc(100vw-2rem))]"}`}>
+                      {link.type === "recipes" ? (
+                        <div className="bg-white rounded-2xl shadow-[0_24px_70px_-28px_rgba(31,41,55,0.38)] border border-gray-100 overflow-hidden">
+                          <div className="p-5 bg-[var(--color-brand-purple-light)]/35 border-b border-[var(--color-brand-purple)]/10 flex items-center justify-between gap-4">
+                            <div>
+                              <p className="text-sm font-semibold text-[var(--color-brand-purple)]">Healthy Recipes</p>
+                              <p className="text-sm text-gray-600">Glucose-aware meals with practical portions and clear steps.</p>
+                            </div>
+                            <Link
+                              to="/recipes"
+                              className="inline-flex items-center gap-2 text-sm font-bold text-[var(--color-brand-purple)] hover:underline underline-offset-4 whitespace-nowrap"
+                            >
+                              View all <ArrowRight className="w-4 h-4" />
+                            </Link>
+                          </div>
+                          <div className="grid grid-cols-2 gap-4 p-5">
+                            {featuredRecipes.map((recipe) => (
+                              <Link
+                                key={recipe.slug}
+                                to={`/recipes/${recipe.slug}`}
+                                className="group/item grid grid-cols-[92px_1fr] gap-3 rounded-xl p-2 hover:bg-gray-50 transition-colors"
+                              >
+                                <img
+                                  src={assetPath(recipe.image)}
+                                  alt={recipe.title}
+                                  className="w-[92px] h-[72px] rounded-lg object-cover bg-gray-100"
+                                />
+                                <div className="min-w-0">
+                                  <p className="text-xs font-semibold text-[var(--color-brand-pink)] mb-1">{recipe.category}</p>
+                                  <p className="text-sm font-bold text-gray-900 leading-snug group-hover/item:text-[var(--color-brand-purple)] transition-colors line-clamp-2">
+                                    {recipe.title}
+                                  </p>
+                                  <p className="text-xs text-gray-500 mt-1">{recipe.prepTime} prep</p>
+                                </div>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="bg-white rounded-2xl shadow-[0_24px_70px_-28px_rgba(31,41,55,0.38)] border border-gray-100 p-3 overflow-hidden">
+                          <div className="grid grid-cols-2 gap-2">
+                            {services.map((service) => {
+                              const Icon = service.icon;
+                              return (
+                                <Link
+                                  key={service.path}
+                                  to={service.path}
+                                  className="group/item rounded-xl p-4 hover:bg-gray-50 transition-colors"
+                                >
+                                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${service.tone}`}>
+                                    <Icon className="w-5 h-5" />
+                                  </div>
+                                  <p className="text-sm font-bold text-gray-900 group-hover/item:text-[var(--color-brand-purple)] transition-colors">
+                                    {service.name}
+                                  </p>
+                                  <p className="text-xs text-gray-500 leading-relaxed mt-1">{service.desc}</p>
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -116,13 +182,30 @@ export default function Navbar() {
                         {link.dropdown.map((subLink, idx) => (
                           <Link
                             key={idx}
-                            to={subLink.path}
+                            to={link.type === "recipes" ? `/recipes/${subLink.slug}` : subLink.path}
                             onClick={toggle}
-                            className={`block px-3 py-2 rounded-md text-sm text-gray-500 hover:text-[var(--color-brand-purple)] hover:bg-[var(--color-brand-purple-light)] ${subLink.name === "View All Recipes" ? "font-medium" : ""}`}
+                            className="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600 hover:text-[var(--color-brand-purple)] hover:bg-[var(--color-brand-purple-light)]"
                           >
-                            {subLink.name}
+                            {link.type === "recipes" ? (
+                              <>
+                                <img src={assetPath(subLink.image)} alt={subLink.title} className="w-12 h-10 rounded-lg object-cover bg-gray-100" />
+                                <span className="font-medium">{subLink.title}</span>
+                              </>
+                            ) : (
+                              <span className="font-medium">{subLink.name}</span>
+                            )}
                           </Link>
                         ))}
+                        {link.type === "recipes" && (
+                          <Link
+                            to="/recipes"
+                            onClick={toggle}
+                            className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-bold text-[var(--color-brand-purple)] hover:bg-[var(--color-brand-purple-light)]"
+                          >
+                            <Utensils className="w-4 h-4" />
+                            View All Recipes
+                          </Link>
+                        )}
                       </div>
                     )}
                   </>
