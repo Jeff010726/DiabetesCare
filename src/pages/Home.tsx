@@ -9,17 +9,20 @@ import { motion, AnimatePresence } from "motion/react";
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const tanPhotoSrc = `${import.meta.env.BASE_URL}tan-profile.jpg`;
+  const heroDiabetesCareSrc = `${import.meta.env.BASE_URL}hero-diabetes-care.webp`;
+  const heroPumpTrainingSrc = `${import.meta.env.BASE_URL}hero-pump-training.webp`;
+  const heroCgmSrc = `${import.meta.env.BASE_URL}hero-cgm.webp`;
+  const tanPhotoSrc = `${import.meta.env.BASE_URL}tan-profile.webp`;
   const fallbackTanPhoto =
     "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80";
 
   const slides = [
     {
-      badge: "100% Covered by Most Health Insurance",
-      title: "Master Your Diabetes.",
-      highlight: "Live Your Best Life.",
+      badge: "Insurance-Friendly Diabetes Care",
+      title: "99% of our clients",
+      highlight: "pay $0 with their insurance!",
       desc: "Comprehensive diabetes education, insulin pump training, and CGM analysis. Expert guidance from the comfort of your home or in-person.",
-      img: "https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      img: heroDiabetesCareSrc,
       cta1Title: "Join a Class",
       cta1Link: "/classes",
       cta2Title: "Get in Touch",
@@ -30,7 +33,7 @@ export default function Home() {
       title: "Confused by your",
       highlight: "Insulin Pump?",
       desc: "Transitioning to a pump can be overwhelming. Get hands-on training for Omnipod, Tandem, Medtronic, and more from our certified specialists.",
-      img: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      img: heroPumpTrainingSrc,
       cta1Title: "Explore Pumps",
       cta1Link: "/pump-training",
       cta2Title: "Learn More",
@@ -41,7 +44,7 @@ export default function Home() {
       title: "Make Sense of your",
       highlight: "CGM Data.",
       desc: "We analyze your FreeStyle Libre, Dexcom, or Stelo data to help you maximize your Time In Range. Discover how your body reacts.",
-      img: "https://images.unsplash.com/photo-1576091160550-2173ff9e5ee4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      img: heroCgmSrc,
       cta1Title: "View CGM Services",
       cta1Link: "/cgm",
       cta2Title: "Our Services",
