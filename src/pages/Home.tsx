@@ -2,13 +2,16 @@ import { Link } from "react-router-dom";
 import { 
   ShieldCheck, Stethoscope, BookOpen, Activity, ArrowRight, 
   HeartPulse, CheckCircle2, Globe2, MonitorSmartphone, ClipboardList,
-  ChevronLeft, ChevronRight
+  ChevronLeft, ChevronRight, Languages, Dumbbell, GraduationCap, BadgeCheck
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const tanPhotoSrc = `${import.meta.env.BASE_URL}tan-profile.jpg`;
+  const fallbackTanPhoto =
+    "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80";
 
   const slides = [
     {
@@ -135,6 +138,95 @@ export default function Home() {
         >
            <ChevronRight className="w-8 h-8" />
         </button>
+      </section>
+
+      {/* Expert Profile Section */}
+      <section className="py-24 bg-[var(--color-brand-purple-light)]/35 border-y border-[var(--color-brand-purple)]/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-12 xl:gap-16 items-center">
+            <div className="relative order-2 lg:order-1">
+              <div className="absolute -left-6 -top-6 hidden sm:block w-28 h-28 rounded-full bg-[var(--color-brand-pink)]/20" />
+              <div className="absolute -right-4 -bottom-4 hidden sm:block w-36 h-36 rounded-full bg-yellow-200/35" />
+              <div className="relative overflow-hidden rounded-[2rem] bg-white shadow-[0_24px_70px_-32px_rgba(31,41,55,0.45)] border border-white">
+                <img
+                  src={tanPhotoSrc}
+                  onError={(event) => {
+                    event.currentTarget.onerror = null;
+                    event.currentTarget.src = fallbackTanPhoto;
+                  }}
+                  alt="Xiaofang Tan, Registered Dietitian and Certified Diabetes Care and Education Specialist"
+                  className="w-full aspect-[4/5] sm:aspect-[16/11] lg:aspect-[4/5] object-cover object-center"
+                />
+                <div className="absolute left-4 right-4 bottom-4 bg-white/92 backdrop-blur-md rounded-2xl p-4 shadow-lg border border-white/80">
+                  <p className="text-sm font-semibold text-[var(--color-brand-purple)] mb-1">Languages</p>
+                  <p className="text-gray-700 font-medium">English, Cantonese, Mandarin, Hakka</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="order-1 lg:order-2">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-[var(--color-brand-purple)] font-semibold text-sm mb-6 border border-[var(--color-brand-purple)]/15 shadow-sm">
+                <BadgeCheck className="w-4 h-4 text-[var(--color-brand-pink)]" />
+                Meet Your Diabetes Care Specialist
+              </span>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+                Xiaofang Tan, <span className="text-[var(--color-brand-purple)]">MS, RD, CDN, CDCES</span>
+              </h2>
+              <p className="text-lg text-gray-500 font-medium mb-6">Preferred name: Tan</p>
+              <div className="space-y-5 text-lg text-gray-600 leading-relaxed mb-8">
+                <p>
+                  Tan received her Master of Science in Nutrition and completed her dietetic internship at Northwell Health.
+                  She is now a practicing Registered Dietitian and Certified Diabetes Care and Education Specialist at
+                  Northwell Health Queens.
+                </p>
+                <p>
+                  Her approach connects clinical nutrition, practical diabetes education, and sustainable lifestyle coaching
+                  so patients can understand their numbers and build routines that work in real life.
+                </p>
+              </div>
+
+              <div className="grid sm:grid-cols-3 gap-4 mb-8">
+                <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+                  <GraduationCap className="w-7 h-7 text-[var(--color-brand-purple)] mb-3" />
+                  <h3 className="font-bold text-gray-900 mb-1">Clinical Nutrition</h3>
+                  <p className="text-sm text-gray-500">MS in Nutrition, RD, CDN</p>
+                </div>
+                <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+                  <Activity className="w-7 h-7 text-[var(--color-brand-pink)] mb-3" />
+                  <h3 className="font-bold text-gray-900 mb-1">Diabetes Care</h3>
+                  <p className="text-sm text-gray-500">Certified CDCES guidance</p>
+                </div>
+                <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+                  <Dumbbell className="w-7 h-7 text-yellow-500 mb-3" />
+                  <h3 className="font-bold text-gray-900 mb-1">Fitness Support</h3>
+                  <p className="text-sm text-gray-500">NASM Certified Personal Trainer</p>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm mb-8">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-[var(--color-brand-purple-light)] text-[var(--color-brand-purple)] flex items-center justify-center shrink-0">
+                    <Languages className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">Areas of Focus</h3>
+                    <p className="text-gray-600">
+                      Sports nutrition, diabetes management, gastrointestinal conditions including IBS and IBD, and
+                      women's health.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center gap-2 bg-[var(--color-brand-purple)] text-white px-8 py-4 rounded-full font-bold hover:bg-[var(--color-brand-purple)]/90 transition-all shadow-lg hover:shadow-xl w-full sm:w-auto"
+              >
+                Schedule a Consultation <ArrowRight className="w-5 h-5" />
+              </Link>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Patient Empathy Section */}
