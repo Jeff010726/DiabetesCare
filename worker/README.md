@@ -1,6 +1,6 @@
 # DiabetesCare Worker API
 
-Cloudflare Worker backend scaffold for DiabetesCare.
+Cloudflare Worker backend for DiabetesCare.
 
 ## Local setup
 
@@ -31,11 +31,11 @@ Set this Worker variable in `wrangler.toml` after the sheet exists:
 
 - `GOOGLE_SHEETS_SPREADSHEET_ID`
 
-Then push to `0518` or run the workflow manually.
+Then push to `0518` or run the workflow manually. Deployment syncs Google Sheets secrets, applies D1 migrations, and deploys the Worker.
 
 ## D1 setup
 
-Create the database:
+The `Setup Cloudflare D1` workflow creates or finds the database automatically and writes the binding into `wrangler.toml`. To do it manually:
 
 ```bash
 npx wrangler d1 create diabetescare-db
@@ -60,3 +60,14 @@ npx wrangler secret put GOOGLE_SHEETS_PRIVATE_KEY
 ```
 
 The contact endpoint appends rows into a tab named `Contact Leads`.
+
+## API behavior
+
+- `GET /api/health`
+- `POST /api/contact`
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `POST /api/auth/logout`
+- `GET /api/auth/me`
+
+The API sets CORS for the production site, returns security headers including `X-Robots-Tag: noindex, nofollow`, rate-limits auth/contact endpoints per client IP, and hides internal error details in production.

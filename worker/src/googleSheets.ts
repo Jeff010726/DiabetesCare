@@ -2,6 +2,7 @@ import { encodeBase64UrlJson } from "./crypto";
 import type { Env } from "./types";
 
 const scope = "https://www.googleapis.com/auth/spreadsheets";
+let cachedToken: { token: string; expiresAt: number } | null = null;
 
 function normalizePrivateKey(key: string) {
   return key.replace(/\\n/g, "\n");
@@ -33,6 +34,8 @@ async function getAccessToken(env: Env) {
   }
 
   const now = Math.floor(Date.now() / 1000);
+  if (cachedToken && cachedToken.expiresAt - 60 > now) return cachedToken.token;
+
   const header = encodeBase64UrlJson({ alg: "RS256", typ: "JWT" });
   const claim = encodeBase64UrlJson({
     iss: env.GOOGLE_SHEETS_CLIENT_EMAIL,
@@ -60,6 +63,7 @@ async function getAccessToken(env: Env) {
 
   const data = (await response.json()) as { access_token?: string };
   if (!data.access_token) throw new Error("Google auth response did not include access_token");
+  cachedToken = { token: data.access_token, expiresAt: now + 3600 };
   return data.access_token;
 }
 

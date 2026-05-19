@@ -1,6 +1,7 @@
 import { ArrowRight, CheckCircle2, Gift, LockKeyhole, Mail, Phone, Sparkles, UserRound } from "lucide-react";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { getCountries, getCountryCallingCode, type CountryCode } from "libphonenumber-js/min";
 import { apiRequest } from "../lib/api";
 
 type MemberMode = "register" | "login";
@@ -17,21 +18,28 @@ type AuthUser = {
 
 const authKey = "xt-member-authenticated";
 
-const phoneCountryCodes = [
-  { value: "+1", label: "US +1" },
-  { value: "+1 CA", label: "CA +1" },
-  { value: "+86", label: "CN +86" },
-  { value: "+886", label: "TW +886" },
-  { value: "+852", label: "HK +852" },
-  { value: "+52", label: "MX +52" },
-  { value: "+34", label: "ES +34" },
-];
+const regionNameFormatter = new Intl.DisplayNames(["en"], { type: "region" });
+
+function countryFlag(country: CountryCode) {
+  return country
+    .toUpperCase()
+    .replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt(0)));
+}
+
+const phoneCountries = getCountries()
+  .map((country) => ({
+    country,
+    callingCode: `+${getCountryCallingCode(country)}`,
+    name: regionNameFormatter.of(country) || country,
+    flag: countryFlag(country),
+  }))
+  .sort((a, b) => a.name.localeCompare(b.name));
 
 export default function Member() {
   const { t } = useTranslation("servicePages");
   const { i18n } = useTranslation();
   const [mode, setMode] = useState<MemberMode>("register");
-  const [form, setForm] = useState({ email: "", phoneCountryCode: "+1", phone: "", firstName: "", lastName: "", password: "" });
+  const [form, setForm] = useState({ email: "", phoneCountry: "US", phone: "", firstName: "", lastName: "", password: "" });
   const [user, setUser] = useState<AuthUser | null>(null);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [error, setError] = useState("");
@@ -58,7 +66,8 @@ export default function Member() {
     setError("");
 
     const path = isRegister ? "/api/auth/register" : "/api/auth/login";
-    const phone = form.phone.trim() ? `${form.phoneCountryCode.split(" ")[0]} ${form.phone.trim()}` : "";
+    const selectedCountry = phoneCountries.find((option) => option.country === form.phoneCountry);
+    const phone = form.phone.trim() && selectedCountry ? `${selectedCountry.callingCode} ${form.phone.trim()}` : "";
     const body = isRegister
       ? {
           email: form.email,
@@ -172,16 +181,16 @@ export default function Member() {
                   <>
                     <label className="block">
                       <span className="block text-sm font-semibold text-gray-700 mb-1">{t("member.fields.phone")}</span>
-                      <div className="grid grid-cols-[118px_1fr] gap-3">
+                      <div className="grid gap-3 sm:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
                         <select
-                          value={form.phoneCountryCode}
-                          onChange={updateField("phoneCountryCode")}
+                          value={form.phoneCountry}
+                          onChange={updateField("phoneCountry")}
                           aria-label="Country code"
-                          className="w-full rounded-xl border border-gray-200 bg-white px-3 py-3 text-sm font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-purple)]"
+                          className="w-full min-w-0 rounded-xl border border-gray-200 bg-white px-3 py-3 text-sm font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-purple)]"
                         >
-                          {phoneCountryCodes.map((option) => (
-                            <option key={`${option.label}-${option.value}`} value={option.value}>
-                              {option.label}
+                          {phoneCountries.map((option) => (
+                            <option key={option.country} value={option.country}>
+                              {option.flag} {option.name} {option.callingCode}
                             </option>
                           ))}
                         </select>

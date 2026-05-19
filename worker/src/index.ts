@@ -1,13 +1,13 @@
 import { login, logout, me, register } from "./auth";
 import { submitContact } from "./contact";
-import { corsHeaders, json, serverError } from "./http";
+import { responseHeaders, json, serverError } from "./http";
 import type { Env } from "./types";
 
 async function route(request: Request, env: Env) {
   const url = new URL(request.url);
 
   if (request.method === "OPTIONS") {
-    return new Response(null, { status: 204, headers: corsHeaders(request, env) });
+    return new Response(null, { status: 204, headers: responseHeaders(request, env) });
   }
 
   if (url.pathname === "/api/health" && request.method === "GET") {

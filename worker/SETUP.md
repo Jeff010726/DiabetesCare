@@ -2,7 +2,7 @@
 
 ## D1 database
 
-Create the database:
+The GitHub workflow creates or finds the database automatically. Manual setup:
 
 ```bash
 npx wrangler d1 create diabetescare-db
@@ -61,7 +61,11 @@ The frontend defaults to:
 https://api.xtdiabetescare.com
 ```
 
-After the Worker is deployed, add a Worker route or custom domain for that hostname in Cloudflare.
+After the Worker is deployed, make sure the `api` DNS record exists and is proxied in Cloudflare. The Worker route in `wrangler.toml` is:
+
+```txt
+api.xtdiabetescare.com/*
+```
 
 ## Future admin hostname
 

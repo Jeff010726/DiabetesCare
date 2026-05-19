@@ -1,6 +1,13 @@
 import type { Env } from "./types";
 
 const defaultOrigin = "https://xtdiabetescare.com";
+const securityHeaders = {
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "DENY",
+  "X-Robots-Tag": "noindex, nofollow",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+};
 
 function allowedOrigin(request: Request, env: Env) {
   const origin = request.headers.get("Origin");
@@ -23,12 +30,19 @@ export function corsHeaders(request: Request, env: Env) {
   };
 }
 
+export function responseHeaders(request: Request, env: Env) {
+  return {
+    ...securityHeaders,
+    ...corsHeaders(request, env),
+  };
+}
+
 export function json(request: Request, env: Env, data: unknown, init: ResponseInit = {}) {
   return new Response(JSON.stringify(data), {
     ...init,
     headers: {
       "Content-Type": "application/json; charset=utf-8",
-      ...corsHeaders(request, env),
+      ...responseHeaders(request, env),
       ...init.headers,
     },
   });
@@ -39,7 +53,8 @@ export function badRequest(request: Request, env: Env, message: string) {
 }
 
 export function serverError(request: Request, env: Env, message = "Internal server error") {
-  return json(request, env, { error: message }, { status: 500 });
+  const error = env.APP_ENV === "production" ? "Internal server error" : message;
+  return json(request, env, { error }, { status: 500 });
 }
 
 export async function readJson<T>(request: Request): Promise<T | null> {

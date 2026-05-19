@@ -1,6 +1,7 @@
 import { badRequest, json, readJson, serverError } from "./http";
 import { getDb } from "./db";
 import { hashPassword, randomId, sha256, verifyPassword } from "./crypto";
+import { checkRateLimit } from "./rateLimit";
 import type { Env } from "./types";
 
 type RegisterPayload = {
@@ -27,6 +28,11 @@ function normalizeEmail(email: string) {
 
 function validEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function trimToMax(value: string | undefined, max: number) {
+  const trimmed = value?.trim() || "";
+  return trimmed.length > max ? trimmed.slice(0, max) : trimmed;
 }
 
 function userResponse(row: Record<string, unknown>) {
@@ -88,13 +94,23 @@ export async function getCurrentUser(request: Request, env: Env) {
 }
 
 export async function register(request: Request, env: Env) {
+  const rateLimited = checkRateLimit(request, env, "auth_register", 8, 60);
+  if (rateLimited) return rateLimited;
+
   const payload = await readJson<RegisterPayload>(request);
   if (!payload) return badRequest(request, env, "Invalid JSON body");
 
   const email = normalizeEmail(payload.email || "");
   const password = payload.password || "";
+  const phone = trimToMax(payload.phone, 40);
+  const firstName = trimToMax(payload.firstName, 80);
+  const lastName = trimToMax(payload.lastName, 80);
+  const preferredLanguage = trimToMax(payload.preferredLanguage, 16) || "en";
+
   if (!validEmail(email)) return badRequest(request, env, "Valid email is required");
+  if (email.length > 254) return badRequest(request, env, "Email is too long");
   if (password.length < 8) return badRequest(request, env, "Password must be at least 8 characters");
+  if (password.length > 256) return badRequest(request, env, "Password is too long");
 
   const db = getDb(env);
   const existing = await db.prepare("SELECT id FROM users WHERE email = ? LIMIT 1").bind(email).first();
@@ -112,10 +128,10 @@ export async function register(request: Request, env: Env) {
     .bind(
       userId,
       email,
-      payload.phone?.trim() || null,
-      payload.firstName?.trim() || null,
-      payload.lastName?.trim() || null,
-      payload.preferredLanguage?.trim() || "en",
+      phone || null,
+      firstName || null,
+      lastName || null,
+      preferredLanguage,
       payload.marketingOptIn ? 1 : 0,
       now,
       now,
@@ -139,12 +155,16 @@ export async function register(request: Request, env: Env) {
 }
 
 export async function login(request: Request, env: Env) {
+  const rateLimited = checkRateLimit(request, env, "auth_login", 12, 60);
+  if (rateLimited) return rateLimited;
+
   const payload = await readJson<LoginPayload>(request);
   if (!payload) return badRequest(request, env, "Invalid JSON body");
 
   const email = normalizeEmail(payload.email || "");
   const password = payload.password || "";
   if (!validEmail(email) || !password) return badRequest(request, env, "Email and password are required");
+  if (email.length > 254 || password.length > 256) return badRequest(request, env, "Invalid email or password");
 
   const db = getDb(env);
   const row = await db
