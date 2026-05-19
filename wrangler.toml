@@ -4,7 +4,8 @@ compatibility_date = "2026-05-20"
 compatibility_flags = ["nodejs_compat"]
 
 routes = [
-  { pattern = "api.xtdiabetescare.com/*", zone_name = "xtdiabetescare.com" }
+  { pattern = "api.xtdiabetescare.com/*", zone_name = "xtdiabetescare.com" },
+  { pattern = "admin.xtdiabetescare.com/*", zone_name = "xtdiabetescare.com" }
 ]
 
 [vars]

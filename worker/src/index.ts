@@ -3,11 +3,33 @@ import { submitContact } from "./contact";
 import { responseHeaders, json, serverError } from "./http";
 import type { Env } from "./types";
 
+function adminResponse(request: Request, env: Env) {
+  const url = new URL(request.url);
+  const headers = responseHeaders(request, env);
+
+  if (url.pathname === "/robots.txt") {
+    return new Response("User-agent: *\nDisallow: /\n", {
+      status: 200,
+      headers: {
+        ...headers,
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "public, max-age=3600",
+      },
+    });
+  }
+
+  return json(request, env, { error: "Not found" }, { status: 404 });
+}
+
 async function route(request: Request, env: Env) {
   const url = new URL(request.url);
 
   if (request.method === "OPTIONS") {
     return new Response(null, { status: 204, headers: responseHeaders(request, env) });
+  }
+
+  if (url.hostname === "admin.xtdiabetescare.com") {
+    return adminResponse(request, env);
   }
 
   if (url.pathname === "/api/health" && request.method === "GET") {
