@@ -65,7 +65,12 @@ export async function submitContact(request: Request, env: Env) {
       .bind(leadId, name, email, message, sourcePage, preferredLanguage, ip, userAgent, sheetStatus, sheetError, now, now)
       .run();
 
-    return json(request, env, { ok: true, id: leadId, sheetStatus });
+    return json(request, env, {
+      ok: true,
+      id: leadId,
+      sheetStatus,
+      ...(request.headers.get("X-Debug-Contact") === "1" && sheetError ? { sheetError } : {}),
+    });
   } catch (error) {
     if (sheetStatus === "synced") {
       console.error("Contact lead D1 backup failed after Google Sheets sync", error);
