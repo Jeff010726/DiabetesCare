@@ -73,7 +73,7 @@ export async function appendContactToSheet(env: Env, values: string[]) {
   }
 
   const accessToken = await getAccessToken(env);
-  const range = encodeURIComponent("Contact Leads!A:Z");
+  const range = encodeURIComponent("'Contact Leads'!A:H");
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${env.GOOGLE_SHEETS_SPREADSHEET_ID}/values/${range}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`;
   const response = await fetch(url, {
     method: "POST",
@@ -85,6 +85,7 @@ export async function appendContactToSheet(env: Env, values: string[]) {
   });
 
   if (!response.ok) {
-    throw new Error(`Google Sheets append failed: ${response.status}`);
+    const body = await response.text().catch(() => "");
+    throw new Error(`Google Sheets append failed: ${response.status}${body ? ` ${body.slice(0, 240)}` : ""}`);
   }
 }
