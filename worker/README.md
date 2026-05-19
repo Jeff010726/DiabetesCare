@@ -79,6 +79,7 @@ Required GitHub repository secrets:
 - `ADMIN_PASSWORD`
 
 The deploy workflow syncs both secrets to Cloudflare Worker secrets before deployment. Admin pages and APIs return `X-Robots-Tag: noindex, nofollow`; `robots.txt` disallows all crawlers.
+After changing admin secrets, run the Worker deploy workflow again so the values are synced to Cloudflare.
 
 ## API behavior
 
