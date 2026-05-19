@@ -47,6 +47,26 @@ function userResponse(row: Record<string, unknown>) {
   };
 }
 
+function newUserResponse(input: {
+  id: string;
+  email: string;
+  phone: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  preferredLanguage: string;
+  marketingOptIn: boolean;
+}) {
+  return {
+    id: input.id,
+    email: input.email,
+    phone: input.phone,
+    firstName: input.firstName,
+    lastName: input.lastName,
+    preferredLanguage: input.preferredLanguage,
+    marketingOptIn: input.marketingOptIn,
+  };
+}
+
 function sessionCookie(token: string) {
   return `${sessionCookieName}=${token}; Path=/; Max-Age=${sessionMaxAgeSeconds}; HttpOnly; Secure; SameSite=Lax`;
 }
@@ -94,9 +114,8 @@ export async function getCurrentUser(request: Request, env: Env) {
 }
 
 export async function register(request: Request, env: Env) {
-  try {
-    const rateLimited = checkRateLimit(request, env, "auth_register", 8, 60);
-    if (rateLimited) return rateLimited;
+  const rateLimited = checkRateLimit(request, env, "auth_register", 8, 60);
+  if (rateLimited) return rateLimited;
 
   const payload = await readJson<RegisterPayload>(request);
   if (!payload) return badRequest(request, env, "Invalid JSON body");
@@ -150,15 +169,17 @@ export async function register(request: Request, env: Env) {
     .run();
 
   const token = await createSession(env, userId);
-  const user = await getCurrentUser(new Request(request, { headers: { Cookie: `${sessionCookieName}=${token}` } }), env);
+  const user = newUserResponse({
+    id: userId,
+    email,
+    phone: phone || null,
+    firstName: firstName || null,
+    lastName: lastName || null,
+    preferredLanguage,
+    marketingOptIn: Boolean(payload.marketingOptIn),
+  });
 
-    return json(request, env, { user }, { status: 201, headers: { "Set-Cookie": sessionCookie(token) } });
-  } catch (error) {
-    if (request.headers.get("X-Debug-Auth") === "1") {
-      return json(request, env, { error: error instanceof Error ? error.message : "Register failed" }, { status: 500 });
-    }
-    throw error;
-  }
+  return json(request, env, { user }, { status: 201, headers: { "Set-Cookie": sessionCookie(token) } });
 }
 
 export async function login(request: Request, env: Env) {
