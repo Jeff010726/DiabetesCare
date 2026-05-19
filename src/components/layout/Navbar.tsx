@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
-import { Menu, X, Activity, ChevronDown, ArrowRight, BookOpen, MonitorSmartphone, Stethoscope, Utensils, UserRound, Pill } from "lucide-react";
-import { useState } from "react";
+import { Menu, X, Activity, ChevronDown, ArrowRight, BookOpen, MonitorSmartphone, Stethoscope, Utensils, UserRound, Pill, LogOut } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { apiRequest } from "../../lib/api";
+import { memberAuthChangedEvent, memberAuthKey, memberInitials, notifyMemberAuthChanged, type MemberUser } from "../../lib/memberAuth";
 import { assetPath, type Recipe } from "../../lib/recipes";
 import LanguageSwitcher from "./LanguageSwitcher";
 
@@ -10,6 +12,8 @@ export default function Navbar() {
   const { t: tRecipes } = useTranslation("recipes");
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [member, setMember] = useState<MemberUser | null>(null);
+  const [memberMenuOpen, setMemberMenuOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
   const localizedRecipes = tRecipes("items", { returnObjects: true }) as Recipe[];
@@ -59,6 +63,41 @@ export default function Navbar() {
     { name: t("nav.recipes"), dropdown: featuredRecipes, type: "recipes" },
     { name: t("nav.contact"), path: "/contact" },
   ];
+
+  useEffect(() => {
+    let active = true;
+    const loadMember = () => {
+      apiRequest<{ user: MemberUser | null }>("/api/auth/me")
+        .then((data) => {
+          if (!active) return;
+          setMember(data.user);
+          if (data.user) window.localStorage.setItem(memberAuthKey, "true");
+          else window.localStorage.removeItem(memberAuthKey);
+        })
+        .catch(() => {
+          if (!active) return;
+          setMember(null);
+          window.localStorage.removeItem(memberAuthKey);
+        });
+    };
+
+    loadMember();
+    window.addEventListener(memberAuthChangedEvent, loadMember);
+    return () => {
+      active = false;
+      window.removeEventListener(memberAuthChangedEvent, loadMember);
+    };
+  }, []);
+
+  const signOut = async () => {
+    await apiRequest<{ ok: boolean }>("/api/auth/logout", { method: "POST" }).catch(() => undefined);
+    window.localStorage.removeItem(memberAuthKey);
+    setMember(null);
+    setMemberMenuOpen(false);
+    notifyMemberAuthChanged();
+  };
+
+  const avatar = member ? memberInitials(member) : "";
 
   return (
     <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
@@ -169,13 +208,56 @@ export default function Navbar() {
                 </div>
               ))}
               <LanguageSwitcher />
-              <Link
-                to="/member"
-                className="inline-flex items-center gap-2 bg-[var(--color-brand-purple)] text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-[var(--color-brand-purple)]/90 transition-colors shadow-sm"
-              >
-                <UserRound className="w-4 h-4" />
-                {t("nav.member")}
-              </Link>
+              {member ? (
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setMemberMenuOpen((open) => !open)}
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-gray-300 bg-white text-sm font-bold text-gray-900 shadow-sm transition-colors hover:border-[var(--color-brand-purple)] hover:text-[var(--color-brand-purple)]"
+                    aria-label="Member menu"
+                  >
+                    {avatar}
+                  </button>
+                  {memberMenuOpen && (
+                    <div className="absolute right-0 z-50 mt-3 w-64 rounded-xl border border-gray-100 bg-white p-3 shadow-[0_24px_70px_-28px_rgba(31,41,55,0.38)]">
+                      <div className="flex items-center gap-3 border-b border-gray-100 pb-3">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gray-300 text-sm font-bold text-gray-900">
+                          {avatar}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-bold text-gray-900">
+                            {[member.firstName, member.lastName].filter(Boolean).join(" ") || member.email}
+                          </p>
+                          <p className="truncate text-xs text-gray-500">{member.email}</p>
+                        </div>
+                      </div>
+                      <Link
+                        to="/member"
+                        onClick={() => setMemberMenuOpen(false)}
+                        className="mt-2 block rounded-lg px-3 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-50 hover:text-[var(--color-brand-purple)]"
+                      >
+                        Account
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={signOut}
+                        className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-semibold text-gray-600 hover:bg-gray-50 hover:text-red-600"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        Sign out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  to="/member"
+                  className="inline-flex items-center gap-2 bg-[var(--color-brand-purple)] text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-[var(--color-brand-purple)]/90 transition-colors shadow-sm"
+                >
+                  <UserRound className="w-4 h-4" />
+                  {t("nav.member")}
+                </Link>
+              )}
             </div>
           </div>
           
@@ -198,14 +280,41 @@ export default function Navbar() {
             <div className="px-3 py-2">
               <LanguageSwitcher />
             </div>
-            <Link
-              to="/member"
-              onClick={toggle}
-              className="mx-3 mb-2 flex items-center justify-center gap-2 bg-[var(--color-brand-purple)] text-white px-4 py-3 rounded-xl text-sm font-bold hover:bg-[var(--color-brand-purple)]/90 transition-colors"
-            >
-              <UserRound className="w-4 h-4" />
-              {t("nav.member")}
-            </Link>
+            {member ? (
+              <div className="mx-3 mb-2 rounded-xl border border-gray-100 bg-gray-50 p-3">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-gray-300 bg-white text-sm font-bold text-gray-900">
+                    {avatar}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-bold text-gray-900">
+                      {[member.firstName, member.lastName].filter(Boolean).join(" ") || member.email}
+                    </p>
+                    <p className="truncate text-xs text-gray-500">{member.email}</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    signOut();
+                    toggle();
+                  }}
+                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-white px-3 py-2 text-sm font-bold text-gray-600"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign out
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/member"
+                onClick={toggle}
+                className="mx-3 mb-2 flex items-center justify-center gap-2 bg-[var(--color-brand-purple)] text-white px-4 py-3 rounded-xl text-sm font-bold hover:bg-[var(--color-brand-purple)]/90 transition-colors"
+              >
+                <UserRound className="w-4 h-4" />
+                {t("nav.member")}
+              </Link>
+            )}
             {navLinks.map((link) => (
               <div key={link.name}>
                 {link.dropdown ? (

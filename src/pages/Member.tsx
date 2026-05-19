@@ -3,20 +3,9 @@ import { ChangeEvent, FormEvent, useEffect, useMemo, useRef, useState } from "re
 import { useTranslation } from "react-i18next";
 import { getCountries, getCountryCallingCode, type CountryCode } from "libphonenumber-js/min";
 import { apiRequest } from "../lib/api";
+import { memberAuthKey, notifyMemberAuthChanged, type MemberUser } from "../lib/memberAuth";
 
 type MemberMode = "register" | "login";
-
-type AuthUser = {
-  id: string;
-  email: string;
-  phone?: string;
-  firstName?: string;
-  lastName?: string;
-  preferredLanguage?: string;
-  marketingOptIn?: boolean;
-};
-
-const authKey = "xt-member-authenticated";
 
 const regionNameFormatter = new Intl.DisplayNames(["en"], { type: "region" });
 
@@ -42,7 +31,7 @@ export default function Member() {
   const [form, setForm] = useState({ email: "", phoneCountry: "US", phone: "", firstName: "", lastName: "", password: "" });
   const [countryPickerOpen, setCountryPickerOpen] = useState(false);
   const countryPickerRef = useRef<HTMLDivElement>(null);
-  const [user, setUser] = useState<AuthUser | null>(null);
+  const [user, setUser] = useState<MemberUser | null>(null);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [error, setError] = useState("");
   const benefits = t("member.benefits", { returnObjects: true }) as string[];
@@ -54,10 +43,10 @@ export default function Member() {
   );
 
   useEffect(() => {
-    apiRequest<{ user: AuthUser | null }>("/api/auth/me")
+    apiRequest<{ user: MemberUser | null }>("/api/auth/me")
       .then((data) => {
         setUser(data.user);
-        if (data.user) window.localStorage.setItem(authKey, "true");
+        if (data.user) window.localStorage.setItem(memberAuthKey, "true");
       })
       .catch(() => undefined);
   }, []);
@@ -94,9 +83,10 @@ export default function Member() {
       : { email: form.email, password: form.password };
 
     try {
-      const data = await apiRequest<{ user: AuthUser }>(path, { method: "POST", body });
+      const data = await apiRequest<{ user: MemberUser }>(path, { method: "POST", body });
       setUser(data.user);
-      window.localStorage.setItem(authKey, "true");
+      window.localStorage.setItem(memberAuthKey, "true");
+      notifyMemberAuthChanged();
       setStatus("success");
       setForm((current) => ({ ...current, password: "" }));
     } catch (submitError) {
@@ -107,9 +97,10 @@ export default function Member() {
 
   const signOut = async () => {
     await apiRequest<{ ok: boolean }>("/api/auth/logout", { method: "POST" }).catch(() => undefined);
-    window.localStorage.removeItem(authKey);
+    window.localStorage.removeItem(memberAuthKey);
     setUser(null);
     setStatus("idle");
+    notifyMemberAuthChanged();
   };
 
   return (

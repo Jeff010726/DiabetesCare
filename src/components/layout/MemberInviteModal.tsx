@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import { apiRequest } from "../../lib/api";
-
-const authKey = "xt-member-authenticated";
+import { memberAuthKey } from "../../lib/memberAuth";
 
 export default function MemberInviteModal() {
   const { t } = useTranslation();
@@ -17,7 +16,7 @@ export default function MemberInviteModal() {
       return;
     }
 
-    const isAuthenticated = window.localStorage.getItem(authKey) === "true";
+    const isAuthenticated = window.localStorage.getItem(memberAuthKey) === "true";
     if (isAuthenticated) {
       setIsOpen(false);
       return;
@@ -26,7 +25,7 @@ export default function MemberInviteModal() {
     apiRequest<{ user: unknown | null }>("/api/auth/me")
       .then((data) => {
         if (data.user) {
-          window.localStorage.setItem(authKey, "true");
+          window.localStorage.setItem(memberAuthKey, "true");
           setIsOpen(false);
         } else {
           setIsOpen(true);
