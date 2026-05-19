@@ -137,6 +137,28 @@ export const es = {
       focusDesc: "Nutrición deportiva, manejo de la diabetes, afecciones gastrointestinales como IBS e IBD, y salud de la mujer.",
       cta: "Programar una consulta",
     },
+    accreditation: {
+      badge: "Credenciales que respaldan su atención",
+      title: "Educación acreditada, experiencia certificada en diabetes y nutrición registrada.",
+      desc: "XT Diabetes Care combina acreditación del programa de educación en diabetes y credenciales clínicas para que los pacientes reciban apoyo estructurado, práctico y coordinado profesionalmente.",
+      cards: [
+        {
+          title: "Acreditado por ADCES DEAP",
+          desc: "Nuestro programa de educación en diabetes está reconocido por el Diabetes Education Accreditation Program de ADCES, reflejando estándares para educación y apoyo de automanejo de la diabetes.",
+          imageAlt: "Logotipo del Programa de Acreditación en Educación sobre Diabetes ADCES DEAP",
+        },
+        {
+          title: "Certificación CDCES",
+          desc: "La experiencia como especialista certificado en cuidado y educación en diabetes apoya medicamentos, tecnología, cambios de conducta y solución de problemas diarios.",
+          imageAlt: "Insignia de especialista certificado CDCES en cuidado y educación en diabetes",
+        },
+        {
+          title: "Credencial RD/RDN",
+          desc: "Las credenciales de dietista registrada y nutricionista dietista registrada integran terapia nutricional basada en evidencia en diabetes, GLP-1 y cuidado del estilo de vida.",
+          imageAlt: "Insignia RD RDN de dietista registrada y nutricionista dietista registrada",
+        },
+      ],
+    },
     empathy: {
       title: "¿Manejar la diabetes se siente abrumador?",
       desc: "Ya sea que le hayan diagnosticado recientemente, esté comenzando con una bomba de insulina o tenga dificultad para mantener su glucosa en rango, no está solo. Estamos aquí para guiarle.",

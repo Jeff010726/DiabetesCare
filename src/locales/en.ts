@@ -139,6 +139,28 @@ export const en = {
       focusDesc: "Sports nutrition, diabetes management, gastrointestinal conditions including IBS and IBD, and women's health.",
       cta: "Schedule a Consultation",
     },
+    accreditation: {
+      badge: "Credentials that support your care",
+      title: "Accredited education. Certified diabetes expertise. Registered nutrition care.",
+      desc: "XT Diabetes Care brings together program-level diabetes education accreditation and clinician credentials so patients receive structured, practical, and professionally coordinated support.",
+      cards: [
+        {
+          title: "ADCES DEAP Accredited",
+          desc: "Our diabetes education program is recognized through the ADCES Diabetes Education Accreditation Program, reflecting national standards for diabetes self-management education and support.",
+          imageAlt: "ADCES DEAP Diabetes Education Accreditation Program logo",
+        },
+        {
+          title: "CDCES Certified",
+          desc: "Certified Diabetes Care and Education Specialist expertise supports medication, technology, behavior change, and day-to-day diabetes problem solving.",
+          imageAlt: "CDCES Diabetes Care and Education Specialist certified badge",
+        },
+        {
+          title: "RD/RDN Credentialed",
+          desc: "Registered Dietitian and Registered Dietitian Nutritionist credentials bring evidence-based nutrition therapy into diabetes, GLP-1, and lifestyle care.",
+          imageAlt: "RD RDN Registered Dietitian Nutritionist badge",
+        },
+      ],
+    },
     empathy: {
       title: "Does managing diabetes feel overwhelming?",
       desc: "Whether you are newly diagnosed, starting on an insulin pump, or struggling to keep your blood sugar in range, you are not alone. We are here to guide you.",

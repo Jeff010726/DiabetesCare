@@ -139,6 +139,28 @@ export const home = {
     focusDesc: "運動營養、糖尿病管理、包含 IBS 與 IBD 在內的腸胃道狀況，以及女性健康。",
     cta: "預約諮詢",
   },
+  accreditation: {
+    badge: "支持照護的專業資質",
+    title: "認證教育項目、認證糖尿病專家與註冊營養照護",
+    desc: "XT Diabetes Care 結合項目級糖尿病教育認證與臨床專業資質，為患者提供結構化、實用且有專業協作的支持。",
+    cards: [
+      {
+        title: "ADCES DEAP 認證",
+        desc: "我們的糖尿病教育項目通過 ADCES Diabetes Education Accreditation Program 認證，展現糖尿病自我管理教育與支持的專業標準。",
+        imageAlt: "ADCES DEAP 糖尿病教育認證項目標誌",
+      },
+      {
+        title: "CDCES 認證",
+        desc: "認證糖尿病照護與教育專家資質支持用藥、設備、行為改變與日常糖尿病問題處理。",
+        imageAlt: "CDCES 糖尿病照護與教育專家認證徽章",
+      },
+      {
+        title: "RD/RDN 資質",
+        desc: "註冊營養師與註冊營養師營養專家資質，將循證營養治療融入糖尿病、GLP-1 與生活方式照護。",
+        imageAlt: "RD RDN 註冊營養師營養專家徽章",
+      },
+    ],
+  },
   empathy: {
     title: "管理糖尿病是否讓您感到壓力重重？",
     desc: "無論您是剛被診斷、正在開始使用胰島素泵，或一直難以讓血糖維持在目標範圍內，您都不是一個人。我們會陪您一步步建立方法。",

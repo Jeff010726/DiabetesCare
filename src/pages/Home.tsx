@@ -18,6 +18,12 @@ export default function Home() {
   const heroCgmSrc = `${import.meta.env.BASE_URL}hero-cgm.webp`;
   const heroGlp1TrainingSrc = `${import.meta.env.BASE_URL}hero-glp1-training.png`;
   const tanPhotoSrc = `${import.meta.env.BASE_URL}tan-profile.webp`;
+  const accreditationCards = t("accreditation.cards", { returnObjects: true }) as Array<{ title: string; desc: string; imageAlt: string }>;
+  const accreditationImages = [
+    `${import.meta.env.BASE_URL}adces-deap-accreditation.webp`,
+    `${import.meta.env.BASE_URL}cdces-badge.webp`,
+    `${import.meta.env.BASE_URL}rd-rdn-badge.webp`,
+  ];
   const insuranceLogoSrc = (file: string) => `${import.meta.env.BASE_URL}insurance/${file}`;
   const fallbackTanPhoto =
     "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80";
@@ -316,6 +322,42 @@ export default function Home() {
               >
                 {t("expert.cta")} <ArrowRight className="w-5 h-5" />
               </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Accreditation Section */}
+      <section className="py-16 bg-white border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="rounded-3xl border border-gray-100 bg-gradient-to-br from-white via-white to-green-50/45 p-6 md:p-10 shadow-[0_20px_60px_-45px_rgba(31,41,55,0.35)]">
+            <div className="max-w-3xl mb-10">
+              <span className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-green-50 text-green-700 font-semibold text-sm mb-5 border border-green-100">
+                <ShieldCheck className="w-4 h-4" />
+                {t("accreditation.badge")}
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
+                {t("accreditation.title")}
+              </h2>
+              <p className="text-lg text-gray-600 leading-relaxed">
+                {t("accreditation.desc")}
+              </p>
+            </div>
+
+            <div className="grid gap-5 md:grid-cols-3">
+              {accreditationCards.map((card, index) => (
+                <div key={card.title} className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm flex flex-col h-full">
+                  <div className="h-28 md:h-32 mb-5 flex items-center justify-center">
+                    <img
+                      src={accreditationImages[index]}
+                      alt={card.imageAlt}
+                      className="max-h-full max-w-full object-contain"
+                    />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{card.title}</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">{card.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>

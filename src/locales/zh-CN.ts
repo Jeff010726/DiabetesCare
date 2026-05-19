@@ -137,6 +137,28 @@ export const zhCN = {
       focusDesc: "运动营养、糖尿病管理、包括 IBS 和 IBD 在内的胃肠道问题，以及女性健康。",
       cta: "预约咨询",
     },
+    accreditation: {
+      badge: "支持照护的专业资质",
+      title: "认证教育项目、认证糖尿病专家与注册营养照护",
+      desc: "XT Diabetes Care 结合项目级糖尿病教育认证与临床专业资质，为患者提供结构化、实用且有专业协作的支持。",
+      cards: [
+        {
+          title: "ADCES DEAP 认证",
+          desc: "我们的糖尿病教育项目通过 ADCES Diabetes Education Accreditation Program 认证，体现糖尿病自我管理教育与支持的专业标准。",
+          imageAlt: "ADCES DEAP 糖尿病教育认证项目标志",
+        },
+        {
+          title: "CDCES 认证",
+          desc: "认证糖尿病照护与教育专家资质支持用药、设备、行为改变和日常糖尿病问题处理。",
+          imageAlt: "CDCES 糖尿病照护与教育专家认证徽章",
+        },
+        {
+          title: "RD/RDN 资质",
+          desc: "注册营养师与注册营养师营养专家资质，将循证营养治疗融入糖尿病、GLP-1 和生活方式照护。",
+          imageAlt: "RD RDN 注册营养师营养专家徽章",
+        },
+      ],
+    },
     empathy: {
       title: "糖尿病管理是否让您感到压力很大？",
       desc: "无论您是刚被诊断、正在开始使用胰岛素泵，还是难以把血糖维持在目标范围内，您都不是一个人。我们会陪您一步步建立方法。",
