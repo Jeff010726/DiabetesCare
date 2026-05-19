@@ -1,0 +1,12 @@
+name = "diabetescare-api"
+main = "worker/src/index.ts"
+compatibility_date = "2026-05-20"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+APP_ENV = "production"
+
+# Add custom Worker routes after the API hostname is decided, for example:
+# routes = [
+#   { pattern = "api.xtdiabetescare.com/*", zone_name = "xtdiabetescare.com" }
+# ]

@@ -1,0 +1,5 @@
+# Copy this file to .dev.vars for local Worker-only secrets.
+# Do not commit .dev.vars.
+
+APP_ENV="development"
+
