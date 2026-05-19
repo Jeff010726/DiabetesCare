@@ -1,15 +1,75 @@
 import { ArrowRight, CheckCircle2, Gift, LockKeyhole, Mail, Phone, Sparkles, UserRound } from "lucide-react";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { apiRequest } from "../lib/api";
 
 type MemberMode = "register" | "login";
 
+type AuthUser = {
+  id: string;
+  email: string;
+  phone?: string;
+  firstName?: string;
+  lastName?: string;
+  preferredLanguage?: string;
+  marketingOptIn?: boolean;
+};
+
+const authKey = "xt-member-authenticated";
+
 export default function Member() {
   const { t } = useTranslation("servicePages");
+  const { i18n } = useTranslation();
   const [mode, setMode] = useState<MemberMode>("register");
+  const [form, setForm] = useState({ email: "", phone: "", firstName: "", lastName: "", password: "" });
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [error, setError] = useState("");
   const benefits = t("member.benefits", { returnObjects: true }) as string[];
   const perks = t("member.perks", { returnObjects: true }) as Array<{ title: string; desc: string }>;
   const isRegister = mode === "register";
+
+  useEffect(() => {
+    apiRequest<{ user: AuthUser | null }>("/api/auth/me")
+      .then((data) => {
+        setUser(data.user);
+        if (data.user) window.localStorage.setItem(authKey, "true");
+      })
+      .catch(() => undefined);
+  }, []);
+
+  const updateField = (field: keyof typeof form) => (event: ChangeEvent<HTMLInputElement>) => {
+    setForm((current) => ({ ...current, [field]: event.target.value }));
+  };
+
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setStatus("submitting");
+    setError("");
+
+    const path = isRegister ? "/api/auth/register" : "/api/auth/login";
+    const body = isRegister
+      ? { ...form, preferredLanguage: i18n.language, marketingOptIn: true }
+      : { email: form.email, password: form.password };
+
+    try {
+      const data = await apiRequest<{ user: AuthUser }>(path, { method: "POST", body });
+      setUser(data.user);
+      window.localStorage.setItem(authKey, "true");
+      setStatus("success");
+      setForm((current) => ({ ...current, password: "" }));
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : "Unable to complete this request.");
+      setStatus("error");
+    }
+  };
+
+  const signOut = async () => {
+    await apiRequest<{ ok: boolean }>("/api/auth/logout", { method: "POST" }).catch(() => undefined);
+    window.localStorage.removeItem(authKey);
+    setUser(null);
+    setStatus("idle");
+  };
 
   return (
     <div className="bg-white">
@@ -64,13 +124,25 @@ export default function Member() {
                 </p>
               </div>
 
-              <form className="space-y-4">
+              {user && (
+                <div className="mb-6 rounded-2xl border border-green-100 bg-green-50 p-4">
+                  <p className="text-sm font-bold text-green-800">Signed in as {user.email}</p>
+                  <button type="button" onClick={signOut} className="mt-2 text-sm font-bold text-green-700 underline underline-offset-4">
+                    Sign out
+                  </button>
+                </div>
+              )}
+
+              <form className="space-y-4" onSubmit={submit}>
                 <label className="block">
                   <span className="block text-sm font-semibold text-gray-700 mb-1">{t("member.fields.email")}</span>
                   <span className="relative block">
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <input
                       type="email"
+                      value={form.email}
+                      onChange={updateField("email")}
+                      required
                       className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-purple)]"
                       placeholder={t("member.placeholders.email")}
                     />
@@ -85,6 +157,8 @@ export default function Member() {
                         <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                         <input
                           type="tel"
+                          value={form.phone}
+                          onChange={updateField("phone")}
                           className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-purple)]"
                           placeholder={t("member.placeholders.phone")}
                         />
@@ -98,6 +172,9 @@ export default function Member() {
                           <UserRound className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                           <input
                             type="text"
+                            value={form.firstName}
+                            onChange={updateField("firstName")}
+                            required
                             className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-purple)]"
                             placeholder={t("member.placeholders.firstName")}
                           />
@@ -107,6 +184,8 @@ export default function Member() {
                         <span className="block text-sm font-semibold text-gray-700 mb-1">{t("member.fields.lastName")}</span>
                         <input
                           type="text"
+                          value={form.lastName}
+                          onChange={updateField("lastName")}
                           className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-purple)]"
                           placeholder={t("member.placeholders.lastName")}
                         />
@@ -121,17 +200,31 @@ export default function Member() {
                     <LockKeyhole className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <input
                       type="password"
+                      value={form.password}
+                      onChange={updateField("password")}
+                      required
+                      minLength={8}
                       className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-purple)]"
                       placeholder={t("member.placeholders.password")}
                     />
                   </span>
                 </label>
 
+                {status === "success" && (
+                  <p className="rounded-xl bg-green-50 px-4 py-3 text-sm font-semibold text-green-700">
+                    {isRegister ? "Account created." : "Signed in."}
+                  </p>
+                )}
+                {status === "error" && (
+                  <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">{error}</p>
+                )}
+
                 <button
-                  type="button"
-                  className="w-full inline-flex items-center justify-center gap-2 bg-[var(--color-brand-purple)] text-white font-bold py-3 px-4 rounded-xl hover:bg-[var(--color-brand-purple)]/90 transition-colors"
+                  type="submit"
+                  disabled={status === "submitting"}
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[var(--color-brand-purple)] text-white font-bold py-3 px-4 rounded-xl hover:bg-[var(--color-brand-purple)]/90 transition-colors disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  {isRegister ? t("member.registerButton") : t("member.loginButton")}
+                  {status === "submitting" ? "Submitting..." : isRegister ? t("member.registerButton") : t("member.loginButton")}
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <p className="text-xs text-gray-500 leading-relaxed">{t("member.previewNote")}</p>

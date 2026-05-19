@@ -1,40 +1,42 @@
-export interface Env {
-  APP_ENV: string;
-}
+import { login, logout, me, register } from "./auth";
+import { submitContact } from "./contact";
+import { corsHeaders, json, serverError } from "./http";
+import type { Env } from "./types";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type,Authorization",
-};
+async function route(request: Request, env: Env) {
+  const url = new URL(request.url);
 
-function json(data: unknown, init: ResponseInit = {}) {
-  return new Response(JSON.stringify(data), {
-    ...init,
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      ...corsHeaders,
-      ...init.headers,
-    },
-  });
+  if (request.method === "OPTIONS") {
+    return new Response(null, { status: 204, headers: corsHeaders(request, env) });
+  }
+
+  if (url.pathname === "/api/health" && request.method === "GET") {
+    return json(request, env, {
+      ok: true,
+      service: "diabetescare-api",
+      environment: env.APP_ENV,
+      d1Configured: Boolean(env.DB),
+      googleSheetsConfigured: Boolean(
+        env.GOOGLE_SHEETS_SPREADSHEET_ID && env.GOOGLE_SHEETS_CLIENT_EMAIL && env.GOOGLE_SHEETS_PRIVATE_KEY,
+      ),
+    });
+  }
+
+  if (url.pathname === "/api/contact" && request.method === "POST") return submitContact(request, env);
+  if (url.pathname === "/api/auth/register" && request.method === "POST") return register(request, env);
+  if (url.pathname === "/api/auth/login" && request.method === "POST") return login(request, env);
+  if (url.pathname === "/api/auth/logout" && request.method === "POST") return logout(request, env);
+  if (url.pathname === "/api/auth/me" && request.method === "GET") return me(request, env);
+
+  return json(request, env, { error: "Not found" }, { status: 404 });
 }
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
-    const url = new URL(request.url);
-
-    if (request.method === "OPTIONS") {
-      return new Response(null, { status: 204, headers: corsHeaders });
+    try {
+      return await route(request, env);
+    } catch (error) {
+      return serverError(request, env, error instanceof Error ? error.message : undefined);
     }
-
-    if (url.pathname === "/api/health") {
-      return json({
-        ok: true,
-        service: "diabetescare-api",
-        environment: env.APP_ENV,
-      });
-    }
-
-    return json({ error: "Not found" }, { status: 404 });
   },
 };

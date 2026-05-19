@@ -2,6 +2,7 @@ import { ArrowRight, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
+import { apiRequest } from "../../lib/api";
 
 const authKey = "xt-member-authenticated";
 
@@ -17,7 +18,21 @@ export default function MemberInviteModal() {
     }
 
     const isAuthenticated = window.localStorage.getItem(authKey) === "true";
-    setIsOpen(!isAuthenticated);
+    if (isAuthenticated) {
+      setIsOpen(false);
+      return;
+    }
+
+    apiRequest<{ user: unknown | null }>("/api/auth/me")
+      .then((data) => {
+        if (data.user) {
+          window.localStorage.setItem(authKey, "true");
+          setIsOpen(false);
+        } else {
+          setIsOpen(true);
+        }
+      })
+      .catch(() => setIsOpen(true));
   }, [pathname]);
 
   const close = () => {

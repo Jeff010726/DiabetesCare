@@ -13,6 +13,9 @@
     "moduleResolution": "bundler",
     "isolatedModules": true,
     "moduleDetection": "force",
+    "types": [
+      "@cloudflare/workers-types"
+    ],
     "allowJs": true,
     "jsx": "react-jsx",
     "paths": {

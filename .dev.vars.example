@@ -2,4 +2,10 @@
 # Do not commit .dev.vars.
 
 APP_ENV="development"
+APP_ORIGIN="http://localhost:3000"
 
+# Google Sheets contact form integration.
+# Share the target Sheet with GOOGLE_SHEETS_CLIENT_EMAIL.
+GOOGLE_SHEETS_SPREADSHEET_ID="MY_GOOGLE_SHEET_ID"
+GOOGLE_SHEETS_CLIENT_EMAIL="service-account@example.iam.gserviceaccount.com"
+GOOGLE_SHEETS_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"

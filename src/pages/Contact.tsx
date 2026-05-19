@@ -1,12 +1,44 @@
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { apiRequest } from "../lib/api";
 import "../locales/servicePages";
 
 export default function Contact() {
   const { t } = useTranslation("servicePages");
+  const { i18n } = useTranslation();
   const addressLines = t("contact.info.addressLines", { returnObjects: true }) as string[];
   const phoneLines = t("contact.info.phoneLines", { returnObjects: true }) as string[];
   const hoursLines = t("contact.info.hoursLines", { returnObjects: true }) as string[];
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [error, setError] = useState("");
+
+  const updateField = (field: keyof typeof form) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm((current) => ({ ...current, [field]: event.target.value }));
+  };
+
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setStatus("submitting");
+    setError("");
+
+    try {
+      await apiRequest<{ ok: boolean }>("/api/contact", {
+        method: "POST",
+        body: {
+          ...form,
+          sourcePage: window.location.pathname,
+          preferredLanguage: i18n.language,
+        },
+      });
+      setForm({ name: "", email: "", message: "" });
+      setStatus("success");
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : "Unable to send your message.");
+      setStatus("error");
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -21,21 +53,31 @@ export default function Contact() {
         <div>
            <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm mb-8">
               <h3 className="text-2xl font-bold mb-6">{t("contact.formTitle")}</h3>
-              <form className="space-y-4">
+              <form className="space-y-4" onSubmit={submit}>
                  <div>
                    <label className="block text-sm font-medium text-gray-700 mb-1">{t("contact.labels.name")}</label>
-                   <input type="text" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-purple)]" placeholder={t("contact.placeholders.name")} />
+                   <input type="text" value={form.name} onChange={updateField("name")} required className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-purple)]" placeholder={t("contact.placeholders.name")} />
                  </div>
                  <div>
                    <label className="block text-sm font-medium text-gray-700 mb-1">{t("contact.labels.email")}</label>
-                   <input type="email" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-purple)]" placeholder={t("contact.placeholders.email")} />
+                   <input type="email" value={form.email} onChange={updateField("email")} required className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-purple)]" placeholder={t("contact.placeholders.email")} />
                  </div>
                  <div>
                    <label className="block text-sm font-medium text-gray-700 mb-1">{t("contact.labels.message")}</label>
-                   <textarea rows={4} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-purple)]" placeholder={t("contact.placeholders.message")}></textarea>
+                   <textarea rows={4} value={form.message} onChange={updateField("message")} required className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-purple)]" placeholder={t("contact.placeholders.message")}></textarea>
                  </div>
-                 <button type="button" className="w-full bg-[var(--color-brand-purple)] text-white font-bold py-3 px-4 rounded-xl hover:bg-[var(--color-brand-purple)]/90 transition-colors">
-                   {t("contact.send")}
+                 {status === "success" && (
+                   <p className="rounded-xl bg-green-50 px-4 py-3 text-sm font-semibold text-green-700">
+                     Message sent. We will follow up soon.
+                   </p>
+                 )}
+                 {status === "error" && (
+                   <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
+                     {error}
+                   </p>
+                 )}
+                 <button type="submit" disabled={status === "submitting"} className="w-full bg-[var(--color-brand-purple)] text-white font-bold py-3 px-4 rounded-xl hover:bg-[var(--color-brand-purple)]/90 transition-colors disabled:cursor-not-allowed disabled:opacity-70">
+                   {status === "submitting" ? "Sending..." : t("contact.send")}
                  </button>
               </form>
            </div>
