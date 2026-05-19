@@ -1,5 +1,5 @@
 import { ArrowRight, CheckCircle2, Gift, LockKeyhole, Mail, Phone, Sparkles, UserRound } from "lucide-react";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getCountries, getCountryCallingCode, type CountryCode } from "libphonenumber-js/min";
 import { apiRequest } from "../lib/api";
@@ -40,12 +40,18 @@ export default function Member() {
   const { i18n } = useTranslation();
   const [mode, setMode] = useState<MemberMode>("register");
   const [form, setForm] = useState({ email: "", phoneCountry: "US", phone: "", firstName: "", lastName: "", password: "" });
+  const [countryPickerOpen, setCountryPickerOpen] = useState(false);
+  const countryPickerRef = useRef<HTMLDivElement>(null);
   const [user, setUser] = useState<AuthUser | null>(null);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [error, setError] = useState("");
   const benefits = t("member.benefits", { returnObjects: true }) as string[];
   const perks = t("member.perks", { returnObjects: true }) as Array<{ title: string; desc: string }>;
   const isRegister = mode === "register";
+  const selectedPhoneCountry = useMemo(
+    () => phoneCountries.find((option) => option.country === form.phoneCountry) || phoneCountries.find((option) => option.country === "US"),
+    [form.phoneCountry],
+  );
 
   useEffect(() => {
     apiRequest<{ user: AuthUser | null }>("/api/auth/me")
@@ -54,6 +60,14 @@ export default function Member() {
         if (data.user) window.localStorage.setItem(authKey, "true");
       })
       .catch(() => undefined);
+  }, []);
+
+  useEffect(() => {
+    const closePicker = (event: MouseEvent) => {
+      if (!countryPickerRef.current?.contains(event.target as Node)) setCountryPickerOpen(false);
+    };
+    document.addEventListener("mousedown", closePicker);
+    return () => document.removeEventListener("mousedown", closePicker);
   }, []);
 
   const updateField = (field: keyof typeof form) => (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -66,8 +80,7 @@ export default function Member() {
     setError("");
 
     const path = isRegister ? "/api/auth/register" : "/api/auth/login";
-    const selectedCountry = phoneCountries.find((option) => option.country === form.phoneCountry);
-    const phone = form.phone.trim() && selectedCountry ? `${selectedCountry.callingCode} ${form.phone.trim()}` : "";
+    const phone = form.phone.trim() && selectedPhoneCountry ? `${selectedPhoneCountry.callingCode} ${form.phone.trim()}` : "";
     const body = isRegister
       ? {
           email: form.email,
@@ -182,18 +195,59 @@ export default function Member() {
                     <label className="block">
                       <span className="block text-sm font-semibold text-gray-700 mb-1">{t("member.fields.phone")}</span>
                       <div className="grid gap-3 sm:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
-                        <select
-                          value={form.phoneCountry}
-                          onChange={updateField("phoneCountry")}
-                          aria-label="Country code"
-                          className="w-full min-w-0 rounded-xl border border-gray-200 bg-white px-3 py-3 text-sm font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-purple)]"
-                        >
-                          {phoneCountries.map((option) => (
-                            <option key={option.country} value={option.country}>
-                              {option.flag} {option.name} {option.callingCode}
-                            </option>
-                          ))}
-                        </select>
+                        <div ref={countryPickerRef} className="relative">
+                          <button
+                            type="button"
+                            onClick={() => setCountryPickerOpen((open) => !open)}
+                            className="flex w-full min-w-0 items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-3 text-left text-sm font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-purple)]"
+                            aria-haspopup="listbox"
+                            aria-expanded={countryPickerOpen}
+                          >
+                            {selectedPhoneCountry && (
+                              <>
+                                <img
+                                  src={`https://flagcdn.com/w40/${selectedPhoneCountry.country.toLowerCase()}.png`}
+                                  alt=""
+                                  className="h-4 w-6 shrink-0 rounded-sm object-cover"
+                                  loading="lazy"
+                                />
+                                <span className="truncate">{selectedPhoneCountry.name}</span>
+                                <span className="ml-auto shrink-0 text-gray-500">{selectedPhoneCountry.callingCode}</span>
+                              </>
+                            )}
+                          </button>
+                          {countryPickerOpen && (
+                            <div
+                              role="listbox"
+                              className="absolute z-20 mt-2 max-h-72 w-full overflow-y-auto rounded-xl border border-gray-200 bg-white py-1 shadow-xl"
+                            >
+                              {phoneCountries.map((option) => (
+                                <button
+                                  key={option.country}
+                                  type="button"
+                                  role="option"
+                                  aria-selected={option.country === form.phoneCountry}
+                                  onClick={() => {
+                                    setForm((current) => ({ ...current, phoneCountry: option.country }));
+                                    setCountryPickerOpen(false);
+                                  }}
+                                  className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-[var(--color-brand-purple-light)]/45 ${
+                                    option.country === form.phoneCountry ? "bg-[var(--color-brand-purple-light)]/60 font-semibold text-gray-900" : "text-gray-700"
+                                  }`}
+                                >
+                                  <img
+                                    src={`https://flagcdn.com/w40/${option.country.toLowerCase()}.png`}
+                                    alt=""
+                                    className="h-4 w-6 shrink-0 rounded-sm object-cover"
+                                    loading="lazy"
+                                  />
+                                  <span className="truncate">{option.name}</span>
+                                  <span className="ml-auto shrink-0 text-gray-500">{option.callingCode}</span>
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
                         <span className="relative block">
                           <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                           <input
