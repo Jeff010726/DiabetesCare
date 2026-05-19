@@ -1,6 +1,13 @@
 name: Setup Cloudflare D1
 
 on:
+  push:
+    branches:
+      - 0518
+    paths:
+      - "worker/migrations/**"
+      - "wrangler.toml"
+      - ".github/workflows/d1-setup.yml"
   workflow_dispatch:
 
 permissions:
@@ -9,6 +16,7 @@ permissions:
 jobs:
   setup:
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'github-actions[bot]' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
