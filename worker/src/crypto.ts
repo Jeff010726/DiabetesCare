@@ -25,12 +25,13 @@ export async function sha256(value: string) {
 
 export async function hashPassword(password: string, salt = randomId()) {
   const key = await crypto.subtle.importKey("raw", encoder.encode(password), "PBKDF2", false, ["deriveBits"]);
+  const iterations = 100000;
   const bits = await crypto.subtle.deriveBits(
-    { name: "PBKDF2", salt: encoder.encode(salt), iterations: 120000, hash: "SHA-256" },
+    { name: "PBKDF2", salt: encoder.encode(salt), iterations, hash: "SHA-256" },
     key,
     256,
   );
-  return `pbkdf2_sha256$120000$${salt}$${toBase64Url(bits)}`;
+  return `pbkdf2_sha256$${iterations}$${salt}$${toBase64Url(bits)}`;
 }
 
 export async function verifyPassword(password: string, storedHash: string) {
@@ -38,8 +39,9 @@ export async function verifyPassword(password: string, storedHash: string) {
   if (algorithm !== "pbkdf2_sha256" || !iterations || !salt || !hash) return false;
 
   const key = await crypto.subtle.importKey("raw", encoder.encode(password), "PBKDF2", false, ["deriveBits"]);
+  const iterationCount = Math.min(Number(iterations), 100000);
   const bits = await crypto.subtle.deriveBits(
-    { name: "PBKDF2", salt: encoder.encode(salt), iterations: Number(iterations), hash: "SHA-256" },
+    { name: "PBKDF2", salt: encoder.encode(salt), iterations: iterationCount, hash: "SHA-256" },
     key,
     256,
   );

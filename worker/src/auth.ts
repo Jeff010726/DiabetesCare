@@ -94,71 +94,64 @@ export async function getCurrentUser(request: Request, env: Env) {
 }
 
 export async function register(request: Request, env: Env) {
-  try {
-    const rateLimited = checkRateLimit(request, env, "auth_register", 8, 60);
-    if (rateLimited) return rateLimited;
+  const rateLimited = checkRateLimit(request, env, "auth_register", 8, 60);
+  if (rateLimited) return rateLimited;
 
-    const payload = await readJson<RegisterPayload>(request);
-    if (!payload) return badRequest(request, env, "Invalid JSON body");
+  const payload = await readJson<RegisterPayload>(request);
+  if (!payload) return badRequest(request, env, "Invalid JSON body");
 
-    const email = normalizeEmail(payload.email || "");
-    const password = payload.password || "";
-    const phone = trimToMax(payload.phone, 40);
-    const firstName = trimToMax(payload.firstName, 80);
-    const lastName = trimToMax(payload.lastName, 80);
-    const preferredLanguage = trimToMax(payload.preferredLanguage, 16) || "en";
+  const email = normalizeEmail(payload.email || "");
+  const password = payload.password || "";
+  const phone = trimToMax(payload.phone, 40);
+  const firstName = trimToMax(payload.firstName, 80);
+  const lastName = trimToMax(payload.lastName, 80);
+  const preferredLanguage = trimToMax(payload.preferredLanguage, 16) || "en";
 
-    if (!validEmail(email)) return badRequest(request, env, "Valid email is required");
-    if (email.length > 254) return badRequest(request, env, "Email is too long");
-    if (password.length < 8) return badRequest(request, env, "Password must be at least 8 characters");
-    if (password.length > 256) return badRequest(request, env, "Password is too long");
+  if (!validEmail(email)) return badRequest(request, env, "Valid email is required");
+  if (email.length > 254) return badRequest(request, env, "Email is too long");
+  if (password.length < 8) return badRequest(request, env, "Password must be at least 8 characters");
+  if (password.length > 256) return badRequest(request, env, "Password is too long");
 
-    const db = getDb(env);
-    const existing = await db.prepare("SELECT id FROM users WHERE email = ? LIMIT 1").bind(email).first();
-    if (existing) return badRequest(request, env, "An account with this email already exists");
+  const db = getDb(env);
+  const existing = await db.prepare("SELECT id FROM users WHERE email = ? LIMIT 1").bind(email).first();
+  if (existing) return badRequest(request, env, "An account with this email already exists");
 
-    const userId = randomId("usr_");
-    const passwordHash = await hashPassword(password);
-    const now = new Date().toISOString();
+  const userId = randomId("usr_");
+  const passwordHash = await hashPassword(password);
+  const now = new Date().toISOString();
 
-    await db
-      .prepare(
-        `INSERT INTO users (id, email, phone, first_name, last_name, preferred_language, marketing_opt_in, created_at, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      )
-      .bind(
-        userId,
-        email,
-        phone || null,
-        firstName || null,
-        lastName || null,
-        preferredLanguage,
-        payload.marketingOptIn ? 1 : 0,
-        now,
-        now,
-      )
-      .run();
+  await db
+    .prepare(
+      `INSERT INTO users (id, email, phone, first_name, last_name, preferred_language, marketing_opt_in, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    )
+    .bind(
+      userId,
+      email,
+      phone || null,
+      firstName || null,
+      lastName || null,
+      preferredLanguage,
+      payload.marketingOptIn ? 1 : 0,
+      now,
+      now,
+    )
+    .run();
 
-    await db
-      .prepare("INSERT INTO auth_identities (id, user_id, provider, password_hash, created_at) VALUES (?, ?, ?, ?, ?)")
-      .bind(randomId("aid_"), userId, "password", passwordHash, now)
-      .run();
+  await db
+    .prepare("INSERT INTO auth_identities (id, user_id, provider, password_hash, created_at) VALUES (?, ?, ?, ?, ?)")
+    .bind(randomId("aid_"), userId, "password", passwordHash, now)
+    .run();
 
-    await db
-      .prepare("INSERT INTO member_events (id, user_id, type, metadata_json, created_at) VALUES (?, ?, ?, ?, ?)")
-      .bind(randomId("evt_"), userId, "registered", JSON.stringify({ source: "member_page" }), now)
-      .run();
+  await db
+    .prepare("INSERT INTO member_events (id, user_id, type, metadata_json, created_at) VALUES (?, ?, ?, ?, ?)")
+    .bind(randomId("evt_"), userId, "registered", JSON.stringify({ source: "member_page" }), now)
+    .run();
 
-    const token = await createSession(env, userId);
-    const user = await getCurrentUser(new Request(request, { headers: { Cookie: `${sessionCookieName}=${token}` } }), env);
+  const token = await createSession(env, userId);
+  const user = await getCurrentUser(new Request(request, { headers: { Cookie: `${sessionCookieName}=${token}` } }), env);
 
-    return json(request, env, { user }, { status: 201, headers: { "Set-Cookie": sessionCookie(token) } });
-  } catch (error) {
-    if (request.headers.get("X-Debug-Auth") === "1") {
-      return json(request, env, { error: error instanceof Error ? error.message : "Register failed" }, { status: 500 });
-    }
-    throw error;
-  }
+  return json(request, env, { user }, { status: 201, headers: { "Set-Cookie": sessionCookie(token) } });
 }
 
 export async function login(request: Request, env: Env) {

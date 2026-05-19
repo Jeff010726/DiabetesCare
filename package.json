@@ -8,7 +8,7 @@
     "worker:dev": "wrangler dev",
     "worker:deploy": "wrangler deploy",
     "build": "vite build",
-    "postbuild": "node -e \"const fs=require('fs'); if (fs.existsSync('dist/index.html')) fs.copyFileSync('dist/index.html', 'dist/404.html');\"",
+    "postbuild": "node scripts/postbuild.mjs",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit"
