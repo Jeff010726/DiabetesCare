@@ -4,19 +4,15 @@ import { initReactI18next } from "react-i18next";
 import { en } from "./locales/en";
 import { zhCN } from "./locales/zh-CN";
 import { zhTW } from "./locales/zh-TW";
-import { ja } from "./locales/ja";
-import { ko } from "./locales/ko";
 import { es } from "./locales/es";
 
-export const supportedLocales = ["en", "zh-CN", "zh-TW", "ja", "ko", "es"] as const;
+export const supportedLocales = ["en", "zh-CN", "zh-TW", "es"] as const;
 export type SupportedLocale = (typeof supportedLocales)[number];
 
 export const localeLabels: Record<SupportedLocale, string> = {
   en: "English",
   "zh-CN": "\u7b80\u4f53\u4e2d\u6587",
   "zh-TW": "\u7e41\u9ad4\u4e2d\u6587",
-  ja: "\u65e5\u672c\u8a9e",
-  ko: "\ud55c\uad6d\uc5b4",
   es: "Espa\u00f1ol",
 };
 
@@ -44,8 +40,6 @@ const localeResources: Record<SupportedLocale, LocaleResource> = {
   en: normalizeLocale(en),
   "zh-CN": normalizeLocale(zhCN),
   "zh-TW": normalizeLocale(zhTW),
-  ja: normalizeLocale(ja),
-  ko: normalizeLocale(ko),
   es: normalizeLocale(es),
 };
 
