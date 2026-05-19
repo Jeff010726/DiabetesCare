@@ -2,6 +2,7 @@ import { ArrowRight, Check, ClipboardCheck, Pill, ShieldCheck, Syringe, Utensils
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import ProviderAccessCallout from "../components/ProviderAccessCallout";
+import { bookingUrl } from "../lib/booking";
 import "../locales/servicePages";
 
 export default function GLP1Training() {
@@ -37,12 +38,14 @@ export default function GLP1Training() {
             <p className="mt-6 max-w-2xl text-xl leading-relaxed text-gray-700">
               {t("glp1Training.heroSubtitle")}
             </p>
-            <Link
-              to="/contact"
+            <a
+              href={bookingUrl}
+              target="_blank"
+              rel="noreferrer"
               className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-brand-purple)] px-8 py-4 text-lg font-bold text-white shadow-lg transition-colors hover:bg-[var(--color-brand-purple)]/90"
             >
               {t("glp1Training.scheduleButton")} <ArrowRight className="h-5 w-5" />
-            </Link>
+            </a>
           </div>
         </div>
       </section>

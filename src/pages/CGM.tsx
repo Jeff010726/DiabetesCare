@@ -2,6 +2,7 @@ import { Activity, Smartphone, LineChart, FileLineChart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 import ProviderAccessCallout from "../components/ProviderAccessCallout";
+import { bookingUrl } from "../lib/booking";
 import "../locales/servicePages";
 
 export default function CGM() {
@@ -67,9 +68,9 @@ export default function CGM() {
                 components={{ strong: <strong /> }}
               />
             </p>
-            <Link to="/contact" className="inline-block bg-[var(--color-brand-purple)] text-white px-8 py-4 rounded-xl font-bold hover:bg-[var(--color-brand-purple)]/90 transition-colors shadow-sm">
+            <a href={bookingUrl} target="_blank" rel="noreferrer" className="inline-block bg-[var(--color-brand-purple)] text-white px-8 py-4 rounded-xl font-bold hover:bg-[var(--color-brand-purple)]/90 transition-colors shadow-sm">
               {t("cgm.scheduleButton")}
-            </Link>
+            </a>
           </div>
         </div>
 

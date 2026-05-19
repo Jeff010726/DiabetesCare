@@ -7,6 +7,7 @@ import {
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useTranslation } from "react-i18next";
+import { bookingUrl } from "../lib/booking";
 import "./homeI18n";
 
 export default function Home() {
@@ -316,12 +317,14 @@ export default function Home() {
                 </div>
               </div>
 
-              <Link
-                to="/contact"
+              <a
+                href={bookingUrl}
+                target="_blank"
+                rel="noreferrer"
                 className="inline-flex items-center justify-center gap-2 bg-[var(--color-brand-purple)] text-white px-6 py-3 rounded-full font-bold hover:bg-[var(--color-brand-purple)]/90 transition-all shadow-md hover:shadow-lg w-full sm:w-auto"
               >
                 {t("expert.cta")} <ArrowRight className="w-5 h-5" />
-              </Link>
+              </a>
             </div>
           </div>
         </div>
