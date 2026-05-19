@@ -94,8 +94,9 @@ export async function getCurrentUser(request: Request, env: Env) {
 }
 
 export async function register(request: Request, env: Env) {
-  const rateLimited = checkRateLimit(request, env, "auth_register", 8, 60);
-  if (rateLimited) return rateLimited;
+  try {
+    const rateLimited = checkRateLimit(request, env, "auth_register", 8, 60);
+    if (rateLimited) return rateLimited;
 
   const payload = await readJson<RegisterPayload>(request);
   if (!payload) return badRequest(request, env, "Invalid JSON body");
@@ -151,7 +152,13 @@ export async function register(request: Request, env: Env) {
   const token = await createSession(env, userId);
   const user = await getCurrentUser(new Request(request, { headers: { Cookie: `${sessionCookieName}=${token}` } }), env);
 
-  return json(request, env, { user }, { status: 201, headers: { "Set-Cookie": sessionCookie(token) } });
+    return json(request, env, { user }, { status: 201, headers: { "Set-Cookie": sessionCookie(token) } });
+  } catch (error) {
+    if (request.headers.get("X-Debug-Auth") === "1") {
+      return json(request, env, { error: error instanceof Error ? error.message : "Register failed" }, { status: 500 });
+    }
+    throw error;
+  }
 }
 
 export async function login(request: Request, env: Env) {
