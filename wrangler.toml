@@ -3,16 +3,14 @@ main = "worker/src/index.ts"
 compatibility_date = "2026-05-20"
 compatibility_flags = ["nodejs_compat"]
 
+routes = [
+  { pattern = "api.xtdiabetescare.com/*", zone_name = "xtdiabetescare.com" }
+]
+
 [vars]
 APP_ENV = "production"
 APP_ORIGIN = "https://xtdiabetescare.com"
-# Fill this after creating and sharing the Google Sheet with the service account.
-# GOOGLE_SHEETS_SPREADSHEET_ID = ""
-
-# Add custom Worker routes after the API hostname is decided, for example:
-# routes = [
-#   { pattern = "api.xtdiabetescare.com/*", zone_name = "xtdiabetescare.com" }
-# ]
+GOOGLE_SHEETS_SPREADSHEET_ID = "1qjOaxNH9zheEDNilwlzfLLzokqxvx8q93Fi2mBhHavI"
 
 # Add this block after creating the D1 database:
 # [[d1_databases]]

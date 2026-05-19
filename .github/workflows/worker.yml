@@ -28,6 +28,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Apply D1 migrations
+        run: |
+          if grep -q 'database_id = "<cloudflare-d1-database-id>"' wrangler.toml || ! grep -q '\[\[d1_databases\]\]' wrangler.toml; then
+            echo "D1 binding is not configured yet; skipping migrations."
+            exit 0
+          fi
+          npx wrangler d1 migrations apply diabetescare-db --remote
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
       - name: Deploy Worker
         run: npx wrangler deploy
         env:
