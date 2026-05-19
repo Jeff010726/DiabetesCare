@@ -4,6 +4,9 @@ export interface Env {
   GOOGLE_SHEETS_SPREADSHEET_ID?: string;
   GOOGLE_SHEETS_CLIENT_EMAIL?: string;
   GOOGLE_SHEETS_PRIVATE_KEY?: string;
+  ADMIN_EMAIL?: string;
+  ADMIN_PASSWORD?: string;
+  ADMIN_PASSWORD_HASH?: string;
   DB?: D1Database;
 }
 

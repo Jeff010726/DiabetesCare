@@ -1,3 +1,4 @@
+import { adminContactLeads, adminLogin, adminLogout, adminMe, adminMembers, adminPage, adminStats } from "./admin";
 import { login, logout, me, register } from "./auth";
 import { submitContact } from "./contact";
 import { responseHeaders, json, serverError } from "./http";
@@ -17,6 +18,14 @@ function adminResponse(request: Request, env: Env) {
       },
     });
   }
+
+  if (url.pathname === "/admin/api/login" && request.method === "POST") return adminLogin(request, env);
+  if (url.pathname === "/admin/api/logout" && request.method === "POST") return adminLogout(request, env);
+  if (url.pathname === "/admin/api/me" && request.method === "GET") return adminMe(request, env);
+  if (url.pathname === "/admin/api/stats" && request.method === "GET") return adminStats(request, env);
+  if (url.pathname === "/admin/api/contact-leads" && request.method === "GET") return adminContactLeads(request, env);
+  if (url.pathname === "/admin/api/members" && request.method === "GET") return adminMembers(request, env);
+  if (request.method === "GET" && (url.pathname === "/" || url.pathname === "/index.html")) return adminPage(request, env);
 
   return json(request, env, { error: "Not found" }, { status: 404 });
 }

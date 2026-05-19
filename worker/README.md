@@ -26,6 +26,8 @@ Set these GitHub repository secrets:
 - `CLOUDFLARE_ACCOUNT_ID`
 - `GOOGLE_SHEETS_CLIENT_EMAIL`
 - `GOOGLE_SHEETS_PRIVATE_KEY`
+- `ADMIN_EMAIL`
+- `ADMIN_PASSWORD`
 
 Set this Worker variable in `wrangler.toml` after the sheet exists:
 
@@ -61,6 +63,23 @@ npx wrangler secret put GOOGLE_SHEETS_PRIVATE_KEY
 
 The contact endpoint appends rows into a tab named `Contact Leads`.
 
+## Admin console
+
+The admin console is served by the Worker at:
+
+```txt
+https://admin.xtdiabetescare.com
+```
+
+It uses a separate host-only `xt_admin_session` cookie and does not reuse member login sessions.
+
+Required GitHub repository secrets:
+
+- `ADMIN_EMAIL`
+- `ADMIN_PASSWORD`
+
+The deploy workflow syncs both secrets to Cloudflare Worker secrets before deployment. Admin pages and APIs return `X-Robots-Tag: noindex, nofollow`; `robots.txt` disallows all crawlers.
+
 ## API behavior
 
 - `GET /api/health`
@@ -69,5 +88,11 @@ The contact endpoint appends rows into a tab named `Contact Leads`.
 - `POST /api/auth/login`
 - `POST /api/auth/logout`
 - `GET /api/auth/me`
+- `POST /admin/api/login`
+- `POST /admin/api/logout`
+- `GET /admin/api/me`
+- `GET /admin/api/stats`
+- `GET /admin/api/contact-leads`
+- `GET /admin/api/members`
 
 The API sets CORS for the production site, returns security headers including `X-Robots-Tag: noindex, nofollow`, rate-limits auth/contact endpoints per client IP, and hides internal error details in production.

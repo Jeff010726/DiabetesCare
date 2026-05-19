@@ -67,13 +67,32 @@ After the Worker is deployed, make sure the `api` DNS record exists and is proxi
 api.xtdiabetescare.com/*
 ```
 
-## Future admin hostname
+## Admin hostname
 
-Use a non-obvious subdomain and protect it with authentication before building the UI.
+The admin console is served from:
 
-When the admin app is created:
+```txt
+https://admin.xtdiabetescare.com
+```
+
+Make sure the `admin` DNS record exists and is proxied in Cloudflare. The Worker route in `wrangler.toml` is:
+
+```txt
+admin.xtdiabetescare.com/*
+```
+
+Set these GitHub repository secrets before deploying:
+
+```txt
+ADMIN_EMAIL
+ADMIN_PASSWORD
+```
+
+The admin console:
 
 - Return `X-Robots-Tag: noindex, nofollow`.
 - Add a `robots.txt` that disallows all crawlers for the admin host.
 - Do not link to the admin host from the public website.
 - Require login before returning any admin data or page shell.
+- Uses a separate host-only admin session cookie.
+- Shows contact leads, Sheet sync status, and member registrations.
