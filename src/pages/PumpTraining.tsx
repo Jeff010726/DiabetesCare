@@ -1,6 +1,7 @@
 import { Activity, Beaker, Check, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import ProviderAccessCallout from "../components/ProviderAccessCallout";
 import "../locales/servicePages";
 
 export default function PumpTraining() {
@@ -54,6 +55,10 @@ export default function PumpTraining() {
                 {t("pumpTraining.scheduleButton")} <ArrowRight className="w-5 h-5" />
               </Link>
            </div>
+        </div>
+
+        <div className="mt-12">
+          <ProviderAccessCallout tone="pink" />
         </div>
       </div>
     </div>

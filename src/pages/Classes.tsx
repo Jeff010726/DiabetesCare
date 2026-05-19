@@ -1,6 +1,7 @@
 import { GraduationCap, Globe2, Video, Users, CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import ProviderAccessCallout from "../components/ProviderAccessCallout";
 import "../locales/servicePages";
 
 export default function Classes() {
@@ -73,6 +74,10 @@ export default function Classes() {
                {t("classes.contactButton")}
              </Link>
           </div>
+        </div>
+
+        <div className="mt-12">
+          <ProviderAccessCallout tone="purple" />
         </div>
       </div>
     </div>

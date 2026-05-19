@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Menu, X, Activity, ChevronDown, ArrowRight, BookOpen, MonitorSmartphone, Stethoscope, Utensils, UserRound } from "lucide-react";
+import { Menu, X, Activity, ChevronDown, ArrowRight, BookOpen, MonitorSmartphone, Stethoscope, Utensils, UserRound, Pill } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { assetPath, type Recipe } from "../../lib/recipes";
@@ -35,6 +35,13 @@ export default function Navbar() {
       desc: t("services.cgm.desc"),
       icon: MonitorSmartphone,
       tone: "text-yellow-600 bg-yellow-50"
+    },
+    {
+      name: t("services.glp1.name"),
+      path: "/glp1-training",
+      desc: t("services.glp1.desc"),
+      icon: Pill,
+      tone: "text-green-600 bg-green-50"
     },
     {
       name: t("services.providers.name"),

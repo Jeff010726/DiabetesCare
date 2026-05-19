@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { 
   ShieldCheck, Stethoscope, BookOpen, Activity, ArrowRight, 
   HeartPulse, CheckCircle2, Globe2, MonitorSmartphone, ClipboardList,
-  ChevronLeft, ChevronRight, Languages, Dumbbell, GraduationCap, BadgeCheck
+  ChevronLeft, ChevronRight, Languages, Dumbbell, GraduationCap, BadgeCheck, Pill
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
@@ -16,6 +16,7 @@ export default function Home() {
   const heroDiabetesCareSrc = `${import.meta.env.BASE_URL}hero-diabetes-care.webp`;
   const heroPumpTrainingSrc = `${import.meta.env.BASE_URL}hero-pump-training.webp`;
   const heroCgmSrc = `${import.meta.env.BASE_URL}hero-cgm.webp`;
+  const heroGlp1TrainingSrc = `${import.meta.env.BASE_URL}hero-glp1-training.png`;
   const tanPhotoSrc = `${import.meta.env.BASE_URL}tan-profile.webp`;
   const insuranceLogoSrc = (file: string) => `${import.meta.env.BASE_URL}insurance/${file}`;
   const fallbackTanPhoto =
@@ -65,6 +66,17 @@ export default function Home() {
       cta1Link: "/cgm",
       cta2Title: t("hero.slides.cgm.cta2"),
       cta2Link: "/classes"
+    },
+    {
+      badge: t("hero.slides.glp1.badge"),
+      title: t("hero.slides.glp1.title"),
+      highlight: t("hero.slides.glp1.highlight"),
+      desc: t("hero.slides.glp1.desc"),
+      img: heroGlp1TrainingSrc,
+      cta1Title: t("hero.slides.glp1.cta1"),
+      cta1Link: "/glp1-training",
+      cta2Title: t("hero.slides.glp1.cta2"),
+      cta2Link: "/contact"
     }
   ];
 
@@ -319,7 +331,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
             <div className="bg-gray-50 rounded-3xl p-8 border border-gray-100 hover:shadow-md transition-shadow">
                <div className="w-12 h-12 bg-red-100 text-red-500 rounded-xl flex items-center justify-center mb-6">
                  <HeartPulse className="w-6 h-6" />
@@ -394,6 +406,19 @@ export default function Home() {
               </p>
               <Link to="/cgm" className="inline-flex items-center justify-center w-full bg-gray-50 group-hover:bg-yellow-500 group-hover:text-white text-gray-700 py-3 rounded-xl font-medium transition-colors">
                 {t("services.cgmCta")}
+              </Link>
+            </div>
+
+            <div className="bg-white rounded-3xl p-8 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:-translate-y-1 transition-transform group flex flex-col h-full border border-gray-100">
+              <div className="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center mb-6 text-green-600 group-hover:scale-110 transition-transform">
+                <Pill className="w-7 h-7" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">{t("services.glp1Title")}</h3>
+              <p className="text-gray-600 mb-8 leading-relaxed flex-grow">
+                {t("services.glp1Desc")}
+              </p>
+              <Link to="/glp1-training" className="inline-flex items-center justify-center w-full bg-gray-50 group-hover:bg-green-600 group-hover:text-white text-gray-700 py-3 rounded-xl font-medium transition-colors">
+                {t("services.glp1Cta")}
               </Link>
             </div>
           </div>

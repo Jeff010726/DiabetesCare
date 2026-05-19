@@ -48,6 +48,10 @@ export const en = {
         name: "CGM Training & Reports",
         desc: "Sensor setup, app support, and glucose pattern interpretation.",
       },
+      glp1: {
+        name: "GLP-1 Medication Training",
+        desc: "Training for injectable and oral GLP-1 medications, including side effect planning.",
+      },
       providers: {
         name: "For Providers",
         desc: "Referral resources and diabetes education support for clinics.",
@@ -93,6 +97,14 @@ export const en = {
           desc: "We analyze your FreeStyle Libre, Dexcom, or Stelo data to help you maximize your Time In Range. Discover how your body reacts.",
           cta1: "View CGM Services",
           cta2: "Our Services",
+        },
+        glp1: {
+          badge: "Medication Training & Support",
+          title: "Starting a",
+          highlight: "GLP-1 Medication?",
+          desc: "Get practical training for injectable and oral GLP-1 medications, plus guidance for nausea, appetite changes, constipation, and other common side effects.",
+          cta1: "GLP-1 Training",
+          cta2: "Ask About Prescriptions",
         },
       },
     },
@@ -151,6 +163,9 @@ export const en = {
       cgmTitle: "CGM Reports & Setup",
       cgmDesc: "Continuous Glucose Monitor placement, app setup, and deep data analysis to optimize your daily routine. Expert support for FreeStyle Libre, Dexcom, and Stelo.",
       cgmCta: "View CGM services",
+      glp1Title: "GLP-1 Medication Training",
+      glp1Desc: "Step-by-step support for injection technique or oral dosing routines, dose-escalation preparation, and common side effect management.",
+      glp1Cta: "View GLP-1 training",
     },
     journey: {
       title: "How to Get Started",
@@ -191,6 +206,11 @@ export const en = {
     },
   },
   servicePages: {
+    providerAccess: {
+      title: "Need a prescribing doctor?",
+      body: "If you do not already have a primary doctor or endocrinologist, we can help connect you with our collaborating physician team for medical evaluation, prescriptions, and medication adjustments when appropriate.",
+      button: "Ask our team",
+    },
     contact: {
       title: "Contact Us",
       subtitle: "Ready to enroll in a class or schedule training? Reach out to us today.",
@@ -271,6 +291,29 @@ export const en = {
       beyondIntro: "A CGM provides hundreds of readings a day, but what do you do with them?",
       beyondBody: "We analyze your Ambulatory Glucose Profile (AGP) reports to identify patterns. We teach you how different foods, stress, and exercise affect your unique body, helping you maximize your <strong>Time In Range</strong> (TIR).",
       scheduleButton: "Schedule Analysis Session",
+    },
+    glp1Training: {
+      badge: "GLP-1 injectable and oral medication support",
+      imageAlt: "Diabetes educator reviewing GLP-1 medication training with a patient",
+      heroTitle: "GLP-1 Medication Training",
+      heroSubtitle: "Starting medications such as semaglutide, tirzepatide, liraglutide, or other GLP-1 based therapies can raise practical questions. We teach the daily steps, side effect planning, and follow-up habits that make treatment easier to stay with.",
+      scheduleButton: "Schedule GLP-1 Training",
+      trainingTitle: "What we cover",
+      trainingIntro: "Training is educational and coordinated with the prescribing clinician's instructions.",
+      topics: [
+        { title: "Injection technique", desc: "How to prepare the pen, choose and rotate injection sites, store medication, and dispose of sharps safely." },
+        { title: "Oral medication routine", desc: "How to build a consistent routine for oral GLP-1 medication timing, missed-dose questions, and pharmacy instructions." },
+        { title: "Food and hydration strategies", desc: "Practical meal pacing, protein, fluid, and portion strategies during appetite changes and dose escalation." },
+        { title: "Follow-up readiness", desc: "What to track, when to contact the prescribing clinician, and how to prepare questions before dose changes." },
+      ],
+      sideEffectTitle: "Side effect management",
+      sideEffectIntro: "Common GLP-1 side effects are often gastrointestinal. We help patients plan realistic ways to manage symptoms and identify when medical follow-up is needed.",
+      sideEffects: [
+        "Nausea, fullness, appetite changes, and meal tolerance",
+        "Vomiting, diarrhea, constipation, gas, or abdominal discomfort",
+        "Low-blood-sugar risk when GLP-1 therapy is used with insulin or sulfonylureas",
+        "Red flags that should be escalated to the prescribing medical team",
+      ],
     },
     coverage: {
       heroTitle: "Insurance & Medicare Coverage",

@@ -47,6 +47,10 @@ export const translation = {
       name: "CGM 訓練與報告",
       desc: "感測器配戴、App 支援，以及血糖模式判讀。",
     },
+    glp1: {
+      name: "GLP-1 藥物使用訓練",
+      desc: "提供 GLP-1 針劑與口服藥使用訓練，並協助規劃副作用管理。",
+    },
     providers: {
       name: "醫療提供者專區",
       desc: "為診所提供轉介資源與糖尿病教育支援。",
@@ -93,6 +97,14 @@ export const home = {
         desc: "我們分析您的 FreeStyle Libre、Dexcom 或 Stelo 數據，協助提升目標範圍內時間，了解身體如何回應日常選擇。",
         cta1: "查看 CGM 服務",
         cta2: "我們的服務",
+      },
+      glp1: {
+        badge: "藥物訓練與支援",
+        title: "正在開始使用",
+        highlight: "GLP-1 藥物？",
+        desc: "為 GLP-1 針劑和口服藥提供實用訓練，並協助處理噁心、食慾變化、便秘等常見副作用。",
+        cta1: "GLP-1 訓練",
+        cta2: "詢問處方支援",
       },
     },
   },
@@ -151,6 +163,9 @@ export const home = {
     cgmTitle: "CGM 報告與設定",
     cgmDesc: "連續血糖監測器配戴、App 設定與深入數據分析，協助優化日常管理。支援 FreeStyle Libre、Dexcom 與 Stelo。",
     cgmCta: "查看 CGM 服務",
+    glp1Title: "GLP-1 藥物使用訓練",
+    glp1Desc: "逐步支援針劑注射或口服藥流程、劑量遞增期準備，以及常見副作用管理。",
+    glp1Cta: "查看 GLP-1 訓練",
   },
   journey: {
     title: "如何開始",
@@ -192,6 +207,11 @@ export const home = {
 } as const;
 
 export const servicePages = {
+  providerAccess: {
+    title: "需要可以開藥的醫生嗎？",
+    body: "如果您還沒有固定的家庭醫生或內分泌科醫生，我們可以協助連接合作醫生團隊，在合適情況下進行醫學評估、開立處方與調整用藥。",
+    button: "詢問我們",
+  },
   contact: {
     title: "聯絡我們",
     subtitle: "準備報名課程或安排訓練了嗎？今天就與我們聯絡。",
@@ -272,6 +292,29 @@ export const servicePages = {
     beyondIntro: "CGM 每天提供數百筆讀數，但您該如何運用？",
     beyondBody: "我們分析您的動態血糖圖譜（AGP）報告以找出模式，並教您了解不同食物、壓力與運動如何影響您獨特的身體反應，協助提升您的 <strong>目標範圍內時間</strong>（TIR）。",
     scheduleButton: "安排分析諮詢",
+  },
+  glp1Training: {
+    badge: "GLP-1 針劑與口服藥支援",
+    imageAlt: "糖尿病教育人員與患者討論 GLP-1 藥物訓練",
+    heroTitle: "GLP-1 藥物使用訓練",
+    heroSubtitle: "開始使用 semaglutide、tirzepatide、liraglutide 或其他 GLP-1 相關治療時，常會遇到實際操作問題。我們會指導每日流程、副作用準備與追蹤習慣，讓治療更容易持續。",
+    scheduleButton: "安排 GLP-1 訓練",
+    trainingTitle: "訓練內容",
+    trainingIntro: "訓練以教育為主，並依照開藥醫生的醫囑配合執行。",
+    topics: [
+      { title: "注射技巧", desc: "學習如何準備藥筆、選擇並輪換注射部位、保存藥物，以及安全處理銳器。" },
+      { title: "口服藥流程", desc: "建立穩定的口服 GLP-1 用藥時間表，了解漏服處理與藥房指示。" },
+      { title: "飲食與補水策略", desc: "在食慾變化與劑量遞增期，學習進食節奏、蛋白質、補水與份量安排。" },
+      { title: "追蹤準備", desc: "了解需要記錄什麼、何時聯絡開藥醫生，以及調整劑量前如何準備問題。" },
+    ],
+    sideEffectTitle: "副作用管理",
+    sideEffectIntro: "GLP-1 常見副作用多與腸胃道有關。我們協助患者制定實際可行的處理方法，並辨識何時需要聯絡醫療團隊。",
+    sideEffects: [
+      "噁心、飽脹感、食慾變化與進食耐受度",
+      "嘔吐、腹瀉、便秘、脹氣或腹部不適",
+      "與胰島素或磺醯脲類藥物併用時的低血糖風險",
+      "需要及時回報給開藥醫生團隊的警示訊號",
+    ],
   },
   coverage: {
     heroTitle: "保險與 Medicare 給付",

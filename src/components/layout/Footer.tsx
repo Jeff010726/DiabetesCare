@@ -34,6 +34,7 @@ export default function Footer() {
               <li><Link to="/classes" className="hover:text-[var(--color-brand-purple)]">{t("services.classes.name")}</Link></li>
               <li><Link to="/pump-training" className="hover:text-[var(--color-brand-purple)]">{t("services.pump.name")}</Link></li>
               <li><Link to="/cgm" className="hover:text-[var(--color-brand-purple)]">{t("services.cgm.name")}</Link></li>
+              <li><Link to="/glp1-training" className="hover:text-[var(--color-brand-purple)]">{t("services.glp1.name")}</Link></li>
             </ul>
           </div>
           <div>

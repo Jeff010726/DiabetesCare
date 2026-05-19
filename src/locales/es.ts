@@ -46,6 +46,10 @@ export const es = {
         name: "Capacitación e informes de CGM",
         desc: "Colocación del sensor, apoyo con aplicaciones e interpretación de patrones de glucosa.",
       },
+      glp1: {
+        name: "Capacitación en medicamentos GLP-1",
+        desc: "Capacitación para medicamentos GLP-1 inyectables y orales, incluida la planificación de efectos secundarios.",
+      },
       providers: {
         name: "Para proveedores",
         desc: "Recursos de referido y apoyo en educación sobre diabetes para clínicas.",
@@ -91,6 +95,14 @@ export const es = {
           desc: "Analizamos sus datos de FreeStyle Libre, Dexcom o Stelo para ayudarle a maximizar su tiempo en rango y descubrir cómo responde su cuerpo.",
           cta1: "Ver servicios de CGM",
           cta2: "Nuestros servicios",
+        },
+        glp1: {
+          badge: "Capacitación y apoyo con medicamentos",
+          title: "¿Está empezando un",
+          highlight: "medicamento GLP-1?",
+          desc: "Reciba capacitación práctica para medicamentos GLP-1 inyectables y orales, además de apoyo para náusea, cambios de apetito, estreñimiento y otros efectos secundarios comunes.",
+          cta1: "Capacitación GLP-1",
+          cta2: "Preguntar por recetas",
         },
       },
     },
@@ -149,6 +161,9 @@ export const es = {
       cgmTitle: "Informes y configuración de CGM",
       cgmDesc: "Colocación de monitor continuo de glucosa, configuración de aplicaciones y análisis profundo de datos para optimizar su rutina diaria. Apoyo experto para FreeStyle Libre, Dexcom y Stelo.",
       cgmCta: "Ver servicios de CGM",
+      glp1Title: "Capacitación en medicamentos GLP-1",
+      glp1Desc: "Apoyo paso a paso para técnica de inyección o rutinas de medicación oral, preparación para aumentos de dosis y manejo de efectos secundarios comunes.",
+      glp1Cta: "Ver capacitación GLP-1",
     },
     journey: {
       title: "Cómo empezar",
@@ -189,6 +204,11 @@ export const es = {
     },
   },
   servicePages: {
+    providerAccess: {
+      title: "¿Necesita un médico que pueda recetar?",
+      body: "Si aún no tiene un médico primario o endocrinólogo, podemos ayudarle a conectarse con nuestro equipo médico colaborador para evaluación médica, recetas y ajustes de medicamentos cuando sea apropiado.",
+      button: "Preguntar al equipo",
+    },
     contact: {
       title: "Contáctenos",
       subtitle: "¿Listo para inscribirse en una clase o programar capacitación? Comuníquese con nosotros hoy.",
@@ -269,6 +289,29 @@ export const es = {
       beyondIntro: "Un CGM ofrece cientos de lecturas al día, pero ¿qué se hace con ellas?",
       beyondBody: "Analizamos sus informes de perfil ambulatorio de glucosa (AGP) para identificar patrones. Le enseñamos cómo distintos alimentos, el estrés y el ejercicio afectan a su cuerpo, ayudándole a maximizar su <strong>tiempo en rango</strong> (TIR).",
       scheduleButton: "Programar sesión de análisis",
+    },
+    glp1Training: {
+      badge: "Apoyo para medicamentos GLP-1 inyectables y orales",
+      imageAlt: "Educadora en diabetes revisando capacitación de medicamento GLP-1 con un paciente",
+      heroTitle: "Capacitación en medicamentos GLP-1",
+      heroSubtitle: "Empezar medicamentos como semaglutida, tirzepatida, liraglutida u otras terapias basadas en GLP-1 puede generar preguntas prácticas. Enseñamos los pasos diarios, la planificación de efectos secundarios y los hábitos de seguimiento que hacen el tratamiento más fácil de sostener.",
+      scheduleButton: "Programar capacitación GLP-1",
+      trainingTitle: "Qué cubrimos",
+      trainingIntro: "La capacitación es educativa y se coordina con las indicaciones del médico que receta.",
+      topics: [
+        { title: "Técnica de inyección", desc: "Cómo preparar la pluma, elegir y rotar sitios de inyección, almacenar el medicamento y desechar objetos punzantes de forma segura." },
+        { title: "Rutina de medicación oral", desc: "Cómo crear una rutina constante para el horario del medicamento oral GLP-1, dosis olvidadas e instrucciones de farmacia." },
+        { title: "Comida e hidratación", desc: "Estrategias prácticas de ritmo de comidas, proteína, líquidos y porciones durante cambios de apetito y aumentos de dosis." },
+        { title: "Preparación para seguimiento", desc: "Qué registrar, cuándo contactar al médico que receta y cómo preparar preguntas antes de cambios de dosis." },
+      ],
+      sideEffectTitle: "Manejo de efectos secundarios",
+      sideEffectIntro: "Los efectos secundarios comunes de GLP-1 suelen ser gastrointestinales. Ayudamos a planificar formas realistas de manejar síntomas e identificar cuándo se necesita seguimiento médico.",
+      sideEffects: [
+        "Náusea, sensación de llenura, cambios de apetito y tolerancia a comidas",
+        "Vómitos, diarrea, estreñimiento, gases o molestia abdominal",
+        "Riesgo de glucosa baja cuando GLP-1 se usa con insulina o sulfonilureas",
+        "Señales de alerta que deben escalarse al equipo médico que receta",
+      ],
     },
     coverage: {
       heroTitle: "Cobertura de seguro y Medicare",

@@ -1,6 +1,7 @@
 import { Activity, Smartphone, LineChart, FileLineChart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
+import ProviderAccessCallout from "../components/ProviderAccessCallout";
 import "../locales/servicePages";
 
 export default function CGM() {
@@ -70,6 +71,10 @@ export default function CGM() {
               {t("cgm.scheduleButton")}
             </Link>
           </div>
+        </div>
+
+        <div className="mt-12">
+          <ProviderAccessCallout tone="yellow" />
         </div>
 
       </div>

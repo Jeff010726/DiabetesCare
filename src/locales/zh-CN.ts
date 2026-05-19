@@ -46,6 +46,10 @@ export const zhCN = {
         name: "CGM 培训与报告",
         desc: "协助传感器佩戴、应用程序设置，并解读血糖趋势模式。",
       },
+      glp1: {
+        name: "GLP-1 药物使用培训",
+        desc: "提供 GLP-1 针剂与口服药使用培训，并协助规划副作用管理。",
+      },
       providers: {
         name: "医疗服务提供者",
         desc: "为诊所提供转诊资源和糖尿病教育支持。",
@@ -91,6 +95,14 @@ export const zhCN = {
           desc: "我们分析您的 FreeStyle Libre、Dexcom 或 Stelo 数据，帮助您提升 Time In Range，并了解身体对饮食、运动和生活习惯的反应。",
           cta1: "查看 CGM 服务",
           cta2: "我们的服务",
+        },
+        glp1: {
+          badge: "药物培训与支持",
+          title: "正在开始使用",
+          highlight: "GLP-1 药物？",
+          desc: "为 GLP-1 针剂和口服药提供实用培训，并协助处理恶心、食欲变化、便秘等常见副作用。",
+          cta1: "GLP-1 培训",
+          cta2: "咨询处方支持",
         },
       },
     },
@@ -149,6 +161,9 @@ export const zhCN = {
       cgmTitle: "CGM 报告与设置",
       cgmDesc: "提供连续血糖监测器佩戴、应用程序设置和深入数据分析，帮助优化您的日常管理。支持 FreeStyle Libre、Dexcom 和 Stelo。",
       cgmCta: "查看 CGM 服务",
+      glp1Title: "GLP-1 药物使用培训",
+      glp1Desc: "逐步指导针剂注射或口服药流程、剂量递增期准备，以及常见副作用管理。",
+      glp1Cta: "查看 GLP-1 培训",
     },
     journey: {
       title: "如何开始",
@@ -189,6 +204,11 @@ export const zhCN = {
     },
   },
   servicePages: {
+    providerAccess: {
+      title: "需要可以开药的医生吗？",
+      body: "如果您还没有固定的家庭医生或内分泌科医生，我们可以协助连接合作医生团队，在合适情况下进行医学评估、开具处方和调整用药。",
+      button: "咨询我们",
+    },
     contact: {
       title: "联系我们",
       subtitle: "准备报名课程或预约培训？请今天就与我们联系。",
@@ -269,6 +289,29 @@ export const zhCN = {
       beyondIntro: "CGM 每天提供数百个读数，但您该如何使用这些数据？",
       beyondBody: "我们会分析您的动态血糖图谱（AGP）报告，找出血糖模式。我们教您了解不同食物、压力和运动如何影响您的身体，帮助您最大化 <strong>Time In Range</strong>（TIR）。",
       scheduleButton: "预约分析服务",
+    },
+    glp1Training: {
+      badge: "GLP-1 针剂与口服药支持",
+      imageAlt: "糖尿病教育人员与患者讨论 GLP-1 药物培训",
+      heroTitle: "GLP-1 药物使用培训",
+      heroSubtitle: "开始使用 semaglutide、tirzepatide、liraglutide 或其它 GLP-1 相关治疗时，常常会遇到实际操作问题。我们会指导每日流程、副作用准备和随访习惯，让治疗更容易坚持。",
+      scheduleButton: "预约 GLP-1 培训",
+      trainingTitle: "培训内容",
+      trainingIntro: "培训以教育为主，并根据开药医生的医嘱配合执行。",
+      topics: [
+        { title: "注射技巧", desc: "学习如何准备药笔、选择并轮换注射部位、保存药物，以及安全处理锐器。" },
+        { title: "口服药流程", desc: "建立稳定的口服 GLP-1 用药时间表，了解漏服处理和药房说明。" },
+        { title: "饮食与补水策略", desc: "在食欲变化和剂量递增期，学习进餐节奏、蛋白质、补水和份量安排。" },
+        { title: "随访准备", desc: "了解需要记录什么、何时联系开药医生，以及调整剂量前如何准备问题。" },
+      ],
+      sideEffectTitle: "副作用管理",
+      sideEffectIntro: "GLP-1 常见副作用多与胃肠道有关。我们帮助患者制定实际可行的处理方法，并识别何时需要联系医疗团队。",
+      sideEffects: [
+        "恶心、饱胀感、食欲变化和进食耐受度",
+        "呕吐、腹泻、便秘、胀气或腹部不适",
+        "与胰岛素或磺脲类药物合用时的低血糖风险",
+        "需要及时反馈给开药医生团队的警示信号",
+      ],
     },
     coverage: {
       heroTitle: "保险与 Medicare 覆盖",
