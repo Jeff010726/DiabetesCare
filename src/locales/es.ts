@@ -274,13 +274,58 @@ export const es = {
     pumpTraining: {
       heroTitle: "Capacitación en bombas de insulina",
       heroSubtitle: "La transición a una bomba de insulina puede ser abrumadora. Nuestros especialistas certificados ofrecen capacitación integral en las principales marcas de bombas para que pueda manejar su glucosa con confianza.",
-      pumps: [
-        { name: "Omnipod 5", desc: "Sistema automatizado de administración de insulina sin tubos que se integra con Dexcom." },
-        { name: "Twiist", desc: "Administración automatizada que utiliza el algoritmo Tidepool Loop autorizado por la FDA." },
-        { name: "iLet Bionic Pancreas", desc: "Solo requiere su peso para empezar. Automatiza el 100% de sus dosis de insulina." },
-        { name: "Tandem t:slim X2 / Mobi", desc: "Tecnología avanzada Control-IQ que predice y ayuda a prevenir niveles altos y bajos." },
-        { name: "Medtronic MiniMed", desc: "Tecnología SmartGuard que ajusta automáticamente la insulina de fondo." },
-        { name: "CeQur Simplicity", desc: "Parche portátil de 3 días que administra insulina para las comidas con un clic sencillo." },
+      catalogEyebrow: "Catalogo de bombas",
+      catalogTitle: "Marcas principales y sistemas actuales",
+      catalogSubtitle: "Las imagenes reales de producto estan agrupadas por fabricante para que los pacientes comparen los dispositivos que podrian usar en la capacitacion.",
+      productLabel: "producto",
+      productsLabel: "productos",
+      sourceLink: "Pagina oficial del producto",
+      pumpBrands: [
+        {
+          brand: "Omnipod",
+          summary: "Terapia Pod sin tubos con opciones automatizadas y de manejo manual de insulina.",
+          products: [
+            { name: "Omnipod 5", desc: "Sistema automatizado de administracion de insulina sin tubos disenado para ajustar la insulina con datos de CGM.", image: "pumps/omnipod-5.png", tags: ["Sin tubos", "AID", "Pod"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-5" },
+            { name: "Omnipod DASH", desc: "Sistema de manejo de insulina sin tubos con un Pod portatil y controlador manual.", image: "pumps/omnipod-dash.png", tags: ["Sin tubos", "Pod", "PDM"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-dash" },
+          ],
+        },
+        {
+          brand: "Tandem Diabetes Care",
+          summary: "Sistemas con pantalla tactil y control movil que usan tecnologia Control-IQ.",
+          products: [
+            { name: "Tandem Mobi", desc: "Bomba duradera y pequena controlada desde una app compatible para smartphone.", image: "pumps/tandem-mobi.webp", tags: ["AID", "Control movil", "200 unidades"], sourceUrl: "https://www.tandemdiabetes.com/products/insulin-pumps/tandem-mobi" },
+            { name: "t:slim X2", desc: "Bomba de insulina con pantalla tactil, tecnologia Control-IQ y actualizaciones de software.", image: "pumps/tandem-tslim-x2.webp", tags: ["AID", "Pantalla tactil", "300 unidades"], sourceUrl: "https://www.tandemdiabetes.com/products/insulin-pumps/tslim-x2-insulin-pump" },
+          ],
+        },
+        {
+          brand: "MiniMed",
+          summary: "Sistemas Medtronic centrados en automatizacion SmartGuard e integracion con sensores Guardian.",
+          products: [
+            { name: "MiniMed Flex", desc: "Sistema compacto de administracion automatizada de insulina autorizado por la FDA de Medtronic.", image: "pumps/minimed-flex.png", tags: ["AID", "Compacta", "SmartGuard"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-flex-system" },
+            { name: "MiniMed 780G", desc: "Sistema automatizado de administracion de insulina con tecnologia SmartGuard.", image: "pumps/minimed-780g.png", tags: ["AID", "SmartGuard", "Guardian"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-780g-insulin-pump-system" },
+          ],
+        },
+        {
+          brand: "Beta Bionics",
+          summary: "Sistema de pancreas bionico simplificado para automatizar decisiones de dosificacion.",
+          products: [
+            { name: "iLet Bionic Pancreas", desc: "Comienza con el peso corporal y automatiza decisiones de dosificacion de insulina mediante el sistema iLet.", image: "pumps/ilet-bionic-pancreas.webp", tags: ["AID", "Inicio por peso", "CGM"], sourceUrl: "https://www.betabionics.com/ilet-bionic-pancreas/" },
+          ],
+        },
+        {
+          brand: "twiist",
+          summary: "Administracion automatizada de insulina basada en el algoritmo Tidepool Loop autorizado por la FDA.",
+          products: [
+            { name: "twiist AID System", desc: "Sistema automatizado de insulina que usa Tidepool Loop y la plataforma de bomba twiist.", image: "pumps/twiist-aid.png", tags: ["AID", "Tidepool Loop", "300 unidades"], sourceUrl: "https://www.twiist.com/what-is-twiist" },
+          ],
+        },
+        {
+          brand: "CeQur",
+          summary: "Parche de insulina para comidas para personas que necesitan bolos sin un sistema completo de bomba.",
+          products: [
+            { name: "CeQur Simplicity", desc: "Parche portatil de cuatro dias que administra insulina para comidas con clics sencillos.", image: "pumps/cequr-simplicity.jpg", tags: ["Parche de bolo", "4 dias", "Sin electronica"], sourceUrl: "https://myceqursimplicity.com/" },
+          ],
+        },
       ],
       expectTitle: "Qué esperar durante la capacitación",
       expectations: [

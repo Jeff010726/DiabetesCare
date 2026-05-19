@@ -276,13 +276,58 @@ export const en = {
     pumpTraining: {
       heroTitle: "Insulin Pump Training",
       heroSubtitle: "Transitioning to an insulin pump can be overwhelming. Our certified specialists provide comprehensive training on all major pump brands so you can manage your glucose with confidence.",
-      pumps: [
-        { name: "Omnipod 5", desc: "Tubeless automated insulin delivery system that integrates with Dexcom." },
-        { name: "Twiist", desc: "Automated delivery utilizing the FDA-cleared Tidepool Loop algorithm." },
-        { name: "iLet Bionic Pancreas", desc: "Requires only your weight to start. Automates 100% of your insulin doses." },
-        { name: "Tandem t:slim X2 / Mobi", desc: "Advanced Control-IQ technology predicting and preventing highs and lows." },
-        { name: "Medtronic MiniMed", desc: "SmartGuard technology that auto-adjusts background insulin." },
-        { name: "CeQur Simplicity", desc: "Wearable, 3-day patch providing mealtime insulin with a simple click." },
+      catalogEyebrow: "Pump catalog",
+      catalogTitle: "Major pump brands and current systems",
+      catalogSubtitle: "Real product images are grouped by manufacturer so patients can compare the devices they may be trained on.",
+      productLabel: "product",
+      productsLabel: "products",
+      sourceLink: "Official product page",
+      pumpBrands: [
+        {
+          brand: "Omnipod",
+          summary: "Tubeless Pod therapy with both automated and manual insulin-management options.",
+          products: [
+            { name: "Omnipod 5", desc: "Tubeless automated insulin delivery system designed to adjust insulin using CGM data.", image: "pumps/omnipod-5.png", tags: ["Tubeless", "AID", "Pod"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-5" },
+            { name: "Omnipod DASH", desc: "Tubeless insulin management system using a wearable Pod and handheld controller.", image: "pumps/omnipod-dash.png", tags: ["Tubeless", "Pod", "PDM"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-dash" },
+          ],
+        },
+        {
+          brand: "Tandem Diabetes Care",
+          summary: "Screen-based and mobile-controlled pump systems using Control-IQ technology.",
+          products: [
+            { name: "Tandem Mobi", desc: "Small durable pump controlled from a compatible smartphone app.", image: "pumps/tandem-mobi.webp", tags: ["AID", "Mobile control", "200 units"], sourceUrl: "https://www.tandemdiabetes.com/products/insulin-pumps/tandem-mobi" },
+            { name: "t:slim X2", desc: "Touchscreen insulin pump with Control-IQ technology and software updates.", image: "pumps/tandem-tslim-x2.webp", tags: ["AID", "Touchscreen", "300 units"], sourceUrl: "https://www.tandemdiabetes.com/products/insulin-pumps/tslim-x2-insulin-pump" },
+          ],
+        },
+        {
+          brand: "MiniMed",
+          summary: "Medtronic systems built around SmartGuard automation and Guardian sensor integration.",
+          products: [
+            { name: "MiniMed Flex", desc: "Compact FDA-cleared automated insulin delivery system from Medtronic.", image: "pumps/minimed-flex.png", tags: ["AID", "Compact", "SmartGuard"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-flex-system" },
+            { name: "MiniMed 780G", desc: "Automated insulin delivery system with SmartGuard technology.", image: "pumps/minimed-780g.png", tags: ["AID", "SmartGuard", "Guardian"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-780g-insulin-pump-system" },
+          ],
+        },
+        {
+          brand: "Beta Bionics",
+          summary: "A simplified bionic pancreas system built to automate insulin dosing decisions.",
+          products: [
+            { name: "iLet Bionic Pancreas", desc: "Starts with body weight and automates insulin dosing decisions through the iLet system.", image: "pumps/ilet-bionic-pancreas.webp", tags: ["AID", "Weight-based start", "CGM"], sourceUrl: "https://www.betabionics.com/ilet-bionic-pancreas/" },
+          ],
+        },
+        {
+          brand: "twiist",
+          summary: "Automated insulin delivery built around the FDA-cleared Tidepool Loop algorithm.",
+          products: [
+            { name: "twiist AID System", desc: "Automated insulin delivery system using Tidepool Loop and the twiist pump platform.", image: "pumps/twiist-aid.png", tags: ["AID", "Tidepool Loop", "300 units"], sourceUrl: "https://www.twiist.com/what-is-twiist" },
+          ],
+        },
+        {
+          brand: "CeQur",
+          summary: "Wearable mealtime insulin patch for people who need bolus insulin without a full pump system.",
+          products: [
+            { name: "CeQur Simplicity", desc: "Four-day wearable insulin patch that delivers mealtime insulin with simple clicks.", image: "pumps/cequr-simplicity.jpg", tags: ["Bolus patch", "4-day wear", "No electronics"], sourceUrl: "https://myceqursimplicity.com/" },
+          ],
+        },
       ],
       expectTitle: "What to Expect During Training",
       expectations: [

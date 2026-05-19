@@ -277,13 +277,58 @@ export const servicePages = {
   pumpTraining: {
     heroTitle: "胰島素泵訓練",
     heroSubtitle: "轉換到胰島素泵可能讓人感到壓力。我們的認證專家針對各大主要品牌提供完整訓練，協助您更有信心地管理血糖。",
-    pumps: [
-      { name: "Omnipod 5", desc: "無導管自動胰島素輸送系統，可與 Dexcom 整合。" },
-      { name: "Twiist", desc: "使用 FDA 核准的 Tidepool Loop 演算法進行自動輸送。" },
-      { name: "iLet Bionic Pancreas", desc: "開始時只需要輸入體重，並自動化 100% 的胰島素劑量。" },
-      { name: "Tandem t:slim X2 / Mobi", desc: "進階 Control-IQ 技術，可預測並協助預防高血糖與低血糖。" },
-      { name: "Medtronic MiniMed", desc: "SmartGuard 技術可自動調整背景胰島素。" },
-      { name: "CeQur Simplicity", desc: "可穿戴 3 天貼片，用簡單按壓提供餐時胰島素。" },
+    catalogEyebrow: "\u6cf5\u7522\u54c1\u76ee\u9304",
+    catalogTitle: "\u4e3b\u8981\u80f0\u5cf6\u7d20\u6cf5\u54c1\u724c\u8207\u76ee\u524d\u7cfb\u7d71",
+    catalogSubtitle: "\u4f7f\u7528\u771f\u5be6\u7522\u54c1\u5716\u4e26\u4f9d\u54c1\u724c\u5206\u7d44\uff0c\u65b9\u4fbf\u60a3\u8005\u6bd4\u8f03\u8a13\u7df4\u4e2d\u53ef\u80fd\u63a5\u89f8\u5230\u7684\u8a2d\u5099\u3002",
+    productLabel: "\u6b3e\u7522\u54c1",
+    productsLabel: "\u6b3e\u7522\u54c1",
+    sourceLink: "\u5b98\u65b9\u7522\u54c1\u9801",
+    pumpBrands: [
+      {
+        brand: "Omnipod",
+        summary: "\u7121\u5c0e\u7ba1 Pod \u6cbb\u7642\u65b9\u6848\uff0c\u5305\u542b\u81ea\u52d5\u8f38\u6ce8\u8207\u624b\u52d5\u7ba1\u7406\u9078\u9805\u3002",
+        products: [
+          { name: "Omnipod 5", desc: "\u7121\u5c0e\u7ba1\u81ea\u52d5\u80f0\u5cf6\u7d20\u8f38\u6ce8\u7cfb\u7d71\uff0c\u53ef\u4f9d\u64da CGM \u8cc7\u6599\u8abf\u6574\u80f0\u5cf6\u7d20\u3002", image: "pumps/omnipod-5.png", tags: ["\u7121\u5c0e\u7ba1", "\u81ea\u52d5\u8f38\u6ce8", "Pod"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-5" },
+          { name: "Omnipod DASH", desc: "\u4f7f\u7528\u53ef\u7a7f\u6234 Pod \u548c\u624b\u6301\u63a7\u5236\u5668\u7684\u7121\u5c0e\u7ba1\u80f0\u5cf6\u7d20\u7ba1\u7406\u7cfb\u7d71\u3002", image: "pumps/omnipod-dash.png", tags: ["\u7121\u5c0e\u7ba1", "Pod", "PDM"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-dash" },
+        ],
+      },
+      {
+        brand: "Tandem Diabetes Care",
+        summary: "\u63d0\u4f9b\u89f8\u63a7\u87a2\u5e55\u6cf5\u8207\u624b\u6a5f\u63a7\u5236\u6cf5\uff0c\u6838\u5fc3\u70ba Control-IQ \u6280\u8853\u3002",
+        products: [
+          { name: "Tandem Mobi", desc: "\u5c0f\u578b\u8010\u7528\u6cf5\uff0c\u53ef\u900f\u904e\u76f8\u5bb9\u7684\u667a\u6167\u578b\u624b\u6a5f app \u63a7\u5236\u3002", image: "pumps/tandem-mobi.webp", tags: ["\u81ea\u52d5\u8f38\u6ce8", "\u624b\u6a5f\u63a7\u5236", "200 \u55ae\u4f4d"], sourceUrl: "https://www.tandemdiabetes.com/products/insulin-pumps/tandem-mobi" },
+          { name: "t:slim X2", desc: "\u914d\u5099\u89f8\u63a7\u87a2\u5e55\u3001Control-IQ \u6280\u8853\u8207\u8edf\u9ad4\u66f4\u65b0\u80fd\u529b\u7684\u80f0\u5cf6\u7d20\u6cf5\u3002", image: "pumps/tandem-tslim-x2.webp", tags: ["\u81ea\u52d5\u8f38\u6ce8", "\u89f8\u63a7\u87a2\u5e55", "300 \u55ae\u4f4d"], sourceUrl: "https://www.tandemdiabetes.com/products/insulin-pumps/tslim-x2-insulin-pump" },
+        ],
+      },
+      {
+        brand: "MiniMed",
+        summary: "Medtronic \u7cfb\u7d71\u4ee5 SmartGuard \u81ea\u52d5\u5316\u8207 Guardian \u611f\u6e2c\u5668\u6574\u5408\u70ba\u6838\u5fc3\u3002",
+        products: [
+          { name: "MiniMed Flex", desc: "Medtronic \u7684\u5c0f\u578b FDA \u6838\u51c6\u81ea\u52d5\u80f0\u5cf6\u7d20\u8f38\u6ce8\u7cfb\u7d71\u3002", image: "pumps/minimed-flex.png", tags: ["\u81ea\u52d5\u8f38\u6ce8", "\u5c0f\u578b", "SmartGuard"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-flex-system" },
+          { name: "MiniMed 780G", desc: "\u63a1\u7528 SmartGuard \u6280\u8853\u7684\u81ea\u52d5\u80f0\u5cf6\u7d20\u8f38\u6ce8\u7cfb\u7d71\u3002", image: "pumps/minimed-780g.png", tags: ["\u81ea\u52d5\u8f38\u6ce8", "SmartGuard", "Guardian"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-780g-insulin-pump-system" },
+        ],
+      },
+      {
+        brand: "Beta Bionics",
+        summary: "\u4ee5\u7c21\u5316\u8a2d\u5b9a\u548c\u81ea\u52d5\u5316\u5291\u91cf\u6c7a\u7b56\u70ba\u91cd\u9ede\u7684\u4eff\u751f\u80f0\u81df\u7cfb\u7d71\u3002",
+        products: [
+          { name: "iLet Bionic Pancreas", desc: "\u4ee5\u9ad4\u91cd\u4f5c\u70ba\u8d77\u59cb\u8cc7\u8a0a\uff0c\u4e26\u900f\u904e iLet \u7cfb\u7d71\u81ea\u52d5\u5316\u80f0\u5cf6\u7d20\u5291\u91cf\u6c7a\u7b56\u3002", image: "pumps/ilet-bionic-pancreas.webp", tags: ["\u81ea\u52d5\u8f38\u6ce8", "\u4f9d\u9ad4\u91cd\u555f\u52d5", "CGM"], sourceUrl: "https://www.betabionics.com/ilet-bionic-pancreas/" },
+        ],
+      },
+      {
+        brand: "twiist",
+        summary: "\u570d\u7e5e FDA \u6838\u51c6\u7684 Tidepool Loop \u6f14\u7b97\u6cd5\u69cb\u5efa\u7684\u81ea\u52d5\u80f0\u5cf6\u7d20\u8f38\u6ce8\u7cfb\u7d71\u3002",
+        products: [
+          { name: "twiist AID System", desc: "\u7d50\u5408 Tidepool Loop \u6f14\u7b97\u6cd5\u548c twiist \u6cf5\u5e73\u53f0\u7684\u81ea\u52d5\u80f0\u5cf6\u7d20\u8f38\u6ce8\u7cfb\u7d71\u3002", image: "pumps/twiist-aid.png", tags: ["\u81ea\u52d5\u8f38\u6ce8", "Tidepool Loop", "300 \u55ae\u4f4d"], sourceUrl: "https://www.twiist.com/what-is-twiist" },
+        ],
+      },
+      {
+        brand: "CeQur",
+        summary: "\u9910\u6642\u80f0\u5cf6\u7d20\u8cbc\u7247\uff0c\u9069\u5408\u9700\u8981\u9910\u6642\u5291\u91cf\u4f46\u4e0d\u4e00\u5b9a\u9700\u8981\u5b8c\u6574\u6cf5\u7cfb\u7d71\u7684\u4eba\u7fa4\u3002",
+        products: [
+          { name: "CeQur Simplicity", desc: "\u53ef\u4f69\u6234 4 \u5929\u7684\u9910\u6642\u80f0\u5cf6\u7d20\u8cbc\u7247\uff0c\u900f\u904e\u7c21\u55ae\u9ede\u64ca\u8f38\u6ce8\u9910\u6642\u80f0\u5cf6\u7d20\u3002", image: "pumps/cequr-simplicity.jpg", tags: ["\u9910\u6642\u8cbc\u7247", "4 \u5929\u4f69\u6234", "\u7121\u96fb\u5b50\u5143\u4ef6"], sourceUrl: "https://myceqursimplicity.com/" },
+        ],
+      },
     ],
     expectTitle: "訓練中會學到什麼",
     expectations: [

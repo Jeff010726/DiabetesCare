@@ -1,12 +1,26 @@
-import { Activity, Beaker, Check, ArrowRight } from "lucide-react";
+import { Activity, ArrowRight, Check, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import ProviderAccessCallout from "../components/ProviderAccessCallout";
 import "../locales/servicePages";
 
+type PumpProduct = {
+  name: string;
+  desc: string;
+  image: string;
+  tags: string[];
+  sourceUrl: string;
+};
+
+type PumpBrand = {
+  brand: string;
+  summary: string;
+  products: PumpProduct[];
+};
+
 export default function PumpTraining() {
   const { t } = useTranslation("servicePages");
-  const pumps = t("pumpTraining.pumps", { returnObjects: true }) as Array<{ name: string; desc: string }>;
+  const pumpBrands = t("pumpTraining.pumpBrands", { returnObjects: true }) as PumpBrand[];
   const expectations = t("pumpTraining.expectations", { returnObjects: true }) as string[];
 
   return (
@@ -24,15 +38,68 @@ export default function PumpTraining() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-          {pumps.map((pump, i) => (
-            <div key={i} className="bg-white p-8 rounded-3xl border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:-translate-y-1 transition-transform">
-              <div className="w-12 h-12 bg-[var(--color-brand-pink-light)] rounded-xl flex items-center justify-center mb-6 text-[var(--color-brand-pink)]">
-                <Beaker className="w-6 h-6" />
+        <div className="mb-20">
+          <div className="max-w-3xl mb-10">
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-[var(--color-brand-pink)] mb-3">
+              {t("pumpTraining.catalogEyebrow")}
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              {t("pumpTraining.catalogTitle")}
+            </h2>
+            <p className="text-gray-600">
+              {t("pumpTraining.catalogSubtitle")}
+            </p>
+          </div>
+
+          {pumpBrands.map((brand) => (
+            <section key={brand.brand} className="mb-12 last:mb-0">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between mb-5">
+                <div>
+                  <h3 className="text-2xl md:text-3xl font-bold text-gray-900">{brand.brand}</h3>
+                  <p className="text-gray-600 max-w-3xl">{brand.summary}</p>
+                </div>
+                <span className="text-sm font-semibold text-gray-500">
+                  {brand.products.length} {brand.products.length === 1 ? t("pumpTraining.productLabel") : t("pumpTraining.productsLabel")}
+                </span>
               </div>
-              <h3 className="text-2xl font-bold mb-3">{pump.name}</h3>
-              <p className="text-gray-600">{pump.desc}</p>
-            </div>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {brand.products.map((product) => (
+                  <article
+                    key={`${brand.brand}-${product.name}`}
+                    className="group bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] overflow-hidden hover:-translate-y-1 transition-transform"
+                  >
+                    <div className="bg-gray-50 aspect-[4/3] p-6 flex items-center justify-center">
+                      <img
+                        src={`${import.meta.env.BASE_URL}${product.image}`}
+                        alt={product.name}
+                        className="max-h-full max-w-full object-contain drop-shadow-sm"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="p-6">
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {product.tags.map((tag) => (
+                          <span key={tag} className="bg-[var(--color-brand-pink-light)] text-gray-700 text-xs font-semibold px-3 py-1 rounded-full">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <h4 className="text-xl font-bold text-gray-900 mb-3">{product.name}</h4>
+                      <p className="text-base text-gray-600 mb-5">{product.desc}</p>
+                      <a
+                        href={product.sourceUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 text-sm font-bold text-[var(--color-brand-purple)] hover:text-[var(--color-brand-pink)]"
+                      >
+                        {t("pumpTraining.sourceLink")} <ExternalLink className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
           ))}
         </div>
 
