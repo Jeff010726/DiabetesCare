@@ -42,38 +42,35 @@ export async function submitContact(request: Request, env: Env) {
   const ip = request.headers.get("CF-Connecting-IP") || "";
   const userAgent = request.headers.get("User-Agent") || "";
   const row = [now, name, email, message, sourcePage, preferredLanguage, ip, userAgent];
+  let sheetStatus = "pending";
+  let sheetError: string | null = null;
 
   try {
+    try {
+      await appendContactToSheet(env, row);
+      sheetStatus = "synced";
+    } catch (error) {
+      sheetStatus = "failed";
+      sheetError = error instanceof Error ? error.message.slice(0, 500) : "Google Sheets append failed";
+      console.error("Google Sheets contact append failed", sheetError);
+    }
+
     const db = getDb(env);
     await db
       .prepare(
         `INSERT INTO contact_leads
-         (id, name, email, message, source_page, preferred_language, ip, user_agent, sheet_status, created_at, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+         (id, name, email, message, source_page, preferred_language, ip, user_agent, sheet_status, sheet_error, created_at, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       )
-      .bind(leadId, name, email, message, sourcePage, preferredLanguage, ip, userAgent, "pending", now, now)
+      .bind(leadId, name, email, message, sourcePage, preferredLanguage, ip, userAgent, sheetStatus, sheetError, now, now)
       .run();
 
-    try {
-      await appendContactToSheet(env, row);
-      await db
-        .prepare("UPDATE contact_leads SET sheet_status = ?, sheet_error = NULL, updated_at = ? WHERE id = ?")
-        .bind("synced", new Date().toISOString(), leadId)
-        .run();
-    } catch (sheetError) {
-      await db
-        .prepare("UPDATE contact_leads SET sheet_status = ?, sheet_error = ?, updated_at = ? WHERE id = ?")
-        .bind(
-          "failed",
-          sheetError instanceof Error ? sheetError.message.slice(0, 500) : "Google Sheets append failed",
-          new Date().toISOString(),
-          leadId,
-        )
-        .run();
-    }
-
-    return json(request, env, { ok: true, id: leadId });
+    return json(request, env, { ok: true, id: leadId, sheetStatus });
   } catch (error) {
+    if (sheetStatus === "synced") {
+      console.error("Contact lead D1 backup failed after Google Sheets sync", error);
+      return json(request, env, { ok: true, id: leadId, sheetStatus });
+    }
     return serverError(request, env, error instanceof Error ? error.message : undefined);
   }
 }
