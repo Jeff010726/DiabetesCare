@@ -12,9 +12,8 @@ APP_ENV = "production"
 APP_ORIGIN = "https://xtdiabetescare.com"
 GOOGLE_SHEETS_SPREADSHEET_ID = "1qjOaxNH9zheEDNilwlzfLLzokqxvx8q93Fi2mBhHavI"
 
-# Add this block after creating the D1 database:
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "diabetescare-db"
-# database_id = "<cloudflare-d1-database-id>"
-# migrations_dir = "worker/migrations"
+[[d1_databases]]
+binding = "DB"
+database_name = "diabetescare-db"
+database_id = "38fec761-c97c-4c36-82dc-d98a1c9bcd8c"
+migrations_dir = "worker/migrations"
