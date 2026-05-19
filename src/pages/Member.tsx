@@ -17,11 +17,21 @@ type AuthUser = {
 
 const authKey = "xt-member-authenticated";
 
+const phoneCountryCodes = [
+  { value: "+1", label: "US +1" },
+  { value: "+1 CA", label: "CA +1" },
+  { value: "+86", label: "CN +86" },
+  { value: "+886", label: "TW +886" },
+  { value: "+852", label: "HK +852" },
+  { value: "+52", label: "MX +52" },
+  { value: "+34", label: "ES +34" },
+];
+
 export default function Member() {
   const { t } = useTranslation("servicePages");
   const { i18n } = useTranslation();
   const [mode, setMode] = useState<MemberMode>("register");
-  const [form, setForm] = useState({ email: "", phone: "", firstName: "", lastName: "", password: "" });
+  const [form, setForm] = useState({ email: "", phoneCountryCode: "+1", phone: "", firstName: "", lastName: "", password: "" });
   const [user, setUser] = useState<AuthUser | null>(null);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [error, setError] = useState("");
@@ -38,7 +48,7 @@ export default function Member() {
       .catch(() => undefined);
   }, []);
 
-  const updateField = (field: keyof typeof form) => (event: ChangeEvent<HTMLInputElement>) => {
+  const updateField = (field: keyof typeof form) => (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm((current) => ({ ...current, [field]: event.target.value }));
   };
 
@@ -48,8 +58,17 @@ export default function Member() {
     setError("");
 
     const path = isRegister ? "/api/auth/register" : "/api/auth/login";
+    const phone = form.phone.trim() ? `${form.phoneCountryCode.split(" ")[0]} ${form.phone.trim()}` : "";
     const body = isRegister
-      ? { ...form, preferredLanguage: i18n.language, marketingOptIn: true }
+      ? {
+          email: form.email,
+          phone,
+          firstName: form.firstName,
+          lastName: form.lastName,
+          password: form.password,
+          preferredLanguage: i18n.language,
+          marketingOptIn: true,
+        }
       : { email: form.email, password: form.password };
 
     try {
@@ -153,16 +172,30 @@ export default function Member() {
                   <>
                     <label className="block">
                       <span className="block text-sm font-semibold text-gray-700 mb-1">{t("member.fields.phone")}</span>
-                      <span className="relative block">
-                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                        <input
-                          type="tel"
-                          value={form.phone}
-                          onChange={updateField("phone")}
-                          className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-purple)]"
-                          placeholder={t("member.placeholders.phone")}
-                        />
-                      </span>
+                      <div className="grid grid-cols-[118px_1fr] gap-3">
+                        <select
+                          value={form.phoneCountryCode}
+                          onChange={updateField("phoneCountryCode")}
+                          aria-label="Country code"
+                          className="w-full rounded-xl border border-gray-200 bg-white px-3 py-3 text-sm font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-purple)]"
+                        >
+                          {phoneCountryCodes.map((option) => (
+                            <option key={`${option.label}-${option.value}`} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                        <span className="relative block">
+                          <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                          <input
+                            type="tel"
+                            value={form.phone}
+                            onChange={updateField("phone")}
+                            className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-purple)]"
+                            placeholder={t("member.placeholders.phone")}
+                          />
+                        </span>
+                      </div>
                     </label>
 
                     <div className="grid sm:grid-cols-2 gap-4">
