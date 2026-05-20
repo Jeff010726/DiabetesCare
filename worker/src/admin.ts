@@ -477,10 +477,13 @@ export function adminPage(request: Request, env: Env) {
           tooltip.style.opacity = "0";
         };
         const move = function (event) {
-          const rect = svg.getBoundingClientRect();
-          const x = ((event.clientX - rect.left) / rect.width) * payload.width;
+          const point = svg.createSVGPoint();
+          point.x = event.clientX;
+          point.y = event.clientY;
+          const svgPoint = point.matrixTransform(svg.getScreenCTM().inverse());
+          const x = svgPoint.x;
           const ratio = Math.min(1, Math.max(0, (x - payload.left) / plotWidth));
-          const index = Math.round(ratio * (payload.data.length - 1));
+          const index = Math.min(payload.data.length - 1, Math.max(0, Math.round(ratio * (payload.data.length - 1))));
           const row = payload.data[index];
           const lineX = xAt(index);
           line.setAttribute("x1", lineX);
