@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import MemberInviteModal from "./MemberInviteModal";
+import { installClickTracking, trackPageView } from "../../lib/analytics";
 
 export default function RootLayout() {
   const { i18n } = useTranslation();
@@ -16,7 +17,10 @@ export default function RootLayout() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    trackPageView();
   }, [pathname]);
+
+  useEffect(() => installClickTracking(), []);
 
   return (
     <div className="flex flex-col min-h-screen">

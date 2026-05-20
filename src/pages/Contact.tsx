@@ -2,6 +2,7 @@ import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { apiRequest } from "../lib/api";
+import { trackEvent } from "../lib/analytics";
 import "../locales/servicePages";
 
 export default function Contact() {
@@ -32,6 +33,7 @@ export default function Contact() {
           preferredLanguage: i18n.language,
         },
       });
+      trackEvent({ eventType: "contact_submit", eventName: "contact_form" });
       setForm({ name: "", email: "", message: "" });
       setStatus("success");
     } catch (submitError) {

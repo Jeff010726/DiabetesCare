@@ -3,6 +3,7 @@ import { ChangeEvent, FormEvent, useEffect, useMemo, useRef, useState } from "re
 import { useTranslation } from "react-i18next";
 import { getCountries, getCountryCallingCode, type CountryCode } from "libphonenumber-js/min";
 import { apiRequest } from "../lib/api";
+import { trackEvent } from "../lib/analytics";
 import { memberAuthKey, notifyMemberAuthChanged, type MemberUser } from "../lib/memberAuth";
 
 type MemberMode = "register" | "login";
@@ -87,6 +88,7 @@ export default function Member() {
       setUser(data.user);
       window.localStorage.setItem(memberAuthKey, "true");
       notifyMemberAuthChanged();
+      trackEvent({ eventType: isRegister ? "member_register" : "member_login", eventName: isRegister ? "member_register_form" : "member_login_form" });
       setStatus("success");
       setForm((current) => ({ ...current, password: "" }));
     } catch (submitError) {
