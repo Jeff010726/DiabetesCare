@@ -38,15 +38,56 @@ function dateRange(url: URL) {
   const startParam = url.searchParams.get("start");
   const end = endParam ? new Date(`${endParam}T23:59:59.999Z`) : now;
   const start = startParam ? new Date(`${startParam}T00:00:00.000Z`) : new Date(end.getTime() - 29 * 24 * 60 * 60 * 1000);
+  const safeEnd = Number.isNaN(end.getTime()) ? now : end;
+  const safeStart = Number.isNaN(start.getTime()) ? new Date(safeEnd.getTime() - 29 * 24 * 60 * 60 * 1000) : start;
+  const orderedStart = safeStart > safeEnd ? safeEnd : safeStart;
+  const orderedEnd = safeStart > safeEnd ? safeStart : safeEnd;
+  const duration = orderedEnd.getTime() - orderedStart.getTime();
+  const previousEnd = new Date(orderedStart.getTime() - 1);
+  const previousStart = new Date(previousEnd.getTime() - duration);
   return {
-    start: Number.isNaN(start.getTime()) ? new Date(now.getTime() - 29 * 24 * 60 * 60 * 1000).toISOString() : start.toISOString(),
-    end: Number.isNaN(end.getTime()) ? now.toISOString() : end.toISOString(),
+    start: orderedStart.toISOString(),
+    end: orderedEnd.toISOString(),
+    previousStart: previousStart.toISOString(),
+    previousEnd: previousEnd.toISOString(),
   };
 }
 
 async function count(db: D1Database, sql: string, start: string, end: string) {
   const row = await db.prepare(sql).bind(start, end).first<{ count: number }>();
   return row?.count || 0;
+}
+
+function pctChange(value: number, previous: number) {
+  if (!previous && !value) return 0;
+  if (!previous) return 100;
+  return Number((((value - previous) / previous) * 100).toFixed(1));
+}
+
+function metric(value: number, previous: number) {
+  return { value, previous, change: pctChange(value, previous) };
+}
+
+function percent(numerator: number, denominator: number) {
+  return denominator ? Number(((numerator / denominator) * 100).toFixed(2)) : 0;
+}
+
+function sourceChannelCase() {
+  return `CASE
+    WHEN NULLIF(utm_source, '') IS NOT NULL OR NULLIF(utm_medium, '') IS NOT NULL OR NULLIF(utm_campaign, '') IS NOT NULL THEN 'Campaign'
+    WHEN referrer IS NULL OR referrer = '' THEN 'Direct'
+    WHEN lower(referrer) LIKE '%google.%' OR lower(referrer) LIKE '%bing.%' OR lower(referrer) LIKE '%yahoo.%' OR lower(referrer) LIKE '%duckduckgo.%' THEN 'Search'
+    WHEN lower(referrer) LIKE '%facebook.%' OR lower(referrer) LIKE '%instagram.%' OR lower(referrer) LIKE '%linkedin.%' OR lower(referrer) LIKE '%x.com%' OR lower(referrer) LIKE '%twitter.%' OR lower(referrer) LIKE '%tiktok.%' THEN 'Social'
+    ELSE 'Referral'
+  END`;
+}
+
+function leadInsight(label: string, current: number, previous: number) {
+  const change = pctChange(current, previous);
+  if (current === 0 && previous === 0) return `${label} has no activity in this period.`;
+  if (change > 0) return `${label} is up ${change}% vs previous period.`;
+  if (change < 0) return `${label} is down ${Math.abs(change)}% vs previous period.`;
+  return `${label} is flat vs previous period.`;
 }
 
 export async function collectAnalytics(request: Request, env: Env) {
@@ -103,44 +144,140 @@ export async function adminAnalyticsDashboard(request: Request, env: Env) {
   if (unauthorized) return unauthorized;
 
   const url = new URL(request.url);
-  const { start, end } = dateRange(url);
+  const { start, end, previousStart, previousEnd } = dateRange(url);
   const db = getDb(env);
+  const sourceCase = sourceChannelCase();
 
   const [
     pageViews,
+    previousPageViews,
     visitors,
+    previousVisitors,
     sessions,
+    previousSessions,
     bookingClicks,
+    previousBookingClicks,
     ctaClicks,
+    previousCtaClicks,
     contactSubmits,
+    previousContactSubmits,
     memberRegisters,
+    previousMemberRegisters,
     leads,
+    previousLeads,
     registrations,
+    previousRegistrations,
     topPages,
+    landingPages,
     topCountries,
+    topRegions,
+    topCities,
     topReferrers,
+    sourceChannels,
     topDevices,
+    topBrowsers,
     timeline,
   ] = await Promise.all([
     count(db, "SELECT COUNT(*) AS count FROM analytics_events WHERE event_type = 'page_view' AND created_at BETWEEN ? AND ?", start, end),
+    count(db, "SELECT COUNT(*) AS count FROM analytics_events WHERE event_type = 'page_view' AND created_at BETWEEN ? AND ?", previousStart, previousEnd),
     count(db, "SELECT COUNT(DISTINCT visitor_id) AS count FROM analytics_events WHERE visitor_id IS NOT NULL AND created_at BETWEEN ? AND ?", start, end),
+    count(db, "SELECT COUNT(DISTINCT visitor_id) AS count FROM analytics_events WHERE visitor_id IS NOT NULL AND created_at BETWEEN ? AND ?", previousStart, previousEnd),
     count(db, "SELECT COUNT(DISTINCT session_id) AS count FROM analytics_events WHERE session_id IS NOT NULL AND created_at BETWEEN ? AND ?", start, end),
+    count(db, "SELECT COUNT(DISTINCT session_id) AS count FROM analytics_events WHERE session_id IS NOT NULL AND created_at BETWEEN ? AND ?", previousStart, previousEnd),
     count(db, "SELECT COUNT(*) AS count FROM analytics_events WHERE event_type = 'booking_click' AND created_at BETWEEN ? AND ?", start, end),
+    count(db, "SELECT COUNT(*) AS count FROM analytics_events WHERE event_type = 'booking_click' AND created_at BETWEEN ? AND ?", previousStart, previousEnd),
     count(db, "SELECT COUNT(*) AS count FROM analytics_events WHERE event_type = 'cta_click' AND created_at BETWEEN ? AND ?", start, end),
+    count(db, "SELECT COUNT(*) AS count FROM analytics_events WHERE event_type = 'cta_click' AND created_at BETWEEN ? AND ?", previousStart, previousEnd),
     count(db, "SELECT COUNT(*) AS count FROM analytics_events WHERE event_type = 'contact_submit' AND created_at BETWEEN ? AND ?", start, end),
+    count(db, "SELECT COUNT(*) AS count FROM analytics_events WHERE event_type = 'contact_submit' AND created_at BETWEEN ? AND ?", previousStart, previousEnd),
     count(db, "SELECT COUNT(*) AS count FROM analytics_events WHERE event_type = 'member_register' AND created_at BETWEEN ? AND ?", start, end),
+    count(db, "SELECT COUNT(*) AS count FROM analytics_events WHERE event_type = 'member_register' AND created_at BETWEEN ? AND ?", previousStart, previousEnd),
     count(db, "SELECT COUNT(*) AS count FROM contact_leads WHERE created_at BETWEEN ? AND ?", start, end),
+    count(db, "SELECT COUNT(*) AS count FROM contact_leads WHERE created_at BETWEEN ? AND ?", previousStart, previousEnd),
     count(db, "SELECT COUNT(*) AS count FROM users WHERE created_at BETWEEN ? AND ?", start, end),
-    db.prepare("SELECT COALESCE(path, '/') AS label, COUNT(*) AS count FROM analytics_events WHERE event_type = 'page_view' AND created_at BETWEEN ? AND ? GROUP BY label ORDER BY count DESC LIMIT 10").bind(start, end).all(),
-    db.prepare("SELECT COALESCE(country, 'Unknown') AS label, COUNT(*) AS count FROM analytics_events WHERE created_at BETWEEN ? AND ? GROUP BY label ORDER BY count DESC LIMIT 10").bind(start, end).all(),
-    db.prepare("SELECT COALESCE(NULLIF(referrer, ''), 'Direct') AS label, COUNT(*) AS count FROM analytics_events WHERE event_type = 'page_view' AND created_at BETWEEN ? AND ? GROUP BY label ORDER BY count DESC LIMIT 10").bind(start, end).all(),
-    db.prepare("SELECT COALESCE(device, 'Unknown') AS label, COUNT(*) AS count FROM analytics_events WHERE created_at BETWEEN ? AND ? GROUP BY label ORDER BY count DESC LIMIT 10").bind(start, end).all(),
+    count(db, "SELECT COUNT(*) AS count FROM users WHERE created_at BETWEEN ? AND ?", previousStart, previousEnd),
+    db.prepare(
+      `SELECT COALESCE(path, '/') AS label,
+              COUNT(*) AS pageViews,
+              COUNT(DISTINCT visitor_id) AS visitors
+       FROM analytics_events
+       WHERE event_type = 'page_view' AND created_at BETWEEN ? AND ?
+       GROUP BY label
+       ORDER BY pageViews DESC
+       LIMIT 8`,
+    ).bind(start, end).all(),
+    db.prepare(
+      `SELECT COALESCE(path, '/') AS label,
+              COUNT(DISTINCT session_id) AS sessions
+       FROM analytics_events
+       WHERE event_type = 'page_view' AND created_at BETWEEN ? AND ?
+       GROUP BY label
+       ORDER BY sessions DESC
+       LIMIT 8`,
+    ).bind(start, end).all(),
+    db.prepare(
+      `SELECT COALESCE(country, 'Unknown') AS label, COUNT(*) AS count
+       FROM analytics_events
+       WHERE created_at BETWEEN ? AND ?
+       GROUP BY label
+       ORDER BY count DESC
+       LIMIT 8`,
+    ).bind(start, end).all(),
+    db.prepare(
+      `SELECT COALESCE(region, 'Unknown') AS label, COUNT(*) AS count
+       FROM analytics_events
+       WHERE created_at BETWEEN ? AND ?
+       GROUP BY label
+       ORDER BY count DESC
+       LIMIT 8`,
+    ).bind(start, end).all(),
+    db.prepare(
+      `SELECT COALESCE(city, 'Unknown') AS label, COUNT(*) AS count
+       FROM analytics_events
+       WHERE created_at BETWEEN ? AND ?
+       GROUP BY label
+       ORDER BY count DESC
+       LIMIT 8`,
+    ).bind(start, end).all(),
+    db.prepare(
+      `SELECT COALESCE(NULLIF(referrer, ''), 'Direct') AS label, COUNT(*) AS count
+       FROM analytics_events
+       WHERE event_type = 'page_view' AND created_at BETWEEN ? AND ?
+       GROUP BY label
+       ORDER BY count DESC
+       LIMIT 8`,
+    ).bind(start, end).all(),
+    db.prepare(
+      `SELECT ${sourceCase} AS label, COUNT(*) AS count
+       FROM analytics_events
+       WHERE event_type = 'page_view' AND created_at BETWEEN ? AND ?
+       GROUP BY label
+       ORDER BY count DESC`,
+    ).bind(start, end).all(),
+    db.prepare(
+      `SELECT COALESCE(device, 'Unknown') AS label, COUNT(*) AS count
+       FROM analytics_events
+       WHERE created_at BETWEEN ? AND ?
+       GROUP BY label
+       ORDER BY count DESC
+       LIMIT 8`,
+    ).bind(start, end).all(),
+    db.prepare(
+      `SELECT COALESCE(browser, 'Unknown') AS label, COUNT(*) AS count
+       FROM analytics_events
+       WHERE created_at BETWEEN ? AND ?
+       GROUP BY label
+       ORDER BY count DESC
+       LIMIT 8`,
+    ).bind(start, end).all(),
     db.prepare(
       `SELECT substr(created_at, 1, 10) AS date,
               SUM(CASE WHEN event_type = 'page_view' THEN 1 ELSE 0 END) AS pageViews,
               COUNT(DISTINCT visitor_id) AS visitors,
+              COUNT(DISTINCT session_id) AS sessions,
               SUM(CASE WHEN event_type = 'booking_click' THEN 1 ELSE 0 END) AS bookingClicks,
-              SUM(CASE WHEN event_type = 'contact_submit' THEN 1 ELSE 0 END) AS contactSubmits
+              SUM(CASE WHEN event_type = 'contact_submit' THEN 1 ELSE 0 END) AS contactSubmits,
+              SUM(CASE WHEN event_type = 'member_register' THEN 1 ELSE 0 END) AS registrations
        FROM analytics_events
        WHERE created_at BETWEEN ? AND ?
        GROUP BY date
@@ -148,25 +285,59 @@ export async function adminAnalyticsDashboard(request: Request, env: Env) {
     ).bind(start, end).all(),
   ]);
 
+  const bookingRate = percent(bookingClicks, sessions || pageViews);
+  const previousBookingRate = percent(previousBookingClicks, previousSessions || previousPageViews);
+  const leadRate = percent(leads, sessions || pageViews);
+  const previousLeadRate = percent(previousLeads, previousSessions || previousPageViews);
+  const registrationRate = percent(registrations, sessions || pageViews);
+  const previousRegistrationRate = percent(previousRegistrations, previousSessions || previousPageViews);
+  const currentTimeline = timeline.results || [];
+
   return adminJson(request, env, {
-    range: { start, end },
+    range: { start, end, previousStart, previousEnd },
     metrics: {
-      visitors,
-      sessions,
-      pageViews,
-      bookingClicks,
-      ctaClicks,
-      contactSubmits,
-      memberRegisters,
-      leads,
-      registrations,
-      contactConversionRate: pageViews ? Number(((contactSubmits / pageViews) * 100).toFixed(2)) : 0,
-      bookingConversionRate: pageViews ? Number(((bookingClicks / pageViews) * 100).toFixed(2)) : 0,
+      visitors: metric(visitors, previousVisitors),
+      sessions: metric(sessions, previousSessions),
+      pageViews: metric(pageViews, previousPageViews),
+      bookingClicks: metric(bookingClicks, previousBookingClicks),
+      ctaClicks: metric(ctaClicks, previousCtaClicks),
+      contactSubmits: metric(contactSubmits, previousContactSubmits),
+      memberRegisters: metric(memberRegisters, previousMemberRegisters),
+      leads: metric(leads, previousLeads),
+      registrations: metric(registrations, previousRegistrations),
+      bookingRate: metric(bookingRate, previousBookingRate),
+      leadRate: metric(leadRate, previousLeadRate),
+      registrationRate: metric(registrationRate, previousRegistrationRate),
+    },
+    insights: [
+      leadInsight("Visitors", visitors, previousVisitors),
+      leadInsight("Page views", pageViews, previousPageViews),
+      topPages.results?.[0] ? `${String((topPages.results[0] as { label?: string }).label || "/")} is the top page by views.` : "No top page yet.",
+      sourceChannels.results?.[0] ? `${String((sourceChannels.results[0] as { label?: string }).label || "Direct")} is the leading traffic source.` : "No source data yet.",
+    ],
+    funnel: [
+      { label: "Sessions", value: sessions },
+      { label: "Booking clicks", value: bookingClicks },
+      { label: "Contact leads", value: leads },
+      { label: "Registrations", value: registrations },
+    ],
+    sparklines: {
+      visitors: currentTimeline.map((row) => ({ date: String(row.date), value: Number(row.visitors || 0) })),
+      pageViews: currentTimeline.map((row) => ({ date: String(row.date), value: Number(row.pageViews || 0) })),
+      sessions: currentTimeline.map((row) => ({ date: String(row.date), value: Number(row.sessions || 0) })),
+      bookingClicks: currentTimeline.map((row) => ({ date: String(row.date), value: Number(row.bookingClicks || 0) })),
+      leads: currentTimeline.map((row) => ({ date: String(row.date), value: Number(row.contactSubmits || 0) })),
+      registrations: currentTimeline.map((row) => ({ date: String(row.date), value: Number(row.registrations || 0) })),
     },
     topPages: topPages.results || [],
+    landingPages: landingPages.results || [],
     topCountries: topCountries.results || [],
+    topRegions: topRegions.results || [],
+    topCities: topCities.results || [],
     topReferrers: topReferrers.results || [],
+    sourceChannels: sourceChannels.results || [],
     topDevices: topDevices.results || [],
-    timeline: timeline.results || [],
+    topBrowsers: topBrowsers.results || [],
+    timeline: currentTimeline,
   });
 }
