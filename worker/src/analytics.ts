@@ -50,8 +50,19 @@ function dateRange(url: URL) {
     end: orderedEnd.toISOString(),
     previousStart: previousStart.toISOString(),
     previousEnd: previousEnd.toISOString(),
+    granularity: orderedStart.toISOString().slice(0, 10) === orderedEnd.toISOString().slice(0, 10) ? "hour" : "day",
   };
 }
+
+type TimelineRow = {
+  date?: string;
+  pageViews?: number;
+  visitors?: number;
+  sessions?: number;
+  bookingClicks?: number;
+  contactSubmits?: number;
+  registrations?: number;
+};
 
 async function count(db: D1Database, sql: string, start: string, end: string) {
   const row = await db.prepare(sql).bind(start, end).first<{ count: number }>();
@@ -88,6 +99,42 @@ function leadInsight(label: string, current: number, previous: number) {
   if (change > 0) return `${label} is up ${change}% vs previous period.`;
   if (change < 0) return `${label} is down ${Math.abs(change)}% vs previous period.`;
   return `${label} is flat vs previous period.`;
+}
+
+function fillTimeline(rows: TimelineRow[], start: string, end: string, granularity: string) {
+  const byDate = new Map(rows.map((row) => [String(row.date), row]));
+  const output: Required<TimelineRow>[] = [];
+  const cursor = new Date(start);
+  const stop = new Date(end);
+
+  if (granularity === "hour") {
+    cursor.setUTCMinutes(0, 0, 0);
+    stop.setUTCMinutes(0, 0, 0);
+  } else {
+    cursor.setUTCHours(0, 0, 0, 0);
+    stop.setUTCHours(0, 0, 0, 0);
+  }
+
+  while (cursor <= stop) {
+    const key =
+      granularity === "hour"
+        ? `${cursor.toISOString().slice(0, 13)}:00`
+        : cursor.toISOString().slice(0, 10);
+    const row = byDate.get(key);
+    output.push({
+      date: key,
+      pageViews: Number(row?.pageViews || 0),
+      visitors: Number(row?.visitors || 0),
+      sessions: Number(row?.sessions || 0),
+      bookingClicks: Number(row?.bookingClicks || 0),
+      contactSubmits: Number(row?.contactSubmits || 0),
+      registrations: Number(row?.registrations || 0),
+    });
+    if (granularity === "hour") cursor.setUTCHours(cursor.getUTCHours() + 1);
+    else cursor.setUTCDate(cursor.getUTCDate() + 1);
+  }
+
+  return output;
 }
 
 export async function collectAnalytics(request: Request, env: Env) {
@@ -144,9 +191,10 @@ export async function adminAnalyticsDashboard(request: Request, env: Env) {
   if (unauthorized) return unauthorized;
 
   const url = new URL(request.url);
-  const { start, end, previousStart, previousEnd } = dateRange(url);
+  const { start, end, previousStart, previousEnd, granularity } = dateRange(url);
   const db = getDb(env);
   const sourceCase = sourceChannelCase();
+  const timelineBucket = granularity === "hour" ? "substr(created_at, 1, 13) || ':00'" : "substr(created_at, 1, 10)";
 
   const [
     pageViews,
@@ -271,7 +319,7 @@ export async function adminAnalyticsDashboard(request: Request, env: Env) {
        LIMIT 8`,
     ).bind(start, end).all(),
     db.prepare(
-      `SELECT substr(created_at, 1, 10) AS date,
+      `SELECT ${timelineBucket} AS date,
               SUM(CASE WHEN event_type = 'page_view' THEN 1 ELSE 0 END) AS pageViews,
               COUNT(DISTINCT visitor_id) AS visitors,
               COUNT(DISTINCT session_id) AS sessions,
@@ -291,10 +339,10 @@ export async function adminAnalyticsDashboard(request: Request, env: Env) {
   const previousLeadRate = percent(previousLeads, previousSessions || previousPageViews);
   const registrationRate = percent(registrations, sessions || pageViews);
   const previousRegistrationRate = percent(previousRegistrations, previousSessions || previousPageViews);
-  const currentTimeline = timeline.results || [];
+  const currentTimeline = fillTimeline((timeline.results || []) as TimelineRow[], start, end, granularity);
 
   return adminJson(request, env, {
-    range: { start, end, previousStart, previousEnd },
+    range: { start, end, previousStart, previousEnd, granularity },
     metrics: {
       visitors: metric(visitors, previousVisitors),
       sessions: metric(sessions, previousSessions),
