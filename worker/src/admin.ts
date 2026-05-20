@@ -231,6 +231,7 @@ export function adminPage(request: Request, env: Env) {
     .panel-sub { margin-top: 4px; font-size: 13px; color: #667085; }
     .chart { width: 100%; height: 250px; margin-top: 14px; }
     .chart-point { filter: drop-shadow(0 1px 2px rgba(17,24,39,.18)); }
+    .axis-label { fill: #667085; font-size: 11px; font-weight: 700; }
     .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; color: #475467; font-size: 12px; font-weight: 700; }
     .dot { display: inline-block; width: 9px; height: 9px; border-radius: 999px; margin-right: 5px; }
     .bar-list { display: grid; gap: 12px; margin-top: 14px; }
@@ -404,8 +405,26 @@ export function adminPage(request: Request, env: Env) {
       if (!hasValues) return '<div class="empty">No traffic activity in this date range.</div>';
       const width = 720;
       const height = 250;
-      const pad = 26;
+      const pad = 34;
       const max = Math.max.apply(null, data.flatMap(function (row) { return series.map(function (item) { return Number(row[item.key] || 0); }); }).concat([1]));
+      if (data.length === 1) {
+        const values = series.map(function (item) { return { label: item.label, color: item.color, value: Number(data[0][item.key] || 0) }; });
+        const barWidth = 86;
+        const gap = 62;
+        const total = values.length * barWidth + (values.length - 1) * gap;
+        const startX = (width - total) / 2;
+        const bars = values.map(function (item, index) {
+          const barHeight = Math.max(4, (item.value / max) * (height - pad * 2 - 18));
+          const x = startX + index * (barWidth + gap);
+          const y = height - pad - barHeight;
+          return '<rect x="' + x + '" y="' + y.toFixed(1) + '" width="' + barWidth + '" height="' + barHeight.toFixed(1) + '" rx="8" fill="' + item.color + '"/><text class="axis-label" x="' + (x + barWidth / 2) + '" y="' + (y - 8).toFixed(1) + '" text-anchor="middle">' + num(item.value) + '</text><text class="axis-label" x="' + (x + barWidth / 2) + '" y="' + (height - 8) + '" text-anchor="middle">' + item.label + '</text>';
+        }).join("");
+        return '<svg class="chart" viewBox="0 0 ' + width + ' ' + height + '" role="img" aria-label="Traffic summary for one day"><line x1="' + pad + '" y1="' + (height - pad) + '" x2="' + (width - pad) + '" y2="' + (height - pad) + '" stroke="#e5e7eb"/>' + bars + '</svg>';
+      }
+      const grid = [0.25, 0.5, 0.75, 1].map(function (ratio) {
+        const y = height - pad - ratio * (height - pad * 2);
+        return '<line x1="' + pad + '" y1="' + y.toFixed(1) + '" x2="' + (width - pad) + '" y2="' + y.toFixed(1) + '" stroke="#eef2f7"/>';
+      }).join("");
       const paths = series.map(function (item) {
         const coords = data.map(function (row, index) {
           const x = data.length === 1 ? width / 2 : pad + (index / (data.length - 1)) * (width - pad * 2);
@@ -419,7 +438,7 @@ export function adminPage(request: Request, env: Env) {
         return '<path d="' + points + '" fill="none" stroke="' + item.color + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' + circles;
       }).join("");
       const labels = series.map(function (item) { return '<span><i class="dot" style="background:' + item.color + '"></i>' + item.label + '</span>'; }).join("");
-      return '<svg class="chart" viewBox="0 0 ' + width + ' ' + height + '" role="img" aria-label="Traffic over time"><line x1="' + pad + '" y1="' + (height - pad) + '" x2="' + (width - pad) + '" y2="' + (height - pad) + '" stroke="#e5e7eb"/><line x1="' + pad + '" y1="' + pad + '" x2="' + pad + '" y2="' + (height - pad) + '" stroke="#e5e7eb"/>' + paths + '</svg><div class="legend">' + labels + '</div>';
+      return '<svg class="chart" viewBox="0 0 ' + width + ' ' + height + '" role="img" aria-label="Traffic over time">' + grid + '<line x1="' + pad + '" y1="' + (height - pad) + '" x2="' + (width - pad) + '" y2="' + (height - pad) + '" stroke="#d0d5dd"/><line x1="' + pad + '" y1="' + pad + '" x2="' + pad + '" y2="' + (height - pad) + '" stroke="#d0d5dd"/><text class="axis-label" x="' + pad + '" y="' + (height - 8) + '" text-anchor="start">' + escapeHtml(data[0].date) + '</text><text class="axis-label" x="' + (width - pad) + '" y="' + (height - 8) + '" text-anchor="end">' + escapeHtml(data[data.length - 1].date) + '</text>' + paths + '</svg><div class="legend">' + labels + '</div>';
     }
     function funnelChart(items) {
       const rows = items || [];
