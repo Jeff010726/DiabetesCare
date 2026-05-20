@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { 
   ShieldCheck, Stethoscope, BookOpen, Activity, ArrowRight, 
-  HeartPulse, CheckCircle2, Globe2, MonitorSmartphone, ClipboardList,
-  ChevronLeft, ChevronRight, Languages, Dumbbell, GraduationCap, BadgeCheck, Pill
+  HeartPulse, CheckCircle2, Globe2, MonitorSmartphone,
+  ChevronLeft, ChevronRight, BadgeCheck, Pill
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
@@ -115,10 +115,10 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-white flex flex-col">
       {/* Hero Section */}
       <section
-        className="relative overflow-hidden h-[calc(100svh-80px)] min-h-[640px] md:h-[85vh] md:min-h-[600px] bg-gray-50 touch-pan-y"
+        className="relative order-1 overflow-hidden h-[calc(100svh-80px)] min-h-[640px] md:h-[85vh] md:min-h-[600px] bg-gray-50 touch-pan-y"
         onTouchStart={(event) => setTouchStartX(event.touches[0].clientX)}
         onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0].clientX)}
       >
@@ -203,7 +203,7 @@ export default function Home() {
       </section>
 
       {/* Insurance Network Section */}
-      <section className="py-16 bg-white border-b border-gray-100">
+      <section className="order-2 py-16 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 items-center">
             <div>
@@ -249,7 +249,7 @@ export default function Home() {
       </section>
 
       {/* Expert Profile Section */}
-      <section className="py-16 md:py-20 bg-gradient-to-br from-white via-[var(--color-brand-purple-light)]/35 to-white border-y border-[var(--color-brand-purple)]/10">
+      <section className="order-5 py-16 md:py-20 bg-gradient-to-br from-white via-[var(--color-brand-purple-light)]/35 to-white border-y border-[var(--color-brand-purple)]/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-[380px_1fr] xl:grid-cols-[420px_1fr] gap-10 xl:gap-14 items-start">
             <div className="relative order-2 lg:order-1 max-w-[380px] lg:max-w-none mx-auto w-full lg:sticky lg:top-28">
@@ -361,7 +361,7 @@ export default function Home() {
       </section>
 
       {/* Accreditation Section */}
-      <section className="py-16 bg-white border-b border-gray-100">
+      <section className="order-3 py-16 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="rounded-3xl border border-gray-100 bg-gradient-to-br from-white via-white to-green-50/45 p-6 md:p-10 shadow-[0_20px_60px_-45px_rgba(31,41,55,0.35)]">
             <div className="max-w-3xl mb-10">
@@ -396,44 +396,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Patient Empathy Section */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">{t("empathy.title")}</h2>
-            <p className="text-xl text-gray-600">
-              {t("empathy.desc")}
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-gray-50 rounded-3xl p-8 border border-gray-100 hover:shadow-md transition-shadow">
-               <div className="w-12 h-12 bg-red-100 text-red-500 rounded-xl flex items-center justify-center mb-6">
-                 <HeartPulse className="w-6 h-6" />
-               </div>
-               <h3 className="text-xl font-bold mb-3 text-gray-900">{t("empathy.cards.spikesTitle")}</h3>
-               <p className="text-gray-600">{t("empathy.cards.spikesDesc")}</p>
-            </div>
-            <div className="bg-gray-50 rounded-3xl p-8 border border-gray-100 hover:shadow-md transition-shadow">
-               <div className="w-12 h-12 bg-blue-100 text-blue-500 rounded-xl flex items-center justify-center mb-6">
-                 <MonitorSmartphone className="w-6 h-6" />
-               </div>
-               <h3 className="text-xl font-bold mb-3 text-gray-900">{t("empathy.cards.deviceTitle")}</h3>
-               <p className="text-gray-600">{t("empathy.cards.deviceDesc")}</p>
-            </div>
-            <div className="bg-gray-50 rounded-3xl p-8 border border-gray-100 hover:shadow-md transition-shadow">
-               <div className="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center mb-6">
-                 <ClipboardList className="w-6 h-6" />
-               </div>
-               <h3 className="text-xl font-bold mb-3 text-gray-900">{t("empathy.cards.overloadTitle")}</h3>
-               <p className="text-gray-600">{t("empathy.cards.overloadDesc")}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Services Section */}
-      <section className="py-24 bg-gray-50 border-y border-gray-100">
+      <section className="order-4 py-24 bg-gray-50 border-y border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div className="max-w-2xl">
@@ -501,7 +465,7 @@ export default function Home() {
       </section>
 
       {/* How it Works / Journey */}
-      <section className="py-24 bg-white relative overflow-hidden">
+      <section className="order-6 py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t("journey.title")}</h2>
@@ -543,7 +507,7 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-24 bg-[var(--color-brand-pink-light)]/40 rounded-t-3xl border-t border-[var(--color-brand-pink-light)]">
+      <section className="order-7 py-24 bg-[var(--color-brand-pink-light)]/40 rounded-t-3xl border-t border-[var(--color-brand-pink-light)]">
          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-12 items-center">
                <div className="grid grid-cols-2 gap-4">
@@ -585,7 +549,7 @@ export default function Home() {
       </section>
 
       {/* For Doctors Banner */}
-      <section className="bg-[var(--color-brand-purple)] py-16">
+      <section className="order-8 bg-[var(--color-brand-purple)] py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="text-white max-w-2xl">
