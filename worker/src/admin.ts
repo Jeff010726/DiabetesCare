@@ -229,9 +229,17 @@ export function adminPage(request: Request, env: Env) {
     .panel.wide { grid-column: 1 / -1; }
     .panel h2 { margin: 0; font-size: 16px; }
     .panel-sub { margin-top: 4px; font-size: 13px; color: #667085; }
-    .chart { width: 100%; height: 250px; margin-top: 14px; }
+    .chart-wrap { position: relative; margin-top: 14px; }
+    .chart { display: block; width: 100%; height: 340px; }
     .chart-point { filter: drop-shadow(0 1px 2px rgba(17,24,39,.18)); }
     .axis-label { fill: #667085; font-size: 11px; font-weight: 700; }
+    .axis-value { fill: #667085; font-size: 11px; }
+    .hover-line { opacity: 0; pointer-events: none; }
+    .hover-points circle { opacity: 0; pointer-events: none; }
+    .chart-tooltip { position: absolute; min-width: 180px; padding: 10px 12px; border: 1px solid #d0d5dd; border-radius: 8px; background: white; box-shadow: 0 12px 28px -18px rgba(17,24,39,.45); font-size: 12px; color: #344054; pointer-events: none; opacity: 0; transform: translate(-50%, -100%); z-index: 5; }
+    .chart-tooltip strong { display: block; color: #111827; margin-bottom: 7px; }
+    .chart-tooltip div { display: flex; justify-content: space-between; gap: 18px; margin-top: 4px; }
+    .chart-hit { fill: transparent; cursor: crosshair; }
     .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; color: #475467; font-size: 12px; font-weight: 700; }
     .dot { display: inline-block; width: 9px; height: 9px; border-radius: 999px; margin-right: 5px; }
     .bar-list { display: grid; gap: 12px; margin-top: 14px; }
@@ -403,18 +411,27 @@ export function adminPage(request: Request, env: Env) {
       if (!data.length) return '<div class="empty">No traffic data yet.</div>';
       const hasValues = data.some(function (row) { return series.some(function (item) { return Number(row[item.key] || 0) > 0; }); });
       if (!hasValues) return '<div class="empty">No traffic activity in this date range.</div>';
-      const width = 720;
-      const height = 250;
-      const pad = 34;
-      const max = Math.max.apply(null, data.flatMap(function (row) { return series.map(function (item) { return Number(row[item.key] || 0); }); }).concat([1]));
-      const grid = [0.25, 0.5, 0.75, 1].map(function (ratio) {
-        const y = height - pad - ratio * (height - pad * 2);
-        return '<line x1="' + pad + '" y1="' + y.toFixed(1) + '" x2="' + (width - pad) + '" y2="' + y.toFixed(1) + '" stroke="#eef2f7"/>';
+      const width = 1180;
+      const height = 340;
+      const left = 54;
+      const right = 22;
+      const top = 22;
+      const bottom = 44;
+      const plotWidth = width - left - right;
+      const plotHeight = height - top - bottom;
+      const rawMax = Math.max.apply(null, data.flatMap(function (row) { return series.map(function (item) { return Number(row[item.key] || 0); }); }).concat([1]));
+      const max = Math.max(1, Math.ceil(rawMax));
+      const yTicks = [0, 0.25, 0.5, 0.75, 1].map(function (ratio) { return Math.round(max * ratio); });
+      const xAt = function (index) { return data.length === 1 ? left + plotWidth / 2 : left + (index / (data.length - 1)) * plotWidth; };
+      const yAt = function (value) { return top + plotHeight - (Number(value || 0) / max) * plotHeight; };
+      const grid = yTicks.map(function (tick) {
+        const y = yAt(tick);
+        return '<line x1="' + left + '" y1="' + y.toFixed(1) + '" x2="' + (width - right) + '" y2="' + y.toFixed(1) + '" stroke="#eef2f7"/><text class="axis-value" x="' + (left - 10) + '" y="' + (y + 4).toFixed(1) + '" text-anchor="end">' + num(tick) + '</text>';
       }).join("");
       const paths = series.map(function (item) {
         const coords = data.map(function (row, index) {
-          const x = data.length === 1 ? width / 2 : pad + (index / (data.length - 1)) * (width - pad * 2);
-          const y = height - pad - (Number(row[item.key] || 0) / max) * (height - pad * 2);
+          const x = xAt(index);
+          const y = yAt(row[item.key]);
           return { x: x, y: y, value: Number(row[item.key] || 0) };
         });
         const points = coords.map(function (point, index) { return (index ? "L" : "M") + point.x.toFixed(1) + " " + point.y.toFixed(1); }).join(" ");
@@ -424,9 +441,13 @@ export function adminPage(request: Request, env: Env) {
         return '<path d="' + points + '" fill="none" stroke="' + item.color + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' + circles;
       }).join("");
       const labels = series.map(function (item) { return '<span><i class="dot" style="background:' + item.color + '"></i>' + item.label + '</span>'; }).join("");
-      const firstLabel = String(data[0].date || "").slice(0, 13).replace("T", " ");
-      const lastLabel = String(data[data.length - 1].date || "").slice(0, 13).replace("T", " ");
-      return '<svg class="chart" viewBox="0 0 ' + width + ' ' + height + '" role="img" aria-label="Traffic over time">' + grid + '<line x1="' + pad + '" y1="' + (height - pad) + '" x2="' + (width - pad) + '" y2="' + (height - pad) + '" stroke="#d0d5dd"/><line x1="' + pad + '" y1="' + pad + '" x2="' + pad + '" y2="' + (height - pad) + '" stroke="#d0d5dd"/><text class="axis-label" x="' + pad + '" y="' + (height - 8) + '" text-anchor="start">' + escapeHtml(firstLabel) + '</text><text class="axis-label" x="' + (width - pad) + '" y="' + (height - 8) + '" text-anchor="end">' + escapeHtml(lastLabel) + '</text>' + paths + '</svg><div class="legend">' + labels + '</div>';
+      const tickIndexes = Array.from(new Set([0, Math.floor((data.length - 1) / 2), data.length - 1]));
+      const xLabels = tickIndexes.map(function (index) {
+        const label = String(data[index].date || "").slice(0, 13).replace("T", " ");
+        return '<text class="axis-label" x="' + xAt(index).toFixed(1) + '" y="' + (height - 12) + '" text-anchor="middle">' + escapeHtml(label) + '</text>';
+      }).join("");
+      const payload = encodeURIComponent(JSON.stringify({ data: data, series: series, width: width, height: height, left: left, right: right, top: top, bottom: bottom, max: max }));
+      return '<div class="chart-wrap" data-chart="' + payload + '"><svg class="chart" viewBox="0 0 ' + width + ' ' + height + '" role="img" aria-label="Traffic over time">' + grid + '<line x1="' + left + '" y1="' + (height - bottom) + '" x2="' + (width - right) + '" y2="' + (height - bottom) + '" stroke="#d0d5dd"/><line x1="' + left + '" y1="' + top + '" x2="' + left + '" y2="' + (height - bottom) + '" stroke="#d0d5dd"/>' + xLabels + paths + '<line class="hover-line" x1="' + left + '" y1="' + top + '" x2="' + left + '" y2="' + (height - bottom) + '" stroke="#98a2b3" stroke-width="1.5" stroke-dasharray="4 4"/><g class="hover-points"></g><rect class="chart-hit" x="' + left + '" y="' + top + '" width="' + plotWidth + '" height="' + plotHeight + '"/></svg><div class="chart-tooltip"></div></div><div class="legend">' + labels + '</div>';
     }
     function funnelChart(items) {
       const rows = items || [];
@@ -436,6 +457,50 @@ export function adminPage(request: Request, env: Env) {
         const width = Math.max(2, Math.round((value / max) * 100));
         return '<div class="funnel-step"><strong>' + escapeHtml(row.label) + '</strong><div class="funnel-track"><div class="funnel-fill" style="width:' + width + '%">' + width + '%</div></div><span class="bar-value">' + num(value) + '</span></div>';
       }).join("") + '</div>';
+    }
+    function bindCharts() {
+      document.querySelectorAll("[data-chart]").forEach(function (wrap) {
+        const payload = JSON.parse(decodeURIComponent(wrap.dataset.chart || "{}"));
+        const svg = wrap.querySelector("svg");
+        const hit = wrap.querySelector(".chart-hit");
+        const line = wrap.querySelector(".hover-line");
+        const points = wrap.querySelector(".hover-points");
+        const tooltip = wrap.querySelector(".chart-tooltip");
+        if (!svg || !hit || !line || !points || !tooltip || !payload.data) return;
+        const plotWidth = payload.width - payload.left - payload.right;
+        const plotHeight = payload.height - payload.top - payload.bottom;
+        const xAt = function (index) { return payload.data.length === 1 ? payload.left + plotWidth / 2 : payload.left + (index / (payload.data.length - 1)) * plotWidth; };
+        const yAt = function (value) { return payload.top + plotHeight - (Number(value || 0) / payload.max) * plotHeight; };
+        const clear = function () {
+          line.style.opacity = "0";
+          points.innerHTML = "";
+          tooltip.style.opacity = "0";
+        };
+        const move = function (event) {
+          const rect = svg.getBoundingClientRect();
+          const x = ((event.clientX - rect.left) / rect.width) * payload.width;
+          const ratio = Math.min(1, Math.max(0, (x - payload.left) / plotWidth));
+          const index = Math.round(ratio * (payload.data.length - 1));
+          const row = payload.data[index];
+          const lineX = xAt(index);
+          line.setAttribute("x1", lineX);
+          line.setAttribute("x2", lineX);
+          line.style.opacity = "1";
+          points.innerHTML = payload.series.map(function (item) {
+            return '<circle cx="' + lineX.toFixed(1) + '" cy="' + yAt(row[item.key]).toFixed(1) + '" r="5" fill="white" stroke="' + item.color + '" stroke-width="3"/>';
+          }).join("");
+          const label = String(row.date || "").replace("T", " ");
+          tooltip.innerHTML = '<strong>' + escapeHtml(label) + '</strong>' + payload.series.map(function (item) {
+            return '<div><span><i class="dot" style="background:' + item.color + '"></i>' + escapeHtml(item.label) + '</span><b>' + num(row[item.key]) + '</b></div>';
+          }).join("");
+          const wrapRect = wrap.getBoundingClientRect();
+          tooltip.style.left = Math.min(Math.max(lineX / payload.width * wrapRect.width, 105), wrapRect.width - 105) + "px";
+          tooltip.style.top = Math.max(64, yAt(Math.max.apply(null, payload.series.map(function (item) { return Number(row[item.key] || 0); }))) / payload.height * wrapRect.height - 12) + "px";
+          tooltip.style.opacity = "1";
+        };
+        hit.addEventListener("mousemove", move);
+        hit.addEventListener("mouseleave", clear);
+      });
     }
     function renderRows(headers, rows) {
       $("content").innerHTML = '<section class="tablewrap"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></section>';
@@ -469,6 +534,7 @@ export function adminPage(request: Request, env: Env) {
         + panel("Locations", "Top countries by activity", barList(data.topCountries, "count"), false)
         + panel("Devices", "Desktop, mobile, and tablet split", barList(data.topDevices, "count"), false)
         + '</section>';
+      bindCharts();
     }
     function renderTraffic(data) {
       $("title").textContent = "Traffic";
@@ -479,6 +545,7 @@ export function adminPage(request: Request, env: Env) {
         + panel("Browsers", "Browser breakdown", barList(data.topBrowsers, "count"), false)
         + panel("Devices", "Device breakdown", barList(data.topDevices, "count"), false)
         + '</section>';
+      bindCharts();
     }
     function renderSources(data) {
       $("title").textContent = "Sources";
@@ -487,6 +554,7 @@ export function adminPage(request: Request, env: Env) {
         + panel("Referrers", "Top referring URLs", barList(data.topReferrers, "count"), false)
         + panel("Traffic over time", "Traffic trend for selected range", lineChart(data.timeline), true)
         + '</section>';
+      bindCharts();
     }
     function renderLocations(data) {
       $("title").textContent = "Locations";
@@ -496,6 +564,7 @@ export function adminPage(request: Request, env: Env) {
         + panel("Cities", "City-level activity", barList(data.topCities, "count"), false)
         + panel("Traffic over time", "Location-filterable reports can be added later", lineChart(data.timeline), false)
         + '</section>';
+      bindCharts();
     }
     function renderConversions(data) {
       $("title").textContent = "Conversions";
