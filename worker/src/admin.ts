@@ -194,14 +194,14 @@ export function adminPage(request: Request, env: Env) {
     * { box-sizing: border-box; }
     body { margin: 0; background: #f3f4f6; color: #111827; }
     button, input, select { font: inherit; }
-    .shell { min-height: 100vh; display: grid; grid-template-columns: 248px 1fr; }
-    .side { background: #111827; color: white; padding: 22px 18px; display: flex; flex-direction: column; gap: 22px; }
+    .shell { min-height: 100vh; }
+    .side { position: fixed; inset: 0 auto 0 0; width: 248px; height: 100vh; overflow-y: auto; background: #111827; color: white; padding: 22px 18px; display: flex; flex-direction: column; gap: 22px; }
     .brand { font-size: 18px; font-weight: 800; letter-spacing: 0; padding: 2px 10px; }
     .nav { display: grid; gap: 8px; }
     .nav button, .logout { border: 0; border-radius: 8px; padding: 10px 12px; color: inherit; background: transparent; text-align: left; cursor: pointer; font-weight: 700; }
     .nav button.active, .nav button:hover, .logout:hover { background: rgba(255,255,255,.12); }
     .logout { margin-top: auto; }
-    .main { padding: 24px 28px 32px; min-width: 0; }
+    .main { margin-left: 248px; padding: 24px 28px 32px; min-width: 0; }
     .top { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-bottom: 18px; }
     h1 { margin: 0; font-size: 26px; line-height: 1.2; }
     .muted { color: #667085; }
@@ -259,7 +259,7 @@ export function adminPage(request: Request, env: Env) {
     .empty { color: #667085; padding: 16px 0; }
     .hidden { display: none; }
     @media (max-width: 1180px) { .metric-grid, .insights { grid-template-columns: repeat(2, minmax(0, 1fr)); } .chart-grid { grid-template-columns: 1fr; } }
-    @media (max-width: 840px) { .shell { grid-template-columns: 1fr; } .side { position: static; } .metric-grid, .insights { grid-template-columns: 1fr; } .top { display: grid; } .controls { justify-content: start; } }
+    @media (max-width: 840px) { .side { position: static; width: auto; height: auto; max-height: none; } .main { margin-left: 0; } .metric-grid, .insights { grid-template-columns: 1fr; } .top { display: grid; } .controls { justify-content: start; } }
   </style>
 </head>
 <body>
