@@ -174,9 +174,9 @@ export const es = {
     services: {
       title: "Nuestros programas principales",
       desc: "Capacitación y educación dirigidas por expertos para darle la confianza que necesita al manejar la diabetes.",
-      classesTitle: "Clases de diabetes",
-      classesDesc: "Programa sistemático de 10 horas sobre medicamentos, alimentación, ejercicio y salud mental. Disponible en inglés y mandarín. Totalmente cubierto por Medicare y la mayoría de los seguros.",
-      classesCta: "Más información",
+      classesTitle: "Educación para el automanejo de la diabetes (DSME)",
+      classesDesc: "Programa sistemático de 10 horas sobre medicamentos, alimentación, ejercicio y salud mental. Disponible en inglés y mandarín. Totalmente cubierto por Medicare / Medicaid y la mayoría de los seguros.",
+      classesCta: "Reservar clase",
       pumpTitle: "Capacitación en bombas de insulina",
       pumpDesc: "Configuración completa y entrenamiento práctico para sistemas avanzados, incluidos Omnipod, Twiist, iLet, Tandem, Medtronic y parches CeQur Simplicity.",
       pumpCta: "Explorar bombas",

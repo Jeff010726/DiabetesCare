@@ -176,9 +176,9 @@ export const home = {
   services: {
     title: "核心課程與服務",
     desc: "由專家帶領的訓練與教育，協助您更有信心地管理糖尿病。",
-    classesTitle: "糖尿病課程",
-    classesDesc: "系統化 10 小時學習計畫，涵蓋藥物、飲食、運動與心理健康。提供英語與普通話服務。Medicare 與多數保險可全額給付。",
-    classesCta: "了解更多",
+    classesTitle: "糖尿病自我管理教育課程",
+    classesDesc: "系統化 10 小時學習計畫，涵蓋藥物、飲食、運動與心理健康。提供英語與普通話服務。Medicare / Medicaid 與多數保險可全額給付。",
+    classesCta: "預約課程",
     pumpTitle: "胰島素泵訓練",
     pumpDesc: "為 Omnipod、Twiist、iLet、Tandem、Medtronic 與 CeQur Simplicity 貼片等進階系統提供完整設定與實作訓練。",
     pumpCta: "了解胰島素泵",

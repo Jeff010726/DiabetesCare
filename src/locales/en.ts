@@ -186,7 +186,7 @@ export const en = {
     services: {
       title: "Our Core Programs",
       desc: "Expert-led training and education to give you the confidence you need to manage diabetes.",
-      classesTitle: "DSME Diabetes Self Management Education/???????????",
+      classesTitle: "DSME Diabetes Self-Management Education",
       classesDesc: "Systematic 10-hour learning program covering medications, diet, exercise, and mental health. Offered in English and Mandarin. Fully covered by Medicare / Medicaid and most insurances.",
       classesCta: "Book class",
       pumpTitle: "Insulin Pump Training",

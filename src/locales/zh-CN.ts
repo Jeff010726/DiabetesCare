@@ -174,9 +174,9 @@ export const zhCN = {
     services: {
       title: "核心项目",
       desc: "由专家带领的培训和教育，帮助您更有信心地管理糖尿病。",
-      classesTitle: "糖尿病课程",
-      classesDesc: "系统化 10 小时学习项目，涵盖用药、饮食、运动和心理健康。提供英语和普通话课程。Medicare 及大多数保险可全额覆盖。",
-      classesCta: "了解更多",
+      classesTitle: "糖尿病自我管理教育课程",
+      classesDesc: "系统化 10 小时学习项目，涵盖用药、饮食、运动和心理健康。提供英语和普通话课程。Medicare / Medicaid 及大多数保险可全额覆盖。",
+      classesCta: "预约课程",
       pumpTitle: "胰岛素泵培训",
       pumpDesc: "为 Omnipod、Twiist、iLet、Tandem、Medtronic 和 CeQur Simplicity 贴片等先进系统提供完整设置和手把手培训。",
       pumpCta: "了解胰岛素泵",
