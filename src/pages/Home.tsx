@@ -361,7 +361,7 @@ export default function Home() {
       </section>
 
       {/* Accreditation Section */}
-      <section className="order-3 py-16 bg-white border-b border-gray-100">
+      <section className="order-4 py-16 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="rounded-3xl border border-gray-100 bg-gradient-to-br from-white via-white to-green-50/45 p-6 md:p-10 shadow-[0_20px_60px_-45px_rgba(31,41,55,0.35)]">
             <div className="max-w-3xl mb-10">
@@ -397,7 +397,7 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section className="order-4 py-24 bg-gray-50 border-y border-gray-100">
+      <section className="order-3 py-24 bg-gray-50 border-y border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div className="max-w-2xl">
