@@ -11,6 +11,7 @@ export default function Contact() {
   const addressLines = t("contact.info.addressLines", { returnObjects: true }) as string[];
   const phoneLines = t("contact.info.phoneLines", { returnObjects: true }) as string[];
   const hoursLines = t("contact.info.hoursLines", { returnObjects: true }) as string[];
+  const mapQuery = encodeURIComponent("132-27 41st Rd #2CB, Flushing, NY 11355");
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [error, setError] = useState("");
@@ -91,9 +92,19 @@ export default function Contact() {
                  <div className="w-12 h-12 bg-[var(--color-brand-purple-light)] text-[var(--color-brand-purple)] rounded-xl flex items-center justify-center shrink-0">
                     <MapPin className="w-6 h-6" />
                  </div>
-                 <div>
+                 <div className="min-w-0 flex-1">
                     <h4 className="text-lg font-bold mb-1">{t("contact.info.addressTitle")}</h4>
-                    <p className="text-gray-600">
+                    <div className="mt-3 overflow-hidden rounded-2xl border border-gray-200 bg-gray-50 shadow-sm">
+                      <iframe
+                        title="XT Diabetes Care office location on Google Maps"
+                        src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
+                        className="h-52 w-full border-0"
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        allowFullScreen
+                      />
+                    </div>
+                    <p className="mt-3 text-sm leading-6 text-gray-500">
                       {addressLines.map((line) => (
                         <span key={line}>{line}<br /></span>
                       ))}
