@@ -121,22 +121,44 @@ export const en = {
       photoAlt: "Xiaofang Tan, Registered Dietitian and Certified Diabetes Care and Education Specialist",
       languagesLabel: "Languages",
       languages: "English, Cantonese, Mandarin, Hakka",
-      badge: "Meet Your Diabetes Care Specialist",
+      badge: "Founder story",
       namePrefix: "Xiaofang Tan,",
-      credentials: "MS, RD, CDN, CDCES",
+      credentials: "MS, RD, CDN, CDCES, NASM-CPT",
       preferredName: "Preferred name: Tan",
-      bio1: "Tan received her Master of Science in Nutrition and completed her dietetic internship at Northwell Health. She is now a practicing Registered Dietitian and Certified Diabetes Care and Education Specialist at Northwell Health Queens.",
-      bio2: "Her approach connects clinical nutrition, practical diabetes education, and sustainable lifestyle coaching so patients can understand their numbers and build routines that work in real life.",
-      cards: {
-        nutritionTitle: "Clinical Nutrition",
-        nutritionDesc: "MS in Nutrition, RD, CDN",
-        diabetesTitle: "Diabetes Care",
-        diabetesDesc: "Certified CDCES guidance",
-        fitnessTitle: "Fitness Support",
-        fitnessDesc: "NASM Certified Personal Trainer",
-      },
-      focusTitle: "Areas of Focus",
-      focusDesc: "Sports nutrition, diabetes management, gastrointestinal conditions including IBS and IBD, and women's health.",
+      storyTitle: "Transforming Pain into Passion: Why I Dedicated My Life to Diabetes Care",
+      lead: "My path into diabetes care began with the heartbreaking experience of watching my grandmother battle Type 2 Diabetes without the tools, education, or support she deserved.",
+      quote: "I turned grief into a promise: no family should have to navigate diabetes in the dark.",
+      sections: [
+        {
+          eyebrow: "Where the promise began",
+          title: "A family loss that changed everything",
+          body: "My grandmother suffered severe nerve damage and eventually went completely blind. Watching the strong matriarch of our family lose her independence to manageable complications became a life-altering pain."
+        },
+        {
+          eyebrow: "Turning purpose into expertise",
+          title: "Clinical training with a community mission",
+          body: "I earned my Master’s in Nutrition & Dietetics at Hunter College in New York, completed a rigorous 40-week clinical residency at Lenox Hill Hospital, and today serve as a Clinical Dietitian and Diabetes Educator at Northwell Health. I founded XT Diabetes Care to bring personalized care directly to the community."
+        },
+        {
+          eyebrow: "Education changes everything",
+          title: "DSME gives families a real-world roadmap",
+          body: "The missing piece in my grandmother’s care was not a lack of love. It was a lack of accessible knowledge. Through Diabetes Self-Management Education, I break complicated medical language into everyday steps for patients and caregivers."
+        },
+        {
+          eyebrow: "Care within reach",
+          title: "Preventing complications before they start",
+          body: "I help patients master insulin pump training, CGMs, nutrition, and day-to-day routines. Through Nutriall Wellness Center, most insurance plans are accepted so 99% of clients can access life-saving diabetes care for $0 out-of-pocket."
+        }
+      ],
+      highlights: [
+        "Master’s in Nutrition & Dietetics, Hunter College",
+        "40-week clinical residency, Lenox Hill Hospital",
+        "Clinical Dietitian and Diabetes Educator, Northwell Health",
+        "Founder of XT Diabetes Care"
+      ],
+      careChips: ["Insulin pump training", "CGM setup and interpretation", "DSME", "Nutrition therapy", "$0 out-of-pocket for 99% of clients"],
+      focusTitle: "The care philosophy",
+      focusDesc: "Every time I help a patient lower their A1c, guide a stressed caregiver, or help someone set up their insulin pump with confidence, I am honoring my grandmother’s legacy.",
       cta: "Schedule a Consultation",
     },
     accreditation: {

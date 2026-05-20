@@ -39,6 +39,9 @@ export default function Home() {
     { name: t("insurance.partnerName"), file: "insurance-partner-4.webp" },
     { name: t("insurance.partnerName"), file: "insurance-partner-5.webp" }
   ];
+  const expertSections = t("expert.sections", { returnObjects: true }) as Array<{ eyebrow: string; title: string; body: string }>;
+  const expertHighlights = t("expert.highlights", { returnObjects: true }) as string[];
+  const expertCareChips = t("expert.careChips", { returnObjects: true }) as string[];
 
   const slides = [
     {
@@ -246,11 +249,11 @@ export default function Home() {
       </section>
 
       {/* Expert Profile Section */}
-      <section className="py-14 md:py-16 bg-[var(--color-brand-purple-light)]/30 border-y border-[var(--color-brand-purple)]/10">
+      <section className="py-16 md:py-20 bg-gradient-to-br from-white via-[var(--color-brand-purple-light)]/35 to-white border-y border-[var(--color-brand-purple)]/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-[340px_1fr] xl:grid-cols-[360px_1fr] gap-8 xl:gap-10 items-center">
-            <div className="relative order-2 lg:order-1 max-w-[320px] sm:max-w-[360px] lg:max-w-none mx-auto w-full">
-              <div className="relative overflow-hidden rounded-3xl bg-white shadow-[0_18px_50px_-30px_rgba(31,41,55,0.45)] border border-white">
+          <div className="grid lg:grid-cols-[380px_1fr] xl:grid-cols-[420px_1fr] gap-10 xl:gap-14 items-start">
+            <div className="relative order-2 lg:order-1 max-w-[380px] lg:max-w-none mx-auto w-full lg:sticky lg:top-28">
+              <div className="relative overflow-hidden rounded-[2rem] bg-white shadow-[0_24px_70px_-38px_rgba(31,41,55,0.45)] border border-white">
                 <img
                   src={tanPhotoSrc}
                   onError={(event) => {
@@ -258,73 +261,100 @@ export default function Home() {
                     event.currentTarget.src = fallbackTanPhoto;
                   }}
                   alt={t("expert.photoAlt")}
-                  className="w-full h-[300px] sm:h-[340px] lg:h-[390px] object-cover object-center"
+                  className="w-full h-[360px] sm:h-[430px] lg:h-[520px] object-cover object-center"
                 />
-                <div className="absolute left-3 right-3 bottom-3 bg-white/92 backdrop-blur-md rounded-2xl p-3 shadow-md border border-white/80">
-                  <p className="text-xs font-semibold text-[var(--color-brand-purple)] mb-0.5">{t("expert.languagesLabel")}</p>
-                  <p className="text-sm text-gray-700 font-medium leading-snug">{t("expert.languages")}</p>
+                <div className="absolute inset-x-4 bottom-4 bg-white/94 backdrop-blur-md rounded-3xl p-4 shadow-lg border border-white/80">
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-brand-purple)] mb-2">{t("expert.languagesLabel")}</p>
+                  <p className="text-sm text-gray-700 font-semibold leading-snug">{t("expert.languages")}</p>
+                </div>
+              </div>
+              <div className="mt-4 rounded-3xl bg-white border border-gray-100 p-5 shadow-[0_18px_50px_-38px_rgba(31,41,55,0.35)]">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-3">Clinical foundation</p>
+                <div className="grid gap-3">
+                  {expertHighlights.map((item) => (
+                    <div key={item} className="flex items-start gap-3 text-sm text-gray-700 leading-snug">
+                      <CheckCircle2 className="w-4 h-4 text-[var(--color-brand-purple)] shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
 
             <div className="order-1 lg:order-2">
-              <span className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white text-[var(--color-brand-purple)] font-semibold text-sm mb-4 border border-[var(--color-brand-purple)]/15 shadow-sm">
+              <span className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white text-[var(--color-brand-purple)] font-bold text-sm mb-5 border border-[var(--color-brand-purple)]/15 shadow-sm">
                 <BadgeCheck className="w-4 h-4 text-[var(--color-brand-pink)]" />
                 {t("expert.badge")}
               </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3 leading-tight">
+              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-3 leading-tight max-w-4xl">
                 {t("expert.namePrefix")} <span className="text-[var(--color-brand-purple)]">{t("expert.credentials")}</span>
               </h2>
-              <p className="text-base text-gray-500 font-medium mb-4">{t("expert.preferredName")}</p>
-              <div className="space-y-3 text-base md:text-lg text-gray-600 leading-relaxed mb-6 max-w-3xl">
-                <p>
-                  {t("expert.bio1")}
-                </p>
-                <p>
-                  {t("expert.bio2")}
-                </p>
-              </div>
+              <p className="text-xl md:text-2xl font-bold text-gray-900 mb-5 leading-snug max-w-4xl">
+                {t("expert.storyTitle")}
+              </p>
+              <p className="text-lg text-gray-600 leading-relaxed mb-6 max-w-3xl">
+                {t("expert.lead")}
+              </p>
 
-              <div className="grid sm:grid-cols-3 gap-3 mb-5">
-                <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
-                  <GraduationCap className="w-5 h-5 text-[var(--color-brand-purple)] mb-2" />
-                  <h3 className="text-sm font-bold text-gray-900 mb-1">{t("expert.cards.nutritionTitle")}</h3>
-                  <p className="text-xs text-gray-500 leading-relaxed">{t("expert.cards.nutritionDesc")}</p>
-                </div>
-                <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
-                  <Activity className="w-5 h-5 text-[var(--color-brand-pink)] mb-2" />
-                  <h3 className="text-sm font-bold text-gray-900 mb-1">{t("expert.cards.diabetesTitle")}</h3>
-                  <p className="text-xs text-gray-500 leading-relaxed">{t("expert.cards.diabetesDesc")}</p>
-                </div>
-                <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
-                  <Dumbbell className="w-5 h-5 text-yellow-500 mb-2" />
-                  <h3 className="text-sm font-bold text-gray-900 mb-1">{t("expert.cards.fitnessTitle")}</h3>
-                  <p className="text-xs text-gray-500 leading-relaxed">{t("expert.cards.fitnessDesc")}</p>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm mb-6 max-w-3xl">
+              <div className="relative rounded-[2rem] bg-[var(--color-brand-purple)] text-white p-6 md:p-7 shadow-[0_24px_60px_-40px_rgba(79,70,229,0.75)] mb-8 max-w-4xl overflow-hidden">
+                <div className="absolute right-6 top-4 text-7xl font-serif text-white/15 leading-none">"</div>
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-[var(--color-brand-purple-light)] text-[var(--color-brand-purple)] flex items-center justify-center shrink-0">
-                    <Languages className="w-5 h-5" />
+                  <div className="w-11 h-11 rounded-2xl bg-white/14 text-white flex items-center justify-center shrink-0">
+                    <HeartPulse className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-1">{t("expert.focusTitle")}</h3>
-                    <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+                    <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-white/75 mb-2">{t("expert.focusTitle")}</h3>
+                    <p className="text-xl md:text-2xl font-semibold leading-relaxed">
                       {t("expert.focusDesc")}
                     </p>
                   </div>
                 </div>
               </div>
 
-              <a
-                href={bookingUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-[var(--color-brand-purple)] text-white px-6 py-3 rounded-full font-bold hover:bg-[var(--color-brand-purple)]/90 transition-all shadow-md hover:shadow-lg w-full sm:w-auto"
-              >
-                {t("expert.cta")} <ArrowRight className="w-5 h-5" />
-              </a>
+              <div className="relative max-w-4xl">
+                <div className="absolute left-[15px] top-4 bottom-4 w-px bg-[var(--color-brand-purple)]/20 hidden sm:block"></div>
+                <div className="space-y-5">
+                  {expertSections.map((section, index) => (
+                    <article key={section.title} className="relative bg-white rounded-3xl border border-gray-100 p-5 md:p-6 shadow-[0_18px_45px_-38px_rgba(31,41,55,0.45)]">
+                      <div className="sm:absolute sm:-left-1 sm:top-6 w-8 h-8 rounded-full bg-[var(--color-brand-purple)] text-white flex items-center justify-center text-sm font-bold shadow-md mb-4 sm:mb-0">
+                        {index + 1}
+                      </div>
+                      <div className="sm:pl-8">
+                        <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-brand-purple)] mb-2">{section.eyebrow}</p>
+                        <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">{section.title}</h3>
+                        <p className="text-base md:text-lg text-gray-600 leading-relaxed">{section.body}</p>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-8 max-w-4xl rounded-3xl bg-white border border-gray-100 p-5 md:p-6 shadow-[0_18px_45px_-38px_rgba(31,41,55,0.45)]">
+                <div className="flex items-start gap-4 mb-5">
+                  <div className="w-11 h-11 rounded-2xl bg-[var(--color-brand-purple-light)] text-[var(--color-brand-purple)] flex items-center justify-center shrink-0">
+                    <MonitorSmartphone className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-1">Care that turns knowledge into confidence</h3>
+                    <p className="text-gray-600 leading-relaxed">Personalized support for the daily decisions, devices, and family conversations that make diabetes care work in real life.</p>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2.5 mb-6">
+                  {expertCareChips.map((chip) => (
+                    <span key={chip} className="inline-flex items-center rounded-full bg-[var(--color-brand-purple-light)] text-[var(--color-brand-purple)] px-3.5 py-2 text-sm font-bold">
+                      {chip}
+                    </span>
+                  ))}
+                </div>
+                <a
+                  href={bookingUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center gap-2 bg-[var(--color-brand-purple)] text-white px-6 py-3 rounded-full font-bold hover:bg-[var(--color-brand-purple)]/90 transition-all shadow-md hover:shadow-lg w-full sm:w-auto"
+                >
+                  {t("expert.cta")} <ArrowRight className="w-5 h-5" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
