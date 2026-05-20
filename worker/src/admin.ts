@@ -230,6 +230,7 @@ export function adminPage(request: Request, env: Env) {
     .panel h2 { margin: 0; font-size: 16px; }
     .panel-sub { margin-top: 4px; font-size: 13px; color: #667085; }
     .chart { width: 100%; height: 250px; margin-top: 14px; }
+    .chart-point { filter: drop-shadow(0 1px 2px rgba(17,24,39,.18)); }
     .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; color: #475467; font-size: 12px; font-weight: 700; }
     .dot { display: inline-block; width: 9px; height: 9px; border-radius: 999px; margin-right: 5px; }
     .bar-list { display: grid; gap: 12px; margin-top: 14px; }
@@ -399,17 +400,23 @@ export function adminPage(request: Request, env: Env) {
         { key: "sessions", label: "Sessions", color: "#9333ea" }
       ];
       if (!data.length) return '<div class="empty">No traffic data yet.</div>';
+      const hasValues = data.some(function (row) { return series.some(function (item) { return Number(row[item.key] || 0) > 0; }); });
+      if (!hasValues) return '<div class="empty">No traffic activity in this date range.</div>';
       const width = 720;
       const height = 250;
       const pad = 26;
       const max = Math.max.apply(null, data.flatMap(function (row) { return series.map(function (item) { return Number(row[item.key] || 0); }); }).concat([1]));
       const paths = series.map(function (item) {
-        const points = data.map(function (row, index) {
+        const coords = data.map(function (row, index) {
           const x = data.length === 1 ? width / 2 : pad + (index / (data.length - 1)) * (width - pad * 2);
           const y = height - pad - (Number(row[item.key] || 0) / max) * (height - pad * 2);
-          return (index ? "L" : "M") + x.toFixed(1) + " " + y.toFixed(1);
-        }).join(" ");
-        return '<path d="' + points + '" fill="none" stroke="' + item.color + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
+          return { x: x, y: y, value: Number(row[item.key] || 0) };
+        });
+        const points = coords.map(function (point, index) { return (index ? "L" : "M") + point.x.toFixed(1) + " " + point.y.toFixed(1); }).join(" ");
+        const circles = coords.filter(function (point) { return point.value > 0 || data.length === 1; }).map(function (point) {
+          return '<circle class="chart-point" cx="' + point.x.toFixed(1) + '" cy="' + point.y.toFixed(1) + '" r="4" fill="white" stroke="' + item.color + '" stroke-width="2.5"/>';
+        }).join("");
+        return '<path d="' + points + '" fill="none" stroke="' + item.color + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' + circles;
       }).join("");
       const labels = series.map(function (item) { return '<span><i class="dot" style="background:' + item.color + '"></i>' + item.label + '</span>'; }).join("");
       return '<svg class="chart" viewBox="0 0 ' + width + ' ' + height + '" role="img" aria-label="Traffic over time"><line x1="' + pad + '" y1="' + (height - pad) + '" x2="' + (width - pad) + '" y2="' + (height - pad) + '" stroke="#e5e7eb"/><line x1="' + pad + '" y1="' + pad + '" x2="' + pad + '" y2="' + (height - pad) + '" stroke="#e5e7eb"/>' + paths + '</svg><div class="legend">' + labels + '</div>';
@@ -566,6 +573,8 @@ export function adminPage(request: Request, env: Env) {
     $("today").addEventListener("click", async () => { setRange(1); await load(); });
     $("last-7").addEventListener("click", async () => { setRange(7); await load(); });
     $("last-30").addEventListener("click", async () => { setRange(30); await load(); });
+    $("start-date").addEventListener("change", load);
+    $("end-date").addEventListener("change", load);
     $("refresh").addEventListener("click", load);
     $("logout").addEventListener("click", async () => { await api("/admin/api/logout", { method: "POST" }).catch(() => {}); state.admin = null; showLogin(); });
     setRange(30);
