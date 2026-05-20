@@ -11,7 +11,7 @@ export default function Contact() {
   const addressLines = t("contact.info.addressLines", { returnObjects: true }) as string[];
   const phoneLines = t("contact.info.phoneLines", { returnObjects: true }) as string[];
   const hoursLines = t("contact.info.hoursLines", { returnObjects: true }) as string[];
-  const mapQuery = encodeURIComponent("132-27 41st Rd #2CB, Flushing, NY 11355");
+  const mapQuery = encodeURIComponent("Nutriall Wellness Center 132-27 41st Rd #2CB Flushing NY 11355");
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [error, setError] = useState("");
