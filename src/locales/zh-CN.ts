@@ -301,7 +301,6 @@ export const zhCN = {
           brand: "MiniMed",
           summary: "Medtronic \u7cfb\u7edf\u4ee5 SmartGuard \u81ea\u52a8\u5316\u548c Guardian \u4f20\u611f\u5668\u6574\u5408\u4e3a\u6838\u5fc3\u3002",
           products: [
-            { name: "MiniMed Flex", desc: "Medtronic \u7684\u5c0f\u578b FDA \u6279\u51c6\u81ea\u52a8\u80f0\u5c9b\u7d20\u8f93\u6ce8\u7cfb\u7edf\u3002", image: "pumps/minimed-flex.png", tags: ["\u81ea\u52a8\u8f93\u6ce8", "\u5c0f\u578b", "SmartGuard"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-flex-system" },
             { name: "MiniMed 780G", desc: "\u91c7\u7528 SmartGuard \u6280\u672f\u7684\u81ea\u52a8\u80f0\u5c9b\u7d20\u8f93\u6ce8\u7cfb\u7edf\u3002", image: "pumps/minimed-780g.png", tags: ["\u81ea\u52a8\u8f93\u6ce8", "SmartGuard", "Guardian"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-780g-insulin-pump-system" },
           ],
         },

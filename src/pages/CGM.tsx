@@ -1,5 +1,4 @@
-import { Activity, Smartphone, LineChart, FileLineChart } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Activity, Smartphone, LineChart, FileLineChart, ExternalLink, ClipboardCheck } from "lucide-react";
 import { Trans, useTranslation } from "react-i18next";
 import ProviderAccessCallout from "../components/ProviderAccessCallout";
 import { bookingUrl } from "../lib/booking";
@@ -7,7 +6,24 @@ import "../locales/servicePages";
 
 export default function CGM() {
   const { t } = useTranslation("servicePages");
-  const devices = t("cgm.devices", { returnObjects: true }) as Array<{ name: string; maker: string; desc: string }>;
+  const devices = t("cgm.devices", { returnObjects: true }) as Array<{ name: string; maker: string; desc: string; sourceUrl: string }>;
+  const cgmOfficialUrls: Record<string, string> = {
+    "FreeStyle Libre": "https://www.freestyle.abbott/us-en/home.html",
+    "Dexcom G7/G6": "https://www.dexcom.com/",
+    Stelo: "https://www.stelo.com/",
+    Lingo: "https://www.hellolingo.com/",
+  };
+  const visibleDevices = devices.some((device) => device.name === "Lingo")
+    ? devices
+    : [
+        ...devices,
+        {
+          name: "Lingo",
+          maker: "Abbott",
+          desc: "Support for Abbott Lingo users who want to understand glucose patterns and lifestyle responses.",
+          sourceUrl: cgmOfficialUrls.Lingo,
+        },
+      ];
 
   return (
     <div className="bg-white">
@@ -25,32 +41,39 @@ export default function CGM() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         
-        <div className="grid md:grid-cols-3 gap-8 mb-24">
-          {devices.map((device, index) => (
-            <div key={device.name} className={`bg-white p-8 rounded-3xl border border-gray-100 shadow-sm text-center${index === 1 ? " transform md:-translate-y-4" : ""}`}>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
+          {visibleDevices.map((device, index) => (
+            <div key={device.name} className={`bg-white p-7 rounded-3xl border border-gray-100 shadow-sm text-center${index === 1 ? " transform lg:-translate-y-4" : ""}`}>
               <h3 className="text-2xl font-black text-gray-900 mb-2">{device.name}</h3>
               <p className="text-sm font-medium text-[var(--color-brand-purple)] mb-4">{device.maker}</p>
-              <p className="text-gray-600">{device.desc}</p>
+              <p className="text-gray-600 mb-5">{device.desc}</p>
+              <a href={device.sourceUrl || cgmOfficialUrls[device.name]} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 text-sm font-bold text-[var(--color-brand-purple)] hover:text-[var(--color-brand-pink)]">
+                Official website <ExternalLink className="w-4 h-4" />
+              </a>
             </div>
           ))}
         </div>
 
         <div className="bg-[var(--color-brand-purple-light)]/40 rounded-3xl p-5 sm:p-8 md:p-16 flex flex-col md:flex-row gap-8 md:gap-12 items-center">
           <div className="flex-1 w-full order-2 md:order-1">
-             <div className="grid grid-cols-2 gap-3 sm:gap-4">
+             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="min-h-32 sm:min-h-36 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-white flex flex-col items-center justify-center text-center">
                   <Smartphone className="w-7 h-7 sm:w-8 sm:h-8 text-[var(--color-brand-purple)] mb-3" />
                   <span className="text-base sm:text-lg font-semibold leading-tight">{t("cgm.features.appSetup")}</span>
                 </div>
-                <div className="min-h-32 sm:min-h-36 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-white flex flex-col items-center justify-center text-center md:mt-8">
+                <div className="min-h-32 sm:min-h-36 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-white flex flex-col items-center justify-center text-center">
                   <Activity className="w-7 h-7 sm:w-8 sm:h-8 text-[var(--color-brand-pink)] mb-3" />
                   <span className="text-base sm:text-lg font-semibold leading-tight">{t("cgm.features.arrowTrends")}</span>
                 </div>
-                <div className="min-h-32 sm:min-h-36 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-white flex flex-col items-center justify-center text-center md:-mt-8">
+                <div className="min-h-32 sm:min-h-36 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-white flex flex-col items-center justify-center text-center">
                   <FileLineChart className="w-7 h-7 sm:w-8 sm:h-8 text-yellow-500 mb-3" />
                   <span className="text-base sm:text-lg font-semibold leading-tight">{t("cgm.features.agpReports")}</span>
                 </div>
                 <div className="min-h-32 sm:min-h-36 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-white flex flex-col items-center justify-center text-center">
+                  <ClipboardCheck className="w-7 h-7 sm:w-8 sm:h-8 text-blue-500 mb-3" />
+                  <span className="text-base sm:text-lg font-semibold leading-tight">{t("cgm.features.reportInterpretation")}</span>
+                </div>
+                <div className="min-h-32 sm:min-h-36 bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-white flex flex-col items-center justify-center text-center sm:col-span-2">
                   <LineChart className="w-7 h-7 sm:w-8 sm:h-8 text-green-500 mb-3" />
                   <span className="text-base sm:text-lg font-semibold leading-tight">{t("cgm.features.timeInRange")}</span>
                 </div>

@@ -69,14 +69,26 @@ export default function Providers() {
           
           {/* Accred badge / image */}
           <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
-            <div className="w-32 h-32 rounded-full border-4 border-[var(--color-brand-purple-light)] bg-[var(--color-brand-purple)]/5 flex items-center justify-center mb-6">
-              <ShieldCheck className="w-16 h-16 text-[var(--color-brand-purple)]" />
+            <div className="mb-6 flex w-full max-w-sm items-center justify-center rounded-2xl border border-gray-100 bg-gray-50 p-5">
+              <img
+                src={`${import.meta.env.BASE_URL}adces-deap-accreditation.webp`}
+                alt={t("providers.accreditedTitle")}
+                className="max-h-28 max-w-full object-contain"
+              />
             </div>
             <h3 className="text-2xl font-bold mb-2">{t("providers.accreditedTitle")}</h3>
             <p className="text-sm font-bold text-gray-400 mb-4 uppercase tracking-widest">{t("providers.accreditedId")}</p>
             <p className="text-gray-600 text-sm">
               {t("providers.accreditedBody")}
             </p>
+            <div className="mt-6 w-full overflow-hidden rounded-2xl border border-gray-100 bg-gray-50">
+              <img
+                src={`${import.meta.env.BASE_URL}adces-deap-certificate.webp`}
+                alt="ADCES DEAP certificate"
+                className="w-full object-contain"
+                loading="lazy"
+              />
+            </div>
           </div>
         </div>
       </div>

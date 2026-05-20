@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { 
   ShieldCheck, Stethoscope, BookOpen, Activity, ArrowRight, 
   HeartPulse, CheckCircle2, Globe2, MonitorSmartphone,
-  ChevronLeft, ChevronRight, BadgeCheck, Pill
+  ChevronLeft, ChevronRight, BadgeCheck, Pill, Syringe, RadioTower
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
@@ -25,7 +25,6 @@ export default function Home() {
     `${import.meta.env.BASE_URL}cdces-badge.webp`,
     `${import.meta.env.BASE_URL}rd-rdn-badge.webp`,
   ];
-  const insuranceLogoSrc = (file: string) => `${import.meta.env.BASE_URL}insurance/${file}`;
   const fallbackTanPhoto =
     "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80";
   const insuranceLogos = [
@@ -33,11 +32,11 @@ export default function Home() {
     { name: "Humana", file: "humana.webp" },
     { name: "Healthfirst", file: "healthfirst.webp" },
     { name: "MagnaCare", file: "magnacare.webp" },
-    { name: t("insurance.partnerName"), file: "insurance-partner-1.webp" },
-    { name: t("insurance.partnerName"), file: "insurance-partner-2.webp" },
-    { name: t("insurance.partnerName"), file: "insurance-partner-3.webp" },
-    { name: t("insurance.partnerName"), file: "insurance-partner-4.webp" },
-    { name: t("insurance.partnerName"), file: "insurance-partner-5.webp" }
+    { name: "Medicaid", file: "insurance-partner-1.webp" },
+    { name: "Aetna", file: "insurance-partner-2.webp" },
+    { name: "UnitedHealthcare", file: "insurance-partner-3.webp" },
+    { name: "Anthem Blue Cross", file: "insurance-partner-4.webp" },
+    { name: "Cigna", file: "insurance-partner-5.webp" }
   ];
   const expertSections = t("expert.sections", { returnObjects: true }) as Array<{ eyebrow: string; title: string; body: string }>;
   const expertHighlights = t("expert.highlights", { returnObjects: true }) as string[];
@@ -230,13 +229,9 @@ export default function Home() {
                 {insuranceLogos.map((logo, index) => (
                   <div
                     key={`${logo.file}-${index}`}
-                    className="h-28 bg-gray-50 rounded-2xl border border-gray-100 flex items-center justify-center p-5 shadow-sm hover:shadow-md transition-shadow"
+                    className="h-24 bg-gray-50 rounded-2xl border border-gray-100 flex items-center justify-center p-5 shadow-sm hover:shadow-md transition-shadow"
                   >
-                    <img
-                      src={insuranceLogoSrc(logo.file)}
-                      alt={t("insurance.logoAlt", { name: logo.name })}
-                      className="max-h-16 max-w-full object-contain"
-                    />
+                    <span className="text-center text-lg font-bold text-gray-800 leading-tight">{logo.name}</span>
                   </div>
                 ))}
               </div>
@@ -417,14 +412,14 @@ export default function Home() {
               <p className="text-gray-600 mb-8 leading-relaxed flex-grow">
                 {t("services.classesDesc")}
               </p>
-              <Link to="/classes" className="inline-flex items-center justify-center w-full bg-gray-50 group-hover:bg-[var(--color-brand-purple)] group-hover:text-white text-gray-700 py-3 rounded-xl font-medium transition-colors">
+              <a href={bookingUrl} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center w-full bg-gray-50 group-hover:bg-[var(--color-brand-purple)] group-hover:text-white text-gray-700 py-3 rounded-xl font-medium transition-colors">
                 {t("services.classesCta")}
-              </Link>
+              </a>
             </div>
 
             <div className="bg-white rounded-3xl p-8 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:-translate-y-1 transition-transform group flex flex-col h-full border border-gray-100">
               <div className="w-14 h-14 bg-[var(--color-brand-pink-light)] rounded-2xl flex items-center justify-center mb-6 text-[var(--color-brand-pink)] group-hover:scale-110 transition-transform">
-                <Activity className="w-7 h-7" />
+                <Syringe className="w-7 h-7" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-3">{t("services.pumpTitle")}</h3>
               <p className="text-gray-600 mb-8 leading-relaxed flex-grow">
@@ -437,7 +432,7 @@ export default function Home() {
 
             <div className="bg-white rounded-3xl p-8 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:-translate-y-1 transition-transform group flex flex-col h-full border border-gray-100">
               <div className="w-14 h-14 bg-yellow-50 rounded-2xl flex items-center justify-center mb-6 text-yellow-500 group-hover:scale-110 transition-transform">
-                <Activity className="w-7 h-7" />
+                <RadioTower className="w-7 h-7" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-3">{t("services.cgmTitle")}</h3>
               <p className="text-gray-600 mb-8 leading-relaxed flex-grow">

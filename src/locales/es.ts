@@ -301,7 +301,6 @@ export const es = {
           brand: "MiniMed",
           summary: "Sistemas Medtronic centrados en automatizacion SmartGuard e integracion con sensores Guardian.",
           products: [
-            { name: "MiniMed Flex", desc: "Sistema compacto de administracion automatizada de insulina autorizado por la FDA de Medtronic.", image: "pumps/minimed-flex.png", tags: ["AID", "Compacta", "SmartGuard"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-flex-system" },
             { name: "MiniMed 780G", desc: "Sistema automatizado de administracion de insulina con tecnologia SmartGuard.", image: "pumps/minimed-780g.png", tags: ["AID", "SmartGuard", "Guardian"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-780g-insulin-pump-system" },
           ],
         },
@@ -381,7 +380,7 @@ export const es = {
       ],
     },
     coverage: {
-      heroTitle: "Cobertura de seguro y Medicare",
+      heroTitle: "Cobertura de seguro",
       heroSubtitle: "La educación y apoyo para el automanejo de la diabetes (DSMES) es un beneficio cubierto reconocido por Medicare y la mayoría de los seguros privados.",
       medicareTitle: "¿Qué cubre Medicare?",
       dsmesTitle: "DSMES/T",

@@ -21,7 +21,19 @@ type PumpBrand = {
 
 export default function PumpTraining() {
   const { t } = useTranslation("servicePages");
-  const pumpBrands = t("pumpTraining.pumpBrands", { returnObjects: true }) as PumpBrand[];
+  const pumpBrandsRaw = t("pumpTraining.pumpBrands", { returnObjects: true }) as PumpBrand[];
+  const brandOrder = ["Omnipod", "twiist", "Beta Bionics", "Tandem Diabetes Care", "MiniMed", "CeQur"];
+  const pumpBrands = [...pumpBrandsRaw]
+    .map((brand) => ({
+      ...brand,
+      products: brand.products.filter((product) => product.name !== "MiniMed Flex"),
+    }))
+    .filter((brand) => brand.products.length > 0)
+    .sort((a, b) => {
+      const aIndex = brandOrder.indexOf(a.brand);
+      const bIndex = brandOrder.indexOf(b.brand);
+      return (aIndex === -1 ? 99 : aIndex) - (bIndex === -1 ? 99 : bIndex);
+    });
   const expectations = t("pumpTraining.expectations", { returnObjects: true }) as string[];
 
   return (
@@ -29,6 +41,13 @@ export default function PumpTraining() {
       <div className="bg-[var(--color-brand-pink-light)]/40 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Activity className="w-16 h-16 text-[var(--color-brand-pink)] mx-auto mb-6" />
+          <div className="mb-5 inline-flex flex-wrap items-center justify-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-[var(--color-brand-pink)] shadow-sm border border-[var(--color-brand-pink)]/20">
+            <span>100% Free</span>
+            <span className="text-gray-300">|</span>
+            <span>No insurance required</span>
+            <span className="text-gray-300">|</span>
+            <span>No referral needed</span>
+          </div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             {t("pumpTraining.heroTitle")}
           </h1>
