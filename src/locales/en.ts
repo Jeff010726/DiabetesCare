@@ -183,18 +183,6 @@ export const en = {
         },
       ],
     },
-    empathy: {
-      title: "Does managing diabetes feel overwhelming?",
-      desc: "Whether you are newly diagnosed, starting on an insulin pump, or struggling to keep your blood sugar in range, you are not alone. We are here to guide you.",
-      cards: {
-        spikesTitle: "Fear of Spikes & Lows",
-        spikesDesc: "Learn practical strategies for eating what you love without sending your numbers on a rollercoaster.",
-        deviceTitle: "Device Confusion",
-        deviceDesc: "Overwhelmed by new tech? We provide comprehensive, hands-on training for the latest insulin pumps and CGMs.",
-        overloadTitle: "Information Overload",
-        overloadDesc: "Get systematic, clear education that cuts through the noise, taught by certified healthcare professionals.",
-      },
-    },
     services: {
       title: "Our Core Programs",
       desc: "Expert-led training and education to give you the confidence you need to manage diabetes.",
