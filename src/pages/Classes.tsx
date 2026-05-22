@@ -6,6 +6,7 @@ import {
   GraduationCap,
   HeartPulse,
   Pill,
+  ReceiptText,
   ShieldCheck,
   SmilePlus,
   Users,
@@ -21,10 +22,17 @@ type CurriculumSession = {
   topics: string[];
 };
 
+type InfoCard = {
+  title: string;
+  desc: string;
+};
+
 export default function Classes() {
   const { t } = useTranslation("servicePages");
   const curriculum = t("classes.curriculum", { returnObjects: true }) as CurriculumSession[];
   const outcomes = t("classes.outcomes", { returnObjects: true }) as string[];
+  const credentials = t("classes.credentials", { returnObjects: true }) as InfoCard[];
+  const startSteps = t("classes.startSteps", { returnObjects: true }) as InfoCard[];
   const sessionIcons = [BookOpen, Apple, Activity, Pill, ShieldCheck, SmilePlus];
 
   return (
@@ -80,6 +88,30 @@ export default function Classes() {
         </div>
       </div>
 
+      <section className="border-y border-gray-100 bg-white py-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-wide text-[var(--color-brand-purple)]">{t("classes.credentialEyebrow")}</p>
+              <h2 className="mt-3 text-3xl font-bold">{t("classes.credentialTitle")}</h2>
+              <p className="mt-4 text-base leading-7 text-gray-600">{t("classes.credentialIntro")}</p>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {credentials.map((item, index) => {
+                const Icon = index === 0 ? ShieldCheck : index === 1 ? GraduationCap : ReceiptText;
+                return (
+                  <div key={item.title} className="rounded-2xl border border-gray-200 bg-gray-50 p-5">
+                    <Icon className="h-7 w-7 text-[var(--color-brand-purple)]" />
+                    <h3 className="mt-4 text-base font-bold">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-gray-600">{item.desc}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <div id="curriculum" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="mb-12 max-w-3xl">
           <p className="text-sm font-bold uppercase tracking-wide text-[var(--color-brand-purple)]">{t("classes.curriculumEyebrow")}</p>
@@ -116,6 +148,25 @@ export default function Classes() {
             );
           })}
         </div>
+
+        <section className="mt-16 rounded-[2rem] bg-gray-950 p-6 text-white md:p-10">
+          <div className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr]">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-wide text-white/60">{t("classes.startEyebrow")}</p>
+              <h2 className="mt-3 text-3xl font-bold">{t("classes.startTitle")}</h2>
+              <p className="mt-4 text-sm leading-7 text-white/70">{t("classes.startIntro")}</p>
+            </div>
+            <div className="grid gap-4 md:grid-cols-4">
+              {startSteps.map((step, index) => (
+                <div key={step.title} className="rounded-2xl bg-white/10 p-5 ring-1 ring-white/10">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-sm font-bold text-gray-950">{index + 1}</div>
+                  <h3 className="mt-4 text-base font-bold">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-white/70">{step.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         <div className="mt-16 grid gap-8 rounded-3xl bg-[var(--color-brand-pink-light)]/50 p-8 md:grid-cols-[1fr_auto] md:p-10">
           <div className="flex items-start gap-4">
