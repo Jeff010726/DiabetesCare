@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Facebook, Instagram, MessageCircle } from "lucide-react";
+import { Facebook, Instagram } from "lucide-react";
 
 export default function Footer() {
   const { t } = useTranslation();
@@ -60,14 +60,17 @@ export default function Footer() {
                 <Facebook className="h-5 w-5" />
               </button>
               <div className="group relative">
-                <button type="button" className={socialIconClass} aria-label="WeChat">
-                  <MessageCircle className="h-5 w-5" />
+                <button type="button" className={`${socialIconClass} hover:text-[#07c160]`} aria-label="WeChat">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 fill-current">
+                    <path d="M9.25 4C5.25 4 2 6.66 2 9.94c0 1.84 1.03 3.49 2.64 4.58l-.63 2.15 2.47-1.24c.86.29 1.8.45 2.77.45 4 0 7.25-2.66 7.25-5.94S13.25 4 9.25 4Zm-2.3 4.6a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8Zm4.6 0a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8Z" />
+                    <path d="M22 14.06c0-2.72-2.69-4.93-6.01-4.93h-.28c.05.26.08.53.08.81 0 3.79-3.68 6.87-8.19 6.87-.16 0-.32 0-.48-.01 1.03 1.34 2.94 2.24 5.12 2.24.75 0 1.47-.11 2.14-.31l2.06 1.03-.53-1.75C19.55 17.25 22 15.82 22 14.06Zm-7.87-1.11a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Zm3.7 0a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
+                  </svg>
                 </button>
-                <div className="pointer-events-none absolute bottom-full right-0 z-20 mb-3 w-44 rounded-2xl border border-gray-200 bg-white p-3 opacity-0 shadow-xl transition group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
+                <div className="pointer-events-none absolute bottom-full right-0 z-20 mb-3 w-56 rounded-2xl border border-gray-200 bg-white p-3 opacity-0 shadow-xl transition group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
                   <img
                     src={`${import.meta.env.BASE_URL}social/wechat-qr.jpg`}
                     alt="WeChat QR code"
-                    className="aspect-square w-full rounded-xl object-cover"
+                    className="w-full rounded-xl object-contain"
                   />
                 </div>
               </div>
