@@ -15,15 +15,15 @@ export default function Providers() {
   return (
     <div className="bg-white">
       {/* Header */}
-      <div className="bg-[var(--color-brand-purple-light)]/50 py-16 border-b border-[var(--color-brand-purple)]/10">
+      <div className="bg-[var(--color-brand-purple)] py-16 border-b border-[var(--color-brand-purple)]/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--color-brand-purple)]/10 text-[var(--color-brand-purple)] font-medium text-sm mb-6">
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-white font-medium text-sm mb-6">
             <ShieldCheck className="w-5 h-5" /> {t("providers.badge")}
           </span>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold !text-white mb-6">
             {t("providers.heroLine1")} <br/> {t("providers.heroLine2")}
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-white/85 max-w-3xl mx-auto">
             {t("providers.heroSubtitle")}
           </p>
         </div>

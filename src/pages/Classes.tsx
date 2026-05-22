@@ -164,7 +164,7 @@ export default function Classes() {
           <div className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr]">
             <div>
               <p className="text-sm font-bold uppercase tracking-wide text-white/75">{t("classes.startEyebrow")}</p>
-              <h2 className="mt-3 text-3xl font-bold text-white">{t("classes.startTitle")}</h2>
+              <h2 className="mt-3 text-3xl font-bold !text-white">{t("classes.startTitle")}</h2>
               <p className="mt-4 text-sm leading-7 text-white/85">{t("classes.startIntro")}</p>
             </div>
             <div className="grid gap-4 md:grid-cols-4">
