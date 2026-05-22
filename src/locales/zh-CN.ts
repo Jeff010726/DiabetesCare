@@ -268,7 +268,7 @@ export const zhCN = {
       credentials: [
         { title: "ADCES DEAP 认证", desc: "项目级认证支持符合全国认可标准的糖尿病教育服务。" },
         { title: "认证糖尿病专业能力", desc: "课程结合糖尿病照护、营养、用药、设备和生活方式管理经验。" },
-        { title: "保险可报销", desc: "符合条件时，Medicare / Medicaid 和许多商业保险可报销 DSME 服务，需完成转诊与福利核实。" },
+        { title: "注册营养照护", desc: "由营养师主导的营养照护，支持饮食、生活方式、血糖模式和长期自我管理。" },
       ],
       curriculumEyebrow: "课程大纲",
       curriculumTitle: "六节课程，覆盖真实生活中的糖尿病管理",
@@ -283,7 +283,7 @@ export const zhCN = {
         { title: "情绪应对与解决问题", subtitle: "日常信心、压力支持与真实情境处理", topics: ["糖尿病压力、管理疲劳、抑郁风险与支持系统", "家属和照护者沟通技巧", "案例讨论、生病日计划，以及血糖异常时的应对策略"] },
       ],
       ctaTitle: "准备开始学习了吗？",
-      ctaBody: "课程面向真实生活中的糖尿病管理。符合条件时，Medicare / Medicaid 和许多商业保险可能覆盖课程费用。",
+      ctaBody: "课程面向真实生活中的糖尿病管理。符合条件时，Medicare / Medicaid 和许多商业保险可在完成转诊与福利核实后报销 DSME 服务。",
       startEyebrow: "如何开始",
       startTitle: "从报名到上课的清晰流程",
       startIntro: "我们会协助简化行政流程，让患者把精力放在学习和改善管理上。",

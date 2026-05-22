@@ -280,7 +280,7 @@ export const en = {
       credentials: [
         { title: "ADCES DEAP Accredited", desc: "Program-level accreditation supports nationally recognized diabetes education standards." },
         { title: "Certified diabetes expertise", desc: "Education is led with diabetes care, nutrition, medication, technology, and lifestyle experience." },
-        { title: "Insurance reimbursable", desc: "Medicare / Medicaid and many private plans may reimburse eligible DSME services after referral and verification." },
+        { title: "Registered nutrition care", desc: "Dietitian-led nutrition care supports food, lifestyle, glucose patterns, and long-term self-management." },
       ],
       curriculumEyebrow: "Curriculum",
       curriculumTitle: "Six focused sessions for real-life diabetes management",
@@ -319,7 +319,7 @@ export const en = {
         },
       ],
       ctaTitle: "Ready to start learning?",
-      ctaBody: "Classes are designed for practical, real-life diabetes management and may be covered by Medicare / Medicaid and many private insurance plans when eligibility requirements are met.",
+      ctaBody: "Classes are designed for practical, real-life diabetes management. Medicare / Medicaid and many private insurance plans may reimburse eligible DSME services after referral and benefit verification.",
       startEyebrow: "How to get started",
       startTitle: "A clear path from signup to class",
       startIntro: "We help make the administrative steps less confusing so patients can focus on learning.",

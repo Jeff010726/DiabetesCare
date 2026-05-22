@@ -271,7 +271,7 @@ export const servicePages = {
     credentials: [
       { title: "ADCES DEAP 認證", desc: "項目級認證支持符合全國認可標準的糖尿病教育服務。" },
       { title: "認證糖尿病專業能力", desc: "課程結合糖尿病照護、營養、用藥、設備與生活方式管理經驗。" },
-      { title: "保險可給付", desc: "符合條件時，Medicare / Medicaid 和許多商業保險可給付 DSME 服務，需完成轉介與福利確認。" },
+      { title: "註冊營養照護", desc: "由營養師主導的營養照護，支持飲食、生活方式、血糖模式與長期自我管理。" },
     ],
     curriculumEyebrow: "課程大綱",
     curriculumTitle: "六節課程，涵蓋真實生活中的糖尿病管理",
@@ -286,7 +286,7 @@ export const servicePages = {
       { title: "情緒應對與解決問題", subtitle: "日常信心、壓力支持與真實情境處理", topics: ["糖尿病壓力、管理疲勞、憂鬱風險與支持系統", "家屬和照護者溝通技巧", "案例討論、生病日計畫，以及血糖異常時的應對策略"] },
     ],
     ctaTitle: "準備開始學習了嗎？",
-    ctaBody: "課程面向真實生活中的糖尿病管理。符合條件時，Medicare / Medicaid 和許多商業保險可能給付課程費用。",
+    ctaBody: "課程面向真實生活中的糖尿病管理。符合條件時，Medicare / Medicaid 和許多商業保險可在完成轉介與福利確認後給付 DSME 服務。",
     startEyebrow: "如何開始",
     startTitle: "從報名到上課的清楚流程",
     startIntro: "我們會協助簡化行政流程，讓患者把精力放在學習與改善管理上。",

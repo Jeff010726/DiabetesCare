@@ -268,7 +268,7 @@ export const es = {
       credentials: [
         { title: "Acreditado por ADCES DEAP", desc: "La acreditación del programa respalda estándares reconocidos de educación en diabetes." },
         { title: "Experiencia certificada", desc: "La educación combina diabetes, nutrición, medicamentos, tecnología y manejo del estilo de vida." },
-        { title: "Reembolsable por seguro", desc: "Medicare / Medicaid y muchos seguros privados pueden reembolsar servicios DSME elegibles después del referido y verificación." },
+        { title: "Cuidado nutricional registrado", desc: "El cuidado nutricional dirigido por dietistas apoya alimentación, estilo de vida, patrones de glucosa y automanejo a largo plazo." },
       ],
       curriculumEyebrow: "Currículo",
       curriculumTitle: "Seis sesiones enfocadas en el manejo real de la diabetes",
@@ -283,7 +283,7 @@ export const es = {
         { title: "Afrontamiento y solución de problemas", subtitle: "Confianza diaria, estrés y decisiones reales", topics: ["Estrés por diabetes, agotamiento, riesgo de depresión y sistemas de apoyo", "Comunicación con cuidadores y familiares", "Casos prácticos, plan para días de enfermedad y patrones inesperados de glucosa"] },
       ],
       ctaTitle: "¿Listo para empezar a aprender?",
-      ctaBody: "Las clases están diseñadas para el manejo práctico de la diabetes en la vida real y pueden estar cubiertas por Medicare / Medicaid y muchos seguros privados cuando se cumplen los requisitos de elegibilidad.",
+      ctaBody: "Las clases están diseñadas para el manejo práctico de la diabetes en la vida real. Medicare / Medicaid y muchos seguros privados pueden reembolsar servicios DSME elegibles después del referido y verificación de beneficios.",
       startEyebrow: "Cómo empezar",
       startTitle: "Un camino claro desde la inscripción hasta la clase",
       startIntro: "Ayudamos a que los pasos administrativos sean menos confusos para que el paciente pueda enfocarse en aprender.",

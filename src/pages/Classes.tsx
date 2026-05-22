@@ -98,10 +98,21 @@ export default function Classes() {
             </div>
             <div className="grid gap-4 md:grid-cols-3">
               {credentials.map((item, index) => {
+                const credentialImages = ["adces-deap-accreditation.webp", "cdces-badge.webp", "rd-rdn-badge.webp"];
                 const Icon = index === 0 ? ShieldCheck : index === 1 ? GraduationCap : ReceiptText;
                 return (
                   <div key={item.title} className="rounded-2xl border border-gray-200 bg-gray-50 p-5">
-                    <Icon className="h-7 w-7 text-[var(--color-brand-purple)]" />
+                    <div className="flex h-20 items-center justify-center rounded-xl bg-white p-3">
+                      {credentialImages[index] ? (
+                        <img
+                          src={`${import.meta.env.BASE_URL}${credentialImages[index]}`}
+                          alt=""
+                          className="max-h-full max-w-full object-contain"
+                        />
+                      ) : (
+                        <Icon className="h-7 w-7 text-[var(--color-brand-purple)]" />
+                      )}
+                    </div>
                     <h3 className="mt-4 text-base font-bold">{item.title}</h3>
                     <p className="mt-2 text-sm leading-6 text-gray-600">{item.desc}</p>
                   </div>
@@ -149,19 +160,19 @@ export default function Classes() {
           })}
         </div>
 
-        <section className="mt-16 rounded-[2rem] bg-gray-950 p-6 text-white md:p-10">
+        <section className="mt-16 rounded-[2rem] bg-[var(--color-brand-purple)] p-6 text-white shadow-[0_24px_70px_-32px_rgba(91,64,150,0.55)] md:p-10">
           <div className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr]">
             <div>
-              <p className="text-sm font-bold uppercase tracking-wide text-white/60">{t("classes.startEyebrow")}</p>
+              <p className="text-sm font-bold uppercase tracking-wide text-white/75">{t("classes.startEyebrow")}</p>
               <h2 className="mt-3 text-3xl font-bold">{t("classes.startTitle")}</h2>
-              <p className="mt-4 text-sm leading-7 text-white/70">{t("classes.startIntro")}</p>
+              <p className="mt-4 text-sm leading-7 text-white/80">{t("classes.startIntro")}</p>
             </div>
             <div className="grid gap-4 md:grid-cols-4">
               {startSteps.map((step, index) => (
-                <div key={step.title} className="rounded-2xl bg-white/10 p-5 ring-1 ring-white/10">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-sm font-bold text-gray-950">{index + 1}</div>
-                  <h3 className="mt-4 text-base font-bold">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-white/70">{step.desc}</p>
+                <div key={step.title} className="rounded-2xl bg-white p-5 text-gray-900 shadow-sm ring-1 ring-white/20">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-brand-purple-light)] text-sm font-bold text-[var(--color-brand-purple)]">{index + 1}</div>
+                  <h3 className="mt-4 text-base font-bold text-[var(--color-brand-purple)]">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-gray-600">{step.desc}</p>
                 </div>
               ))}
             </div>
