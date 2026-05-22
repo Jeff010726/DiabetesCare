@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Facebook, Instagram, MessageCircle } from "lucide-react";
 
 export default function Footer() {
   const { t } = useTranslation();
+  const socialIconClass = "flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 transition hover:border-[var(--color-brand-purple)] hover:text-[var(--color-brand-purple)]";
 
   return (
     <footer className="bg-white border-t border-gray-100 py-12 mt-12 bg-[var(--color-brand-purple-light)]/30">
@@ -50,6 +52,26 @@ export default function Footer() {
               <li><Link to="/contact" className="hover:text-[var(--color-brand-purple)]">{t("footer.contactUs")}</Link></li>
               <li><Link to="/recipes" className="hover:text-[var(--color-brand-purple)]">{t("nav.healthyRecipes")}</Link></li>
             </ul>
+            <div className="mt-5 flex items-center gap-3">
+              <button type="button" className={socialIconClass} aria-label="Instagram">
+                <Instagram className="h-5 w-5" />
+              </button>
+              <button type="button" className={socialIconClass} aria-label="Facebook">
+                <Facebook className="h-5 w-5" />
+              </button>
+              <div className="group relative">
+                <button type="button" className={socialIconClass} aria-label="WeChat">
+                  <MessageCircle className="h-5 w-5" />
+                </button>
+                <div className="pointer-events-none absolute bottom-full right-0 z-20 mb-3 w-44 rounded-2xl border border-gray-200 bg-white p-3 opacity-0 shadow-xl transition group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
+                  <img
+                    src={`${import.meta.env.BASE_URL}social/wechat-qr.jpg`}
+                    alt="WeChat QR code"
+                    className="aspect-square w-full rounded-xl object-cover"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-200 flex justify-between items-center text-sm text-gray-500">
