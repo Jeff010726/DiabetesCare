@@ -339,44 +339,44 @@ export const zhCN = {
           brand: "Omnipod",
           summary: "\u65e0\u7ba1\u8def Pod \u6cbb\u7597\u65b9\u6848\uff0c\u5305\u542b\u81ea\u52a8\u8f93\u6ce8\u4e0e\u624b\u52a8\u7ba1\u7406\u9009\u9879\u3002",
           products: [
-            { name: "Omnipod 5", desc: "\u65e0\u7ba1\u8def\u81ea\u52a8\u80f0\u5c9b\u7d20\u8f93\u6ce8\u7cfb\u7edf\uff0c\u53ef\u6839\u636e CGM \u6570\u636e\u8c03\u6574\u80f0\u5c9b\u7d20\u3002", image: "pumps/omnipod-5.webp", tags: ["\u65e0\u7ba1\u8def", "\u81ea\u52a8\u8f93\u6ce8", "Pod"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-5" },
-            { name: "Omnipod DASH", desc: "\u4f7f\u7528\u53ef\u7a7f\u6234 Pod \u548c\u624b\u6301\u63a7\u5236\u5668\u7684\u65e0\u7ba1\u8def\u80f0\u5c9b\u7d20\u7ba1\u7406\u7cfb\u7edf\u3002", image: "pumps/omnipod-dash.webp", tags: ["\u65e0\u7ba1\u8def", "Pod", "PDM"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-dash" },
+            { name: "Omnipod 5", desc: "\u65e0\u7ba1\u8def\u81ea\u52a8\u80f0\u5c9b\u7d20\u8f93\u6ce8\u7cfb\u7edf\uff0c\u53ef\u6839\u636e CGM \u6570\u636e\u8c03\u6574\u80f0\u5c9b\u7d20\u3002", image: "pumps/omnipod-5.png", tags: ["\u65e0\u7ba1\u8def", "\u81ea\u52a8\u8f93\u6ce8", "Pod"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-5" },
+            { name: "Omnipod DASH", desc: "\u4f7f\u7528\u53ef\u7a7f\u6234 Pod \u548c\u624b\u6301\u63a7\u5236\u5668\u7684\u65e0\u7ba1\u8def\u80f0\u5c9b\u7d20\u7ba1\u7406\u7cfb\u7edf\u3002", image: "pumps/omnipod-dash.png", tags: ["\u65e0\u7ba1\u8def", "Pod", "PDM"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-dash" },
           ],
         },
         {
           brand: "Tandem Diabetes Care",
           summary: "\u63d0\u4f9b\u89e6\u5c4f\u6cf5\u548c\u624b\u673a\u63a7\u5236\u6cf5\uff0c\u6838\u5fc3\u4e3a Control-IQ \u6280\u672f\u3002",
           products: [
-            { name: "Tandem Mobi", desc: "\u5c0f\u578b\u8010\u7528\u6cf5\uff0c\u53ef\u901a\u8fc7\u517c\u5bb9\u7684\u667a\u80fd\u624b\u673a app \u63a7\u5236\u3002", image: "pumps/tandem-mobi.webp", tags: ["\u81ea\u52a8\u8f93\u6ce8", "\u624b\u673a\u63a7\u5236", "200 \u5355\u4f4d"], sourceUrl: "https://www.tandemdiabetes.com/products/insulin-pumps/tandem-mobi" },
-            { name: "t:slim X2", desc: "\u914d\u5907\u89e6\u6478\u5c4f\u3001Control-IQ \u6280\u672f\u548c\u8f6f\u4ef6\u66f4\u65b0\u80fd\u529b\u7684\u80f0\u5c9b\u7d20\u6cf5\u3002", image: "pumps/tandem-tslim-x2.webp", tags: ["\u81ea\u52a8\u8f93\u6ce8", "\u89e6\u6478\u5c4f", "300 \u5355\u4f4d"], sourceUrl: "https://www.tandemdiabetes.com/products/insulin-pumps/tslim-x2-insulin-pump" },
+            { name: "Tandem Mobi", desc: "\u5c0f\u578b\u8010\u7528\u6cf5\uff0c\u53ef\u901a\u8fc7\u517c\u5bb9\u7684\u667a\u80fd\u624b\u673a app \u63a7\u5236\u3002", image: "pumps/tandem-mobi.png", tags: ["\u81ea\u52a8\u8f93\u6ce8", "\u624b\u673a\u63a7\u5236", "200 \u5355\u4f4d"], sourceUrl: "https://www.tandemdiabetes.com/products/insulin-pumps/tandem-mobi" },
+            { name: "t:slim X2", desc: "\u914d\u5907\u89e6\u6478\u5c4f\u3001Control-IQ \u6280\u672f\u548c\u8f6f\u4ef6\u66f4\u65b0\u80fd\u529b\u7684\u80f0\u5c9b\u7d20\u6cf5\u3002", image: "pumps/tandem-tslim-x2.png", tags: ["\u81ea\u52a8\u8f93\u6ce8", "\u89e6\u6478\u5c4f", "300 \u5355\u4f4d"], sourceUrl: "https://www.tandemdiabetes.com/products/insulin-pumps/tslim-x2-insulin-pump" },
           ],
         },
         {
           brand: "MiniMed",
           summary: "Medtronic \u7cfb\u7edf\u4ee5 SmartGuard \u81ea\u52a8\u5316\u548c Guardian \u4f20\u611f\u5668\u6574\u5408\u4e3a\u6838\u5fc3\u3002",
           products: [
-            { name: "MiniMed 780G", desc: "\u91c7\u7528 SmartGuard \u6280\u672f\u7684\u81ea\u52a8\u80f0\u5c9b\u7d20\u8f93\u6ce8\u7cfb\u7edf\u3002", image: "pumps/minimed-780g.webp", tags: ["\u81ea\u52a8\u8f93\u6ce8", "SmartGuard", "Guardian"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-780g-insulin-pump-system" },
+            { name: "MiniMed 780G", desc: "\u91c7\u7528 SmartGuard \u6280\u672f\u7684\u81ea\u52a8\u80f0\u5c9b\u7d20\u8f93\u6ce8\u7cfb\u7edf\u3002", image: "pumps/minimed-780g.png", tags: ["\u81ea\u52a8\u8f93\u6ce8", "SmartGuard", "Guardian"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-780g-insulin-pump-system" },
           ],
         },
         {
           brand: "Beta Bionics",
           summary: "\u4ee5\u7b80\u5316\u8bbe\u7f6e\u548c\u81ea\u52a8\u5316\u5242\u91cf\u51b3\u7b56\u4e3a\u91cd\u70b9\u7684\u4eff\u751f\u80f0\u817a\u7cfb\u7edf\u3002",
           products: [
-            { name: "iLet Bionic Pancreas", desc: "\u4ee5\u4f53\u91cd\u4f5c\u4e3a\u8d77\u59cb\u4fe1\u606f\uff0c\u5e76\u901a\u8fc7 iLet \u7cfb\u7edf\u81ea\u52a8\u5316\u80f0\u5c9b\u7d20\u5242\u91cf\u51b3\u7b56\u3002", image: "pumps/ilet-bionic-pancreas.webp", tags: ["\u81ea\u52a8\u8f93\u6ce8", "\u6309\u4f53\u91cd\u542f\u52a8", "CGM"], sourceUrl: "https://www.betabionics.com/ilet-bionic-pancreas/" },
+            { name: "iLet Bionic Pancreas", desc: "\u4ee5\u4f53\u91cd\u4f5c\u4e3a\u8d77\u59cb\u4fe1\u606f\uff0c\u5e76\u901a\u8fc7 iLet \u7cfb\u7edf\u81ea\u52a8\u5316\u80f0\u5c9b\u7d20\u5242\u91cf\u51b3\u7b56\u3002", image: "pumps/ilet-bionic-pancreas.png", tags: ["\u81ea\u52a8\u8f93\u6ce8", "\u6309\u4f53\u91cd\u542f\u52a8", "CGM"], sourceUrl: "https://www.betabionics.com/ilet-bionic-pancreas/" },
           ],
         },
         {
           brand: "twiist",
           summary: "\u56f4\u7ed5 FDA \u6279\u51c6\u7684 Tidepool Loop \u7b97\u6cd5\u6784\u5efa\u7684\u81ea\u52a8\u80f0\u5c9b\u7d20\u8f93\u6ce8\u7cfb\u7edf\u3002",
           products: [
-            { name: "twiist AID System", desc: "\u7ed3\u5408 Tidepool Loop \u7b97\u6cd5\u548c twiist \u6cf5\u5e73\u53f0\u7684\u81ea\u52a8\u80f0\u5c9b\u7d20\u8f93\u6ce8\u7cfb\u7edf\u3002", image: "pumps/twiist-aid.webp", tags: ["\u81ea\u52a8\u8f93\u6ce8", "Tidepool Loop", "300 \u5355\u4f4d"], sourceUrl: "https://www.twiist.com/what-is-twiist" },
+            { name: "twiist AID System", desc: "\u7ed3\u5408 Tidepool Loop \u7b97\u6cd5\u548c twiist \u6cf5\u5e73\u53f0\u7684\u81ea\u52a8\u80f0\u5c9b\u7d20\u8f93\u6ce8\u7cfb\u7edf\u3002", image: "pumps/twiist-aid.png", tags: ["\u81ea\u52a8\u8f93\u6ce8", "Tidepool Loop", "300 \u5355\u4f4d"], sourceUrl: "https://www.twiist.com/what-is-twiist" },
           ],
         },
         {
           brand: "CeQur",
           summary: "\u9910\u65f6\u80f0\u5c9b\u7d20\u8d34\u7247\uff0c\u9002\u5408\u9700\u8981\u9910\u65f6\u5242\u91cf\u4f46\u4e0d\u4e00\u5b9a\u9700\u8981\u5b8c\u6574\u6cf5\u7cfb\u7edf\u7684\u4eba\u7fa4\u3002",
           products: [
-            { name: "CeQur Simplicity", desc: "\u53ef\u4f69\u6234 4 \u5929\u7684\u9910\u65f6\u80f0\u5c9b\u7d20\u8d34\u7247\uff0c\u901a\u8fc7\u7b80\u5355\u70b9\u51fb\u8f93\u6ce8\u9910\u65f6\u80f0\u5c9b\u7d20\u3002", image: "pumps/cequr-simplicity.webp", tags: ["\u9910\u65f6\u8d34\u7247", "4 \u5929\u4f69\u6234", "\u65e0\u7535\u5b50\u5143\u4ef6"], sourceUrl: "https://myceqursimplicity.com/" },
+            { name: "CeQur Simplicity", desc: "\u53ef\u4f69\u6234 4 \u5929\u7684\u9910\u65f6\u80f0\u5c9b\u7d20\u8d34\u7247\uff0c\u901a\u8fc7\u7b80\u5355\u70b9\u51fb\u8f93\u6ce8\u9910\u65f6\u80f0\u5c9b\u7d20\u3002", image: "pumps/cequr-simplicity.png", tags: ["\u9910\u65f6\u8d34\u7247", "4 \u5929\u4f69\u6234", "\u65e0\u7535\u5b50\u5143\u4ef6"], sourceUrl: "https://myceqursimplicity.com/" },
           ],
         },
       ],
@@ -395,9 +395,9 @@ export const zhCN = {
       heroTitle: "CGM 培训与报告分析",
       heroSubtitle: "充分发挥连续血糖监测器的价值。我们教您如何使用设备，并帮助您和医生解读数据，以优化健康管理。",
       devices: [
-        { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre-v2.webp", desc: "培训内容包括传感器佩戴、手机读取器使用，以及趋势箭头解读。" },
-        { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom-v2.webp", desc: "协助设置提醒和报警、与家人或诊所共享数据，并了解申请流程。" },
-        { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo-v2.webp", desc: "为 2 型糖尿病患者提供指导，帮助解读新型非处方生物传感器数据。" },
+        { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre-v2.png", desc: "培训内容包括传感器佩戴、手机读取器使用，以及趋势箭头解读。" },
+        { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom-v2.png", desc: "协助设置提醒和报警、与家人或诊所共享数据，并了解申请流程。" },
+        { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo-v2.png", desc: "为 2 型糖尿病患者提供指导，帮助解读新型非处方生物传感器数据。" },
       ],
       features: {
         appSetup: "应用程序设置",

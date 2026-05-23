@@ -89,7 +89,7 @@ export default function PumpTraining() {
                     key={`${brand.brand}-${product.name}`}
                     className="group bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] overflow-hidden hover:-translate-y-1 transition-transform"
                   >
-                    <div className="bg-gray-50 aspect-[4/3] p-6 flex items-center justify-center">
+                    <div className="aspect-[4/3] p-6 flex items-center justify-center">
                       <img
                         src={`${import.meta.env.BASE_URL}${product.image}`}
                         alt={product.name}

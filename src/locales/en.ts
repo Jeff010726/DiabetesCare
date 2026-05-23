@@ -375,44 +375,44 @@ export const en = {
           brand: "Omnipod",
           summary: "Tubeless Pod therapy with both automated and manual insulin-management options.",
           products: [
-            { name: "Omnipod 5", desc: "Tubeless automated insulin delivery system designed to adjust insulin using CGM data.", image: "pumps/omnipod-5.webp", tags: ["Tubeless", "AID", "Pod"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-5" },
-            { name: "Omnipod DASH", desc: "Tubeless insulin management system using a wearable Pod and handheld controller.", image: "pumps/omnipod-dash.webp", tags: ["Tubeless", "Pod", "PDM"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-dash" },
+            { name: "Omnipod 5", desc: "Tubeless automated insulin delivery system designed to adjust insulin using CGM data.", image: "pumps/omnipod-5.png", tags: ["Tubeless", "AID", "Pod"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-5" },
+            { name: "Omnipod DASH", desc: "Tubeless insulin management system using a wearable Pod and handheld controller.", image: "pumps/omnipod-dash.png", tags: ["Tubeless", "Pod", "PDM"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-dash" },
           ],
         },
         {
           brand: "twiist",
           summary: "Automated insulin delivery built around the FDA-cleared Tidepool Loop algorithm.",
           products: [
-            { name: "twiist AID System", desc: "Automated insulin delivery system using Tidepool Loop and the twiist pump platform.", image: "pumps/twiist-aid.webp", tags: ["AID", "Tidepool Loop", "300 units"], sourceUrl: "https://www.twiist.com/" },
+            { name: "twiist AID System", desc: "Automated insulin delivery system using Tidepool Loop and the twiist pump platform.", image: "pumps/twiist-aid.png", tags: ["AID", "Tidepool Loop", "300 units"], sourceUrl: "https://www.twiist.com/" },
           ],
         },
         {
           brand: "Beta Bionics",
           summary: "A simplified bionic pancreas system built to automate insulin dosing decisions.",
           products: [
-            { name: "iLet Bionic Pancreas", desc: "Starts with body weight and automates insulin dosing decisions through the iLet system.", image: "pumps/ilet-bionic-pancreas.webp", tags: ["AID", "Weight-based start", "CGM"], sourceUrl: "https://www.betabionics.com/ilet-bionic-pancreas/" },
+            { name: "iLet Bionic Pancreas", desc: "Starts with body weight and automates insulin dosing decisions through the iLet system.", image: "pumps/ilet-bionic-pancreas.png", tags: ["AID", "Weight-based start", "CGM"], sourceUrl: "https://www.betabionics.com/ilet-bionic-pancreas/" },
           ],
         },
         {
           brand: "Tandem Diabetes Care",
           summary: "Screen-based and mobile-controlled pump systems using Control-IQ technology.",
           products: [
-            { name: "Tandem Mobi", desc: "Small durable pump controlled from a compatible smartphone app.", image: "pumps/tandem-mobi.webp", tags: ["AID", "Mobile control", "200 units"], sourceUrl: "https://www.tandemdiabetes.com/products/insulin-pumps/tandem-mobi" },
-            { name: "t:slim X2", desc: "Touchscreen insulin pump with Control-IQ technology and software updates.", image: "pumps/tandem-tslim-x2.webp", tags: ["AID", "Touchscreen", "300 units"], sourceUrl: "https://www.tandemdiabetes.com/products/insulin-pumps/tslim-x2-insulin-pump" },
+            { name: "Tandem Mobi", desc: "Small durable pump controlled from a compatible smartphone app.", image: "pumps/tandem-mobi.png", tags: ["AID", "Mobile control", "200 units"], sourceUrl: "https://www.tandemdiabetes.com/products/insulin-pumps/tandem-mobi" },
+            { name: "t:slim X2", desc: "Touchscreen insulin pump with Control-IQ technology and software updates.", image: "pumps/tandem-tslim-x2.png", tags: ["AID", "Touchscreen", "300 units"], sourceUrl: "https://www.tandemdiabetes.com/products/insulin-pumps/tslim-x2-insulin-pump" },
           ],
         },
         {
           brand: "MiniMed",
           summary: "Medtronic systems built around SmartGuard automation and Guardian sensor integration.",
           products: [
-            { name: "MiniMed 780G", desc: "Automated insulin delivery system with SmartGuard technology.", image: "pumps/minimed-780g.webp", tags: ["AID", "SmartGuard", "Guardian"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-780g-insulin-pump-system" },
+            { name: "MiniMed 780G", desc: "Automated insulin delivery system with SmartGuard technology.", image: "pumps/minimed-780g.png", tags: ["AID", "SmartGuard", "Guardian"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-780g-insulin-pump-system" },
           ],
         },
         {
           brand: "CeQur",
           summary: "Wearable mealtime insulin patch for people who need bolus insulin without a full pump system.",
           products: [
-            { name: "CeQur Simplicity", desc: "Four-day wearable insulin patch that delivers mealtime insulin with simple clicks.", image: "pumps/cequr-simplicity.webp", tags: ["Bolus patch", "4-day wear", "No electronics"], sourceUrl: "https://myceqursimplicity.com/" },
+            { name: "CeQur Simplicity", desc: "Four-day wearable insulin patch that delivers mealtime insulin with simple clicks.", image: "pumps/cequr-simplicity.png", tags: ["Bolus patch", "4-day wear", "No electronics"], sourceUrl: "https://myceqursimplicity.com/" },
           ],
         },
       ],
@@ -431,10 +431,10 @@ export const en = {
       heroTitle: "CGM Training & Report Analysis",
       heroSubtitle: "Unlock the power of your dynamic glucose monitor. We train you how to use it, interpret reports, and help you and your doctor turn data into better decisions.",
       devices: [
-        { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre-v2.webp", desc: "Training on sensor placement, using your smartphone reader, and understanding trend arrows.", sourceUrl: "https://www.freestyle.abbott/us-en/home.html" },
-        { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom-v2.webp", desc: "Setup of alerts and alarms, sharing data with family or clinic, and application process.", sourceUrl: "https://www.dexcom.com/" },
-        { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo-v2.webp", desc: "Guidance for type 2 diabetes patients on interpreting the over-the-counter biosensor data.", sourceUrl: "https://www.stelo.com/" },
-        { name: "Lingo", maker: "Abbott", logo: "cgm-logos/lingo-v2.webp", desc: "Support for Abbott Lingo users who want to understand glucose patterns and lifestyle responses.", sourceUrl: "https://www.hellolingo.com/" },
+        { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre-v2.png", desc: "Training on sensor placement, using your smartphone reader, and understanding trend arrows.", sourceUrl: "https://www.freestyle.abbott/us-en/home.html" },
+        { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom-v2.png", desc: "Setup of alerts and alarms, sharing data with family or clinic, and application process.", sourceUrl: "https://www.dexcom.com/" },
+        { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo-v2.png", desc: "Guidance for type 2 diabetes patients on interpreting the over-the-counter biosensor data.", sourceUrl: "https://www.stelo.com/" },
+        { name: "Lingo", maker: "Abbott", logo: "cgm-logos/lingo-v2.png", desc: "Support for Abbott Lingo users who want to understand glucose patterns and lifestyle responses.", sourceUrl: "https://www.hellolingo.com/" },
       ],
       features: {
         appSetup: "App Setup",

@@ -14,10 +14,10 @@ export default function CGM() {
     Lingo: "https://www.hellolingo.com/",
   };
   const cgmLogoUrls: Record<string, string> = {
-    "FreeStyle Libre": "cgm-logos/freestyle-libre-v2.webp",
-    "Dexcom G7/G6": "cgm-logos/dexcom-v2.webp",
-    Stelo: "cgm-logos/stelo-v2.webp",
-    Lingo: "cgm-logos/lingo-v2.webp",
+    "FreeStyle Libre": "cgm-logos/freestyle-libre-v2.png",
+    "Dexcom G7/G6": "cgm-logos/dexcom-v2.png",
+    Stelo: "cgm-logos/stelo-v2.png",
+    Lingo: "cgm-logos/lingo-v2.png",
   };
   const visibleDevices = devices.some((device) => device.name === "Lingo")
     ? devices
@@ -51,7 +51,7 @@ export default function CGM() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
           {visibleDevices.map((device) => (
             <div key={device.name} className="flex min-h-[360px] flex-col bg-white p-7 rounded-3xl border border-gray-100 shadow-sm text-center">
-              <div className="mb-6 flex h-20 items-center justify-center rounded-2xl bg-gray-50 px-5">
+              <div className="mb-6 flex h-20 items-center justify-center px-5">
                 <img
                   src={`${import.meta.env.BASE_URL}${device.logo || cgmLogoUrls[device.name]}`}
                   alt={`${device.name} logo`}
