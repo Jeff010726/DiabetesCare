@@ -207,9 +207,9 @@ export const es = {
       title: "Practical education that changes daily diabetes care",
       subtitle: "Early feedback from class participants and caregivers.",
       items: [
-        { quote: "I stopped guessing and started understanding my glucose patterns. The examples were realistic and easy to use at home.", name: "M. Lee", detail: "DSME participant", image: "testimonials/patient-01.jpg" },
-        { quote: "The educator explained medications, food, and CGM reports in a way my family could understand together.", name: "R. Johnson", detail: "Caregiver-supported learning", image: "testimonials/patient-02.jpg" },
-        { quote: "I came in nervous about diabetes care. I left with a plan, confidence, and better questions for my doctor.", name: "A. Chen", detail: "Bilingual class participant", image: "testimonials/patient-03.jpg" },
+        { quote: "I stopped guessing and started understanding my glucose patterns. The examples were realistic and easy to use at home.", name: "M. Lee", detail: "DSME participant", image: "testimonials/patient-01.webp" },
+        { quote: "The educator explained medications, food, and CGM reports in a way my family could understand together.", name: "R. Johnson", detail: "Caregiver-supported learning", image: "testimonials/patient-02.webp" },
+        { quote: "I came in nervous about diabetes care. I left with a plan, confidence, and better questions for my doctor.", name: "A. Chen", detail: "Bilingual class participant", image: "testimonials/patient-03.webp" },
       ],
     },
     why: {
@@ -296,18 +296,18 @@ export const es = {
       instructorsTitle: "Educators who make diabetes easier to understand",
       instructorsIntro: "Placeholder instructor profiles are shown while the final teaching roster is being confirmed.",
       instructors: [
-        { name: "Emily Chen, MS, RD", role: "Lead DSME instructor", bio: "Focuses on practical meal planning, label reading, and culturally familiar food examples.", image: "team/instructor-01.jpg" },
-        { name: "Michael Rodriguez, CDCES", role: "Diabetes technology educator", bio: "Helps patients connect monitoring data with medication routines and daily decisions.", image: "team/instructor-02.jpg" },
-        { name: "Sarah Patel, RD", role: "Nutrition educator", bio: "Translates carbohydrate, protein, and portion concepts into simple everyday habits.", image: "team/instructor-03.jpg" },
-        { name: "David Liu, PharmD", role: "Medication education advisor", bio: "Supports safe medication use, side-effect planning, and questions before dose changes.", image: "team/instructor-04.jpg" },
-        { name: "Grace Wong, CPT", role: "Activity and lifestyle coach", bio: "Builds realistic movement plans for different ages, schedules, and glucose patterns.", image: "team/instructor-05.jpg" },
+        { name: "Emily Chen, MS, RD", role: "Lead DSME instructor", bio: "Focuses on practical meal planning, label reading, and culturally familiar food examples.", image: "team/instructor-01.webp" },
+        { name: "Michael Rodriguez, CDCES", role: "Diabetes technology educator", bio: "Helps patients connect monitoring data with medication routines and daily decisions.", image: "team/instructor-02.webp" },
+        { name: "Sarah Patel, RD", role: "Nutrition educator", bio: "Translates carbohydrate, protein, and portion concepts into simple everyday habits.", image: "team/instructor-03.webp" },
+        { name: "David Liu, PharmD", role: "Medication education advisor", bio: "Supports safe medication use, side-effect planning, and questions before dose changes.", image: "team/instructor-04.webp" },
+        { name: "Grace Wong, CPT", role: "Activity and lifestyle coach", bio: "Builds realistic movement plans for different ages, schedules, and glucose patterns.", image: "team/instructor-05.webp" },
       ],
       testimonialsEyebrow: "Patient feedback",
       testimonialsTitle: "Patients feel more confident after structured diabetes education",
       testimonials: [
-        { quote: "The class finally made my numbers make sense. I learned what to change at breakfast and how to talk to my doctor with better questions.", name: "M. Lee", detail: "DSME participant", image: "testimonials/patient-01.jpg" },
-        { quote: "I was overwhelmed by medications and glucose readings. The sessions gave me a simple plan I could follow with my family.", name: "R. Johnson", detail: "Type 2 diabetes support", image: "testimonials/patient-02.jpg" },
-        { quote: "The teaching was clear, patient, and practical. I left knowing how to read labels and prevent low blood sugar more safely.", name: "A. Chen", detail: "Bilingual class participant", image: "testimonials/patient-03.jpg" },
+        { quote: "The class finally made my numbers make sense. I learned what to change at breakfast and how to talk to my doctor with better questions.", name: "M. Lee", detail: "DSME participant", image: "testimonials/patient-01.webp" },
+        { quote: "I was overwhelmed by medications and glucose readings. The sessions gave me a simple plan I could follow with my family.", name: "R. Johnson", detail: "Type 2 diabetes support", image: "testimonials/patient-02.webp" },
+        { quote: "The teaching was clear, patient, and practical. I left knowing how to read labels and prevent low blood sugar more safely.", name: "A. Chen", detail: "Bilingual class participant", image: "testimonials/patient-03.webp" },
       ],
       ctaTitle: "¿Listo para empezar a aprender?",
       ctaBody: "Las clases están diseñadas para el manejo práctico de la diabetes en la vida real. Medicare / Medicaid y muchos seguros privados pueden reembolsar servicios DSME elegibles después del referido y verificación de beneficios.",
@@ -339,8 +339,8 @@ export const es = {
           brand: "Omnipod",
           summary: "Terapia Pod sin tubos con opciones automatizadas y de manejo manual de insulina.",
           products: [
-            { name: "Omnipod 5", desc: "Sistema automatizado de administracion de insulina sin tubos disenado para ajustar la insulina con datos de CGM.", image: "pumps/omnipod-5.png", tags: ["Sin tubos", "AID", "Pod"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-5" },
-            { name: "Omnipod DASH", desc: "Sistema de manejo de insulina sin tubos con un Pod portatil y controlador manual.", image: "pumps/omnipod-dash.png", tags: ["Sin tubos", "Pod", "PDM"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-dash" },
+            { name: "Omnipod 5", desc: "Sistema automatizado de administracion de insulina sin tubos disenado para ajustar la insulina con datos de CGM.", image: "pumps/omnipod-5.webp", tags: ["Sin tubos", "AID", "Pod"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-5" },
+            { name: "Omnipod DASH", desc: "Sistema de manejo de insulina sin tubos con un Pod portatil y controlador manual.", image: "pumps/omnipod-dash.webp", tags: ["Sin tubos", "Pod", "PDM"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-dash" },
           ],
         },
         {
@@ -355,7 +355,7 @@ export const es = {
           brand: "MiniMed",
           summary: "Sistemas Medtronic centrados en automatizacion SmartGuard e integracion con sensores Guardian.",
           products: [
-            { name: "MiniMed 780G", desc: "Sistema automatizado de administracion de insulina con tecnologia SmartGuard.", image: "pumps/minimed-780g.png", tags: ["AID", "SmartGuard", "Guardian"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-780g-insulin-pump-system" },
+            { name: "MiniMed 780G", desc: "Sistema automatizado de administracion de insulina con tecnologia SmartGuard.", image: "pumps/minimed-780g.webp", tags: ["AID", "SmartGuard", "Guardian"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-780g-insulin-pump-system" },
           ],
         },
         {
@@ -369,14 +369,14 @@ export const es = {
           brand: "twiist",
           summary: "Administracion automatizada de insulina basada en el algoritmo Tidepool Loop autorizado por la FDA.",
           products: [
-            { name: "twiist AID System", desc: "Sistema automatizado de insulina que usa Tidepool Loop y la plataforma de bomba twiist.", image: "pumps/twiist-aid.png", tags: ["AID", "Tidepool Loop", "300 unidades"], sourceUrl: "https://www.twiist.com/what-is-twiist" },
+            { name: "twiist AID System", desc: "Sistema automatizado de insulina que usa Tidepool Loop y la plataforma de bomba twiist.", image: "pumps/twiist-aid.webp", tags: ["AID", "Tidepool Loop", "300 unidades"], sourceUrl: "https://www.twiist.com/what-is-twiist" },
           ],
         },
         {
           brand: "CeQur",
           summary: "Parche de insulina para comidas para personas que necesitan bolos sin un sistema completo de bomba.",
           products: [
-            { name: "CeQur Simplicity", desc: "Parche portatil de cuatro dias que administra insulina para comidas con clics sencillos.", image: "pumps/cequr-simplicity.jpg", tags: ["Parche de bolo", "4 dias", "Sin electronica"], sourceUrl: "https://myceqursimplicity.com/" },
+            { name: "CeQur Simplicity", desc: "Parche portatil de cuatro dias que administra insulina para comidas con clics sencillos.", image: "pumps/cequr-simplicity.webp", tags: ["Parche de bolo", "4 dias", "Sin electronica"], sourceUrl: "https://myceqursimplicity.com/" },
           ],
         },
       ],
@@ -395,9 +395,9 @@ export const es = {
       heroTitle: "Capacitación en CGM y análisis de reportes",
       heroSubtitle: "Aproveche todo el potencial de su monitor continuo de glucosa. Le enseñamos a usarlo y ayudamos a usted y a su médico a interpretar los datos para optimizar su salud.",
       devices: [
-        { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre.png", desc: "Capacitación sobre colocación del sensor, uso del lector o teléfono inteligente e interpretación de flechas de tendencia." },
-        { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom.svg", desc: "Configuración de alertas y alarmas, compartir datos con familiares o la clínica, y apoyo con el proceso de solicitud." },
-        { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo.svg", desc: "Orientación para pacientes con diabetes tipo 2 sobre cómo interpretar los datos del nuevo biosensor de venta libre." },
+        { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre.webp", desc: "Capacitación sobre colocación del sensor, uso del lector o teléfono inteligente e interpretación de flechas de tendencia." },
+        { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom.webp", desc: "Configuración de alertas y alarmas, compartir datos con familiares o la clínica, y apoyo con el proceso de solicitud." },
+        { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo.webp", desc: "Orientación para pacientes con diabetes tipo 2 sobre cómo interpretar los datos del nuevo biosensor de venta libre." },
       ],
       features: {
         appSetup: "Configuración de la app",

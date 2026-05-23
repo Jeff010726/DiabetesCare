@@ -21,7 +21,7 @@ export default function GLP1Training() {
     <div className="bg-white">
       <section className="relative overflow-hidden bg-gray-50">
         <img
-          src={`${import.meta.env.BASE_URL}hero-glp1-training.png`}
+          src={`${import.meta.env.BASE_URL}hero-glp1-training.webp`}
           alt={t("glp1Training.imageAlt")}
           className="absolute inset-0 h-full w-full object-cover"
         />

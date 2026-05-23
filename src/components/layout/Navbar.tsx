@@ -107,7 +107,7 @@ export default function Navbar() {
             <Link to="/" className="flex items-center gap-2">
               <span className="w-10 h-10 flex items-center justify-center">
                 <img
-                  src={`${import.meta.env.BASE_URL}logo.png`}
+                  src={`${import.meta.env.BASE_URL}logo.webp`}
                   alt={t("brand.logoAlt")}
                   className="w-9 h-9 object-contain"
                   onError={(event) => {

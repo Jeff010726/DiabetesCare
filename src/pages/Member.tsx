@@ -198,12 +198,7 @@ export default function Member() {
                           >
                             {selectedPhoneCountry && (
                               <>
-                                <img
-                                  src={`https://flagcdn.com/w40/${selectedPhoneCountry.country.toLowerCase()}.png`}
-                                  alt=""
-                                  className="h-4 w-6 shrink-0 rounded-sm object-cover"
-                                  loading="lazy"
-                                />
+                                <span className="shrink-0 text-lg leading-none" aria-hidden="true">{selectedPhoneCountry.flag}</span>
                                 <span className="truncate">{selectedPhoneCountry.name}</span>
                                 <span className="ml-auto shrink-0 text-gray-500">{selectedPhoneCountry.callingCode}</span>
                               </>
@@ -228,12 +223,7 @@ export default function Member() {
                                     option.country === form.phoneCountry ? "bg-[var(--color-brand-purple-light)]/60 font-semibold text-gray-900" : "text-gray-700"
                                   }`}
                                 >
-                                  <img
-                                    src={`https://flagcdn.com/w40/${option.country.toLowerCase()}.png`}
-                                    alt=""
-                                    className="h-4 w-6 shrink-0 rounded-sm object-cover"
-                                    loading="lazy"
-                                  />
+                                  <span className="shrink-0 text-lg leading-none" aria-hidden="true">{option.flag}</span>
                                   <span className="truncate">{option.name}</span>
                                   <span className="ml-auto shrink-0 text-gray-500">{option.callingCode}</span>
                                 </button>

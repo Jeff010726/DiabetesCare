@@ -14,7 +14,7 @@ export default function Footer() {
             <Link to="/" className="flex items-center gap-2 mb-4">
               <span className="w-9 h-9 flex items-center justify-center">
                 <img
-                  src={`${import.meta.env.BASE_URL}logo.png`}
+                  src={`${import.meta.env.BASE_URL}logo.webp`}
                   alt={t("brand.logoAlt")}
                   className="w-8 h-8 object-contain"
                   onError={(event) => {
@@ -68,7 +68,7 @@ export default function Footer() {
                 </button>
                 <div className="pointer-events-none absolute bottom-full right-0 z-20 mb-3 w-56 rounded-2xl border border-gray-200 bg-white p-3 opacity-0 shadow-xl transition group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
                   <img
-                    src={`${import.meta.env.BASE_URL}social/wechat-qr-v2.png`}
+                    src={`${import.meta.env.BASE_URL}social/wechat-qr-v2.webp`}
                     alt="WeChat QR code"
                     className="w-full rounded-xl object-contain"
                   />

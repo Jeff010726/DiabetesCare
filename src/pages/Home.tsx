@@ -17,7 +17,7 @@ export default function Home() {
   const heroDiabetesCareSrc = `${import.meta.env.BASE_URL}hero-diabetes-care.webp`;
   const heroPumpTrainingSrc = `${import.meta.env.BASE_URL}hero-pump-training.webp`;
   const heroCgmSrc = `${import.meta.env.BASE_URL}hero-cgm.webp`;
-  const heroGlp1TrainingSrc = `${import.meta.env.BASE_URL}hero-glp1-training.png`;
+  const heroGlp1TrainingSrc = `${import.meta.env.BASE_URL}hero-glp1-training.webp`;
   const tanPhotoSrc = `${import.meta.env.BASE_URL}tan-profile.webp`;
   const accreditationCards = t("accreditation.cards", { returnObjects: true }) as Array<{ title: string; desc: string; imageAlt: string }>;
   const accreditationImages = [
@@ -25,8 +25,7 @@ export default function Home() {
     `${import.meta.env.BASE_URL}cdces-badge.webp`,
     `${import.meta.env.BASE_URL}rd-rdn-badge.webp`,
   ];
-  const fallbackTanPhoto =
-    "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80";
+  const fallbackTanPhoto = `${import.meta.env.BASE_URL}tan-profile.webp`;
   const insuranceLogos = [
     { name: "Medicare", file: "medicare.webp" },
     { name: "Humana", file: "humana.webp" },

@@ -14,10 +14,10 @@ export default function CGM() {
     Lingo: "https://www.hellolingo.com/",
   };
   const cgmLogoUrls: Record<string, string> = {
-    "FreeStyle Libre": "cgm-logos/freestyle-libre.png",
-    "Dexcom G7/G6": "cgm-logos/dexcom.svg",
-    Stelo: "cgm-logos/stelo.svg",
-    Lingo: "cgm-logos/lingo.svg",
+    "FreeStyle Libre": "cgm-logos/freestyle-libre.webp",
+    "Dexcom G7/G6": "cgm-logos/dexcom.webp",
+    Stelo: "cgm-logos/stelo.webp",
+    Lingo: "cgm-logos/lingo.webp",
   };
   const visibleDevices = devices.some((device) => device.name === "Lingo")
     ? devices

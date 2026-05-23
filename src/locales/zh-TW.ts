@@ -209,9 +209,9 @@ export const home = {
     title: "Practical education that changes daily diabetes care",
     subtitle: "Early feedback from class participants and caregivers.",
     items: [
-      { quote: "I stopped guessing and started understanding my glucose patterns. The examples were realistic and easy to use at home.", name: "M. Lee", detail: "DSME participant", image: "testimonials/patient-01.jpg" },
-      { quote: "The educator explained medications, food, and CGM reports in a way my family could understand together.", name: "R. Johnson", detail: "Caregiver-supported learning", image: "testimonials/patient-02.jpg" },
-      { quote: "I came in nervous about diabetes care. I left with a plan, confidence, and better questions for my doctor.", name: "A. Chen", detail: "Bilingual class participant", image: "testimonials/patient-03.jpg" },
+      { quote: "I stopped guessing and started understanding my glucose patterns. The examples were realistic and easy to use at home.", name: "M. Lee", detail: "DSME participant", image: "testimonials/patient-01.webp" },
+      { quote: "The educator explained medications, food, and CGM reports in a way my family could understand together.", name: "R. Johnson", detail: "Caregiver-supported learning", image: "testimonials/patient-02.webp" },
+      { quote: "I came in nervous about diabetes care. I left with a plan, confidence, and better questions for my doctor.", name: "A. Chen", detail: "Bilingual class participant", image: "testimonials/patient-03.webp" },
     ],
   },
   why: {
@@ -299,18 +299,18 @@ export const servicePages = {
       instructorsTitle: "Educators who make diabetes easier to understand",
       instructorsIntro: "Placeholder instructor profiles are shown while the final teaching roster is being confirmed.",
       instructors: [
-        { name: "Emily Chen, MS, RD", role: "Lead DSME instructor", bio: "Focuses on practical meal planning, label reading, and culturally familiar food examples.", image: "team/instructor-01.jpg" },
-        { name: "Michael Rodriguez, CDCES", role: "Diabetes technology educator", bio: "Helps patients connect monitoring data with medication routines and daily decisions.", image: "team/instructor-02.jpg" },
-        { name: "Sarah Patel, RD", role: "Nutrition educator", bio: "Translates carbohydrate, protein, and portion concepts into simple everyday habits.", image: "team/instructor-03.jpg" },
-        { name: "David Liu, PharmD", role: "Medication education advisor", bio: "Supports safe medication use, side-effect planning, and questions before dose changes.", image: "team/instructor-04.jpg" },
-        { name: "Grace Wong, CPT", role: "Activity and lifestyle coach", bio: "Builds realistic movement plans for different ages, schedules, and glucose patterns.", image: "team/instructor-05.jpg" },
+        { name: "Emily Chen, MS, RD", role: "Lead DSME instructor", bio: "Focuses on practical meal planning, label reading, and culturally familiar food examples.", image: "team/instructor-01.webp" },
+        { name: "Michael Rodriguez, CDCES", role: "Diabetes technology educator", bio: "Helps patients connect monitoring data with medication routines and daily decisions.", image: "team/instructor-02.webp" },
+        { name: "Sarah Patel, RD", role: "Nutrition educator", bio: "Translates carbohydrate, protein, and portion concepts into simple everyday habits.", image: "team/instructor-03.webp" },
+        { name: "David Liu, PharmD", role: "Medication education advisor", bio: "Supports safe medication use, side-effect planning, and questions before dose changes.", image: "team/instructor-04.webp" },
+        { name: "Grace Wong, CPT", role: "Activity and lifestyle coach", bio: "Builds realistic movement plans for different ages, schedules, and glucose patterns.", image: "team/instructor-05.webp" },
       ],
       testimonialsEyebrow: "Patient feedback",
       testimonialsTitle: "Patients feel more confident after structured diabetes education",
       testimonials: [
-        { quote: "The class finally made my numbers make sense. I learned what to change at breakfast and how to talk to my doctor with better questions.", name: "M. Lee", detail: "DSME participant", image: "testimonials/patient-01.jpg" },
-        { quote: "I was overwhelmed by medications and glucose readings. The sessions gave me a simple plan I could follow with my family.", name: "R. Johnson", detail: "Type 2 diabetes support", image: "testimonials/patient-02.jpg" },
-        { quote: "The teaching was clear, patient, and practical. I left knowing how to read labels and prevent low blood sugar more safely.", name: "A. Chen", detail: "Bilingual class participant", image: "testimonials/patient-03.jpg" },
+        { quote: "The class finally made my numbers make sense. I learned what to change at breakfast and how to talk to my doctor with better questions.", name: "M. Lee", detail: "DSME participant", image: "testimonials/patient-01.webp" },
+        { quote: "I was overwhelmed by medications and glucose readings. The sessions gave me a simple plan I could follow with my family.", name: "R. Johnson", detail: "Type 2 diabetes support", image: "testimonials/patient-02.webp" },
+        { quote: "The teaching was clear, patient, and practical. I left knowing how to read labels and prevent low blood sugar more safely.", name: "A. Chen", detail: "Bilingual class participant", image: "testimonials/patient-03.webp" },
       ],
     ctaTitle: "準備開始學習了嗎？",
     ctaBody: "課程面向真實生活中的糖尿病管理。符合條件時，Medicare / Medicaid 和許多商業保險可在完成轉介與福利確認後給付 DSME 服務。",
@@ -342,8 +342,8 @@ export const servicePages = {
         brand: "Omnipod",
         summary: "\u7121\u5c0e\u7ba1 Pod \u6cbb\u7642\u65b9\u6848\uff0c\u5305\u542b\u81ea\u52d5\u8f38\u6ce8\u8207\u624b\u52d5\u7ba1\u7406\u9078\u9805\u3002",
         products: [
-          { name: "Omnipod 5", desc: "\u7121\u5c0e\u7ba1\u81ea\u52d5\u80f0\u5cf6\u7d20\u8f38\u6ce8\u7cfb\u7d71\uff0c\u53ef\u4f9d\u64da CGM \u8cc7\u6599\u8abf\u6574\u80f0\u5cf6\u7d20\u3002", image: "pumps/omnipod-5.png", tags: ["\u7121\u5c0e\u7ba1", "\u81ea\u52d5\u8f38\u6ce8", "Pod"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-5" },
-          { name: "Omnipod DASH", desc: "\u4f7f\u7528\u53ef\u7a7f\u6234 Pod \u548c\u624b\u6301\u63a7\u5236\u5668\u7684\u7121\u5c0e\u7ba1\u80f0\u5cf6\u7d20\u7ba1\u7406\u7cfb\u7d71\u3002", image: "pumps/omnipod-dash.png", tags: ["\u7121\u5c0e\u7ba1", "Pod", "PDM"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-dash" },
+          { name: "Omnipod 5", desc: "\u7121\u5c0e\u7ba1\u81ea\u52d5\u80f0\u5cf6\u7d20\u8f38\u6ce8\u7cfb\u7d71\uff0c\u53ef\u4f9d\u64da CGM \u8cc7\u6599\u8abf\u6574\u80f0\u5cf6\u7d20\u3002", image: "pumps/omnipod-5.webp", tags: ["\u7121\u5c0e\u7ba1", "\u81ea\u52d5\u8f38\u6ce8", "Pod"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-5" },
+          { name: "Omnipod DASH", desc: "\u4f7f\u7528\u53ef\u7a7f\u6234 Pod \u548c\u624b\u6301\u63a7\u5236\u5668\u7684\u7121\u5c0e\u7ba1\u80f0\u5cf6\u7d20\u7ba1\u7406\u7cfb\u7d71\u3002", image: "pumps/omnipod-dash.webp", tags: ["\u7121\u5c0e\u7ba1", "Pod", "PDM"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-dash" },
         ],
       },
       {
@@ -358,7 +358,7 @@ export const servicePages = {
         brand: "MiniMed",
         summary: "Medtronic \u7cfb\u7d71\u4ee5 SmartGuard \u81ea\u52d5\u5316\u8207 Guardian \u611f\u6e2c\u5668\u6574\u5408\u70ba\u6838\u5fc3\u3002",
         products: [
-          { name: "MiniMed 780G", desc: "\u63a1\u7528 SmartGuard \u6280\u8853\u7684\u81ea\u52d5\u80f0\u5cf6\u7d20\u8f38\u6ce8\u7cfb\u7d71\u3002", image: "pumps/minimed-780g.png", tags: ["\u81ea\u52d5\u8f38\u6ce8", "SmartGuard", "Guardian"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-780g-insulin-pump-system" },
+          { name: "MiniMed 780G", desc: "\u63a1\u7528 SmartGuard \u6280\u8853\u7684\u81ea\u52d5\u80f0\u5cf6\u7d20\u8f38\u6ce8\u7cfb\u7d71\u3002", image: "pumps/minimed-780g.webp", tags: ["\u81ea\u52d5\u8f38\u6ce8", "SmartGuard", "Guardian"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-780g-insulin-pump-system" },
         ],
       },
       {
@@ -372,14 +372,14 @@ export const servicePages = {
         brand: "twiist",
         summary: "\u570d\u7e5e FDA \u6838\u51c6\u7684 Tidepool Loop \u6f14\u7b97\u6cd5\u69cb\u5efa\u7684\u81ea\u52d5\u80f0\u5cf6\u7d20\u8f38\u6ce8\u7cfb\u7d71\u3002",
         products: [
-          { name: "twiist AID System", desc: "\u7d50\u5408 Tidepool Loop \u6f14\u7b97\u6cd5\u548c twiist \u6cf5\u5e73\u53f0\u7684\u81ea\u52d5\u80f0\u5cf6\u7d20\u8f38\u6ce8\u7cfb\u7d71\u3002", image: "pumps/twiist-aid.png", tags: ["\u81ea\u52d5\u8f38\u6ce8", "Tidepool Loop", "300 \u55ae\u4f4d"], sourceUrl: "https://www.twiist.com/what-is-twiist" },
+          { name: "twiist AID System", desc: "\u7d50\u5408 Tidepool Loop \u6f14\u7b97\u6cd5\u548c twiist \u6cf5\u5e73\u53f0\u7684\u81ea\u52d5\u80f0\u5cf6\u7d20\u8f38\u6ce8\u7cfb\u7d71\u3002", image: "pumps/twiist-aid.webp", tags: ["\u81ea\u52d5\u8f38\u6ce8", "Tidepool Loop", "300 \u55ae\u4f4d"], sourceUrl: "https://www.twiist.com/what-is-twiist" },
         ],
       },
       {
         brand: "CeQur",
         summary: "\u9910\u6642\u80f0\u5cf6\u7d20\u8cbc\u7247\uff0c\u9069\u5408\u9700\u8981\u9910\u6642\u5291\u91cf\u4f46\u4e0d\u4e00\u5b9a\u9700\u8981\u5b8c\u6574\u6cf5\u7cfb\u7d71\u7684\u4eba\u7fa4\u3002",
         products: [
-          { name: "CeQur Simplicity", desc: "\u53ef\u4f69\u6234 4 \u5929\u7684\u9910\u6642\u80f0\u5cf6\u7d20\u8cbc\u7247\uff0c\u900f\u904e\u7c21\u55ae\u9ede\u64ca\u8f38\u6ce8\u9910\u6642\u80f0\u5cf6\u7d20\u3002", image: "pumps/cequr-simplicity.jpg", tags: ["\u9910\u6642\u8cbc\u7247", "4 \u5929\u4f69\u6234", "\u7121\u96fb\u5b50\u5143\u4ef6"], sourceUrl: "https://myceqursimplicity.com/" },
+          { name: "CeQur Simplicity", desc: "\u53ef\u4f69\u6234 4 \u5929\u7684\u9910\u6642\u80f0\u5cf6\u7d20\u8cbc\u7247\uff0c\u900f\u904e\u7c21\u55ae\u9ede\u64ca\u8f38\u6ce8\u9910\u6642\u80f0\u5cf6\u7d20\u3002", image: "pumps/cequr-simplicity.webp", tags: ["\u9910\u6642\u8cbc\u7247", "4 \u5929\u4f69\u6234", "\u7121\u96fb\u5b50\u5143\u4ef6"], sourceUrl: "https://myceqursimplicity.com/" },
         ],
       },
     ],
@@ -398,9 +398,9 @@ export const servicePages = {
     heroTitle: "CGM 訓練與報告分析",
     heroSubtitle: "發揮連續血糖監測器的價值。我們教您如何使用，也協助您與醫師解讀數據以優化健康管理。",
     devices: [
-      { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre.png", desc: "訓練感測器配戴、手機讀取器使用，以及趨勢箭頭判讀。" },
-      { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom.svg", desc: "設定提醒與警報、與家人或診所分享數據，以及申請流程協助。" },
-      { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo.svg", desc: "協助第 2 型糖尿病患者理解新的非處方生物感測器數據。" },
+      { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre.webp", desc: "訓練感測器配戴、手機讀取器使用，以及趨勢箭頭判讀。" },
+      { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom.webp", desc: "設定提醒與警報、與家人或診所分享數據，以及申請流程協助。" },
+      { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo.webp", desc: "協助第 2 型糖尿病患者理解新的非處方生物感測器數據。" },
     ],
     features: {
       appSetup: "App 設定",
