@@ -202,6 +202,16 @@ export const zhCN = {
       },
       coverageLink: "了解更多保险覆盖信息",
     },
+    testimonialSection: {
+      eyebrow: "Patient stories",
+      title: "Practical education that changes daily diabetes care",
+      subtitle: "Early feedback from class participants and caregivers.",
+      items: [
+        { quote: "I stopped guessing and started understanding my glucose patterns. The examples were realistic and easy to use at home.", name: "M. Lee", detail: "DSME participant", image: "testimonials/patient-01.jpg" },
+        { quote: "The educator explained medications, food, and CGM reports in a way my family could understand together.", name: "R. Johnson", detail: "Caregiver-supported learning", image: "testimonials/patient-02.jpg" },
+        { quote: "I came in nervous about diabetes care. I left with a plan, confidence, and better questions for my doctor.", name: "A. Chen", detail: "Bilingual class participant", image: "testimonials/patient-03.jpg" },
+      ],
+    },
     why: {
       cards: {
         bilingualTitle: "双语",
@@ -281,6 +291,23 @@ export const zhCN = {
         { title: "糖尿病用药与血糖监测", subtitle: "安全用药、居家监测与数据理解", topics: ["理解自己的用药方案、药物名称与常见副作用", "居家血糖监测、动态血糖仪 Time in Range 与目标范围", "何时联系医疗团队，以及如何准备剂量调整问题"] },
         { title: "降低风险", subtitle: "预防、警戒信号与并发症意识", topics: ["眼睛、肾脏、神经、足部等短期与长期并发症", "低血糖与高血糖的症状、处理步骤和紧急计划", "预防性护理清单，以及何时需要见糖尿病教育专家"] },
         { title: "情绪应对与解决问题", subtitle: "日常信心、压力支持与真实情境处理", topics: ["糖尿病压力、管理疲劳、抑郁风险与支持系统", "家属和照护者沟通技巧", "案例讨论、生病日计划，以及血糖异常时的应对策略"] },
+      ],
+      instructorsEyebrow: "Teaching team",
+      instructorsTitle: "Educators who make diabetes easier to understand",
+      instructorsIntro: "Placeholder instructor profiles are shown while the final teaching roster is being confirmed.",
+      instructors: [
+        { name: "Emily Chen, MS, RD", role: "Lead DSME instructor", bio: "Focuses on practical meal planning, label reading, and culturally familiar food examples.", image: "team/instructor-01.jpg" },
+        { name: "Michael Rodriguez, CDCES", role: "Diabetes technology educator", bio: "Helps patients connect monitoring data with medication routines and daily decisions.", image: "team/instructor-02.jpg" },
+        { name: "Sarah Patel, RD", role: "Nutrition educator", bio: "Translates carbohydrate, protein, and portion concepts into simple everyday habits.", image: "team/instructor-03.jpg" },
+        { name: "David Liu, PharmD", role: "Medication education advisor", bio: "Supports safe medication use, side-effect planning, and questions before dose changes.", image: "team/instructor-04.jpg" },
+        { name: "Grace Wong, CPT", role: "Activity and lifestyle coach", bio: "Builds realistic movement plans for different ages, schedules, and glucose patterns.", image: "team/instructor-05.jpg" },
+      ],
+      testimonialsEyebrow: "Patient feedback",
+      testimonialsTitle: "Patients feel more confident after structured diabetes education",
+      testimonials: [
+        { quote: "The class finally made my numbers make sense. I learned what to change at breakfast and how to talk to my doctor with better questions.", name: "M. Lee", detail: "DSME participant", image: "testimonials/patient-01.jpg" },
+        { quote: "I was overwhelmed by medications and glucose readings. The sessions gave me a simple plan I could follow with my family.", name: "R. Johnson", detail: "Type 2 diabetes support", image: "testimonials/patient-02.jpg" },
+        { quote: "The teaching was clear, patient, and practical. I left knowing how to read labels and prevent low blood sugar more safely.", name: "A. Chen", detail: "Bilingual class participant", image: "testimonials/patient-03.jpg" },
       ],
       ctaTitle: "准备开始学习了吗？",
       ctaBody: "课程面向真实生活中的糖尿病管理。符合条件时，Medicare / Medicaid 和许多商业保险可在完成转诊与福利核实后报销 DSME 服务。",
@@ -368,9 +395,9 @@ export const zhCN = {
       heroTitle: "CGM 培训与报告分析",
       heroSubtitle: "充分发挥连续血糖监测器的价值。我们教您如何使用设备，并帮助您和医生解读数据，以优化健康管理。",
       devices: [
-        { name: "FreeStyle Libre", maker: "Abbott", desc: "培训内容包括传感器佩戴、手机读取器使用，以及趋势箭头解读。" },
-        { name: "Dexcom G7/G6", maker: "Dexcom", desc: "协助设置提醒和报警、与家人或诊所共享数据，并了解申请流程。" },
-        { name: "Stelo", maker: "Dexcom OTC", desc: "为 2 型糖尿病患者提供指导，帮助解读新型非处方生物传感器数据。" },
+        { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre.png", desc: "培训内容包括传感器佩戴、手机读取器使用，以及趋势箭头解读。" },
+        { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom.svg", desc: "协助设置提醒和报警、与家人或诊所共享数据，并了解申请流程。" },
+        { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo.svg", desc: "为 2 型糖尿病患者提供指导，帮助解读新型非处方生物传感器数据。" },
       ],
       features: {
         appSetup: "应用程序设置",
@@ -445,6 +472,7 @@ export const zhCN = {
       ],
       referTitle: "如何转诊患者",
       referIntro: "Medicare 和商业保险可覆盖我们的项目，但需要治疗医生转诊。",
+      faxLine: "\u8bf7\u5c06\u8868\u683c\u4f20\u771f\u81f3 (888) 370-1981\u3002",
       referralCandidates: [
         "新诊断糖尿病患者。",
         "从未接受系统性糖尿病自我管理培训的患者。",

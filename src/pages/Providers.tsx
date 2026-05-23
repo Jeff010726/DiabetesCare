@@ -53,6 +53,9 @@ export default function Providers() {
             <p className="text-gray-600 mb-6 text-lg">
               {t("providers.referIntro")}
             </p>
+            <p className="mb-6 rounded-2xl border border-[var(--color-brand-purple)]/15 bg-white px-5 py-4 text-base font-bold text-[var(--color-brand-purple)] shadow-sm">
+              {t("providers.faxLine")}
+            </p>
             <ul className="space-y-4 mb-8">
               {referralCandidates.map((candidate) => (
                 <li key={candidate} className="flex items-start">

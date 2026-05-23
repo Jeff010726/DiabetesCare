@@ -6,12 +6,18 @@ import "../locales/servicePages";
 
 export default function CGM() {
   const { t } = useTranslation("servicePages");
-  const devices = t("cgm.devices", { returnObjects: true }) as Array<{ name: string; maker: string; desc: string; sourceUrl: string }>;
+  const devices = t("cgm.devices", { returnObjects: true }) as Array<{ name: string; maker: string; logo?: string; desc: string; sourceUrl: string }>;
   const cgmOfficialUrls: Record<string, string> = {
     "FreeStyle Libre": "https://www.freestyle.abbott/us-en/home.html",
     "Dexcom G7/G6": "https://www.dexcom.com/",
     Stelo: "https://www.stelo.com/",
     Lingo: "https://www.hellolingo.com/",
+  };
+  const cgmLogoUrls: Record<string, string> = {
+    "FreeStyle Libre": "cgm-logos/freestyle-libre.png",
+    "Dexcom G7/G6": "cgm-logos/dexcom.svg",
+    Stelo: "cgm-logos/stelo.svg",
+    Lingo: "cgm-logos/lingo.svg",
   };
   const visibleDevices = devices.some((device) => device.name === "Lingo")
     ? devices
@@ -20,6 +26,7 @@ export default function CGM() {
         {
           name: "Lingo",
           maker: "Abbott",
+          logo: cgmLogoUrls.Lingo,
           desc: "Support for Abbott Lingo users who want to understand glucose patterns and lifestyle responses.",
           sourceUrl: cgmOfficialUrls.Lingo,
         },
@@ -43,10 +50,18 @@ export default function CGM() {
         
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
           {visibleDevices.map((device, index) => (
-            <div key={device.name} className={`bg-white p-7 rounded-3xl border border-gray-100 shadow-sm text-center${index === 1 ? " transform lg:-translate-y-4" : ""}`}>
+            <div key={device.name} className={`flex min-h-[360px] flex-col bg-white p-7 rounded-3xl border border-gray-100 shadow-sm text-center${index === 1 ? " transform lg:-translate-y-4" : ""}`}>
+              <div className="mb-6 flex h-20 items-center justify-center rounded-2xl bg-gray-50 px-5">
+                <img
+                  src={`${import.meta.env.BASE_URL}${device.logo || cgmLogoUrls[device.name]}`}
+                  alt={`${device.name} logo`}
+                  className="max-h-12 max-w-full object-contain"
+                  loading="lazy"
+                />
+              </div>
               <h3 className="text-2xl font-black text-gray-900 mb-2">{device.name}</h3>
               <p className="text-sm font-medium text-[var(--color-brand-purple)] mb-4">{device.maker}</p>
-              <p className="text-gray-600 mb-5">{device.desc}</p>
+              <p className="text-gray-600 mb-5 flex-grow">{device.desc}</p>
               <a href={device.sourceUrl || cgmOfficialUrls[device.name]} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 text-sm font-bold text-[var(--color-brand-purple)] hover:text-[var(--color-brand-pink)]">
                 Official website <ExternalLink className="w-4 h-4" />
               </a>

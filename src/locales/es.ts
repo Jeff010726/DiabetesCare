@@ -202,6 +202,16 @@ export const es = {
       },
       coverageLink: "Más información sobre cobertura de seguro",
     },
+    testimonialSection: {
+      eyebrow: "Patient stories",
+      title: "Practical education that changes daily diabetes care",
+      subtitle: "Early feedback from class participants and caregivers.",
+      items: [
+        { quote: "I stopped guessing and started understanding my glucose patterns. The examples were realistic and easy to use at home.", name: "M. Lee", detail: "DSME participant", image: "testimonials/patient-01.jpg" },
+        { quote: "The educator explained medications, food, and CGM reports in a way my family could understand together.", name: "R. Johnson", detail: "Caregiver-supported learning", image: "testimonials/patient-02.jpg" },
+        { quote: "I came in nervous about diabetes care. I left with a plan, confidence, and better questions for my doctor.", name: "A. Chen", detail: "Bilingual class participant", image: "testimonials/patient-03.jpg" },
+      ],
+    },
     why: {
       cards: {
         bilingualTitle: "Bilingüe",
@@ -281,6 +291,23 @@ export const es = {
         { title: "Medicamentos y monitoreo", subtitle: "Uso seguro de medicamentos y control de glucosa", topics: ["Entender el plan de medicamentos, nombres y efectos secundarios comunes", "Monitoreo en casa, tiempo en rango con CGM y metas útiles", "Cuándo contactar al equipo de salud y cómo prepararse para ajustes de dosis"] },
         { title: "Reducir riesgos", subtitle: "Prevención, señales de alerta y complicaciones", topics: ["Complicaciones de ojos, riñones, nervios y pies", "Síntomas y pasos de tratamiento para hipoglucemia e hiperglucemia", "Lista de cuidados preventivos y cuándo ver a un especialista en diabetes"] },
         { title: "Afrontamiento y solución de problemas", subtitle: "Confianza diaria, estrés y decisiones reales", topics: ["Estrés por diabetes, agotamiento, riesgo de depresión y sistemas de apoyo", "Comunicación con cuidadores y familiares", "Casos prácticos, plan para días de enfermedad y patrones inesperados de glucosa"] },
+      ],
+      instructorsEyebrow: "Teaching team",
+      instructorsTitle: "Educators who make diabetes easier to understand",
+      instructorsIntro: "Placeholder instructor profiles are shown while the final teaching roster is being confirmed.",
+      instructors: [
+        { name: "Emily Chen, MS, RD", role: "Lead DSME instructor", bio: "Focuses on practical meal planning, label reading, and culturally familiar food examples.", image: "team/instructor-01.jpg" },
+        { name: "Michael Rodriguez, CDCES", role: "Diabetes technology educator", bio: "Helps patients connect monitoring data with medication routines and daily decisions.", image: "team/instructor-02.jpg" },
+        { name: "Sarah Patel, RD", role: "Nutrition educator", bio: "Translates carbohydrate, protein, and portion concepts into simple everyday habits.", image: "team/instructor-03.jpg" },
+        { name: "David Liu, PharmD", role: "Medication education advisor", bio: "Supports safe medication use, side-effect planning, and questions before dose changes.", image: "team/instructor-04.jpg" },
+        { name: "Grace Wong, CPT", role: "Activity and lifestyle coach", bio: "Builds realistic movement plans for different ages, schedules, and glucose patterns.", image: "team/instructor-05.jpg" },
+      ],
+      testimonialsEyebrow: "Patient feedback",
+      testimonialsTitle: "Patients feel more confident after structured diabetes education",
+      testimonials: [
+        { quote: "The class finally made my numbers make sense. I learned what to change at breakfast and how to talk to my doctor with better questions.", name: "M. Lee", detail: "DSME participant", image: "testimonials/patient-01.jpg" },
+        { quote: "I was overwhelmed by medications and glucose readings. The sessions gave me a simple plan I could follow with my family.", name: "R. Johnson", detail: "Type 2 diabetes support", image: "testimonials/patient-02.jpg" },
+        { quote: "The teaching was clear, patient, and practical. I left knowing how to read labels and prevent low blood sugar more safely.", name: "A. Chen", detail: "Bilingual class participant", image: "testimonials/patient-03.jpg" },
       ],
       ctaTitle: "¿Listo para empezar a aprender?",
       ctaBody: "Las clases están diseñadas para el manejo práctico de la diabetes en la vida real. Medicare / Medicaid y muchos seguros privados pueden reembolsar servicios DSME elegibles después del referido y verificación de beneficios.",
@@ -368,9 +395,9 @@ export const es = {
       heroTitle: "Capacitación en CGM y análisis de reportes",
       heroSubtitle: "Aproveche todo el potencial de su monitor continuo de glucosa. Le enseñamos a usarlo y ayudamos a usted y a su médico a interpretar los datos para optimizar su salud.",
       devices: [
-        { name: "FreeStyle Libre", maker: "Abbott", desc: "Capacitación sobre colocación del sensor, uso del lector o teléfono inteligente e interpretación de flechas de tendencia." },
-        { name: "Dexcom G7/G6", maker: "Dexcom", desc: "Configuración de alertas y alarmas, compartir datos con familiares o la clínica, y apoyo con el proceso de solicitud." },
-        { name: "Stelo", maker: "Dexcom OTC", desc: "Orientación para pacientes con diabetes tipo 2 sobre cómo interpretar los datos del nuevo biosensor de venta libre." },
+        { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre.png", desc: "Capacitación sobre colocación del sensor, uso del lector o teléfono inteligente e interpretación de flechas de tendencia." },
+        { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom.svg", desc: "Configuración de alertas y alarmas, compartir datos con familiares o la clínica, y apoyo con el proceso de solicitud." },
+        { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo.svg", desc: "Orientación para pacientes con diabetes tipo 2 sobre cómo interpretar los datos del nuevo biosensor de venta libre." },
       ],
       features: {
         appSetup: "Configuración de la app",
@@ -445,6 +472,7 @@ export const es = {
       ],
       referTitle: "Cómo referir pacientes",
       referIntro: "Medicare y los seguros privados cubren nuestros programas, pero requieren un referido del médico tratante.",
+      faxLine: "Envie el formulario por fax al (888) 370-1981.",
       referralCandidates: [
         "Pacientes recién diagnosticados con diabetes.",
         "Pacientes que nunca han recibido capacitación sistemática de automanejo de la diabetes.",

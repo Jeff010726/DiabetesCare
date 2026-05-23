@@ -214,6 +214,16 @@ export const en = {
       },
       coverageLink: "Learn more about Insurance Coverage",
     },
+    testimonialSection: {
+      eyebrow: "Patient stories",
+      title: "Practical education that changes daily diabetes care",
+      subtitle: "Early feedback from class participants and caregivers.",
+      items: [
+        { quote: "I stopped guessing and started understanding my glucose patterns. The examples were realistic and easy to use at home.", name: "M. Lee", detail: "DSME participant", image: "testimonials/patient-01.jpg" },
+        { quote: "The educator explained medications, food, and CGM reports in a way my family could understand together.", name: "R. Johnson", detail: "Caregiver-supported learning", image: "testimonials/patient-02.jpg" },
+        { quote: "I came in nervous about diabetes care. I left with a plan, confidence, and better questions for my doctor.", name: "A. Chen", detail: "Bilingual class participant", image: "testimonials/patient-03.jpg" },
+      ],
+    },
     why: {
       cards: {
         bilingualTitle: "Bilingual",
@@ -295,7 +305,7 @@ export const en = {
         {
           title: "Healthy Eating",
           subtitle: "Food choices, carbohydrates, and meal planning",
-          topics: ["Simple vs. complex carbohydrates and common food sources", "Reading nutrition labels and building balanced meals", "Asian-population-based examples, portion awareness, sauces, snacks, alcohol, and restaurant meals"],
+          topics: ["Simple vs. complex carbohydrates and common food sources", "Reading nutrition labels and building balanced meals", "Portion awareness, sauces, snacks, alcohol, and restaurant meals"],
         },
         {
           title: "Being Active",
@@ -317,6 +327,23 @@ export const en = {
           subtitle: "Daily confidence, stress support, and real-world decisions",
           topics: ["Diabetes distress, burnout, depression risk, and support systems", "Communication skills for caregivers and family members", "Case studies, sick-day planning, and strategies for unexpected glucose patterns"],
         },
+      ],
+      instructorsEyebrow: "Teaching team",
+      instructorsTitle: "Educators who make diabetes easier to understand",
+      instructorsIntro: "Placeholder instructor profiles are shown while the final teaching roster is being confirmed.",
+      instructors: [
+        { name: "Emily Chen, MS, RD", role: "Lead DSME instructor", bio: "Focuses on practical meal planning, label reading, and culturally familiar food examples.", image: "team/instructor-01.jpg" },
+        { name: "Michael Rodriguez, CDCES", role: "Diabetes technology educator", bio: "Helps patients connect monitoring data with medication routines and daily decisions.", image: "team/instructor-02.jpg" },
+        { name: "Sarah Patel, RD", role: "Nutrition educator", bio: "Translates carbohydrate, protein, and portion concepts into simple everyday habits.", image: "team/instructor-03.jpg" },
+        { name: "David Liu, PharmD", role: "Medication education advisor", bio: "Supports safe medication use, side-effect planning, and questions before dose changes.", image: "team/instructor-04.jpg" },
+        { name: "Grace Wong, CPT", role: "Activity and lifestyle coach", bio: "Builds realistic movement plans for different ages, schedules, and glucose patterns.", image: "team/instructor-05.jpg" },
+      ],
+      testimonialsEyebrow: "Patient feedback",
+      testimonialsTitle: "Patients feel more confident after structured diabetes education",
+      testimonials: [
+        { quote: "The class finally made my numbers make sense. I learned what to change at breakfast and how to talk to my doctor with better questions.", name: "M. Lee", detail: "DSME participant", image: "testimonials/patient-01.jpg" },
+        { quote: "I was overwhelmed by medications and glucose readings. The sessions gave me a simple plan I could follow with my family.", name: "R. Johnson", detail: "Type 2 diabetes support", image: "testimonials/patient-02.jpg" },
+        { quote: "The teaching was clear, patient, and practical. I left knowing how to read labels and prevent low blood sugar more safely.", name: "A. Chen", detail: "Bilingual class participant", image: "testimonials/patient-03.jpg" },
       ],
       ctaTitle: "Ready to start learning?",
       ctaBody: "Classes are designed for practical, real-life diabetes management. Medicare / Medicaid and many private insurance plans may reimburse eligible DSME services after referral and benefit verification.",
@@ -404,10 +431,10 @@ export const en = {
       heroTitle: "CGM Training & Report Analysis",
       heroSubtitle: "Unlock the power of your dynamic glucose monitor. We train you how to use it, interpret reports, and help you and your doctor turn data into better decisions.",
       devices: [
-        { name: "FreeStyle Libre", maker: "Abbott", desc: "Training on sensor placement, using your smartphone reader, and understanding trend arrows.", sourceUrl: "https://www.freestyle.abbott/us-en/home.html" },
-        { name: "Dexcom G7/G6", maker: "Dexcom", desc: "Setup of alerts and alarms, sharing data with family or clinic, and application process.", sourceUrl: "https://www.dexcom.com/" },
-        { name: "Stelo", maker: "Dexcom OTC", desc: "Guidance for type 2 diabetes patients on interpreting the over-the-counter biosensor data.", sourceUrl: "https://www.stelo.com/" },
-        { name: "Lingo", maker: "Abbott", desc: "Support for Abbott Lingo users who want to understand glucose patterns and lifestyle responses.", sourceUrl: "https://www.hellolingo.com/" },
+        { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre.png", desc: "Training on sensor placement, using your smartphone reader, and understanding trend arrows.", sourceUrl: "https://www.freestyle.abbott/us-en/home.html" },
+        { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom.svg", desc: "Setup of alerts and alarms, sharing data with family or clinic, and application process.", sourceUrl: "https://www.dexcom.com/" },
+        { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo.svg", desc: "Guidance for type 2 diabetes patients on interpreting the over-the-counter biosensor data.", sourceUrl: "https://www.stelo.com/" },
+        { name: "Lingo", maker: "Abbott", logo: "cgm-logos/lingo.svg", desc: "Support for Abbott Lingo users who want to understand glucose patterns and lifestyle responses.", sourceUrl: "https://www.hellolingo.com/" },
       ],
       features: {
         appSetup: "App Setup",
@@ -483,6 +510,7 @@ export const en = {
       ],
       referTitle: "How to Refer Your Patients",
       referIntro: "Medicare / Medicaid and private insurance cover our programs, but require a referral from the treating physician.",
+      faxLine: "Fax form to us at (888) 370-1981.",
       referralCandidates: [
         "Patients newly diagnosed with diabetes.",
         "Patients who have never received systematic diabetes self-management training.",

@@ -41,6 +41,7 @@ export default function Home() {
   const expertSections = t("expert.sections", { returnObjects: true }) as Array<{ eyebrow: string; title: string; body: string }>;
   const expertHighlights = t("expert.highlights", { returnObjects: true }) as string[];
   const expertCareChips = t("expert.careChips", { returnObjects: true }) as string[];
+  const testimonials = t("testimonialSection.items", { returnObjects: true }) as Array<{ quote: string; name: string; detail: string; image: string }>;
 
   const slides = [
     {
@@ -459,8 +460,40 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Testimonials */}
+      <section className="order-6 py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.18em] text-[var(--color-brand-purple)]">{t("testimonialSection.eyebrow")}</p>
+              <h2 className="mt-3 text-3xl md:text-4xl font-bold text-gray-900 leading-tight">{t("testimonialSection.title")}</h2>
+              <p className="mt-4 text-lg leading-8 text-gray-600">{t("testimonialSection.subtitle")}</p>
+            </div>
+            <div className="grid gap-5 md:grid-cols-3">
+              {testimonials.map((testimonial) => (
+                <article key={testimonial.name} className="rounded-3xl border border-gray-100 bg-gray-50 p-6 shadow-sm">
+                  <div className="mb-5 flex items-center gap-4">
+                    <img
+                      src={`${import.meta.env.BASE_URL}${testimonial.image}`}
+                      alt={testimonial.name}
+                      className="h-14 w-14 rounded-full object-cover"
+                      loading="lazy"
+                    />
+                    <div>
+                      <p className="font-bold text-gray-900">{testimonial.name}</p>
+                      <p className="text-sm text-gray-500">{testimonial.detail}</p>
+                    </div>
+                  </div>
+                  <p className="text-sm leading-7 text-gray-700">"{testimonial.quote}"</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* How it Works / Journey */}
-      <section className="order-6 py-24 bg-white relative overflow-hidden">
+      <section className="order-7 py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t("journey.title")}</h2>
@@ -502,7 +535,7 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="order-7 py-24 bg-[var(--color-brand-pink-light)]/40 rounded-t-3xl border-t border-[var(--color-brand-pink-light)]">
+      <section className="order-8 py-24 bg-[var(--color-brand-pink-light)]/40 rounded-t-3xl border-t border-[var(--color-brand-pink-light)]">
          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-12 items-center">
                <div className="grid grid-cols-2 gap-4">
@@ -544,7 +577,7 @@ export default function Home() {
       </section>
 
       {/* For Doctors Banner */}
-      <section className="order-8 bg-[var(--color-brand-purple)] py-16">
+      <section className="order-9 bg-[var(--color-brand-purple)] py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="text-white max-w-2xl">

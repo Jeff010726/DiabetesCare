@@ -204,6 +204,16 @@ export const home = {
     },
     coverageLink: "了解更多保險給付資訊",
   },
+  testimonialSection: {
+    eyebrow: "Patient stories",
+    title: "Practical education that changes daily diabetes care",
+    subtitle: "Early feedback from class participants and caregivers.",
+    items: [
+      { quote: "I stopped guessing and started understanding my glucose patterns. The examples were realistic and easy to use at home.", name: "M. Lee", detail: "DSME participant", image: "testimonials/patient-01.jpg" },
+      { quote: "The educator explained medications, food, and CGM reports in a way my family could understand together.", name: "R. Johnson", detail: "Caregiver-supported learning", image: "testimonials/patient-02.jpg" },
+      { quote: "I came in nervous about diabetes care. I left with a plan, confidence, and better questions for my doctor.", name: "A. Chen", detail: "Bilingual class participant", image: "testimonials/patient-03.jpg" },
+    ],
+  },
   why: {
     cards: {
       bilingualTitle: "雙語服務",
@@ -285,6 +295,23 @@ export const servicePages = {
       { title: "降低風險", subtitle: "預防、警戒信號與併發症意識", topics: ["眼睛、腎臟、神經、足部等短期與長期併發症", "低血糖與高血糖的症狀、處理步驟和緊急計畫", "預防性照護清單，以及何時需要見糖尿病教育專家"] },
       { title: "情緒應對與解決問題", subtitle: "日常信心、壓力支持與真實情境處理", topics: ["糖尿病壓力、管理疲勞、憂鬱風險與支持系統", "家屬和照護者溝通技巧", "案例討論、生病日計畫，以及血糖異常時的應對策略"] },
     ],
+      instructorsEyebrow: "Teaching team",
+      instructorsTitle: "Educators who make diabetes easier to understand",
+      instructorsIntro: "Placeholder instructor profiles are shown while the final teaching roster is being confirmed.",
+      instructors: [
+        { name: "Emily Chen, MS, RD", role: "Lead DSME instructor", bio: "Focuses on practical meal planning, label reading, and culturally familiar food examples.", image: "team/instructor-01.jpg" },
+        { name: "Michael Rodriguez, CDCES", role: "Diabetes technology educator", bio: "Helps patients connect monitoring data with medication routines and daily decisions.", image: "team/instructor-02.jpg" },
+        { name: "Sarah Patel, RD", role: "Nutrition educator", bio: "Translates carbohydrate, protein, and portion concepts into simple everyday habits.", image: "team/instructor-03.jpg" },
+        { name: "David Liu, PharmD", role: "Medication education advisor", bio: "Supports safe medication use, side-effect planning, and questions before dose changes.", image: "team/instructor-04.jpg" },
+        { name: "Grace Wong, CPT", role: "Activity and lifestyle coach", bio: "Builds realistic movement plans for different ages, schedules, and glucose patterns.", image: "team/instructor-05.jpg" },
+      ],
+      testimonialsEyebrow: "Patient feedback",
+      testimonialsTitle: "Patients feel more confident after structured diabetes education",
+      testimonials: [
+        { quote: "The class finally made my numbers make sense. I learned what to change at breakfast and how to talk to my doctor with better questions.", name: "M. Lee", detail: "DSME participant", image: "testimonials/patient-01.jpg" },
+        { quote: "I was overwhelmed by medications and glucose readings. The sessions gave me a simple plan I could follow with my family.", name: "R. Johnson", detail: "Type 2 diabetes support", image: "testimonials/patient-02.jpg" },
+        { quote: "The teaching was clear, patient, and practical. I left knowing how to read labels and prevent low blood sugar more safely.", name: "A. Chen", detail: "Bilingual class participant", image: "testimonials/patient-03.jpg" },
+      ],
     ctaTitle: "準備開始學習了嗎？",
     ctaBody: "課程面向真實生活中的糖尿病管理。符合條件時，Medicare / Medicaid 和許多商業保險可在完成轉介與福利確認後給付 DSME 服務。",
     startEyebrow: "如何開始",
@@ -371,9 +398,9 @@ export const servicePages = {
     heroTitle: "CGM 訓練與報告分析",
     heroSubtitle: "發揮連續血糖監測器的價值。我們教您如何使用，也協助您與醫師解讀數據以優化健康管理。",
     devices: [
-      { name: "FreeStyle Libre", maker: "Abbott", desc: "訓練感測器配戴、手機讀取器使用，以及趨勢箭頭判讀。" },
-      { name: "Dexcom G7/G6", maker: "Dexcom", desc: "設定提醒與警報、與家人或診所分享數據，以及申請流程協助。" },
-      { name: "Stelo", maker: "Dexcom OTC", desc: "協助第 2 型糖尿病患者理解新的非處方生物感測器數據。" },
+      { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre.png", desc: "訓練感測器配戴、手機讀取器使用，以及趨勢箭頭判讀。" },
+      { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom.svg", desc: "設定提醒與警報、與家人或診所分享數據，以及申請流程協助。" },
+      { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo.svg", desc: "協助第 2 型糖尿病患者理解新的非處方生物感測器數據。" },
     ],
     features: {
       appSetup: "App 設定",
@@ -448,6 +475,7 @@ export const servicePages = {
     ],
     referTitle: "如何轉介您的患者",
     referIntro: "Medicare 與私人保險可給付我們的計畫，但需由治療醫師轉介。",
+    faxLine: "\u8acb\u5c07\u8868\u683c\u50b3\u771f\u81f3 (888) 370-1981\u3002",
     referralCandidates: [
       "新診斷糖尿病的患者。",
       "從未接受系統性糖尿病自我管理訓練的患者。",
