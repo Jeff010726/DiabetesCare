@@ -1,4 +1,4 @@
-import { Activity, ArrowRight, Check, ExternalLink } from "lucide-react";
+import { ArrowRight, Cable, Check, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import ProviderAccessCallout from "../components/ProviderAccessCallout";
@@ -40,7 +40,7 @@ export default function PumpTraining() {
     <div className="bg-white">
       <div className="bg-[var(--color-brand-pink-light)]/40 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <Activity className="w-16 h-16 text-[var(--color-brand-pink)] mx-auto mb-6" />
+          <Cable className="w-16 h-16 text-[var(--color-brand-pink)] mx-auto mb-6" />
           <div className="mb-5 inline-flex flex-wrap items-center justify-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-[var(--color-brand-pink)] shadow-sm border border-[var(--color-brand-pink)]/20">
             <span>100% Free</span>
             <span className="text-gray-300">|</span>

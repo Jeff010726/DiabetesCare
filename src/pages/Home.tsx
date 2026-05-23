@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { 
   ShieldCheck, Stethoscope, BookOpen, Activity, ArrowRight, 
   HeartPulse, CheckCircle2, Globe2, MonitorSmartphone,
-  ChevronLeft, ChevronRight, BadgeCheck, Pill, Syringe, RadioTower
+  ChevronLeft, ChevronRight, BadgeCheck, Pill, Cable
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
@@ -419,7 +419,7 @@ export default function Home() {
 
             <div className="bg-white rounded-3xl p-8 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:-translate-y-1 transition-transform group flex flex-col h-full border border-gray-100">
               <div className="w-14 h-14 bg-[var(--color-brand-pink-light)] rounded-2xl flex items-center justify-center mb-6 text-[var(--color-brand-pink)] group-hover:scale-110 transition-transform">
-                <Syringe className="w-7 h-7" />
+                <Cable className="w-7 h-7" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-3">{t("services.pumpTitle")}</h3>
               <p className="text-gray-600 mb-8 leading-relaxed flex-grow">
@@ -432,7 +432,7 @@ export default function Home() {
 
             <div className="bg-white rounded-3xl p-8 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:-translate-y-1 transition-transform group flex flex-col h-full border border-gray-100">
               <div className="w-14 h-14 bg-yellow-50 rounded-2xl flex items-center justify-center mb-6 text-yellow-500 group-hover:scale-110 transition-transform">
-                <RadioTower className="w-7 h-7" />
+                <Activity className="w-7 h-7" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-3">{t("services.cgmTitle")}</h3>
               <p className="text-gray-600 mb-8 leading-relaxed flex-grow">

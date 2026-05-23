@@ -29,7 +29,7 @@ export default function CGM() {
     <div className="bg-white">
       <div className="bg-yellow-50/50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <LineChart className="w-16 h-16 text-yellow-500 mx-auto mb-6" />
+          <Activity className="w-16 h-16 text-yellow-500 mx-auto mb-6" />
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             {t("cgm.heroTitle")}
           </h1>

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Menu, X, Activity, ChevronDown, ArrowRight, BookOpen, MonitorSmartphone, Stethoscope, Utensils, UserRound, Pill, LogOut } from "lucide-react";
+import { Menu, X, Activity, Cable, ChevronDown, ArrowRight, BookOpen, Stethoscope, Utensils, UserRound, Pill, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { apiRequest } from "../../lib/api";
@@ -30,14 +30,14 @@ export default function Navbar() {
       name: t("services.pump.name"),
       path: "/pump-training",
       desc: t("services.pump.desc"),
-      icon: Activity,
+      icon: Cable,
       tone: "text-[var(--color-brand-pink)] bg-[var(--color-brand-pink-light)]"
     },
     {
       name: t("services.cgm.name"),
       path: "/cgm",
       desc: t("services.cgm.desc"),
-      icon: MonitorSmartphone,
+      icon: Activity,
       tone: "text-yellow-600 bg-yellow-50"
     },
     {
