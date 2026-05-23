@@ -14,7 +14,7 @@ export default function Footer() {
             <Link to="/" className="flex items-center gap-2 mb-4">
               <span className="w-9 h-9 flex items-center justify-center">
                 <img
-                  src={`${import.meta.env.BASE_URL}logo.webp`}
+                  src={`${import.meta.env.BASE_URL}logo.png`}
                   alt={t("brand.logoAlt")}
                   className="w-8 h-8 object-contain"
                   onError={(event) => {
