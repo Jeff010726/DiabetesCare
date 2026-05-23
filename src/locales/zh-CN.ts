@@ -395,9 +395,9 @@ export const zhCN = {
       heroTitle: "CGM 培训与报告分析",
       heroSubtitle: "充分发挥连续血糖监测器的价值。我们教您如何使用设备，并帮助您和医生解读数据，以优化健康管理。",
       devices: [
-        { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre.webp", desc: "培训内容包括传感器佩戴、手机读取器使用，以及趋势箭头解读。" },
-        { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom.webp", desc: "协助设置提醒和报警、与家人或诊所共享数据，并了解申请流程。" },
-        { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo.webp", desc: "为 2 型糖尿病患者提供指导，帮助解读新型非处方生物传感器数据。" },
+        { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre-v2.webp", desc: "培训内容包括传感器佩戴、手机读取器使用，以及趋势箭头解读。" },
+        { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom-v2.webp", desc: "协助设置提醒和报警、与家人或诊所共享数据，并了解申请流程。" },
+        { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo-v2.webp", desc: "为 2 型糖尿病患者提供指导，帮助解读新型非处方生物传感器数据。" },
       ],
       features: {
         appSetup: "应用程序设置",

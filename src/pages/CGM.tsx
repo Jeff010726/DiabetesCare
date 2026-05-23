@@ -14,10 +14,10 @@ export default function CGM() {
     Lingo: "https://www.hellolingo.com/",
   };
   const cgmLogoUrls: Record<string, string> = {
-    "FreeStyle Libre": "cgm-logos/freestyle-libre.webp",
-    "Dexcom G7/G6": "cgm-logos/dexcom.webp",
-    Stelo: "cgm-logos/stelo.webp",
-    Lingo: "cgm-logos/lingo.webp",
+    "FreeStyle Libre": "cgm-logos/freestyle-libre-v2.webp",
+    "Dexcom G7/G6": "cgm-logos/dexcom-v2.webp",
+    Stelo: "cgm-logos/stelo-v2.webp",
+    Lingo: "cgm-logos/lingo-v2.webp",
   };
   const visibleDevices = devices.some((device) => device.name === "Lingo")
     ? devices
@@ -49,13 +49,13 @@ export default function CGM() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
-          {visibleDevices.map((device, index) => (
-            <div key={device.name} className={`flex min-h-[360px] flex-col bg-white p-7 rounded-3xl border border-gray-100 shadow-sm text-center${index === 1 ? " transform lg:-translate-y-4" : ""}`}>
+          {visibleDevices.map((device) => (
+            <div key={device.name} className="flex min-h-[360px] flex-col bg-white p-7 rounded-3xl border border-gray-100 shadow-sm text-center">
               <div className="mb-6 flex h-20 items-center justify-center rounded-2xl bg-gray-50 px-5">
                 <img
                   src={`${import.meta.env.BASE_URL}${device.logo || cgmLogoUrls[device.name]}`}
                   alt={`${device.name} logo`}
-                  className="max-h-12 max-w-full object-contain"
+                  className="h-12 w-full object-contain"
                   loading="lazy"
                 />
               </div>

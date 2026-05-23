@@ -398,9 +398,9 @@ export const servicePages = {
     heroTitle: "CGM 訓練與報告分析",
     heroSubtitle: "發揮連續血糖監測器的價值。我們教您如何使用，也協助您與醫師解讀數據以優化健康管理。",
     devices: [
-      { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre.webp", desc: "訓練感測器配戴、手機讀取器使用，以及趨勢箭頭判讀。" },
-      { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom.webp", desc: "設定提醒與警報、與家人或診所分享數據，以及申請流程協助。" },
-      { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo.webp", desc: "協助第 2 型糖尿病患者理解新的非處方生物感測器數據。" },
+      { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre-v2.webp", desc: "訓練感測器配戴、手機讀取器使用，以及趨勢箭頭判讀。" },
+      { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom-v2.webp", desc: "設定提醒與警報、與家人或診所分享數據，以及申請流程協助。" },
+      { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo-v2.webp", desc: "協助第 2 型糖尿病患者理解新的非處方生物感測器數據。" },
     ],
     features: {
       appSetup: "App 設定",

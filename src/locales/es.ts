@@ -395,9 +395,9 @@ export const es = {
       heroTitle: "Capacitación en CGM y análisis de reportes",
       heroSubtitle: "Aproveche todo el potencial de su monitor continuo de glucosa. Le enseñamos a usarlo y ayudamos a usted y a su médico a interpretar los datos para optimizar su salud.",
       devices: [
-        { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre.webp", desc: "Capacitación sobre colocación del sensor, uso del lector o teléfono inteligente e interpretación de flechas de tendencia." },
-        { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom.webp", desc: "Configuración de alertas y alarmas, compartir datos con familiares o la clínica, y apoyo con el proceso de solicitud." },
-        { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo.webp", desc: "Orientación para pacientes con diabetes tipo 2 sobre cómo interpretar los datos del nuevo biosensor de venta libre." },
+        { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre-v2.webp", desc: "Capacitación sobre colocación del sensor, uso del lector o teléfono inteligente e interpretación de flechas de tendencia." },
+        { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom-v2.webp", desc: "Configuración de alertas y alarmas, compartir datos con familiares o la clínica, y apoyo con el proceso de solicitud." },
+        { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo-v2.webp", desc: "Orientación para pacientes con diabetes tipo 2 sobre cómo interpretar los datos del nuevo biosensor de venta libre." },
       ],
       features: {
         appSetup: "Configuración de la app",

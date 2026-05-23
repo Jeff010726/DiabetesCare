@@ -431,10 +431,10 @@ export const en = {
       heroTitle: "CGM Training & Report Analysis",
       heroSubtitle: "Unlock the power of your dynamic glucose monitor. We train you how to use it, interpret reports, and help you and your doctor turn data into better decisions.",
       devices: [
-        { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre.webp", desc: "Training on sensor placement, using your smartphone reader, and understanding trend arrows.", sourceUrl: "https://www.freestyle.abbott/us-en/home.html" },
-        { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom.webp", desc: "Setup of alerts and alarms, sharing data with family or clinic, and application process.", sourceUrl: "https://www.dexcom.com/" },
-        { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo.webp", desc: "Guidance for type 2 diabetes patients on interpreting the over-the-counter biosensor data.", sourceUrl: "https://www.stelo.com/" },
-        { name: "Lingo", maker: "Abbott", logo: "cgm-logos/lingo.webp", desc: "Support for Abbott Lingo users who want to understand glucose patterns and lifestyle responses.", sourceUrl: "https://www.hellolingo.com/" },
+        { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre-v2.webp", desc: "Training on sensor placement, using your smartphone reader, and understanding trend arrows.", sourceUrl: "https://www.freestyle.abbott/us-en/home.html" },
+        { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom-v2.webp", desc: "Setup of alerts and alarms, sharing data with family or clinic, and application process.", sourceUrl: "https://www.dexcom.com/" },
+        { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo-v2.webp", desc: "Guidance for type 2 diabetes patients on interpreting the over-the-counter biosensor data.", sourceUrl: "https://www.stelo.com/" },
+        { name: "Lingo", maker: "Abbott", logo: "cgm-logos/lingo-v2.webp", desc: "Support for Abbott Lingo users who want to understand glucose patterns and lifestyle responses.", sourceUrl: "https://www.hellolingo.com/" },
       ],
       features: {
         appSetup: "App Setup",
