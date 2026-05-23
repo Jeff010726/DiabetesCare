@@ -254,11 +254,11 @@ export const en = {
         addressTitle: "Office Location",
         addressLines: ["XT Diabetes Care", "132-27 41st Rd #2CB", "Flushing, NY 11355", "By appointment only", "No walk-ins accepted"],
         phoneTitle: "Phone",
-        phoneLines: ["Tel: (718) 793-3439", "Tel: (929) 777-4933", "Fax: (888) 370-1981"],
+        phoneLines: ["Tel: (929) 777-4933", "Fax: (888) 370-1981"],
         emailTitle: "Email",
         email: "xtdiabetescare@gmail.com",
         hoursTitle: "Hours",
-        hoursLines: ["Monday - Friday: 9am - 5pm", "Saturday & Sunday: Closed"],
+        hoursLines: ["Sunday: Closed"],
       },
     },
     classes: {
