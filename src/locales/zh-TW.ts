@@ -259,11 +259,12 @@ export const servicePages = {
       emailTitle: "電子郵件",
       email: "xtdiabetescare@gmail.com",
       hoursTitle: "服務時間",
-      hoursLines: ["星期日：休息"],
+      hoursLines: ["星期一：9:00 AM - 6:00 PM", "星期二：9:00 AM - 6:00 PM", "星期三：9:00 AM - 6:00 PM", "星期四：9:00 AM - 6:00 PM", "星期五：9:00 AM - 6:00 PM", "星期六：9:00 AM - 6:00 PM", "星期日：休息"],
     },
   },
   classes: {
     eyebrow: "ADCES 認證 DSME 課程",
+    chineseFirstBadge: "全美首個中文認證 DSME 課程",
     heroTitle: "糖尿病自我管理教育課程（DSME）",
     heroSubtitle: "系統學習糖尿病基礎、健康飲食、運動、用藥與監測、降低風險，以及日常問題處理，協助您把知識真正用到生活中。",
     bookButton: "預約課程",

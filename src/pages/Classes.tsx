@@ -62,6 +62,9 @@ export default function Classes() {
                 <GraduationCap className="h-4 w-4" />
                 {t("classes.eyebrow")}
               </span>
+              <div className="mt-4 inline-flex rounded-full bg-[var(--color-brand-purple)] px-4 py-2 text-sm font-bold text-white shadow-sm">
+                {t("classes.chineseFirstBadge")}
+              </div>
               <h1 className="mt-6 text-4xl font-bold leading-tight text-gray-950 md:text-6xl">
                 {t("classes.heroTitle")}
               </h1>

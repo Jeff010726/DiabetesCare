@@ -256,11 +256,12 @@ export const zhCN = {
         emailTitle: "电子邮箱",
         email: "xtdiabetescare@gmail.com",
         hoursTitle: "营业时间",
-        hoursLines: ["星期日：休息"],
+        hoursLines: ["星期一：9:00 AM - 6:00 PM", "星期二：9:00 AM - 6:00 PM", "星期三：9:00 AM - 6:00 PM", "星期四：9:00 AM - 6:00 PM", "星期五：9:00 AM - 6:00 PM", "星期六：9:00 AM - 6:00 PM", "星期日：休息"],
       },
     },
     classes: {
       eyebrow: "ADCES 认证 DSME 课程",
+      chineseFirstBadge: "全美首个中文认证 DSME 课程",
       heroTitle: "糖尿病自我管理教育课程（DSME）",
       heroSubtitle: "系统学习糖尿病基础、健康饮食、运动、用药与监测、风险降低，以及日常问题处理，帮助您把知识真正用到生活里。",
       bookButton: "预约课程",

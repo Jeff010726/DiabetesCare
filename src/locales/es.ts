@@ -256,11 +256,12 @@ export const es = {
         emailTitle: "Correo electrónico",
         email: "xtdiabetescare@gmail.com",
         hoursTitle: "Horario",
-        hoursLines: ["Domingo: cerrado"],
+        hoursLines: ["Lunes: 9:00 AM - 6:00 PM", "Martes: 9:00 AM - 6:00 PM", "Miércoles: 9:00 AM - 6:00 PM", "Jueves: 9:00 AM - 6:00 PM", "Viernes: 9:00 AM - 6:00 PM", "Sábado: 9:00 AM - 6:00 PM", "Domingo: cerrado"],
       },
     },
     classes: {
       eyebrow: "Programa DSME acreditado por ADCES",
+      chineseFirstBadge: "El primer curso DSME acreditado en chino en los EE. UU.",
       heroTitle: "Educación para el automanejo de la diabetes (DSME)",
       heroSubtitle: "Un programa práctico para entender la diabetes, comer con confianza, mantenerse activo, usar medicamentos de forma segura, reducir riesgos y resolver desafíos diarios.",
       bookButton: "Reservar clase",
