@@ -256,7 +256,7 @@ export const es = {
         emailTitle: "Correo electrónico",
         email: "xtdiabetescare@gmail.com",
         hoursTitle: "Horario",
-        hoursLines: ["Lunes: 9:00 AM - 6:00 PM", "Martes: 9:00 AM - 6:00 PM", "Miércoles: 9:00 AM - 6:00 PM", "Jueves: 9:00 AM - 6:00 PM", "Viernes: 9:00 AM - 6:00 PM", "Sábado: 9:00 AM - 6:00 PM", "Domingo: cerrado"],
+        hoursLines: ["Lun. a sáb.: 9:00 AM - 6:00 PM", "Domingo: cerrado"],
       },
     },
     classes: {

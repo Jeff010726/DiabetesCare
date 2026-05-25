@@ -259,7 +259,7 @@ export const servicePages = {
       emailTitle: "電子郵件",
       email: "xtdiabetescare@gmail.com",
       hoursTitle: "服務時間",
-      hoursLines: ["星期一：9:00 AM - 6:00 PM", "星期二：9:00 AM - 6:00 PM", "星期三：9:00 AM - 6:00 PM", "星期四：9:00 AM - 6:00 PM", "星期五：9:00 AM - 6:00 PM", "星期六：9:00 AM - 6:00 PM", "星期日：休息"],
+      hoursLines: ["週一至週六：9:00 AM - 6:00 PM", "週日：休息"],
     },
   },
   classes: {

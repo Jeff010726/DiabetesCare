@@ -256,7 +256,7 @@ export const zhCN = {
         emailTitle: "电子邮箱",
         email: "xtdiabetescare@gmail.com",
         hoursTitle: "营业时间",
-        hoursLines: ["星期一：9:00 AM - 6:00 PM", "星期二：9:00 AM - 6:00 PM", "星期三：9:00 AM - 6:00 PM", "星期四：9:00 AM - 6:00 PM", "星期五：9:00 AM - 6:00 PM", "星期六：9:00 AM - 6:00 PM", "星期日：休息"],
+        hoursLines: ["周一至周六：9:00 AM - 6:00 PM", "周日：休息"],
       },
     },
     classes: {
