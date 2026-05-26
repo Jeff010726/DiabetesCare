@@ -460,7 +460,11 @@ export default function Home() {
         </div>
       </section>
 
-      <TeachingTeamSection className="order-6 border-y border-gray-100 bg-white py-20" />
+      <section className="order-6 border-y border-gray-100 bg-white py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <TeachingTeamSection />
+        </div>
+      </section>
 
       {/* Testimonials */}
       <section className="order-7 py-20 bg-white">
