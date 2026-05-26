@@ -214,7 +214,7 @@ export default function Navbar() {
                     type="button"
                     onClick={() => setMemberMenuOpen((open) => !open)}
                     className="flex h-11 w-11 items-center justify-center rounded-full border border-gray-300 bg-white text-sm font-bold text-gray-900 shadow-sm transition-colors hover:border-[var(--color-brand-purple)] hover:text-[var(--color-brand-purple)]"
-                    aria-label="Member menu"
+                    aria-label={t("memberNav.menu")}
                   >
                     {avatar}
                   </button>
@@ -236,7 +236,7 @@ export default function Navbar() {
                         onClick={() => setMemberMenuOpen(false)}
                         className="mt-2 block rounded-lg px-3 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-50 hover:text-[var(--color-brand-purple)]"
                       >
-                        Account
+                        {t("memberNav.account")}
                       </Link>
                       <button
                         type="button"
@@ -244,7 +244,7 @@ export default function Navbar() {
                         className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-semibold text-gray-600 hover:bg-gray-50 hover:text-red-600"
                       >
                         <LogOut className="h-4 w-4" />
-                        Sign out
+                        {t("memberNav.signOut")}
                       </button>
                     </div>
                   )}
@@ -302,7 +302,7 @@ export default function Navbar() {
                   className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-white px-3 py-2 text-sm font-bold text-gray-600"
                 >
                   <LogOut className="h-4 w-4" />
-                  Sign out
+                  {t("memberNav.signOut")}
                 </button>
               </div>
             ) : (

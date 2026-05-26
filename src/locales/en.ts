@@ -23,6 +23,11 @@ export const en = {
       viewAllRecipes: "View All Recipes",
       prepSuffix: "prep",
     },
+    memberNav: {
+      menu: "Member menu",
+      account: "Account",
+      signOut: "Sign out",
+    },
     memberInvite: {
       close: "Close member invitation",
       imageAlt: "XT Diabetes Care insurance-friendly care banner",
@@ -65,6 +70,7 @@ export const en = {
       insuranceInfo: "Insurance Info",
       contactUs: "Contact Us",
       copyright: "All rights reserved.",
+      wechatQrAlt: "WeChat QR code",
     },
   },
   home: {
@@ -157,6 +163,9 @@ export const en = {
         "Founder of XT Diabetes Care"
       ],
       careChips: ["Insulin pump training", "CGM setup and interpretation", "DSME", "Nutrition therapy", "$0 out-of-pocket for 99% of clients"],
+      foundationLabel: "Clinical foundation",
+      careSupportTitle: "Care that turns knowledge into confidence",
+      careSupportDesc: "Personalized support for the daily decisions, devices, and family conversations that make diabetes care work in real life.",
       focusTitle: "The care philosophy",
       focusDesc: "Every time I help a patient lower their A1c, guide a stressed caregiver, or help someone set up their insulin pump with confidence, I am honoring my grandmother’s legacy.",
       cta: "Schedule a Consultation",
@@ -257,9 +266,19 @@ export const en = {
       title: "Contact Us",
       subtitle: "Ready to enroll in a class or schedule training? Reach out to us today.",
       formTitle: "Send a Message",
+      social: {
+        title: "Connect with us",
+        desc: "Follow updates, class announcements, and WeChat support.",
+        wechatQrAlt: "WeChat QR code",
+      },
       labels: { name: "Name", email: "Email", message: "Message" },
       placeholders: { name: "Your name", email: "you@example.com", message: "How can we help?" },
       send: "Send Message",
+      status: {
+        submitting: "Sending...",
+        success: "Message sent. We will follow up soon.",
+        fallbackError: "Unable to send your message.",
+      },
       info: {
         addressTitle: "Office Location",
         addressLines: ["XT Diabetes Care", "132-27 41st Rd #2CB", "Flushing, NY 11355", "By appointment only", "No walk-ins accepted"],
@@ -268,6 +287,7 @@ export const en = {
         emailTitle: "Email",
         email: "xtdiabetescare@gmail.com",
         hoursTitle: "Hours",
+        mapTitle: "XT Diabetes Care office location on Google Maps",
         hoursLines: ["Mon. to Sat.: 9:00 AM - 6:00 PM", "Sunday: Closed"],
       },
     },
@@ -365,6 +385,11 @@ export const en = {
     pumpTraining: {
       heroTitle: "Insulin Pump Training",
       heroSubtitle: "Free insulin pump training with no insurance requirement and no physician referral needed. Bring your device, your questions, and leave with confidence.",
+      heroBadges: {
+        free: "100% Free",
+        noInsurance: "No insurance required",
+        noReferral: "No referral needed",
+      },
       catalogEyebrow: "Pump catalog",
       catalogTitle: "Major pump brands and current systems",
       catalogSubtitle: "Real product images are grouped by manufacturer so patients can compare the devices they may be trained on.",
@@ -431,6 +456,9 @@ export const en = {
     cgm: {
       heroTitle: "CGM Training & Report Analysis",
       heroSubtitle: "Unlock the power of your dynamic glucose monitor. We train you how to use it, interpret reports, and help you and your doctor turn data into better decisions.",
+      logoAlt: "{{name}} logo",
+      officialWebsite: "Official website",
+      lingoFallbackDesc: "Support for Abbott Lingo users who want to understand glucose patterns and lifestyle responses.",
       devices: [
         { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre-v2.png", desc: "Training on sensor placement, using your smartphone reader, and understanding trend arrows.", sourceUrl: "https://www.freestyle.abbott/us-en/home.html" },
         { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom-v2.png", desc: "Setup of alerts and alarms, sharing data with family or clinic, and application process.", sourceUrl: "https://www.dexcom.com/" },
@@ -521,6 +549,7 @@ export const en = {
       accreditedTitle: "ADCES Accredited",
       accreditedId: "ID# 1001155",
       accreditedBody: "Having met all applicable standards and requirements of the Association of Diabetes Care & Education Specialists.",
+      certificateAlt: "ADCES DEAP certificate",
     },
     member: {
       badge: "Free member access",
@@ -537,6 +566,14 @@ export const en = {
       registerButton: "Register for free",
       loginButton: "Log in",
       previewNote: "Preview only: registration and login are not connected to a backend yet.",
+      status: {
+        fallbackError: "Unable to complete this request.",
+        signedInAs: "Signed in as {{email}}",
+        signOut: "Sign out",
+        accountCreated: "Account created.",
+        signedIn: "Signed in.",
+        submitting: "Submitting...",
+      },
       perks: [
         { title: "Recipe updates", desc: "Be first to hear when new healthy recipes are published." },
         { title: "Public tutorials", desc: "Receive practical diabetes education guides and class announcements." },

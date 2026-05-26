@@ -42,11 +42,11 @@ export default function PumpTraining() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Cable className="w-16 h-16 text-[var(--color-brand-pink)] mx-auto mb-6" />
           <div className="mb-5 inline-flex flex-wrap items-center justify-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-[var(--color-brand-pink)] shadow-sm border border-[var(--color-brand-pink)]/20">
-            <span>100% Free</span>
+            <span>{t("pumpTraining.heroBadges.free")}</span>
             <span className="text-gray-300">|</span>
-            <span>No insurance required</span>
+            <span>{t("pumpTraining.heroBadges.noInsurance")}</span>
             <span className="text-gray-300">|</span>
-            <span>No referral needed</span>
+            <span>{t("pumpTraining.heroBadges.noReferral")}</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             {t("pumpTraining.heroTitle")}

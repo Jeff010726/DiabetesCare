@@ -27,7 +27,7 @@ export default function CGM() {
           name: "Lingo",
           maker: "Abbott",
           logo: cgmLogoUrls.Lingo,
-          desc: "Support for Abbott Lingo users who want to understand glucose patterns and lifestyle responses.",
+          desc: t("cgm.lingoFallbackDesc"),
           sourceUrl: cgmOfficialUrls.Lingo,
         },
       ];
@@ -54,7 +54,7 @@ export default function CGM() {
               <div className="mb-6 flex h-20 items-center justify-center px-5">
                 <img
                   src={`${import.meta.env.BASE_URL}${device.logo || cgmLogoUrls[device.name]}`}
-                  alt={`${device.name} logo`}
+                  alt={t("cgm.logoAlt", { name: device.name })}
                   className="h-12 w-full object-contain"
                   loading="lazy"
                 />
@@ -63,7 +63,7 @@ export default function CGM() {
               <p className="text-sm font-medium text-[var(--color-brand-purple)] mb-4">{device.maker}</p>
               <p className="text-gray-600 mb-5 flex-grow">{device.desc}</p>
               <a href={device.sourceUrl || cgmOfficialUrls[device.name]} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 text-sm font-bold text-[var(--color-brand-purple)] hover:text-[var(--color-brand-pink)]">
-                Official website <ExternalLink className="w-4 h-4" />
+                {t("cgm.officialWebsite")} <ExternalLink className="w-4 h-4" />
               </a>
             </div>
           ))}

@@ -264,7 +264,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="mt-4 rounded-3xl bg-white border border-gray-100 p-5 shadow-[0_18px_50px_-38px_rgba(31,41,55,0.35)]">
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-3">Clinical foundation</p>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-gray-500 mb-3">{t("expert.foundationLabel")}</p>
                 <div className="grid gap-3">
                   {expertHighlights.map((item) => (
                     <div key={item} className="flex items-start gap-3 text-sm text-gray-700 leading-snug">
@@ -330,8 +330,8 @@ export default function Home() {
                     <MonitorSmartphone className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-1">Care that turns knowledge into confidence</h3>
-                    <p className="text-gray-600 leading-relaxed">Personalized support for the daily decisions, devices, and family conversations that make diabetes care work in real life.</p>
+                    <h3 className="text-xl font-bold text-gray-900 mb-1">{t("expert.careSupportTitle")}</h3>
+                    <p className="text-gray-600 leading-relaxed">{t("expert.careSupportDesc")}</p>
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2.5 mb-6">

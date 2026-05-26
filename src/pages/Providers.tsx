@@ -87,7 +87,7 @@ export default function Providers() {
             <div className="mt-6 w-full overflow-hidden rounded-2xl border border-gray-100 bg-gray-50">
               <img
                 src={`${import.meta.env.BASE_URL}adces-deap-certificate.webp`}
-                alt="ADCES DEAP certificate"
+                alt={t("providers.certificateAlt")}
                 className="w-full object-contain"
                 loading="lazy"
               />

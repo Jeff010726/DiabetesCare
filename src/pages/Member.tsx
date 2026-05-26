@@ -8,22 +8,13 @@ import { memberAuthKey, notifyMemberAuthChanged, type MemberUser } from "../lib/
 
 type MemberMode = "register" | "login";
 
-const regionNameFormatter = new Intl.DisplayNames(["en"], { type: "region" });
-
 function countryFlag(country: CountryCode) {
   return country
     .toUpperCase()
     .replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt(0)));
 }
 
-const phoneCountries = getCountries()
-  .map((country) => ({
-    country,
-    callingCode: `+${getCountryCallingCode(country)}`,
-    name: regionNameFormatter.of(country) || country,
-    flag: countryFlag(country),
-  }))
-  .sort((a, b) => a.name.localeCompare(b.name));
+const phoneCountryCodes = getCountries();
 
 export default function Member() {
   const { t } = useTranslation("servicePages");
@@ -38,9 +29,20 @@ export default function Member() {
   const benefits = t("member.benefits", { returnObjects: true }) as string[];
   const perks = t("member.perks", { returnObjects: true }) as Array<{ title: string; desc: string }>;
   const isRegister = mode === "register";
+  const phoneCountries = useMemo(() => {
+    const formatter = new Intl.DisplayNames([i18n.language || "en"], { type: "region" });
+    return phoneCountryCodes
+      .map((country) => ({
+        country,
+        callingCode: `+${getCountryCallingCode(country)}`,
+        name: formatter.of(country) || country,
+        flag: countryFlag(country),
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name, i18n.language || "en"));
+  }, [i18n.language]);
   const selectedPhoneCountry = useMemo(
     () => phoneCountries.find((option) => option.country === form.phoneCountry) || phoneCountries.find((option) => option.country === "US"),
-    [form.phoneCountry],
+    [form.phoneCountry, phoneCountries],
   );
 
   useEffect(() => {
@@ -92,7 +94,7 @@ export default function Member() {
       setStatus("success");
       setForm((current) => ({ ...current, password: "" }));
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Unable to complete this request.");
+      setError(t("member.status.fallbackError"));
       setStatus("error");
     }
   };
@@ -160,9 +162,9 @@ export default function Member() {
 
               {user && (
                 <div className="mb-6 rounded-2xl border border-green-100 bg-green-50 p-4">
-                  <p className="text-sm font-bold text-green-800">Signed in as {user.email}</p>
+                  <p className="text-sm font-bold text-green-800">{t("member.status.signedInAs", { email: user.email })}</p>
                   <button type="button" onClick={signOut} className="mt-2 text-sm font-bold text-green-700 underline underline-offset-4">
-                    Sign out
+                    {t("member.status.signOut")}
                   </button>
                 </div>
               )}
@@ -291,7 +293,7 @@ export default function Member() {
 
                 {status === "success" && (
                   <p className="rounded-xl bg-green-50 px-4 py-3 text-sm font-semibold text-green-700">
-                    {isRegister ? "Account created." : "Signed in."}
+                    {isRegister ? t("member.status.accountCreated") : t("member.status.signedIn")}
                   </p>
                 )}
                 {status === "error" && (
@@ -303,7 +305,7 @@ export default function Member() {
                   disabled={status === "submitting"}
                   className="w-full inline-flex items-center justify-center gap-2 bg-[var(--color-brand-purple)] text-white font-bold py-3 px-4 rounded-xl hover:bg-[var(--color-brand-purple)]/90 transition-colors disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  {status === "submitting" ? "Submitting..." : isRegister ? t("member.registerButton") : t("member.loginButton")}
+                  {status === "submitting" ? t("member.status.submitting") : isRegister ? t("member.registerButton") : t("member.loginButton")}
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <p className="text-xs text-gray-500 leading-relaxed">{t("member.previewNote")}</p>

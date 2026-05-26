@@ -39,7 +39,7 @@ export default function Contact() {
       setForm({ name: "", email: "", message: "" });
       setStatus("success");
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Unable to send your message.");
+      setError(t("contact.status.fallbackError"));
       setStatus("error");
     }
   };
@@ -56,8 +56,8 @@ export default function Contact() {
       <div className="grid md:grid-cols-2 gap-12 lg:gap-20">
         <div>
            <div className="mb-8 rounded-3xl border border-[var(--color-brand-purple)]/15 bg-[var(--color-brand-purple-light)]/45 p-7 shadow-sm">
-              <h2 className="text-2xl font-bold text-gray-900">Connect with us</h2>
-              <p className="mt-2 text-sm leading-6 text-gray-600">Follow updates, class announcements, and WeChat support.</p>
+              <h2 className="text-2xl font-bold text-gray-900">{t("contact.social.title")}</h2>
+              <p className="mt-2 text-sm leading-6 text-gray-600">{t("contact.social.desc")}</p>
               <div className="mt-5 flex items-center gap-4">
                 <button type="button" className={socialIconClass} aria-label="Instagram">
                   <Instagram className="h-6 w-6" />
@@ -75,7 +75,7 @@ export default function Contact() {
                   <div className="pointer-events-none absolute left-0 top-full z-20 mt-3 w-64 rounded-2xl border border-gray-200 bg-white p-3 opacity-0 shadow-xl transition group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
                     <img
                       src={`${import.meta.env.BASE_URL}social/wechat-qr-v2.webp`}
-                      alt="WeChat QR code"
+                      alt={t("contact.social.wechatQrAlt")}
                       className="w-full rounded-xl object-contain"
                     />
                   </div>
@@ -100,7 +100,7 @@ export default function Contact() {
                  </div>
                  {status === "success" && (
                    <p className="rounded-xl bg-green-50 px-4 py-3 text-sm font-semibold text-green-700">
-                     Message sent. We will follow up soon.
+                     {t("contact.status.success")}
                    </p>
                  )}
                  {status === "error" && (
@@ -109,7 +109,7 @@ export default function Contact() {
                    </p>
                  )}
                  <button type="submit" disabled={status === "submitting"} className="w-full bg-[var(--color-brand-purple)] text-white font-bold py-3 px-4 rounded-xl hover:bg-[var(--color-brand-purple)]/90 transition-colors disabled:cursor-not-allowed disabled:opacity-70">
-                   {status === "submitting" ? "Sending..." : t("contact.send")}
+                   {status === "submitting" ? t("contact.status.submitting") : t("contact.send")}
                  </button>
               </form>
            </div>
@@ -125,7 +125,7 @@ export default function Contact() {
                     <h4 className="text-lg font-bold mb-1">{t("contact.info.addressTitle")}</h4>
                     <div className="mt-3 overflow-hidden rounded-2xl border border-gray-200 bg-gray-50 shadow-sm">
                       <iframe
-                        title="XT Diabetes Care office location on Google Maps"
+                        title={t("contact.info.mapTitle")}
                         src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
                         className="h-52 w-full border-0"
                         loading="lazy"

@@ -1,4 +1,4 @@
-export const es = {
+﻿export const es = {
   common: {
     brand: {
       name: "XT Diabetes Care",
@@ -20,6 +20,11 @@ export const es = {
       viewAll: "Ver todo",
       viewAllRecipes: "Ver todas las recetas",
       prepSuffix: "prep.",
+    },
+    memberNav: {
+      menu: "Menú de miembro",
+      account: "Cuenta",
+      signOut: "Cerrar sesión",
     },
     memberInvite: {
       close: "Cerrar invitación para miembros",
@@ -63,6 +68,7 @@ export const es = {
       insuranceInfo: "Información del seguro",
       contactUs: "Contáctenos",
       copyright: "Todos los derechos reservados.",
+      wechatQrAlt: "Código QR de WeChat",
     },
   },
   home: {
@@ -119,10 +125,45 @@ export const es = {
       photoAlt: "Xiaofang Tan, dietista registrada y especialista certificada en cuidado y educación en diabetes",
       languagesLabel: "Idiomas",
       languages: "Inglés, cantonés, mandarín, hakka",
-      badge: "Conozca a su especialista en cuidado de la diabetes",
+      badge: "Historia de la fundadora",
       namePrefix: "Xiaofang Tan,",
-      credentials: "MS, RD, CDN, CDCES",
+      credentials: "MS, RD, CDN, CDCES, NASM-CPT",
       preferredName: "Nombre preferido: Tan",
+      storyTitle: "Transformar el dolor en propósito: por qué dediqué mi vida al cuidado de la diabetes",
+      lead: "Mi camino en el cuidado de la diabetes empezó al ver a mi abuela enfrentar diabetes tipo 2 sin las herramientas, la educación ni el apoyo que merecía.",
+      quote: "Convertí el duelo en una promesa: ninguna familia debería navegar la diabetes a oscuras.",
+      sections: [
+        {
+          eyebrow: "Dónde nació la promesa",
+          title: "Una pérdida familiar que cambió todo",
+          body: "Mi abuela sufrió daño severo en los nervios y finalmente perdió la vista por completo. Ver a la matriarca fuerte de nuestra familia perder su independencia por complicaciones manejables se convirtió en un dolor que cambió mi vida.",
+        },
+        {
+          eyebrow: "Convertir el propósito en experiencia",
+          title: "Formación clínica con misión comunitaria",
+          body: "Obtuve mi maestría en Nutrition & Dietetics en Hunter College, Nueva York, completé una residencia clínica rigurosa de 40 semanas en Lenox Hill Hospital y hoy trabajo como Clinical Dietitian and Diabetes Educator en Northwell Health. Fundé XT Diabetes Care para llevar atención personalizada directamente a la comunidad.",
+        },
+        {
+          eyebrow: "La educación cambia todo",
+          title: "DSME ofrece a las familias una guía práctica",
+          body: "Lo que faltó en el cuidado de mi abuela no fue amor, sino conocimiento accesible. A través de Diabetes Self-Management Education, traduzco el lenguaje médico complejo en pasos cotidianos para pacientes y cuidadores.",
+        },
+        {
+          eyebrow: "Cuidado al alcance",
+          title: "Prevenir complicaciones antes de que empiecen",
+          body: "Ayudo a los pacientes a dominar bombas de insulina, monitores continuos de glucosa, nutrición y rutinas diarias. A través de Nutriall Wellness Center, se aceptan la mayoría de los planes de seguro, por lo que el 99% de los clientes puede acceder a cuidado esencial de diabetes con $0 de gasto de bolsillo.",
+        },
+      ],
+      highlights: [
+        "Maestría en Nutrition & Dietetics, Hunter College",
+        "Residencia clínica de 40 semanas, Lenox Hill Hospital",
+        "Clinical Dietitian and Diabetes Educator, Northwell Health",
+        "Fundadora de XT Diabetes Care",
+      ],
+      careChips: ["Capacitación en bombas de insulina", "Configuración e interpretación de monitores continuos de glucosa", "DSME", "Terapia nutricional", "$0 de gasto de bolsillo para el 99% de los clientes"],
+      foundationLabel: "Base clínica",
+      careSupportTitle: "Cuidado que convierte conocimiento en confianza",
+      careSupportDesc: "Apoyo personalizado para las decisiones diarias, los dispositivos y las conversaciones familiares que hacen que el cuidado de la diabetes funcione en la vida real.",
       bio1: "Tan recibió su Maestría en Ciencias en Nutrición y completó su internado de dietética en Northwell Health. Actualmente ejerce como dietista registrada y especialista certificada en cuidado y educación en diabetes en Northwell Health Queens.",
       bio2: "Su enfoque integra nutrición clínica, educación práctica en diabetes y acompañamiento sostenible de estilo de vida para que los pacientes comprendan sus números y construyan rutinas que funcionen en la vida real.",
       cards: {
@@ -133,8 +174,8 @@ export const es = {
         fitnessTitle: "Apoyo de actividad física",
         fitnessDesc: "Entrenadora personal certificada por NASM",
       },
-      focusTitle: "Áreas de enfoque",
-      focusDesc: "Nutrición deportiva, manejo de la diabetes, afecciones gastrointestinales como IBS e IBD, y salud de la mujer.",
+      focusTitle: "La filosofía de cuidado",
+      focusDesc: "Cada vez que ayudo a un paciente a bajar su A1c, acompaño a un cuidador estresado o ayudo a alguien a configurar su bomba de insulina con confianza, estoy honrando el legado de mi abuela.",
       cta: "Programar una consulta",
     },
     accreditation: {
@@ -203,13 +244,13 @@ export const es = {
       coverageLink: "Más información sobre cobertura de seguro",
     },
     testimonialSection: {
-      eyebrow: "Patient stories",
-      title: "Practical education that changes daily diabetes care",
-      subtitle: "Early feedback from class participants and caregivers.",
+      eyebrow: "Historias de pacientes",
+      title: "Educación práctica que cambia el cuidado diario de la diabetes",
+      subtitle: "Comentarios iniciales de participantes de clases y cuidadores.",
       items: [
-        { quote: "I stopped guessing and started understanding my glucose patterns. The examples were realistic and easy to use at home.", name: "M. Lee", detail: "DSME participant", image: "testimonials/patient-01.webp" },
-        { quote: "The educator explained medications, food, and CGM reports in a way my family could understand together.", name: "R. Johnson", detail: "Caregiver-supported learning", image: "testimonials/patient-02.webp" },
-        { quote: "I came in nervous about diabetes care. I left with a plan, confidence, and better questions for my doctor.", name: "A. Chen", detail: "Bilingual class participant", image: "testimonials/patient-03.webp" },
+        { quote: "Dejé de adivinar y empecé a entender mis patrones de glucosa. Los ejemplos eran realistas y fáciles de usar en casa.", name: "M. Lee", detail: "Participante de DSME", image: "testimonials/patient-01.webp" },
+        { quote: "La educadora explicó medicamentos, comida y reportes de CGM de una forma que mi familia pudo entender junta.", name: "R. Johnson", detail: "Aprendizaje con apoyo de cuidador", image: "testimonials/patient-02.webp" },
+        { quote: "Llegué nerviosa por el cuidado de la diabetes. Salí con un plan, confianza y mejores preguntas para mi médico.", name: "A. Chen", detail: "Participante bilingüe", image: "testimonials/patient-03.webp" },
       ],
     },
     why: {
@@ -245,9 +286,19 @@ export const es = {
       title: "Contáctenos",
       subtitle: "¿Listo para inscribirse en una clase o programar capacitación? Comuníquese con nosotros hoy.",
       formTitle: "Enviar un mensaje",
+      social: {
+        title: "Conéctese con nosotros",
+        desc: "Siga novedades, anuncios de clases y apoyo por WeChat.",
+        wechatQrAlt: "Código QR de WeChat",
+      },
       labels: { name: "Nombre", email: "Correo electrónico", message: "Mensaje" },
       placeholders: { name: "Su nombre", email: "usted@ejemplo.com", message: "¿Cómo podemos ayudarle?" },
       send: "Enviar mensaje",
+      status: {
+        submitting: "Enviando...",
+        success: "Mensaje enviado. Le daremos seguimiento pronto.",
+        fallbackError: "No se pudo enviar su mensaje.",
+      },
       info: {
         addressTitle: "Ubicación de la oficina",
         addressLines: ["XT Diabetes Care", "132-27 41st Rd #2CB", "Flushing, NY 11355", "Solo con cita previa", "No se aceptan visitas sin cita"],
@@ -256,6 +307,7 @@ export const es = {
         emailTitle: "Correo electrónico",
         email: "xtdiabetescare@gmail.com",
         hoursTitle: "Horario",
+        mapTitle: "Ubicación de la oficina de XT Diabetes Care en Google Maps",
         hoursLines: ["Lun. a sáb.: 9:00 AM - 6:00 PM", "Domingo: cerrado"],
       },
     },
@@ -293,22 +345,22 @@ export const es = {
         { title: "Reducir riesgos", subtitle: "Prevención, señales de alerta y complicaciones", topics: ["Complicaciones de ojos, riñones, nervios y pies", "Síntomas y pasos de tratamiento para hipoglucemia e hiperglucemia", "Lista de cuidados preventivos y cuándo ver a un especialista en diabetes"] },
         { title: "Afrontamiento y solución de problemas", subtitle: "Confianza diaria, estrés y decisiones reales", topics: ["Estrés por diabetes, agotamiento, riesgo de depresión y sistemas de apoyo", "Comunicación con cuidadores y familiares", "Casos prácticos, plan para días de enfermedad y patrones inesperados de glucosa"] },
       ],
-      instructorsEyebrow: "Teaching team",
-      instructorsTitle: "Educators who make diabetes easier to understand",
-      instructorsIntro: "Placeholder instructor profiles are shown while the final teaching roster is being confirmed.",
+      instructorsEyebrow: "Equipo docente",
+      instructorsTitle: "Educadores que hacen la diabetes más fácil de entender",
+      instructorsIntro: "Se muestran perfiles provisionales mientras se confirma el equipo docente final.",
       instructors: [
-        { name: "Emily Chen, MS, RD", role: "Lead DSME instructor", bio: "Focuses on practical meal planning, label reading, and culturally familiar food examples.", image: "team/instructor-01.webp" },
-        { name: "Michael Rodriguez, CDCES", role: "Diabetes technology educator", bio: "Helps patients connect monitoring data with medication routines and daily decisions.", image: "team/instructor-02.webp" },
-        { name: "Sarah Patel, RD", role: "Nutrition educator", bio: "Translates carbohydrate, protein, and portion concepts into simple everyday habits.", image: "team/instructor-03.webp" },
-        { name: "David Liu, PharmD", role: "Medication education advisor", bio: "Supports safe medication use, side-effect planning, and questions before dose changes.", image: "team/instructor-04.webp" },
-        { name: "Grace Wong, CPT", role: "Activity and lifestyle coach", bio: "Builds realistic movement plans for different ages, schedules, and glucose patterns.", image: "team/instructor-05.webp" },
+        { name: "Emily Chen, MS, RD", role: "Instructora principal de DSME", bio: "Se enfoca en planificación práctica de comidas, lectura de etiquetas y ejemplos de alimentos culturalmente familiares.", image: "team/instructor-01.webp" },
+        { name: "Michael Rodriguez, CDCES", role: "Educador en tecnología de diabetes", bio: "Ayuda a los pacientes a conectar datos de monitoreo con rutinas de medicación y decisiones diarias.", image: "team/instructor-02.webp" },
+        { name: "Sarah Patel, RD", role: "Educadora en nutrición", bio: "Traduce conceptos de carbohidratos, proteína y porciones en hábitos cotidianos simples.", image: "team/instructor-03.webp" },
+        { name: "David Liu, PharmD", role: "Asesor de educación sobre medicamentos", bio: "Apoya el uso seguro de medicamentos, la planificación de efectos secundarios y preguntas antes de cambios de dosis.", image: "team/instructor-04.webp" },
+        { name: "Grace Wong, CPT", role: "Coach de actividad y estilo de vida", bio: "Construye planes de movimiento realistas para diferentes edades, horarios y patrones de glucosa.", image: "team/instructor-05.webp" },
       ],
-      testimonialsEyebrow: "Patient feedback",
-      testimonialsTitle: "Patients feel more confident after structured diabetes education",
+      testimonialsEyebrow: "Comentarios de pacientes",
+      testimonialsTitle: "Los pacientes se sienten más seguros después de educación estructurada en diabetes",
       testimonials: [
-        { quote: "The class finally made my numbers make sense. I learned what to change at breakfast and how to talk to my doctor with better questions.", name: "M. Lee", detail: "DSME participant", image: "testimonials/patient-01.webp" },
-        { quote: "I was overwhelmed by medications and glucose readings. The sessions gave me a simple plan I could follow with my family.", name: "R. Johnson", detail: "Type 2 diabetes support", image: "testimonials/patient-02.webp" },
-        { quote: "The teaching was clear, patient, and practical. I left knowing how to read labels and prevent low blood sugar more safely.", name: "A. Chen", detail: "Bilingual class participant", image: "testimonials/patient-03.webp" },
+        { quote: "La clase finalmente hizo que mis números tuvieran sentido. Aprendí qué cambiar en el desayuno y cómo hablar con mi médico con mejores preguntas.", name: "M. Lee", detail: "Participante de DSME", image: "testimonials/patient-01.webp" },
+        { quote: "Me sentía abrumado por medicamentos y lecturas de glucosa. Las sesiones me dieron un plan simple que podía seguir con mi familia.", name: "R. Johnson", detail: "Apoyo para diabetes tipo 2", image: "testimonials/patient-02.webp" },
+        { quote: "La enseñanza fue clara, paciente y práctica. Salí sabiendo cómo leer etiquetas y prevenir glucosa baja con más seguridad.", name: "A. Chen", detail: "Participante bilingüe", image: "testimonials/patient-03.webp" },
       ],
       ctaTitle: "¿Listo para empezar a aprender?",
       ctaBody: "Las clases están diseñadas para el manejo práctico de la diabetes en la vida real. Medicare / Medicaid y muchos seguros privados pueden reembolsar servicios DSME elegibles después del referido y verificación de beneficios.",
@@ -328,56 +380,61 @@ export const es = {
     },
     pumpTraining: {
       heroTitle: "Capacitación en bombas de insulina",
-      heroSubtitle: "La transición a una bomba de insulina puede ser abrumadora. Nuestros especialistas certificados ofrecen capacitación integral en las principales marcas de bombas para que pueda manejar su glucosa con confianza.",
-      catalogEyebrow: "Catalogo de bombas",
+      heroSubtitle: "Capacitación gratuita en bombas de insulina, sin requisito de seguro ni referido médico. Traiga su dispositivo y sus preguntas, y salga con confianza.",
+      heroBadges: {
+        free: "100% gratis",
+        noInsurance: "No requiere seguro",
+        noReferral: "No requiere referido",
+      },
+      catalogEyebrow: "Catálogo de bombas",
       catalogTitle: "Marcas principales y sistemas actuales",
-      catalogSubtitle: "Las imagenes reales de producto estan agrupadas por fabricante para que los pacientes comparen los dispositivos que podrian usar en la capacitacion.",
+      catalogSubtitle: "Las imágenes reales de producto están agrupadas por fabricante para que los pacientes comparen los dispositivos que podrían usar en la capacitación.",
       productLabel: "producto",
       productsLabel: "productos",
-      sourceLink: "Pagina oficial del producto",
+      sourceLink: "Página oficial del producto",
       pumpBrands: [
         {
           brand: "Omnipod",
           summary: "Terapia Pod sin tubos con opciones automatizadas y de manejo manual de insulina.",
           products: [
-            { name: "Omnipod 5", desc: "Sistema automatizado de administracion de insulina sin tubos disenado para ajustar la insulina con datos de CGM.", image: "pumps/omnipod-5.png", tags: ["Sin tubos", "AID", "Pod"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-5" },
-            { name: "Omnipod DASH", desc: "Sistema de manejo de insulina sin tubos con un Pod portatil y controlador manual.", image: "pumps/omnipod-dash.png", tags: ["Sin tubos", "Pod", "PDM"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-dash" },
-          ],
-        },
-        {
-          brand: "Tandem Diabetes Care",
-          summary: "Sistemas con pantalla tactil y control movil que usan tecnologia Control-IQ.",
-          products: [
-            { name: "Tandem Mobi", desc: "Bomba duradera y pequena controlada desde una app compatible para smartphone.", image: "pumps/tandem-mobi.png", tags: ["AID", "Control movil", "200 unidades"], sourceUrl: "https://www.tandemdiabetes.com/products/insulin-pumps/tandem-mobi" },
-            { name: "t:slim X2", desc: "Bomba de insulina con pantalla tactil, tecnologia Control-IQ y actualizaciones de software.", image: "pumps/tandem-tslim-x2.png", tags: ["AID", "Pantalla tactil", "300 unidades"], sourceUrl: "https://www.tandemdiabetes.com/products/insulin-pumps/tslim-x2-insulin-pump" },
-          ],
-        },
-        {
-          brand: "MiniMed",
-          summary: "Sistemas Medtronic centrados en automatizacion SmartGuard e integracion con sensores Guardian.",
-          products: [
-            { name: "MiniMed 780G", desc: "Sistema automatizado de administracion de insulina con tecnologia SmartGuard.", image: "pumps/minimed-780g.png", tags: ["AID", "SmartGuard", "Guardian"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-780g-insulin-pump-system" },
-          ],
-        },
-        {
-          brand: "Beta Bionics",
-          summary: "Sistema de pancreas bionico simplificado para automatizar decisiones de dosificacion.",
-          products: [
-            { name: "iLet Bionic Pancreas", desc: "Comienza con el peso corporal y automatiza decisiones de dosificacion de insulina mediante el sistema iLet.", image: "pumps/ilet-bionic-pancreas.png", tags: ["AID", "Inicio por peso", "CGM"], sourceUrl: "https://www.betabionics.com/ilet-bionic-pancreas/" },
+            { name: "Omnipod 5", desc: "Sistema automatizado de administración de insulina sin tubos diseñado para ajustar la insulina con datos de CGM.", image: "pumps/omnipod-5.png", tags: ["Sin tubos", "AID", "Pod"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-5" },
+            { name: "Omnipod DASH", desc: "Sistema de manejo de insulina sin tubos con un Pod portátil y controlador manual.", image: "pumps/omnipod-dash.png", tags: ["Sin tubos", "Pod", "PDM"], sourceUrl: "https://www.omnipod.com/what-is-omnipod/omnipod-dash" },
           ],
         },
         {
           brand: "twiist",
-          summary: "Administracion automatizada de insulina basada en el algoritmo Tidepool Loop autorizado por la FDA.",
+          summary: "Administración automatizada de insulina basada en el algoritmo Tidepool Loop autorizado por la FDA.",
           products: [
-            { name: "twiist AID System", desc: "Sistema automatizado de insulina que usa Tidepool Loop y la plataforma de bomba twiist.", image: "pumps/twiist-aid.png", tags: ["AID", "Tidepool Loop", "300 unidades"], sourceUrl: "https://www.twiist.com/what-is-twiist" },
+            { name: "twiist AID System", desc: "Sistema automatizado de insulina que usa Tidepool Loop y la plataforma de bomba twiist.", image: "pumps/twiist-aid.png", tags: ["AID", "Tidepool Loop", "300 unidades"], sourceUrl: "https://www.twiist.com/" },
+          ],
+        },
+        {
+          brand: "Beta Bionics",
+          summary: "Sistema de páncreas biónico simplificado para automatizar decisiones de dosificación.",
+          products: [
+            { name: "iLet Bionic Pancreas", desc: "Comienza con el peso corporal y automatiza decisiones de dosificación de insulina mediante el sistema iLet.", image: "pumps/ilet-bionic-pancreas.png", tags: ["AID", "Inicio por peso", "CGM"], sourceUrl: "https://www.betabionics.com/ilet-bionic-pancreas/" },
+          ],
+        },
+        {
+          brand: "Tandem Diabetes Care",
+          summary: "Sistemas con pantalla táctil y control móvil que usan tecnología Control-IQ.",
+          products: [
+            { name: "Tandem Mobi", desc: "Bomba duradera y pequeña controlada desde una app compatible para smartphone.", image: "pumps/tandem-mobi.png", tags: ["AID", "Control móvil", "200 unidades"], sourceUrl: "https://www.tandemdiabetes.com/products/insulin-pumps/tandem-mobi" },
+            { name: "t:slim X2", desc: "Bomba de insulina con pantalla táctil, tecnología Control-IQ y actualizaciones de software.", image: "pumps/tandem-tslim-x2.png", tags: ["AID", "Pantalla táctil", "300 unidades"], sourceUrl: "https://www.tandemdiabetes.com/products/insulin-pumps/tslim-x2-insulin-pump" },
+          ],
+        },
+        {
+          brand: "MiniMed",
+          summary: "Sistemas Medtronic centrados en automatización SmartGuard e integración con sensores Guardian.",
+          products: [
+            { name: "MiniMed 780G", desc: "Sistema automatizado de administración de insulina con tecnología SmartGuard.", image: "pumps/minimed-780g.png", tags: ["AID", "SmartGuard", "Guardian"], sourceUrl: "https://www.minimed.com/en-us/products/minimed-780g-insulin-pump-system" },
           ],
         },
         {
           brand: "CeQur",
           summary: "Parche de insulina para comidas para personas que necesitan bolos sin un sistema completo de bomba.",
           products: [
-            { name: "CeQur Simplicity", desc: "Parche portatil de cuatro dias que administra insulina para comidas con clics sencillos.", image: "pumps/cequr-simplicity.png", tags: ["Parche de bolo", "4 dias", "Sin electronica"], sourceUrl: "https://myceqursimplicity.com/" },
+            { name: "CeQur Simplicity", desc: "Parche portátil de cuatro días que administra insulina para comidas con clics sencillos.", image: "pumps/cequr-simplicity.png", tags: ["Parche de bolo", "4 días", "Sin electrónica"], sourceUrl: "https://myceqursimplicity.com/" },
           ],
         },
       ],
@@ -389,21 +446,26 @@ export const es = {
         "Solución de alarmas y problemas comunes.",
       ],
       needTitle: "¿Necesita capacitación?",
-      needBody: "La capacitación en bombas suele estar cubierta por el seguro con un referido médico.",
+      needBody: "Esta capacitación en bombas es completamente gratuita. No requiere seguro ni referido. Programe directamente y reciba apoyo práctico.",
       scheduleButton: "Programar capacitación",
     },
     cgm: {
       heroTitle: "Capacitación en CGM y análisis de reportes",
       heroSubtitle: "Aproveche todo el potencial de su monitor continuo de glucosa. Le enseñamos a usarlo y ayudamos a usted y a su médico a interpretar los datos para optimizar su salud.",
+      logoAlt: "Logotipo de {{name}}",
+      officialWebsite: "Sitio web oficial",
+      lingoFallbackDesc: "Apoyo para usuarios de Abbott Lingo que desean entender patrones de glucosa y respuestas del estilo de vida.",
       devices: [
-        { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre-v2.png", desc: "Capacitación sobre colocación del sensor, uso del lector o teléfono inteligente e interpretación de flechas de tendencia." },
-        { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom-v2.png", desc: "Configuración de alertas y alarmas, compartir datos con familiares o la clínica, y apoyo con el proceso de solicitud." },
-        { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo-v2.png", desc: "Orientación para pacientes con diabetes tipo 2 sobre cómo interpretar los datos del nuevo biosensor de venta libre." },
+        { name: "FreeStyle Libre", maker: "Abbott", logo: "cgm-logos/freestyle-libre-v2.png", desc: "Capacitación sobre colocación del sensor, uso del lector o teléfono inteligente e interpretación de flechas de tendencia.", sourceUrl: "https://www.freestyle.abbott/us-en/home.html" },
+        { name: "Dexcom G7/G6", maker: "Dexcom", logo: "cgm-logos/dexcom-v2.png", desc: "Configuración de alertas y alarmas, compartir datos con familiares o la clínica, y apoyo con el proceso de solicitud.", sourceUrl: "https://www.dexcom.com/" },
+        { name: "Stelo", maker: "Dexcom OTC", logo: "cgm-logos/stelo-v2.png", desc: "Orientación para pacientes con diabetes tipo 2 sobre cómo interpretar los datos del nuevo biosensor de venta libre.", sourceUrl: "https://www.stelo.com/" },
+        { name: "Lingo", maker: "Abbott", logo: "cgm-logos/lingo-v2.png", desc: "Apoyo para usuarios de Abbott Lingo que desean entender patrones de glucosa y respuestas del estilo de vida.", sourceUrl: "https://www.hellolingo.com/" },
       ],
       features: {
         appSetup: "Configuración de la app",
         arrowTrends: "Flechas de tendencia",
         agpReports: "Reportes AGP",
+        reportInterpretation: "Interpretación de reportes",
         timeInRange: "Tiempo en rango",
       },
       beyondTitle: "Más que solo números",
@@ -473,7 +535,7 @@ export const es = {
       ],
       referTitle: "Cómo referir pacientes",
       referIntro: "Medicare y los seguros privados cubren nuestros programas, pero requieren un referido del médico tratante.",
-      faxLine: "Envie el formulario por fax al (888) 370-1981.",
+      faxLine: "Envíe el formulario por fax al (888) 370-1981.",
       referralCandidates: [
         "Pacientes recién diagnosticados con diabetes.",
         "Pacientes que nunca han recibido capacitación sistemática de automanejo de la diabetes.",
@@ -483,6 +545,7 @@ export const es = {
       accreditedTitle: "Acreditado por ADCES",
       accreditedId: "ID# 1001155",
       accreditedBody: "Cumple con todos los estándares y requisitos aplicables de la Association of Diabetes Care & Education Specialists.",
+      certificateAlt: "Certificado ADCES DEAP",
     },
     member: {
       badge: "Acceso gratuito para miembros",
@@ -499,6 +562,14 @@ export const es = {
       registerButton: "Registrarse gratis",
       loginButton: "Iniciar sesi\u00f3n",
       previewNote: "Vista previa: el registro y el inicio de sesi\u00f3n a\u00fan no est\u00e1n conectados a un backend.",
+      status: {
+        fallbackError: "No se pudo completar esta solicitud.",
+        signedInAs: "Sesión iniciada como {{email}}",
+        signOut: "Cerrar sesión",
+        accountCreated: "Cuenta creada.",
+        signedIn: "Sesión iniciada.",
+        submitting: "Enviando...",
+      },
       perks: [
         { title: "Actualizaciones de recetas", desc: "Sea de las primeras personas en saber cuando publiquemos nuevas recetas saludables." },
         { title: "Tutoriales p\u00fablicos", desc: "Reciba gu\u00edas pr\u00e1cticas de educaci\u00f3n sobre diabetes y anuncios de clases." },
@@ -525,7 +596,8 @@ export const es = {
       cardAlt: "Tarjeta de receta de {{title}}",
     },
   },
-  recipes: [
+  recipes: {
+    items: [
     {
       slug: "cucumber-tomato-salad",
       title: "Ensalada de pepino y tomate",
@@ -742,7 +814,8 @@ export const es = {
       instructions: ["Caliente el caldo, el aceite de sésamo, la salsa de soya, la salsa de chile y ajo, y la salsa de pescado en una olla grande.", "Agregue a la olla la mitad del ajo, el jengibre, el cilantro y la cebolla verde.", "Pase los aromáticos restantes a un tazón.", "Mezcle a mano el pavo, el pan rallado, la salsa de soya, los huevos, las cinco especias y los aromáticos.", "Forme albóndigas redondeadas y colóquelas en la olla.", "Cocine a fuego lento de 5 a 6 minutos, hasta que las albóndigas estén bien cocidas.", "Agregue el bok choy y las zanahorias y cocine de 4 a 5 minutos más."],
       nutrition: ["280 calorías", "20 g de carbohidratos", "11 g de grasa total", "4 g de fibra", "26 g de proteína"],
     },
-  ],
+    ],
+  },
 } as const;
 
 export default es;
