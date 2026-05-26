@@ -348,6 +348,7 @@
       instructorsEyebrow: "Equipo docente",
       instructorsTitle: "Educadores que hacen la diabetes más fácil de entender",
       instructorsIntro: "Se muestran perfiles provisionales mientras se confirma el equipo docente final.",
+      rosterLabel: "Equipo",
       instructors: [
         { name: "Emily Chen, MS, RD", role: "Instructora principal de DSME", bio: "Se enfoca en planificación práctica de comidas, lectura de etiquetas y ejemplos de alimentos culturalmente familiares.", image: "team/instructor-01.webp" },
         { name: "Michael Rodriguez, CDCES", role: "Educador en tecnología de diabetes", bio: "Ayuda a los pacientes a conectar datos de monitoreo con rutinas de medicación y decisiones diarias.", image: "team/instructor-02.webp" },

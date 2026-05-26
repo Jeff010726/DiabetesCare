@@ -352,6 +352,7 @@ export const en = {
       instructorsEyebrow: "Teaching team",
       instructorsTitle: "Educators who make diabetes easier to understand",
       instructorsIntro: "Meet the educators supporting the diabetes education program.",
+      rosterLabel: "Team roster",
       instructors: [
         {
           name: "Jinhui Zhou, MS, RD, CDN, CDCES",
@@ -361,7 +362,7 @@ export const en = {
             "My interest in diabetes education comes from seeing how overwhelming food and blood sugar management can feel for many people. I enjoy helping patients simplify nutrition information, build confidence around eating, and create healthy habits that fit their daily lives and culture.",
             "I’m excited to be part of the diabetes education program and look forward to supporting our community!",
           ],
-          image: "team/instructor-01.webp",
+          image: "team/jinhui-zhou.png",
         },
         { name: "Michael Rodriguez, CDCES", role: "Diabetes technology educator", bio: "Helps patients connect monitoring data with medication routines and daily decisions.", image: "team/instructor-02.webp" },
         { name: "Sarah Patel, RD", role: "Nutrition educator", bio: "Translates carbohydrate, protein, and portion concepts into simple everyday habits.", image: "team/instructor-03.webp" },

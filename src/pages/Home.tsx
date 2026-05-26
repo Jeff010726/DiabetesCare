@@ -460,7 +460,7 @@ export default function Home() {
         </div>
       </section>
 
-      <TeachingTeamSection variant="home" />
+      <TeachingTeamSection className="order-6 border-y border-gray-100 bg-white py-20" framed={false} />
 
       {/* Testimonials */}
       <section className="order-7 py-20 bg-white">

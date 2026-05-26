@@ -326,6 +326,7 @@ export const zhCN = {
       instructorsEyebrow: "教学团队",
       instructorsTitle: "让糖尿病更容易理解的教育者",
       instructorsIntro: "认识支持糖尿病教育项目的教学团队。",
+      rosterLabel: "团队名单",
       instructors: [
         {
           name: "Jinhui Zhou, MS, RD, CDN, CDCES",
@@ -335,7 +336,7 @@ export const zhCN = {
             "我对糖尿病教育的兴趣，来自看到很多人在面对饮食和血糖管理时感到压力很大。我喜欢帮助患者简化营养信息，建立对饮食的信心，并养成适合自己日常生活和文化背景的健康习惯。",
             "我很高兴加入糖尿病教育项目，也期待为我们的社区提供支持！",
           ],
-          image: "team/instructor-01.webp",
+          image: "team/jinhui-zhou.png",
         },
         { name: "Michael Rodriguez, CDCES", role: "糖尿病技术教育者", bio: "帮助患者把监测数据与用药流程和日常决定联系起来。", image: "team/instructor-02.webp" },
         { name: "Sarah Patel, RD", role: "营养教育者", bio: "把碳水、蛋白质和份量概念转化成简单日常习惯。", image: "team/instructor-03.webp" },
