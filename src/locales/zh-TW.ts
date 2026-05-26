@@ -336,7 +336,7 @@ export const zhTW = {
             "我對糖尿病教育的興趣，來自看到很多人在面對飲食和血糖管理時感到壓力很大。我喜歡幫助患者簡化營養信息，建立對飲食的信心，並養成適合自己日常生活和文化背景的健康習慣。",
             "我很高興加入糖尿病教育項目，也期待爲我們的社區提供支持！",
           ],
-          image: "team/jinhui-zhou.png",
+          image: "team/jinhui-zhou.webp",
         },
         { name: "Michael Rodriguez, CDCES", role: "糖尿病技術教育者", bio: "幫助患者把監測數據與用藥流程和日常決定聯繫起來。", image: "team/instructor-02.webp" },
         { name: "Sarah Patel, RD", role: "營養教育者", bio: "把碳水、蛋白質和份量概念轉化成簡單日常習慣。", image: "team/instructor-03.webp" },
