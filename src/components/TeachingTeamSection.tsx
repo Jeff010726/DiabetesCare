@@ -96,15 +96,14 @@ export default function TeachingTeamSection({ className = "", framed = true }: T
           onMouseLeave={() => setIsPaused(false)}
         >
           <article className="grid overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm md:grid-cols-[240px_1fr] lg:min-h-[330px]">
-            <div className="relative h-64 overflow-hidden bg-gray-100 md:h-full">
+            <div className="relative flex min-h-64 items-center justify-center overflow-hidden bg-gray-50 md:min-h-full">
               <img
                 key={activeInstructor.image}
                 src={imageSrc(activeInstructor.image)}
                 alt={activeInstructor.name}
                 onError={handleImageFallback}
-                className="h-full w-full object-cover object-center"
+                className="max-h-[340px] w-full object-contain object-center md:max-h-[380px]"
               />
-              <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/30 to-transparent" />
             </div>
 
             <div className="flex flex-col p-5 md:p-6">
@@ -122,7 +121,7 @@ export default function TeachingTeamSection({ className = "", framed = true }: T
             </div>
           </article>
 
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
             {instructors.map((instructor, index) => {
               const isActive = index === activeIndex;
 
@@ -140,7 +139,7 @@ export default function TeachingTeamSection({ className = "", framed = true }: T
                     setIsPaused(true);
                   }}
                   className={[
-                    "grid min-h-[74px] grid-cols-[56px_1fr] items-center gap-3 rounded-2xl border bg-white p-2.5 text-left transition-all",
+                    "grid min-h-[52px] grid-cols-[40px_1fr] items-center gap-2 rounded-xl border bg-white p-1.5 text-left transition-all",
                     isActive
                       ? "border-[var(--color-brand-purple)] shadow-md shadow-purple-100/70"
                       : "border-gray-100 hover:border-gray-200 hover:shadow-sm",
@@ -151,12 +150,12 @@ export default function TeachingTeamSection({ className = "", framed = true }: T
                     src={imageSrc(instructor.image)}
                     alt={instructor.name}
                     onError={handleImageFallback}
-                    className="h-14 w-14 rounded-xl object-cover object-center"
+                    className="h-10 w-10 rounded-lg object-cover object-center"
                     loading="lazy"
                   />
                   <span className="min-w-0">
-                    <span className="block truncate text-sm font-bold leading-snug text-gray-900">{instructor.name}</span>
-                    <span className="mt-1 block text-xs font-semibold leading-5 text-gray-500">
+                    <span className="block truncate text-xs font-bold leading-tight text-gray-900">{instructor.name}</span>
+                    <span className="mt-0.5 block truncate text-[11px] font-semibold leading-4 text-gray-500">
                       {instructor.role}
                     </span>
                   </span>
