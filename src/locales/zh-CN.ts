@@ -141,12 +141,12 @@ export const zhCN = {
         {
           eyebrow: "把使命变成专业能力",
           title: "临床训练和社区使命结合",
-          body: "我在纽约 Hunter College 获得 Nutrition & Dietetics 硕士学位，完成 Lenox Hill Hospital 严格的 40 周临床实习，目前在 Northwell Health 担任 Clinical Dietitian 和 Diabetes Educator。我创办 XT Diabetes Care，是为了把个性化护理带到社区身边。",
+          body: "我在纽约 Hunter College 获得营养与膳食学硕士学位，完成 Lenox Hill Hospital 严格的 40 周临床实习，目前在 Northwell Health 担任临床营养师和糖尿病教育师。我创办 XT Diabetes Care，是为了把个性化护理带到社区身边。",
         },
         {
           eyebrow: "教育能改变结果",
-          title: "DSME 给家庭一张真实可用的路线图",
-          body: "外婆护理中缺失的并不是爱，而是可获得、能理解的知识。通过 Diabetes Self-Management Education，我把复杂医学语言拆解成患者和照护者每天都能执行的步骤。",
+          title: "糖尿病自我管理教育（DSME）给家庭一张真实可用的路线图",
+          body: "外婆护理中缺失的并不是爱，而是可获得、能理解的知识。通过糖尿病自我管理教育，我把复杂医学语言拆解成患者和照护者每天都能执行的步骤。",
         },
         {
           eyebrow: "让护理更容易获得",
@@ -155,12 +155,12 @@ export const zhCN = {
         },
       ],
       highlights: [
-        "Hunter College Nutrition & Dietetics 硕士",
+        "Hunter College 营养与膳食学硕士",
         "Lenox Hill Hospital 40 周临床实习",
-        "Northwell Health Clinical Dietitian and Diabetes Educator",
+        "Northwell Health 临床营养师与糖尿病教育师",
         "XT Diabetes Care 创办人",
       ],
-      careChips: ["胰岛素泵培训", "动态血糖仪设置与解读", "DSME", "营养治疗", "99% 客户 $0 自付"],
+      careChips: ["胰岛素泵培训", "动态血糖仪设置与解读", "糖尿病自我管理教育（DSME）", "营养治疗", "99% 客户 $0 自付"],
       foundationLabel: "临床基础",
       careSupportTitle: "把知识转化为信心的护理",
       careSupportDesc: "针对日常决定、设备使用和家庭沟通提供个性化支持，让糖尿病护理真正落到生活里。",
@@ -175,18 +175,18 @@ export const zhCN = {
       cards: [
         {
           title: "ADCES DEAP 认证",
-          desc: "我们的糖尿病教育项目通过 ADCES Diabetes Education Accreditation Program 认证，体现糖尿病自我管理教育与支持的全国标准。",
-          imageAlt: "ADCES DEAP Diabetes Education Accreditation Program 标志",
+          desc: "我们的糖尿病教育项目通过 ADCES 糖尿病教育认证项目认证，体现糖尿病自我管理教育与支持的全国标准。",
+          imageAlt: "ADCES DEAP 糖尿病教育认证项目标志",
         },
         {
           title: "CDCES 认证",
           desc: "认证糖尿病护理与教育专家的经验，可支持用药、技术设备、行为改变和日常问题处理。",
-          imageAlt: "CDCES Diabetes Care and Education Specialist 认证徽章",
+          imageAlt: "CDCES 糖尿病护理与教育专家认证徽章",
         },
         {
           title: "RD/RDN 资质",
           desc: "注册营养师和注册营养师营养专家资质，将循证营养治疗融入糖尿病、GLP-1 和生活方式护理。",
-          imageAlt: "RD RDN Registered Dietitian Nutritionist 徽章",
+          imageAlt: "RD RDN 注册营养师营养专家徽章",
         },
       ],
     },
@@ -325,9 +325,18 @@ export const zhCN = {
       ],
       instructorsEyebrow: "教学团队",
       instructorsTitle: "让糖尿病更容易理解的教育者",
-      instructorsIntro: "最终教师阵容确认前，此处展示占位教师简介。",
+      instructorsIntro: "认识支持糖尿病教育项目的教学团队。",
       instructors: [
-        { name: "Emily Chen, MS, RD", role: "DSME 主讲老师", bio: "专注于实用餐食规划、标签阅读和文化熟悉的食物例子。", image: "team/instructor-01.webp" },
+        {
+          name: "Jinhui Zhou, MS, RD, CDN, CDCES",
+          role: "注册营养师及认证糖尿病护理与教育专家",
+          bio: [
+            "大家好，我是 Jinhui，一名注册营养师及认证糖尿病护理与教育专家。我热衷于帮助人们用现实、可持续的方式管理糖尿病。",
+            "我对糖尿病教育的兴趣，来自看到很多人在面对饮食和血糖管理时感到压力很大。我喜欢帮助患者简化营养信息，建立对饮食的信心，并养成适合自己日常生活和文化背景的健康习惯。",
+            "我很高兴加入糖尿病教育项目，也期待为我们的社区提供支持！",
+          ],
+          image: "team/instructor-01.webp",
+        },
         { name: "Michael Rodriguez, CDCES", role: "糖尿病技术教育者", bio: "帮助患者把监测数据与用药流程和日常决定联系起来。", image: "team/instructor-02.webp" },
         { name: "Sarah Patel, RD", role: "营养教育者", bio: "把碳水、蛋白质和份量概念转化成简单日常习惯。", image: "team/instructor-03.webp" },
         { name: "David Liu, PharmD", role: "用药教育顾问", bio: "支持安全用药、副作用规划，以及剂量调整前的问题准备。", image: "team/instructor-04.webp" },
@@ -471,7 +480,7 @@ export const zhCN = {
       downloadButton: "下载转诊表模板",
       accreditedTitle: "ADCES 认证",
       accreditedId: "ID# 1001155",
-      accreditedBody: "已符合 Association of Diabetes Care & Education Specialists 的所有适用标准和要求。",
+      accreditedBody: "已符合糖尿病护理与教育专家协会的所有适用标准和要求。",
       certificateAlt: "ADCES DEAP 证书",
     },
     member: {

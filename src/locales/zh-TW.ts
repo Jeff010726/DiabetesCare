@@ -141,12 +141,12 @@ export const zhTW = {
         {
           eyebrow: "把使命變成專業能力",
           title: "臨牀訓練和社區使命結合",
-          body: "我在紐約 Hunter College 獲得 Nutrition & Dietetics 碩士學位，完成 Lenox Hill Hospital 嚴格的 40 周臨牀實習，目前在 Northwell Health 擔任 Clinical Dietitian 和 Diabetes Educator。我創辦 XT Diabetes Care，是爲了把個性化護理帶到社區身邊。",
+          body: "我在紐約 Hunter College 獲得營養與膳食學碩士學位，完成 Lenox Hill Hospital 嚴格的 40 周臨牀實習，目前在 Northwell Health 擔任臨牀營養師和糖尿病教育師。我創辦 XT Diabetes Care，是爲了把個性化護理帶到社區身邊。",
         },
         {
           eyebrow: "教育能改變結果",
-          title: "DSME 給家庭一張真實可用的路線圖",
-          body: "外婆護理中缺失的並不是愛，而是可獲得、能理解的知識。通過 Diabetes Self-Management Education，我把複雜醫學語言拆解成患者和照護者每天都能執行的步驟。",
+          title: "糖尿病自我管理教育（DSME）給家庭一張真實可用的路線圖",
+          body: "外婆護理中缺失的並不是愛，而是可獲得、能理解的知識。通過糖尿病自我管理教育，我把複雜醫學語言拆解成患者和照護者每天都能執行的步驟。",
         },
         {
           eyebrow: "讓護理更容易獲得",
@@ -155,12 +155,12 @@ export const zhTW = {
         },
       ],
       highlights: [
-        "Hunter College Nutrition & Dietetics 碩士",
+        "Hunter College 營養與膳食學碩士",
         "Lenox Hill Hospital 40 周臨牀實習",
-        "Northwell Health Clinical Dietitian and Diabetes Educator",
+        "Northwell Health 臨牀營養師與糖尿病教育師",
         "XT Diabetes Care 創辦人",
       ],
-      careChips: ["胰島素泵培訓", "動態血糖儀設置與解讀", "DSME", "營養治療", "99% 客戶 $0 自付"],
+      careChips: ["胰島素泵培訓", "動態血糖儀設置與解讀", "糖尿病自我管理教育（DSME）", "營養治療", "99% 客戶 $0 自付"],
       foundationLabel: "臨牀基礎",
       careSupportTitle: "把知識轉化爲信心的護理",
       careSupportDesc: "針對日常決定、設備使用和家庭溝通提供個性化支持，讓糖尿病護理真正落到生活裏。",
@@ -175,18 +175,18 @@ export const zhTW = {
       cards: [
         {
           title: "ADCES DEAP 認證",
-          desc: "我們的糖尿病教育項目通過 ADCES Diabetes Education Accreditation Program 認證，體現糖尿病自我管理教育與支持的全國標準。",
-          imageAlt: "ADCES DEAP Diabetes Education Accreditation Program 標誌",
+          desc: "我們的糖尿病教育項目通過 ADCES 糖尿病教育認證項目認證，體現糖尿病自我管理教育與支持的全國標準。",
+          imageAlt: "ADCES DEAP 糖尿病教育認證項目標誌",
         },
         {
           title: "CDCES 認證",
           desc: "認證糖尿病護理與教育專家的經驗，可支持用藥、技術設備、行爲改變和日常問題處理。",
-          imageAlt: "CDCES Diabetes Care and Education Specialist 認證徽章",
+          imageAlt: "CDCES 糖尿病護理與教育專家認證徽章",
         },
         {
           title: "RD/RDN 資質",
           desc: "註冊營養師和註冊營養師營養專家資質，將循證營養治療融入糖尿病、GLP-1 和生活方式護理。",
-          imageAlt: "RD RDN Registered Dietitian Nutritionist 徽章",
+          imageAlt: "RD RDN 註冊營養師營養專家徽章",
         },
       ],
     },
@@ -325,9 +325,18 @@ export const zhTW = {
       ],
       instructorsEyebrow: "教學團隊",
       instructorsTitle: "讓糖尿病更容易理解的教育者",
-      instructorsIntro: "最終教師陣容確認前，此處展示佔位教師簡介。",
+      instructorsIntro: "認識支持糖尿病教育項目的教學團隊。",
       instructors: [
-        { name: "Emily Chen, MS, RD", role: "DSME 主講老師", bio: "專注於實用餐食規劃、標籤閱讀和文化熟悉的食物例子。", image: "team/instructor-01.webp" },
+        {
+          name: "Jinhui Zhou, MS, RD, CDN, CDCES",
+          role: "註冊營養師及認證糖尿病護理與教育專家",
+          bio: [
+            "大家好，我是 Jinhui，一名註冊營養師及認證糖尿病護理與教育專家。我熱衷於幫助人們用現實、可持續的方式管理糖尿病。",
+            "我對糖尿病教育的興趣，來自看到很多人在面對飲食和血糖管理時感到壓力很大。我喜歡幫助患者簡化營養信息，建立對飲食的信心，並養成適合自己日常生活和文化背景的健康習慣。",
+            "我很高興加入糖尿病教育項目，也期待爲我們的社區提供支持！",
+          ],
+          image: "team/instructor-01.webp",
+        },
         { name: "Michael Rodriguez, CDCES", role: "糖尿病技術教育者", bio: "幫助患者把監測數據與用藥流程和日常決定聯繫起來。", image: "team/instructor-02.webp" },
         { name: "Sarah Patel, RD", role: "營養教育者", bio: "把碳水、蛋白質和份量概念轉化成簡單日常習慣。", image: "team/instructor-03.webp" },
         { name: "David Liu, PharmD", role: "用藥教育顧問", bio: "支持安全用藥、副作用規劃，以及劑量調整前的問題準備。", image: "team/instructor-04.webp" },
@@ -471,7 +480,7 @@ export const zhTW = {
       downloadButton: "下載轉診表模板",
       accreditedTitle: "ADCES 認證",
       accreditedId: "ID# 1001155",
-      accreditedBody: "已符合 Association of Diabetes Care & Education Specialists 的所有適用標準和要求。",
+      accreditedBody: "已符合糖尿病護理與教育專家協會的所有適用標準和要求。",
       certificateAlt: "ADCES DEAP 證書",
     },
     member: {

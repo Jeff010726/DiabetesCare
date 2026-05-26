@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useTranslation } from "react-i18next";
 import { bookingUrl } from "../lib/booking";
+import TeachingTeamSection from "../components/TeachingTeamSection";
 import "./homeI18n";
 
 export default function Home() {
@@ -459,8 +460,10 @@ export default function Home() {
         </div>
       </section>
 
+      <TeachingTeamSection variant="home" />
+
       {/* Testimonials */}
-      <section className="order-6 py-20 bg-white">
+      <section className="order-7 py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
             <div>
@@ -492,7 +495,7 @@ export default function Home() {
       </section>
 
       {/* How it Works / Journey */}
-      <section className="order-7 py-24 bg-white relative overflow-hidden">
+      <section className="order-8 py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t("journey.title")}</h2>
@@ -534,7 +537,7 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="order-8 py-24 bg-[var(--color-brand-pink-light)]/40 rounded-t-3xl border-t border-[var(--color-brand-pink-light)]">
+      <section className="order-9 py-24 bg-[var(--color-brand-pink-light)]/40 rounded-t-3xl border-t border-[var(--color-brand-pink-light)]">
          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-12 items-center">
                <div className="grid grid-cols-2 gap-4">
@@ -576,7 +579,7 @@ export default function Home() {
       </section>
 
       {/* For Doctors Banner */}
-      <section className="order-9 bg-[var(--color-brand-purple)] py-16">
+      <section className="order-10 bg-[var(--color-brand-purple)] py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="text-white max-w-2xl">

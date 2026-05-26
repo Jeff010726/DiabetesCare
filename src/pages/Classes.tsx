@@ -14,6 +14,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { bookingUrl } from "../lib/booking";
 import ProviderAccessCallout from "../components/ProviderAccessCallout";
+import TeachingTeamSection from "../components/TeachingTeamSection";
 import "../locales/servicePages";
 
 type CurriculumSession = {
@@ -25,13 +26,6 @@ type CurriculumSession = {
 type InfoCard = {
   title: string;
   desc: string;
-};
-
-type Instructor = {
-  name: string;
-  role: string;
-  bio: string;
-  image: string;
 };
 
 type Testimonial = {
@@ -47,7 +41,6 @@ export default function Classes() {
   const outcomes = t("classes.outcomes", { returnObjects: true }) as string[];
   const credentials = t("classes.credentials", { returnObjects: true }) as InfoCard[];
   const startSteps = t("classes.startSteps", { returnObjects: true }) as InfoCard[];
-  const instructors = t("classes.instructors", { returnObjects: true }) as Instructor[];
   const testimonials = t("classes.testimonials", { returnObjects: true }) as Testimonial[];
   const sessionIcons = [BookOpen, Apple, Activity, Pill, ShieldCheck, SmilePlus];
 
@@ -179,32 +172,7 @@ export default function Classes() {
           })}
         </div>
 
-        <section className="mt-16 rounded-[2rem] border border-gray-100 bg-gray-50 p-6 md:p-10">
-          <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <div className="max-w-3xl">
-              <p className="text-sm font-bold uppercase tracking-wide text-[var(--color-brand-purple)]">{t("classes.instructorsEyebrow")}</p>
-              <h2 className="mt-3 text-3xl font-bold md:text-4xl">{t("classes.instructorsTitle")}</h2>
-              <p className="mt-4 text-base leading-7 text-gray-600">{t("classes.instructorsIntro")}</p>
-            </div>
-          </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
-            {instructors.map((instructor) => (
-              <article key={instructor.name} className="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
-                <img
-                  src={`${import.meta.env.BASE_URL}${instructor.image}`}
-                  alt={instructor.name}
-                  className="h-44 w-full object-cover"
-                  loading="lazy"
-                />
-                <div className="p-5">
-                  <h3 className="text-base font-bold text-gray-900">{instructor.name}</h3>
-                  <p className="mt-1 text-sm font-bold text-[var(--color-brand-purple)]">{instructor.role}</p>
-                  <p className="mt-3 text-sm leading-6 text-gray-600">{instructor.bio}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
+        <TeachingTeamSection />
 
         <section className="mt-16">
           <div className="mb-8 max-w-3xl">

@@ -351,9 +351,18 @@ export const en = {
       ],
       instructorsEyebrow: "Teaching team",
       instructorsTitle: "Educators who make diabetes easier to understand",
-      instructorsIntro: "Placeholder instructor profiles are shown while the final teaching roster is being confirmed.",
+      instructorsIntro: "Meet the educators supporting the diabetes education program.",
       instructors: [
-        { name: "Emily Chen, MS, RD", role: "Lead DSME instructor", bio: "Focuses on practical meal planning, label reading, and culturally familiar food examples.", image: "team/instructor-01.webp" },
+        {
+          name: "Jinhui Zhou, MS, RD, CDN, CDCES",
+          role: "Registered Dietitian and CDCES",
+          bio: [
+            "Hi everyone, I’m Jinhui, a Registered Dietitian and CDCES. I am passionate about helping people manage diabetes in a realistic and sustainable way.",
+            "My interest in diabetes education comes from seeing how overwhelming food and blood sugar management can feel for many people. I enjoy helping patients simplify nutrition information, build confidence around eating, and create healthy habits that fit their daily lives and culture.",
+            "I’m excited to be part of the diabetes education program and look forward to supporting our community!",
+          ],
+          image: "team/instructor-01.webp",
+        },
         { name: "Michael Rodriguez, CDCES", role: "Diabetes technology educator", bio: "Helps patients connect monitoring data with medication routines and daily decisions.", image: "team/instructor-02.webp" },
         { name: "Sarah Patel, RD", role: "Nutrition educator", bio: "Translates carbohydrate, protein, and portion concepts into simple everyday habits.", image: "team/instructor-03.webp" },
         { name: "David Liu, PharmD", role: "Medication education advisor", bio: "Supports safe medication use, side-effect planning, and questions before dose changes.", image: "team/instructor-04.webp" },
