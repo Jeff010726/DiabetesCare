@@ -92,7 +92,7 @@ export default function TeachingTeamSection({ className = "", framed = true }: T
         </div>
 
         <div
-          className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.88fr)] lg:items-stretch"
+          className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_300px] xl:grid-cols-[minmax(0,1fr)_320px] lg:items-stretch"
           onMouseLeave={() => setIsPaused(false)}
         >
           <article className="grid overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm md:grid-cols-[240px_1fr] lg:min-h-[330px]">
@@ -139,7 +139,7 @@ export default function TeachingTeamSection({ className = "", framed = true }: T
                     setIsPaused(true);
                   }}
                   className={[
-                    "grid min-h-[52px] grid-cols-[40px_1fr] items-center gap-2 rounded-xl border bg-white p-1.5 text-left transition-all",
+                    "grid min-h-[64px] grid-cols-[48px_1fr] items-center gap-3 rounded-xl border bg-white p-2 text-left transition-all",
                     isActive
                       ? "border-[var(--color-brand-purple)] shadow-md shadow-purple-100/70"
                       : "border-gray-100 hover:border-gray-200 hover:shadow-sm",
@@ -150,12 +150,12 @@ export default function TeachingTeamSection({ className = "", framed = true }: T
                     src={imageSrc(instructor.image)}
                     alt={instructor.name}
                     onError={handleImageFallback}
-                    className="h-10 w-10 rounded-lg object-cover object-center"
+                    className="h-12 w-12 rounded-lg object-cover object-center"
                     loading="lazy"
                   />
                   <span className="min-w-0">
-                    <span className="block truncate text-xs font-bold leading-tight text-gray-900">{instructor.name}</span>
-                    <span className="mt-0.5 block truncate text-[11px] font-semibold leading-4 text-gray-500">
+                    <span className="block truncate text-sm font-bold leading-tight text-gray-900">{instructor.name}</span>
+                    <span className="mt-1 block truncate text-xs font-semibold leading-4 text-gray-500">
                       {instructor.role}
                     </span>
                   </span>
