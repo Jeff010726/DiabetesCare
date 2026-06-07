@@ -329,6 +329,30 @@ export const zhCN = {
       rosterLabel: "团队名单",
       instructors: [
         {
+          name: "Ziying",
+          role: "注册营养师",
+          bio: [
+            "你好，我是 Ziying，一名注册营养师。",
+            "在不同医疗环境中的工作经历，让我陪伴过许多人走过健康旅程中的不同阶段。一直激励我的是，人们为了改善健康所投入的认真和坚持。同时，我也看见，饮食规则、血糖数字和彼此冲突的建议，很容易让人感到不知所措。",
+            "随着经验累积，我逐渐意识到，大多数人并不是不够努力，而是缺少真正适合现实生活的指导。这个认识让我走进了糖尿病教育。",
+            "基于在医院、医疗中心和私人诊所的经验，我共同主导开发了一个糖尿病自我管理教育（DSME）项目，重点是让糖尿病护理在日常生活中更现实、更容易接近，也更可持续。",
+            "在我看来，成功的糖尿病教育，是帮助人们在照顾健康时更有信心，同时仍然能够享受食物和生活。",
+            "如果你已经准备好主动掌握自己的健康，我会在这里支持你。",
+          ],
+          image: "team/ziying.webp",
+        },
+        {
+          name: "Yirao (Rebecca) Wang, RDN, LDN, MPH",
+          role: "注册营养师及糖尿病教育者",
+          bio: [
+            "我走进糖尿病护理，源于我在海外读研期间父亲被诊断出糖尿病。起初，我尝试通过饮食限制来帮助他，但很快意识到，糖尿病患者需要的不只是“不能吃什么”。他们需要实用的指导、文化上的理解，以及能帮助他们继续享受生活的支持。",
+            "这段经历促使我在美国继续学习营养与膳食学。我在纽约大学完成了 MPH 和 DPD 课程，并在 Yale New Haven Hospital 接受临床培训，之后又在佛罗里达完成长期护理相关轮转。",
+            "如今，我作为注册营养师和糖尿病教育者，支持老年糖尿病患者及慢性病管理。我也主导开发面向亚洲社区的首个文化适配型 DSME 项目，目标是减少语言障碍，让糖尿病和营养教育更易获得、更贴近文化，也更可持续。",
+            "我工作的核心，是连接、同理心，以及帮助人们带着信心建立更健康的生活，同时在与糖尿病共处时维持良好的生活质量。",
+          ],
+          image: "team/yirao-wang.webp",
+        },
+        {
           name: "Jinhui Zhou, MS, RD, CDN, CDCES",
           role: "注册营养师及认证糖尿病护理与教育专家",
           bio: [
@@ -338,10 +362,6 @@ export const zhCN = {
           ],
           image: "team/jinhui-zhou.webp",
         },
-        { name: "Michael Rodriguez, CDCES", role: "糖尿病技术教育者", bio: "帮助患者把监测数据与用药流程和日常决定联系起来。", image: "team/instructor-02.webp" },
-        { name: "Sarah Patel, RD", role: "营养教育者", bio: "把碳水、蛋白质和份量概念转化成简单日常习惯。", image: "team/instructor-03.webp" },
-        { name: "David Liu, PharmD", role: "用药教育顾问", bio: "支持安全用药、副作用规划，以及剂量调整前的问题准备。", image: "team/instructor-04.webp" },
-        { name: "Grace Wong, CPT", role: "活动和生活方式教练", bio: "为不同年龄、日程和血糖模式建立现实可行的活动计划。", image: "team/instructor-05.webp" },
       ],
       testimonialsEyebrow: "患者反馈",
       testimonialsTitle: "结构化糖尿病教育让患者更有信心",

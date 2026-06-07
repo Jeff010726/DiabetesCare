@@ -355,6 +355,30 @@ export const en = {
       rosterLabel: "Team roster",
       instructors: [
         {
+          name: "Ziying",
+          role: "Registered Dietitian",
+          bio: [
+            "Hi, I’m Ziying, a Registered Dietitian.",
+            "Through my work across different healthcare settings, I have supported people through different stages of their health journey. One thing that continues to inspire me is how committed people are to improving their health. At the same time, I’ve seen how easy it is to become overwhelmed by food rules, blood sugar numbers, and conflicting advice.",
+            "Over time, I realized that most people are not lacking effort. They are lacking guidance that truly fits their real lives. That realization led me into diabetes education.",
+            "Building on my experiences in hospitals, medical centers, and private practice, I co-led the development of a Diabetes Self-Management Education (DSME) program focused on making diabetes care more realistic, approachable, and sustainable in daily life.",
+            "To me, successful diabetes education is about helping people feel more confident in caring for their health while still being able to enjoy food and life along the way.",
+            "If you’re ready to take control of your health, I’m here to support you.",
+          ],
+          image: "team/ziying.webp",
+        },
+        {
+          name: "Yirao (Rebecca) Wang, RDN, LDN, MPH",
+          role: "Registered Dietitian and Diabetes Educator",
+          bio: [
+            "My journey into diabetes care began with my father’s diabetes diagnosis during my graduate studies abroad. At first, I tried to help by focusing on food restrictions, but I soon realized that people living with diabetes need more than “what not to eat.” They need practical guidance, cultural understanding, and support that helps them continue enjoying life.",
+            "This experience inspired me to pursue nutrition and dietetics in the United States. I completed my MPH and DPD coursework at New York University and received clinical training at Yale New Haven Hospital, followed by long-term care rotations in Florida.",
+            "Today, I work as a Registered Dietitian and diabetes educator, supporting older adults with diabetes and chronic disease management. I also lead the development of the first culturally tailored DSME program for Asian communities, with the goal of reducing language barriers and making diabetes and nutrition education more accessible, culturally relevant, and sustainable.",
+            "At the heart of my work is connection, compassion, and helping people build healthier lives with confidence while maintaining a high quality of life with diabetes.",
+          ],
+          image: "team/yirao-wang.webp",
+        },
+        {
           name: "Jinhui Zhou, MS, RD, CDN, CDCES",
           role: "Registered Dietitian and CDCES",
           bio: [
@@ -364,10 +388,6 @@ export const en = {
           ],
           image: "team/jinhui-zhou.webp",
         },
-        { name: "Michael Rodriguez, CDCES", role: "Diabetes technology educator", bio: "Helps patients connect monitoring data with medication routines and daily decisions.", image: "team/instructor-02.webp" },
-        { name: "Sarah Patel, RD", role: "Nutrition educator", bio: "Translates carbohydrate, protein, and portion concepts into simple everyday habits.", image: "team/instructor-03.webp" },
-        { name: "David Liu, PharmD", role: "Medication education advisor", bio: "Supports safe medication use, side-effect planning, and questions before dose changes.", image: "team/instructor-04.webp" },
-        { name: "Grace Wong, CPT", role: "Activity and lifestyle coach", bio: "Builds realistic movement plans for different ages, schedules, and glucose patterns.", image: "team/instructor-05.webp" },
       ],
       testimonialsEyebrow: "Patient feedback",
       testimonialsTitle: "Patients feel more confident after structured diabetes education",

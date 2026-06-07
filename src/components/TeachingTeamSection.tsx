@@ -13,7 +13,7 @@ type TeachingTeamSectionProps = {
   framed?: boolean;
 };
 
-const fallbackInstructorImage = "team/instructor-01.webp";
+const fallbackInstructorImage = "team/jinhui-zhou.webp";
 const carouselDelay = 5200;
 
 function bioParagraphs(bio: Instructor["bio"]) {
