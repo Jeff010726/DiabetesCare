@@ -326,6 +326,8 @@ export const zhCN = {
       instructorsEyebrow: "教学团队",
       instructorsTitle: "让糖尿病更容易理解的教育者",
       instructorsIntro: "认识支持糖尿病教育项目的教学团队。",
+      instructorsReadFullBio: "查看完整介绍",
+      instructorsCloseBio: "关闭介绍",
       rosterLabel: "团队名单",
       instructors: [
         {

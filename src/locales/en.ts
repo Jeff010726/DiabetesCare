@@ -352,6 +352,8 @@ export const en = {
       instructorsEyebrow: "Teaching team",
       instructorsTitle: "Educators who make diabetes easier to understand",
       instructorsIntro: "Meet the educators supporting the diabetes education program.",
+      instructorsReadFullBio: "Read full bio",
+      instructorsCloseBio: "Close bio",
       rosterLabel: "Team roster",
       instructors: [
         {

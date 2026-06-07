@@ -348,6 +348,8 @@
       instructorsEyebrow: "Equipo docente",
       instructorsTitle: "Educadores que hacen la diabetes más fácil de entender",
       instructorsIntro: "Conozca a las educadoras que apoyan el programa de educación en diabetes.",
+      instructorsReadFullBio: "Leer biografía completa",
+      instructorsCloseBio: "Cerrar biografía",
       rosterLabel: "Equipo",
       instructors: [
         {

@@ -326,6 +326,8 @@ export const zhTW = {
       instructorsEyebrow: "教學團隊",
       instructorsTitle: "讓糖尿病更容易理解的教育者",
       instructorsIntro: "認識支持糖尿病教育項目的教學團隊。",
+      instructorsReadFullBio: "查看完整介紹",
+      instructorsCloseBio: "關閉介紹",
       rosterLabel: "團隊名單",
       instructors: [
         {
