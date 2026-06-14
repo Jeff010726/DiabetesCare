@@ -99,6 +99,7 @@ export function installClickTracking() {
   const handler = (event: MouseEvent) => {
     const target = event.target instanceof Element ? event.target.closest("a,button") : null;
     if (!target) return;
+    if (target.getAttribute("data-meta-tracked") === "true") return;
 
     const text = (target.textContent || "").trim().replace(/\s+/g, " ").slice(0, 120);
     const href = target instanceof HTMLAnchorElement ? target.href : "";
