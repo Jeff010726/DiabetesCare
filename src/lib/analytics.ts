@@ -1,4 +1,5 @@
 import { apiRequest } from "./api";
+import { trackMetaConversion, trackMetaPageView } from "./metaPixel";
 
 const visitorKey = "xt-analytics-visitor-id";
 const sessionKey = "xt-analytics-session-id";
@@ -79,6 +80,8 @@ export function trackEvent(event: AnalyticsEvent) {
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "https://api.xtdiabetescare.com";
   const url = `${apiBaseUrl}/api/analytics/collect`;
 
+  trackMetaConversion(event.eventType);
+
   if (navigator.sendBeacon) {
     const sent = navigator.sendBeacon(url, new Blob([body], { type: "application/json" }));
     if (sent) return;
@@ -88,6 +91,7 @@ export function trackEvent(event: AnalyticsEvent) {
 }
 
 export function trackPageView() {
+  trackMetaPageView();
   trackEvent({ eventType: "page_view", eventName: window.location.pathname });
 }
 
