@@ -66,8 +66,5 @@ export function trackMetaPageView() {
 export function trackMetaConversion(eventType: string) {
   if (eventType === "contact_submit") fbqTrack("Lead");
   if (eventType === "member_register") fbqTrack("CompleteRegistration");
-  if (eventType === "booking_click") {
-    fbqTrack("Schedule");
-    fbqTrackCustom("BookingClick");
-  }
+  if (eventType === "booking_click") fbqTrackCustom("BookingClick");
 }
