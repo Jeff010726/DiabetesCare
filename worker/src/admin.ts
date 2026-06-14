@@ -291,6 +291,7 @@ export function adminPage(request: Request, env: Env) {
         <button type="button" data-view="dashboard" class="active">Dashboard</button>
         <button type="button" data-view="traffic">Traffic</button>
         <button type="button" data-view="sources">Sources</button>
+        <button type="button" data-view="ads">Ads</button>
         <button type="button" data-view="locations">Locations</button>
         <button type="button" data-view="conversions">Conversions</button>
         <button type="button" data-view="leads">Contact Leads</button>
@@ -362,6 +363,11 @@ export function adminPage(request: Request, env: Env) {
       state.analytics = await api("/admin/api/analytics/dashboard" + rangeQuery());
       $("range-caption").textContent = formatRangeLabel(state.analytics);
       return state.analytics;
+    }
+    async function getAdsAnalytics() {
+      const data = await api("/admin/api/analytics/ads" + rangeQuery());
+      $("range-caption").textContent = formatRangeLabel(data);
+      return data;
     }
     function metricValue(metric, suffix) {
       return suffix ? Number(metric.value || 0).toLocaleString(undefined, { maximumFractionDigits: 2 }) + suffix : num(metric.value);
@@ -522,6 +528,18 @@ export function adminPage(request: Request, env: Env) {
         + metricCard("Lead conversion", data.metrics.leadRate, data.sparklines.leads, "%")
         + '</section>';
     }
+    function adsMetricsHtml(data) {
+      return '<section class="metric-grid">'
+        + metricCard("Ad sessions", data.metrics.sessions, data.sparklines.sessions)
+        + metricCard("Ad visitors", data.metrics.visitors, data.sparklines.visitors)
+        + metricCard("Page views", data.metrics.pageViews, data.sparklines.pageViews)
+        + metricCard("All conversions", data.metrics.conversions, data.sparklines.conversions)
+        + metricCard("Contact submits", data.metrics.contactSubmits, data.sparklines.contactSubmits)
+        + metricCard("Member signups", data.metrics.memberSignups, data.sparklines.memberSignups)
+        + metricCard("External clicks", data.metrics.externalClicks, data.sparklines.externalClicks)
+        + metricCard("Contact rate", data.metrics.contactRate, data.sparklines.contactSubmits, "%")
+        + '</section>';
+    }
     function insightsHtml(data) {
       return '<section class="insights">' + (data.insights || []).slice(0, 4).map(function (item, index) {
         return '<article class="insight"><strong>Insight ' + (index + 1) + '</strong><div>' + escapeHtml(item) + '</div></article>';
@@ -536,6 +554,43 @@ export function adminPage(request: Request, env: Env) {
         + panel("Traffic sources", "Grouped acquisition channels", barList(data.sourceChannels, "count"), false)
         + panel("Locations", "Top countries by activity", barList(data.topCountries, "count"), false)
         + panel("Devices", "Desktop, mobile, and tablet split", barList(data.topDevices, "count"), false)
+        + '</section>';
+      bindCharts();
+    }
+    function campaignTable(rows) {
+      const data = rows || [];
+      if (!data.length) return '<div class="empty">No UTM-tagged ad traffic yet.</div>';
+      return '<section class="tablewrap"><table><thead><tr><th>Campaign</th><th>Source</th><th>Medium</th><th>Sessions</th><th>Visitors</th><th>Page views</th><th>External clicks</th><th>Contacts</th><th>Signups</th></tr></thead><tbody>'
+        + data.map(function (row) {
+          return '<tr><td>' + escapeHtml(row.label) + '</td><td>' + escapeHtml(row.source) + '</td><td>' + escapeHtml(row.medium) + '</td><td>' + num(row.sessions) + '</td><td>' + num(row.visitors) + '</td><td>' + num(row.pageViews) + '</td><td>' + num(row.externalClicks) + '</td><td>' + num(row.contactSubmits) + '</td><td>' + num(row.memberSignups) + '</td></tr>';
+        }).join("") + '</tbody></table></section>';
+    }
+    function contentTable(rows) {
+      const data = rows || [];
+      if (!data.length) return '<div class="empty">No ad content data yet. Add utm_content to ad URLs.</div>';
+      return '<section class="tablewrap"><table><thead><tr><th>Content</th><th>Campaign</th><th>Sessions</th><th>Visitors</th><th>Page views</th><th>External clicks</th><th>Contacts</th><th>Signups</th></tr></thead><tbody>'
+        + data.map(function (row) {
+          return '<tr><td>' + escapeHtml(row.label) + '</td><td>' + escapeHtml(row.campaign) + '</td><td>' + num(row.sessions) + '</td><td>' + num(row.visitors) + '</td><td>' + num(row.pageViews) + '</td><td>' + num(row.externalClicks) + '</td><td>' + num(row.contactSubmits) + '</td><td>' + num(row.memberSignups) + '</td></tr>';
+        }).join("") + '</tbody></table></section>';
+    }
+    function recentAdEventsTable(rows) {
+      const data = rows || [];
+      if (!data.length) return '<div class="empty">No recent ad events in this range.</div>';
+      return '<section class="tablewrap"><table><thead><tr><th>Time</th><th>Event</th><th>Page</th><th>Source</th><th>Medium</th><th>Campaign</th><th>Content</th></tr></thead><tbody>'
+        + data.map(function (row) {
+          return '<tr><td>' + escapeHtml(date(row.created_at)) + '</td><td>' + escapeHtml(row.event_type) + '</td><td>' + escapeHtml(row.path) + '</td><td>' + escapeHtml(row.utm_source) + '</td><td>' + escapeHtml(row.utm_medium) + '</td><td>' + escapeHtml(row.utm_campaign) + '</td><td>' + escapeHtml(row.utm_content) + '</td></tr>';
+        }).join("") + '</tbody></table></section>';
+    }
+    async function renderAds() {
+      $("title").textContent = "Ads";
+      const data = await getAdsAnalytics();
+      $("content").innerHTML = adsMetricsHtml(data) + '<section class="chart-grid">'
+        + panel("Ad traffic over time", "UTM-tagged sessions, visitors, and page views", lineChart(data.timeline), true)
+        + panel("Ad conversion funnel", "UTM-tagged sessions through key actions", funnelChart(data.funnel), false)
+        + panel("Landing pages", "Ad traffic by destination page", barList(data.landingPages, "sessions"), false)
+        + panel("Campaigns", "UTM campaign performance", campaignTable(data.campaigns), true)
+        + panel("Ad content", "UTM content performance by creative or copy", contentTable(data.contents), true)
+        + panel("Recent ad events", "Latest UTM-tagged activity", recentAdEventsTable(data.recentEvents), true)
         + '</section>';
       bindCharts();
     }
@@ -627,6 +682,7 @@ export function adminPage(request: Request, env: Env) {
     async function load() {
       if (state.view === "members") return loadMembers();
       if (state.view === "leads") return loadLeads();
+      if (state.view === "ads") return renderAds();
       return loadAnalyticsView();
     }
     $("login-form").addEventListener("submit", async (event) => {

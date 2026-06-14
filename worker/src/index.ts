@@ -1,4 +1,4 @@
-import { adminAnalyticsDashboard, collectAnalytics } from "./analytics";
+import { adminAdsAnalytics, adminAnalyticsDashboard, collectAnalytics } from "./analytics";
 import { adminContactLeads, adminLogin, adminLogout, adminMe, adminMembers, adminPage, adminStats } from "./admin";
 import { login, logout, me, register } from "./auth";
 import { submitContact } from "./contact";
@@ -25,6 +25,7 @@ function adminResponse(request: Request, env: Env) {
   if (url.pathname === "/admin/api/me" && request.method === "GET") return adminMe(request, env);
   if (url.pathname === "/admin/api/stats" && request.method === "GET") return adminStats(request, env);
   if (url.pathname === "/admin/api/analytics/dashboard" && request.method === "GET") return adminAnalyticsDashboard(request, env);
+  if (url.pathname === "/admin/api/analytics/ads" && request.method === "GET") return adminAdsAnalytics(request, env);
   if (url.pathname === "/admin/api/contact-leads" && request.method === "GET") return adminContactLeads(request, env);
   if (url.pathname === "/admin/api/members" && request.method === "GET") return adminMembers(request, env);
   if (request.method === "GET" && (url.pathname === "/" || url.pathname === "/index.html")) return adminPage(request, env);

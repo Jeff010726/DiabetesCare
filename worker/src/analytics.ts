@@ -15,6 +15,7 @@ type AnalyticsPayload = {
   utmSource?: string;
   utmMedium?: string;
   utmCampaign?: string;
+  utmContent?: string;
   device?: string;
   browser?: string;
   language?: string;
@@ -153,9 +154,9 @@ export async function collectAnalytics(request: Request, env: Env) {
   await getDb(env)
     .prepare(
       `INSERT INTO analytics_events
-       (id, event_type, event_name, path, page_title, referrer, utm_source, utm_medium, utm_campaign,
+       (id, event_type, event_name, path, page_title, referrer, utm_source, utm_medium, utm_campaign, utm_content,
         country, region, city, timezone, colo, device, browser, language, session_id, visitor_id, member_id, metadata_json, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     )
     .bind(
       randomId("evt_"),
@@ -167,6 +168,7 @@ export async function collectAnalytics(request: Request, env: Env) {
       trim(payload.utmSource, 120) || null,
       trim(payload.utmMedium, 120) || null,
       trim(payload.utmCampaign, 160) || null,
+      trim(payload.utmContent, 160) || null,
       trim(cf.country, 8) || null,
       trim(cf.region, 120) || null,
       trim(cf.city, 120) || null,
@@ -387,5 +389,166 @@ export async function adminAnalyticsDashboard(request: Request, env: Env) {
     topDevices: topDevices.results || [],
     topBrowsers: topBrowsers.results || [],
     timeline: currentTimeline,
+  });
+}
+
+export async function adminAdsAnalytics(request: Request, env: Env) {
+  const unauthorized = await requireAdmin(request, env);
+  if (unauthorized) return unauthorized;
+
+  const url = new URL(request.url);
+  const { start, end, previousStart, previousEnd, granularity } = dateRange(url);
+  const db = getDb(env);
+  const timelineBucket = granularity === "hour" ? "substr(created_at, 1, 13) || ':00'" : "substr(created_at, 1, 10)";
+  const adWhere = "(NULLIF(utm_source, '') IS NOT NULL OR NULLIF(utm_medium, '') IS NOT NULL OR NULLIF(utm_campaign, '') IS NOT NULL OR NULLIF(utm_content, '') IS NOT NULL)";
+
+  const metricSql = (condition: string) => `SELECT COUNT(*) AS count FROM analytics_events WHERE ${adWhere} AND ${condition} AND created_at BETWEEN ? AND ?`;
+  const distinctSql = (field: string) => `SELECT COUNT(DISTINCT ${field}) AS count FROM analytics_events WHERE ${adWhere} AND ${field} IS NOT NULL AND created_at BETWEEN ? AND ?`;
+
+  const [
+    visitors,
+    previousVisitors,
+    sessions,
+    previousSessions,
+    pageViews,
+    previousPageViews,
+    externalClicks,
+    previousExternalClicks,
+    contactSubmits,
+    previousContactSubmits,
+    memberSignups,
+    previousMemberSignups,
+    campaigns,
+    contents,
+    landingPages,
+    timeline,
+    recentEvents,
+  ] = await Promise.all([
+    count(db, distinctSql("visitor_id"), start, end),
+    count(db, distinctSql("visitor_id"), previousStart, previousEnd),
+    count(db, distinctSql("session_id"), start, end),
+    count(db, distinctSql("session_id"), previousStart, previousEnd),
+    count(db, metricSql("event_type = 'page_view'"), start, end),
+    count(db, metricSql("event_type = 'page_view'"), previousStart, previousEnd),
+    count(db, metricSql("event_type = 'booking_click'"), start, end),
+    count(db, metricSql("event_type = 'booking_click'"), previousStart, previousEnd),
+    count(db, metricSql("event_type = 'contact_submit'"), start, end),
+    count(db, metricSql("event_type = 'contact_submit'"), previousStart, previousEnd),
+    count(db, metricSql("event_type = 'member_register'"), start, end),
+    count(db, metricSql("event_type = 'member_register'"), previousStart, previousEnd),
+    db.prepare(
+      `SELECT COALESCE(NULLIF(utm_campaign, ''), '(no campaign)') AS label,
+              COALESCE(NULLIF(utm_source, ''), '-') AS source,
+              COALESCE(NULLIF(utm_medium, ''), '-') AS medium,
+              COUNT(DISTINCT session_id) AS sessions,
+              COUNT(DISTINCT visitor_id) AS visitors,
+              SUM(CASE WHEN event_type = 'page_view' THEN 1 ELSE 0 END) AS pageViews,
+              SUM(CASE WHEN event_type = 'booking_click' THEN 1 ELSE 0 END) AS bookingClicks,
+              SUM(CASE WHEN event_type = 'contact_submit' THEN 1 ELSE 0 END) AS contactSubmits,
+              SUM(CASE WHEN event_type = 'member_register' THEN 1 ELSE 0 END) AS registrations
+       FROM analytics_events
+       WHERE ${adWhere} AND created_at BETWEEN ? AND ?
+       GROUP BY label, source, medium
+       ORDER BY sessions DESC, contactSubmits DESC
+       LIMIT 12`,
+    ).bind(start, end).all(),
+    db.prepare(
+      `SELECT COALESCE(NULLIF(utm_content, ''), '(no content)') AS label,
+              COALESCE(NULLIF(utm_campaign, ''), '(no campaign)') AS campaign,
+              COUNT(DISTINCT session_id) AS sessions,
+              COUNT(DISTINCT visitor_id) AS visitors,
+              SUM(CASE WHEN event_type = 'page_view' THEN 1 ELSE 0 END) AS pageViews,
+              SUM(CASE WHEN event_type = 'booking_click' THEN 1 ELSE 0 END) AS externalClicks,
+              SUM(CASE WHEN event_type = 'contact_submit' THEN 1 ELSE 0 END) AS contactSubmits,
+              SUM(CASE WHEN event_type = 'member_register' THEN 1 ELSE 0 END) AS memberSignups
+       FROM analytics_events
+       WHERE ${adWhere} AND created_at BETWEEN ? AND ?
+       GROUP BY label, campaign
+       ORDER BY sessions DESC, contactSubmits DESC
+       LIMIT 12`,
+    ).bind(start, end).all(),
+    db.prepare(
+      `SELECT COALESCE(path, '/') AS label,
+              COUNT(DISTINCT session_id) AS sessions,
+              SUM(CASE WHEN event_type = 'page_view' THEN 1 ELSE 0 END) AS pageViews,
+              SUM(CASE WHEN event_type = 'booking_click' THEN 1 ELSE 0 END) AS externalClicks,
+              SUM(CASE WHEN event_type = 'contact_submit' THEN 1 ELSE 0 END) AS contactSubmits,
+              SUM(CASE WHEN event_type = 'member_register' THEN 1 ELSE 0 END) AS memberSignups
+       FROM analytics_events
+       WHERE ${adWhere} AND created_at BETWEEN ? AND ?
+       GROUP BY label
+       ORDER BY sessions DESC
+       LIMIT 10`,
+    ).bind(start, end).all(),
+    db.prepare(
+      `SELECT ${timelineBucket} AS date,
+              SUM(CASE WHEN event_type = 'page_view' THEN 1 ELSE 0 END) AS pageViews,
+              COUNT(DISTINCT visitor_id) AS visitors,
+              COUNT(DISTINCT session_id) AS sessions,
+              SUM(CASE WHEN event_type = 'booking_click' THEN 1 ELSE 0 END) AS externalClicks,
+              SUM(CASE WHEN event_type = 'contact_submit' THEN 1 ELSE 0 END) AS contactSubmits,
+              SUM(CASE WHEN event_type = 'member_register' THEN 1 ELSE 0 END) AS memberSignups
+       FROM analytics_events
+       WHERE ${adWhere} AND created_at BETWEEN ? AND ?
+       GROUP BY date
+       ORDER BY date ASC`,
+    ).bind(start, end).all(),
+    db.prepare(
+      `SELECT created_at, event_type, event_name, path, utm_source, utm_medium, utm_campaign, utm_content
+       FROM analytics_events
+       WHERE ${adWhere} AND created_at BETWEEN ? AND ?
+       ORDER BY created_at DESC
+       LIMIT 30`,
+    ).bind(start, end).all(),
+  ]);
+
+  const conversions = externalClicks + contactSubmits + memberSignups;
+  const previousConversions = previousExternalClicks + previousContactSubmits + previousMemberSignups;
+  const conversionRate = percent(conversions, sessions || pageViews);
+  const previousConversionRate = percent(previousConversions, previousSessions || previousPageViews);
+  const contactRate = percent(contactSubmits, sessions || pageViews);
+  const previousContactRate = percent(previousContactSubmits, previousSessions || previousPageViews);
+  const currentTimeline = fillTimeline((timeline.results || []) as TimelineRow[], start, end, granularity).map((row) => ({
+    ...row,
+    externalClicks: Number(row.bookingClicks || 0),
+    memberSignups: Number(row.registrations || 0),
+    conversions: Number(row.bookingClicks || 0)
+      + Number(row.contactSubmits || 0)
+      + Number(row.registrations || 0),
+  }));
+
+  return adminJson(request, env, {
+    range: { start, end, previousStart, previousEnd, granularity },
+    metrics: {
+      visitors: metric(visitors, previousVisitors),
+      sessions: metric(sessions, previousSessions),
+      pageViews: metric(pageViews, previousPageViews),
+      externalClicks: metric(externalClicks, previousExternalClicks),
+      contactSubmits: metric(contactSubmits, previousContactSubmits),
+      memberSignups: metric(memberSignups, previousMemberSignups),
+      conversions: metric(conversions, previousConversions),
+      conversionRate: metric(conversionRate, previousConversionRate),
+      contactRate: metric(contactRate, previousContactRate),
+    },
+    sparklines: {
+      visitors: currentTimeline.map((row) => ({ date: String(row.date), value: Number(row.visitors || 0) })),
+      sessions: currentTimeline.map((row) => ({ date: String(row.date), value: Number(row.sessions || 0) })),
+      pageViews: currentTimeline.map((row) => ({ date: String(row.date), value: Number(row.pageViews || 0) })),
+      externalClicks: currentTimeline.map((row) => ({ date: String(row.date), value: Number(row.externalClicks || 0) })),
+      contactSubmits: currentTimeline.map((row) => ({ date: String(row.date), value: Number(row.contactSubmits || 0) })),
+      memberSignups: currentTimeline.map((row) => ({ date: String(row.date), value: Number(row.memberSignups || 0) })),
+      conversions: currentTimeline.map((row) => ({ date: String(row.date), value: Number(row.conversions || 0) })),
+    },
+    funnel: [
+      { label: "Ad sessions", value: sessions },
+      { label: "External clicks", value: externalClicks },
+      { label: "Contact submits", value: contactSubmits },
+      { label: "Member signups", value: memberSignups },
+    ],
+    timeline: currentTimeline,
+    campaigns: campaigns.results || [],
+    contents: contents.results || [],
+    landingPages: landingPages.results || [],
+    recentEvents: recentEvents.results || [],
   });
 }

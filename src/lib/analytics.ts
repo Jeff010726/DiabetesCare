@@ -3,6 +3,7 @@ import { trackMetaConversion, trackMetaPageView } from "./metaPixel";
 
 const visitorKey = "xt-analytics-visitor-id";
 const sessionKey = "xt-analytics-session-id";
+const attributionKey = "xt-analytics-attribution";
 
 type AnalyticsEvent = {
   eventType: string;
@@ -13,6 +14,7 @@ type AnalyticsEvent = {
   utmSource?: string;
   utmMedium?: string;
   utmCampaign?: string;
+  utmContent?: string;
   device?: string;
   browser?: string;
   language?: string;
@@ -57,15 +59,37 @@ function browser() {
   return "Other";
 }
 
-function basePayload() {
+function attribution() {
   const params = new URLSearchParams(window.location.search);
+  const incoming = {
+    utmSource: params.get("utm_source") || "",
+    utmMedium: params.get("utm_medium") || "",
+    utmCampaign: params.get("utm_campaign") || "",
+    utmContent: params.get("utm_content") || "",
+  };
+  const hasIncoming = Object.values(incoming).some(Boolean);
+  if (hasIncoming) {
+    window.sessionStorage.setItem(attributionKey, JSON.stringify(incoming));
+    return incoming;
+  }
+
+  const stored = window.sessionStorage.getItem(attributionKey);
+  if (!stored) return incoming;
+
+  try {
+    return { ...incoming, ...(JSON.parse(stored) as typeof incoming) };
+  } catch {
+    return incoming;
+  }
+}
+
+function basePayload() {
+  const campaign = attribution();
   return {
     path: window.location.pathname,
     pageTitle: document.title,
     referrer: document.referrer,
-    utmSource: params.get("utm_source") || "",
-    utmMedium: params.get("utm_medium") || "",
-    utmCampaign: params.get("utm_campaign") || "",
+    ...campaign,
     device: device(),
     browser: browser(),
     language: navigator.language,
