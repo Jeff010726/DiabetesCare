@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { bookingUrl } from "../lib/booking";
+import { trackMetaCustomEvent } from "../lib/metaPixel";
 import ProviderAccessCallout from "../components/ProviderAccessCallout";
 import TeachingTeamSection from "../components/TeachingTeamSection";
 import "../locales/servicePages";
@@ -65,7 +66,7 @@ export default function Classes() {
                 {t("classes.heroSubtitle")}
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a href={bookingUrl} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-brand-purple)] px-7 py-4 text-base font-bold text-white shadow-lg transition hover:bg-[var(--color-brand-purple)]/90">
+                <a href={bookingUrl} target="_blank" rel="noreferrer" onClick={() => trackMetaCustomEvent("ExternalLinkClick")} className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-brand-purple)] px-7 py-4 text-base font-bold text-white shadow-lg transition hover:bg-[var(--color-brand-purple)]/90">
                   {t("classes.bookButton")}
                   <CheckCircle2 className="h-5 w-5" />
                 </a>
@@ -232,7 +233,7 @@ export default function Classes() {
             </div>
           </div>
           <div className="flex items-center">
-            <a href={bookingUrl} target="_blank" rel="noreferrer" className="inline-flex w-full items-center justify-center rounded-full bg-[var(--color-brand-purple)] px-8 py-4 font-bold text-white transition hover:bg-[var(--color-brand-purple)]/90 md:w-auto">
+            <a href={bookingUrl} target="_blank" rel="noreferrer" onClick={() => trackMetaCustomEvent("ExternalLinkClick")} className="inline-flex w-full items-center justify-center rounded-full bg-[var(--color-brand-purple)] px-8 py-4 font-bold text-white transition hover:bg-[var(--color-brand-purple)]/90 md:w-auto">
               {t("classes.bookButton")}
             </a>
           </div>

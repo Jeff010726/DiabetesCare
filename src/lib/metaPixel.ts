@@ -59,6 +59,10 @@ function fbqTrackCustom(eventName: string) {
   window.fbq?.("trackCustom", eventName);
 }
 
+export function trackMetaCustomEvent(eventName: string) {
+  fbqTrackCustom(eventName);
+}
+
 export function trackMetaPageView() {
   fbqTrack("PageView");
 }
@@ -66,5 +70,5 @@ export function trackMetaPageView() {
 export function trackMetaConversion(eventType: string) {
   if (eventType === "contact_submit") fbqTrack("Lead");
   if (eventType === "member_register") fbqTrack("CompleteRegistration");
-  if (eventType === "booking_click") fbqTrackCustom("BookingClick");
+  if (eventType === "booking_click") fbqTrackCustom("ExternalLinkClick");
 }
