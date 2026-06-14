@@ -11,6 +11,9 @@ import Recipes from './pages/Recipes';
 import RecipeDetail from './pages/RecipeDetail';
 import Contact from './pages/Contact';
 import Member from './pages/Member';
+import BookingRedirect from './pages/BookingRedirect';
+import ContactThankYou from './pages/ContactThankYou';
+import MemberThankYou from './pages/MemberThankYou';
 
 export default function App() {
   return (
@@ -26,7 +29,10 @@ export default function App() {
         <Route path="recipes" element={<Recipes />} />
         <Route path="recipes/:slug" element={<RecipeDetail />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="contact-thank-you" element={<ContactThankYou />} />
         <Route path="member" element={<Member />} />
+        <Route path="member-thank-you" element={<MemberThankYou />} />
+        <Route path="booking-redirect" element={<BookingRedirect />} />
       </Route>
     </Routes>
   );

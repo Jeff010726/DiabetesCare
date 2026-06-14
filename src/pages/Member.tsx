@@ -1,5 +1,6 @@
 import { ArrowRight, CheckCircle2, Gift, LockKeyhole, Mail, Phone, Sparkles, UserRound } from "lucide-react";
 import { ChangeEvent, FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getCountries, getCountryCallingCode, type CountryCode } from "libphonenumber-js/min";
 import { apiRequest } from "../lib/api";
@@ -19,6 +20,7 @@ const phoneCountryCodes = getCountries();
 export default function Member() {
   const { t } = useTranslation("servicePages");
   const { i18n } = useTranslation();
+  const navigate = useNavigate();
   const [mode, setMode] = useState<MemberMode>("register");
   const [form, setForm] = useState({ email: "", phoneCountry: "US", phone: "", firstName: "", lastName: "", password: "" });
   const [countryPickerOpen, setCountryPickerOpen] = useState(false);
@@ -93,6 +95,7 @@ export default function Member() {
       trackEvent({ eventType: isRegister ? "member_register" : "member_login", eventName: isRegister ? "member_register_form" : "member_login_form" });
       setStatus("success");
       setForm((current) => ({ ...current, password: "" }));
+      if (isRegister) navigate("/member-thank-you");
     } catch (submitError) {
       setError(t("member.status.fallbackError"));
       setStatus("error");

@@ -1,5 +1,6 @@
 import { Facebook, Instagram, MapPin, Phone, Mail, Clock } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { apiRequest } from "../lib/api";
 import { trackEvent } from "../lib/analytics";
@@ -8,6 +9,7 @@ import "../locales/servicePages";
 export default function Contact() {
   const { t } = useTranslation("servicePages");
   const { i18n } = useTranslation();
+  const navigate = useNavigate();
   const addressLines = t("contact.info.addressLines", { returnObjects: true }) as string[];
   const phoneLines = t("contact.info.phoneLines", { returnObjects: true }) as string[];
   const hoursLines = t("contact.info.hoursLines", { returnObjects: true }) as string[];
@@ -38,6 +40,7 @@ export default function Contact() {
       trackEvent({ eventType: "contact_submit", eventName: "contact_form" });
       setForm({ name: "", email: "", message: "" });
       setStatus("success");
+      navigate("/contact-thank-you");
     } catch (submitError) {
       setError(t("contact.status.fallbackError"));
       setStatus("error");

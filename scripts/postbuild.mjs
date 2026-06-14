@@ -18,7 +18,10 @@ const routes = [
   "coverage",
   "recipes",
   "contact",
+  "contact-thank-you",
   "member",
+  "member-thank-you",
+  "booking-redirect",
 ];
 
 for (const route of routes) {
