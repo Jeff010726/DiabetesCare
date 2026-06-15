@@ -24,7 +24,7 @@ export default function RootLayout() {
   useEffect(() => installClickTracking(), []);
 
   return (
-    <div className="flex min-h-screen flex-col pb-36 md:pb-24">
+    <div className="flex min-h-screen flex-col pb-36 md:pb-44">
       <Navbar />
       <main className="flex-grow">
         <Outlet />
