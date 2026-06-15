@@ -138,7 +138,7 @@ export default function PumpTraining() {
            <div className="flex-1 w-full bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center">
               <h3 className="text-2xl font-bold mb-4">{t("pumpTraining.needTitle")}</h3>
               <p className="text-gray-600 mb-8">{t("pumpTraining.needBody")}</p>
-              <a href={bookingUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 bg-[var(--color-brand-pink)] text-white px-8 py-4 rounded-xl font-bold hover:bg-[var(--color-brand-pink)]/90 transition-all w-full">
+              <a href={bookingUrl} className="flex items-center justify-center gap-2 bg-[var(--color-brand-pink)] text-white px-8 py-4 rounded-xl font-bold hover:bg-[var(--color-brand-pink)]/90 transition-all w-full">
                 {t("pumpTraining.scheduleButton")} <ArrowRight className="w-5 h-5" />
               </a>
            </div>

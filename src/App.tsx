@@ -12,6 +12,8 @@ import RecipeDetail from './pages/RecipeDetail';
 import Contact from './pages/Contact';
 import Member from './pages/Member';
 import BookingRedirect from './pages/BookingRedirect';
+import Booking from './pages/Booking';
+import BookingWhatsApp from './pages/BookingWhatsApp';
 import ContactThankYou from './pages/ContactThankYou';
 import MemberThankYou from './pages/MemberThankYou';
 
@@ -32,7 +34,9 @@ export default function App() {
         <Route path="contact-thank-you" element={<ContactThankYou />} />
         <Route path="member" element={<Member />} />
         <Route path="member-thank-you" element={<MemberThankYou />} />
+        <Route path="booking" element={<Booking />} />
         <Route path="booking-redirect" element={<BookingRedirect />} />
+        <Route path="booking-whatsapp" element={<BookingWhatsApp />} />
       </Route>
     </Routes>
   );

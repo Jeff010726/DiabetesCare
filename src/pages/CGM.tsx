@@ -106,7 +106,7 @@ export default function CGM() {
                 components={{ strong: <strong /> }}
               />
             </p>
-            <a href={bookingUrl} target="_blank" rel="noreferrer" className="inline-block bg-[var(--color-brand-purple)] text-white px-8 py-4 rounded-xl font-bold hover:bg-[var(--color-brand-purple)]/90 transition-colors shadow-sm">
+            <a href={bookingUrl} className="inline-block bg-[var(--color-brand-purple)] text-white px-8 py-4 rounded-xl font-bold hover:bg-[var(--color-brand-purple)]/90 transition-colors shadow-sm">
               {t("cgm.scheduleButton")}
             </a>
           </div>

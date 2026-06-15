@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { ExternalLink } from "lucide-react";
 import { externalBookingUrl } from "../lib/booking";
+import { trackMetaCustomEvent } from "../lib/metaPixel";
 
 export default function BookingRedirect() {
   useEffect(() => {
+    trackMetaCustomEvent("CalendarBookingClick");
     const timer = window.setTimeout(() => {
       window.location.href = externalBookingUrl;
     }, 900);

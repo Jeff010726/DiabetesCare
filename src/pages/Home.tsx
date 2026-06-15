@@ -51,7 +51,7 @@ export default function Home() {
       desc: t("hero.slides.diabetesCare.desc"),
       img: heroDiabetesCareSrc,
       cta1Title: t("hero.slides.diabetesCare.cta1"),
-      cta1Link: "/classes",
+      cta1Link: bookingUrl,
       cta2Title: t("hero.slides.diabetesCare.cta2"),
       cta2Link: "/contact"
     },
@@ -344,8 +344,6 @@ export default function Home() {
                 </div>
                 <a
                   href={bookingUrl}
-                  target="_blank"
-                  rel="noreferrer"
                   className="inline-flex items-center justify-center gap-2 bg-[var(--color-brand-purple)] text-white px-6 py-3 rounded-full font-bold hover:bg-[var(--color-brand-purple)]/90 transition-all shadow-md hover:shadow-lg w-full sm:w-auto"
                 >
                   {t("expert.cta")} <ArrowRight className="w-5 h-5" />
@@ -413,7 +411,7 @@ export default function Home() {
               <p className="text-gray-600 mb-8 leading-relaxed flex-grow">
                 {t("services.classesDesc")}
               </p>
-              <a href={bookingUrl} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center w-full bg-gray-50 group-hover:bg-[var(--color-brand-purple)] group-hover:text-white text-gray-700 py-3 rounded-xl font-medium transition-colors">
+              <a href={bookingUrl} className="inline-flex items-center justify-center w-full bg-gray-50 group-hover:bg-[var(--color-brand-purple)] group-hover:text-white text-gray-700 py-3 rounded-xl font-medium transition-colors">
                 {t("services.classesCta")}
               </a>
             </div>

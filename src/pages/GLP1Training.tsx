@@ -40,8 +40,6 @@ export default function GLP1Training() {
             </p>
             <a
               href={bookingUrl}
-              target="_blank"
-              rel="noreferrer"
               className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-brand-purple)] px-8 py-4 text-lg font-bold text-white shadow-lg transition-colors hover:bg-[var(--color-brand-purple)]/90"
             >
               {t("glp1Training.scheduleButton")} <ArrowRight className="h-5 w-5" />

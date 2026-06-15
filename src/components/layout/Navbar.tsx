@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Menu, X, Activity, Cable, ChevronDown, ArrowRight, BookOpen, Stethoscope, Utensils, UserRound, Pill, LogOut } from "lucide-react";
+import { Menu, X, Activity, Cable, ChevronDown, ArrowRight, BookOpen, Stethoscope, Utensils, UserRound, Pill, LogOut, CalendarDays } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { apiRequest } from "../../lib/api";
@@ -208,6 +208,13 @@ export default function Navbar() {
                 </div>
               ))}
               <LanguageSwitcher />
+              <Link
+                to="/booking"
+                className="inline-flex items-center gap-2 bg-[var(--color-brand-pink)] text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-[var(--color-brand-pink)]/90 transition-colors shadow-sm"
+              >
+                <CalendarDays className="w-4 h-4" />
+                Free consult
+              </Link>
               {member ? (
                 <div className="relative">
                   <button
@@ -280,6 +287,14 @@ export default function Navbar() {
             <div className="px-3 py-2">
               <LanguageSwitcher />
             </div>
+            <Link
+              to="/booking"
+              onClick={toggle}
+              className="mx-3 mb-2 flex items-center justify-center gap-2 bg-[var(--color-brand-pink)] text-white px-4 py-3 rounded-xl text-sm font-bold hover:bg-[var(--color-brand-pink)]/90 transition-colors"
+            >
+              <CalendarDays className="w-4 h-4" />
+              Free consultation
+            </Link>
             {member ? (
               <div className="mx-3 mb-2 rounded-xl border border-gray-100 bg-gray-50 p-3">
                 <div className="flex items-center gap-3">

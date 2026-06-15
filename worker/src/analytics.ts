@@ -430,8 +430,8 @@ export async function adminAdsAnalytics(request: Request, env: Env) {
     count(db, distinctSql("session_id"), previousStart, previousEnd),
     count(db, metricSql("event_type = 'page_view'"), start, end),
     count(db, metricSql("event_type = 'page_view'"), previousStart, previousEnd),
-    count(db, metricSql("event_type = 'booking_click'"), start, end),
-    count(db, metricSql("event_type = 'booking_click'"), previousStart, previousEnd),
+    count(db, metricSql("event_type IN ('booking_click', 'whatsapp_booking_click')"), start, end),
+    count(db, metricSql("event_type IN ('booking_click', 'whatsapp_booking_click')"), previousStart, previousEnd),
     count(db, metricSql("event_type = 'contact_submit'"), start, end),
     count(db, metricSql("event_type = 'contact_submit'"), previousStart, previousEnd),
     count(db, metricSql("event_type = 'member_register'"), start, end),
@@ -443,7 +443,7 @@ export async function adminAdsAnalytics(request: Request, env: Env) {
               COUNT(DISTINCT session_id) AS sessions,
               COUNT(DISTINCT visitor_id) AS visitors,
               SUM(CASE WHEN event_type = 'page_view' THEN 1 ELSE 0 END) AS pageViews,
-              SUM(CASE WHEN event_type = 'booking_click' THEN 1 ELSE 0 END) AS bookingClicks,
+              SUM(CASE WHEN event_type IN ('booking_click', 'whatsapp_booking_click') THEN 1 ELSE 0 END) AS bookingClicks,
               SUM(CASE WHEN event_type = 'contact_submit' THEN 1 ELSE 0 END) AS contactSubmits,
               SUM(CASE WHEN event_type = 'member_register' THEN 1 ELSE 0 END) AS registrations
        FROM analytics_events
@@ -458,7 +458,7 @@ export async function adminAdsAnalytics(request: Request, env: Env) {
               COUNT(DISTINCT session_id) AS sessions,
               COUNT(DISTINCT visitor_id) AS visitors,
               SUM(CASE WHEN event_type = 'page_view' THEN 1 ELSE 0 END) AS pageViews,
-              SUM(CASE WHEN event_type = 'booking_click' THEN 1 ELSE 0 END) AS externalClicks,
+              SUM(CASE WHEN event_type IN ('booking_click', 'whatsapp_booking_click') THEN 1 ELSE 0 END) AS externalClicks,
               SUM(CASE WHEN event_type = 'contact_submit' THEN 1 ELSE 0 END) AS contactSubmits,
               SUM(CASE WHEN event_type = 'member_register' THEN 1 ELSE 0 END) AS memberSignups
        FROM analytics_events
@@ -471,7 +471,7 @@ export async function adminAdsAnalytics(request: Request, env: Env) {
       `SELECT COALESCE(path, '/') AS label,
               COUNT(DISTINCT session_id) AS sessions,
               SUM(CASE WHEN event_type = 'page_view' THEN 1 ELSE 0 END) AS pageViews,
-              SUM(CASE WHEN event_type = 'booking_click' THEN 1 ELSE 0 END) AS externalClicks,
+              SUM(CASE WHEN event_type IN ('booking_click', 'whatsapp_booking_click') THEN 1 ELSE 0 END) AS externalClicks,
               SUM(CASE WHEN event_type = 'contact_submit' THEN 1 ELSE 0 END) AS contactSubmits,
               SUM(CASE WHEN event_type = 'member_register' THEN 1 ELSE 0 END) AS memberSignups
        FROM analytics_events
@@ -485,7 +485,7 @@ export async function adminAdsAnalytics(request: Request, env: Env) {
               SUM(CASE WHEN event_type = 'page_view' THEN 1 ELSE 0 END) AS pageViews,
               COUNT(DISTINCT visitor_id) AS visitors,
               COUNT(DISTINCT session_id) AS sessions,
-              SUM(CASE WHEN event_type = 'booking_click' THEN 1 ELSE 0 END) AS externalClicks,
+              SUM(CASE WHEN event_type IN ('booking_click', 'whatsapp_booking_click') THEN 1 ELSE 0 END) AS externalClicks,
               SUM(CASE WHEN event_type = 'contact_submit' THEN 1 ELSE 0 END) AS contactSubmits,
               SUM(CASE WHEN event_type = 'member_register' THEN 1 ELSE 0 END) AS memberSignups
        FROM analytics_events
