@@ -3,7 +3,6 @@ import { MouseEvent, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { whatsappDirectUrl } from "../../lib/booking";
 import { trackEvent } from "../../lib/analytics";
-import { trackMetaCustomEvent } from "../../lib/metaPixel";
 
 const hiddenKey = "xt-booking-sticky-hidden";
 const hiddenPaths = new Set([
@@ -33,7 +32,6 @@ export default function BookingStickyBar() {
 
   const openWhatsApp = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    trackMetaCustomEvent("WhatsAppBookingClick");
     trackEvent({ eventType: "whatsapp_booking_click", eventName: "sticky_whatsapp" });
     window.setTimeout(() => {
       window.location.href = whatsappDirectUrl;

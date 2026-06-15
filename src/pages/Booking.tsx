@@ -2,12 +2,10 @@ import { ArrowRight, CalendarDays, CheckCircle2, MessageCircle, ShieldCheck } fr
 import { MouseEvent } from "react";
 import { calendarBookingUrl, whatsappDirectUrl } from "../lib/booking";
 import { trackEvent } from "../lib/analytics";
-import { trackMetaCustomEvent } from "../lib/metaPixel";
 
 export default function Booking() {
   const openWhatsApp = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    trackMetaCustomEvent("WhatsAppBookingClick");
     trackEvent({ eventType: "whatsapp_booking_click", eventName: "booking_whatsapp" });
     window.setTimeout(() => {
       window.location.href = whatsappDirectUrl;

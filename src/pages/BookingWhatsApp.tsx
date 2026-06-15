@@ -3,11 +3,9 @@ import { Link } from "react-router-dom";
 import { CalendarDays, MessageCircle } from "lucide-react";
 import { calendarBookingUrl, whatsappDirectUrl } from "../lib/booking";
 import { trackEvent } from "../lib/analytics";
-import { trackMetaCustomEvent } from "../lib/metaPixel";
 
 export default function BookingWhatsApp() {
   useEffect(() => {
-    trackMetaCustomEvent("WhatsAppBookingClick");
     trackEvent({ eventType: "whatsapp_booking_click", eventName: "booking_whatsapp" });
     if (!whatsappDirectUrl) return;
     const timer = window.setTimeout(() => {
@@ -43,10 +41,6 @@ export default function BookingWhatsApp() {
             )}
             <a
               href={calendarBookingUrl}
-              target="_blank"
-              rel="noreferrer"
-              data-meta-tracked="true"
-              onClick={() => trackMetaCustomEvent("CalendarBookingClick")}
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--color-brand-purple)] px-6 py-3 font-bold text-white transition hover:bg-[var(--color-brand-purple)]/90"
             >
               Use online calendar <CalendarDays className="h-5 w-5" />
