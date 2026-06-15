@@ -25,12 +25,12 @@ export default function BookingWhatsApp() {
             WhatsApp booking
           </span>
           <h1 className="text-4xl font-bold leading-tight text-gray-900 md:text-5xl">
-            Continue to WhatsApp
+            Ask about coverage on WhatsApp
           </h1>
           <p className="mt-5 text-lg leading-8 text-gray-600">
             {whatsappDirectUrl
-              ? "We are opening WhatsApp so you can request a consultation time."
-              : "The WhatsApp direct link is not configured yet. You can use the online calendar or contact form for now."}
+              ? "We are opening WhatsApp so you can ask whether your insurance may be covered and request a consultation time."
+              : "The WhatsApp direct link is not configured yet. You can use the online calendar or contact form to request a coverage check."}
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             {whatsappDirectUrl && (
@@ -38,7 +38,7 @@ export default function BookingWhatsApp() {
                 href={whatsappDirectUrl}
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 px-6 py-3 font-bold text-white transition hover:bg-green-700"
               >
-                Continue on WhatsApp <MessageCircle className="h-5 w-5" />
+                Ask on WhatsApp <MessageCircle className="h-5 w-5" />
               </a>
             )}
             <a
@@ -62,9 +62,9 @@ export default function BookingWhatsApp() {
 
         <div className="rounded-2xl border border-gray-100 bg-gray-50 p-6 shadow-sm">
           <div className="rounded-xl bg-white p-6">
-            <h2 className="text-xl font-bold text-gray-900">Booking options</h2>
+            <h2 className="text-xl font-bold text-gray-900">Coverage and booking</h2>
             <p className="mt-3 text-sm leading-6 text-gray-600">
-              Use WhatsApp when the direct link is available, or continue with the online calendar.
+              Send a WhatsApp message to ask whether eligible services may be covered, or continue with the online calendar for a free 15-minute call.
             </p>
             <div className="mt-6 overflow-hidden rounded-xl border border-gray-100">
               <img
