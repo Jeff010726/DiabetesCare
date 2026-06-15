@@ -1,9 +1,10 @@
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import MemberInviteModal from "./MemberInviteModal";
+import BookingStickyBar from "./BookingStickyBar";
 import { installClickTracking, trackPageView } from "../../lib/analytics";
 
 export default function RootLayout() {
@@ -23,19 +24,12 @@ export default function RootLayout() {
   useEffect(() => installClickTracking(), []);
 
   return (
-    <div className="flex min-h-screen flex-col pb-16 md:pb-0">
+    <div className="flex min-h-screen flex-col pb-36 md:pb-24">
       <Navbar />
       <main className="flex-grow">
         <Outlet />
       </main>
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-gray-200 bg-white/95 p-3 shadow-[0_-12px_30px_-24px_rgba(31,41,55,0.45)] backdrop-blur md:hidden">
-        <Link
-          to="/booking"
-          className="flex w-full items-center justify-center rounded-xl bg-[var(--color-brand-pink)] px-4 py-3 text-sm font-bold text-white"
-        >
-          Book free consultation
-        </Link>
-      </div>
+      <BookingStickyBar />
       <Footer />
       <MemberInviteModal />
     </div>
