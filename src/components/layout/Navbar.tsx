@@ -115,7 +115,7 @@ export default function Navbar() {
                   }}
                 />
               </span>
-              <span className="font-heading font-bold text-xl lg:text-2xl text-[var(--color-brand-purple)] tracking-tight">
+              <span className="font-heading whitespace-nowrap font-bold text-xl lg:text-2xl text-[var(--color-brand-purple)] tracking-tight">
                 {t("brand.name")}
               </span>
             </Link>
@@ -123,7 +123,7 @@ export default function Navbar() {
           
           {/* Desktop Menu */}
           <div className="hidden md:block">
-            <div className="ml-10 flex items-center space-x-6">
+            <div className="ml-8 flex items-center gap-4 xl:gap-6">
               {navLinks.map((link) => (
                 <div key={link.name} className="relative group">
                   {link.dropdown ? (
@@ -134,7 +134,7 @@ export default function Navbar() {
                   ) : (
                     <Link
                       to={link.path!}
-                      className="text-gray-600 hover:text-[var(--color-brand-purple)] px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                      className="text-gray-600 hover:text-[var(--color-brand-purple)] px-2 py-2 rounded-md text-sm font-medium transition-colors xl:px-3"
                     >
                       {link.name}
                     </Link>
@@ -210,10 +210,10 @@ export default function Navbar() {
               <LanguageSwitcher />
               <Link
                 to="/booking"
-                className="inline-flex items-center gap-2 bg-[var(--color-brand-pink)] text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-[var(--color-brand-pink)]/90 transition-colors shadow-sm"
+                className="inline-flex h-11 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-[var(--color-brand-pink)] px-5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-[var(--color-brand-pink)]/90"
               >
                 <CalendarDays className="w-4 h-4" />
-                Free consult
+                Book
               </Link>
               {member ? (
                 <div className="relative">
@@ -259,7 +259,7 @@ export default function Navbar() {
               ) : (
                 <Link
                   to="/member"
-                  className="inline-flex items-center gap-2 bg-[var(--color-brand-purple)] text-white px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-[var(--color-brand-purple)]/90 transition-colors shadow-sm"
+                  className="inline-flex h-11 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-[var(--color-brand-purple)] px-4 text-sm font-bold text-white shadow-sm transition-colors hover:bg-[var(--color-brand-purple)]/90"
                 >
                   <UserRound className="w-4 h-4" />
                   {t("nav.member")}

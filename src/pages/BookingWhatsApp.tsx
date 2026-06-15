@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CalendarDays, MessageCircle } from "lucide-react";
-import { calendarBookingUrl } from "../lib/booking";
+import { calendarBookingUrl, whatsappDirectUrl } from "../lib/booking";
 import { trackEvent } from "../lib/analytics";
 import { trackMetaCustomEvent } from "../lib/metaPixel";
 
@@ -9,6 +9,11 @@ export default function BookingWhatsApp() {
   useEffect(() => {
     trackMetaCustomEvent("WhatsAppBookingClick");
     trackEvent({ eventType: "whatsapp_booking_click", eventName: "booking_whatsapp" });
+    if (!whatsappDirectUrl) return;
+    const timer = window.setTimeout(() => {
+      window.location.href = whatsappDirectUrl;
+    }, 700);
+    return () => window.clearTimeout(timer);
   }, []);
 
   return (
@@ -20,12 +25,22 @@ export default function BookingWhatsApp() {
             WhatsApp booking
           </span>
           <h1 className="text-4xl font-bold leading-tight text-gray-900 md:text-5xl">
-            Message us to book your consultation
+            Continue to WhatsApp
           </h1>
           <p className="mt-5 text-lg leading-8 text-gray-600">
-            Scan or upload the QR code with the WhatsApp camera to add the contact and request a consultation time.
+            {whatsappDirectUrl
+              ? "We are opening WhatsApp so you can request a consultation time."
+              : "The WhatsApp direct link is not configured yet. You can use the online calendar or contact form for now."}
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            {whatsappDirectUrl && (
+              <a
+                href={whatsappDirectUrl}
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 px-6 py-3 font-bold text-white transition hover:bg-green-700"
+              >
+                Continue on WhatsApp <MessageCircle className="h-5 w-5" />
+              </a>
+            )}
             <a
               href={calendarBookingUrl}
               target="_blank"
@@ -45,12 +60,20 @@ export default function BookingWhatsApp() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-gray-100 bg-gray-50 p-5 shadow-sm">
-          <img
-            src={`${import.meta.env.BASE_URL}social/whatsapp-booking-qr.jpg`}
-            alt="WhatsApp booking QR code"
-            className="w-full rounded-xl bg-white object-contain"
-          />
+        <div className="rounded-2xl border border-gray-100 bg-gray-50 p-6 shadow-sm">
+          <div className="rounded-xl bg-white p-6">
+            <h2 className="text-xl font-bold text-gray-900">Booking options</h2>
+            <p className="mt-3 text-sm leading-6 text-gray-600">
+              Use WhatsApp when the direct link is available, or continue with the online calendar.
+            </p>
+            <div className="mt-6 overflow-hidden rounded-xl border border-gray-100">
+              <img
+                src={`${import.meta.env.BASE_URL}social/whatsapp-booking-qr.jpg`}
+                alt="WhatsApp booking QR code"
+                className="w-full bg-white object-contain"
+              />
+            </div>
+          </div>
         </div>
       </section>
     </div>
