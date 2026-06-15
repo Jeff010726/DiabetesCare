@@ -1,10 +1,14 @@
-import { Facebook, Instagram, MapPin, Phone, Mail, Clock } from "lucide-react";
+import { Facebook, Instagram, MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { apiRequest } from "../lib/api";
 import { trackEvent } from "../lib/analytics";
+import { whatsappDirectUrl } from "../lib/booking";
 import "../locales/servicePages";
+
+const facebookUrl = "https://www.facebook.com/people/XT-Diabetes-Care/61590817949229/";
+const instagramUrl = "https://www.instagram.com/xtdiabetescare/";
 
 export default function Contact() {
   const { t } = useTranslation("servicePages");
@@ -62,12 +66,15 @@ export default function Contact() {
               <h2 className="text-2xl font-bold text-gray-900">{t("contact.social.title")}</h2>
               <p className="mt-2 text-sm leading-6 text-gray-600">{t("contact.social.desc")}</p>
               <div className="mt-5 flex items-center gap-4">
-                <button type="button" className={socialIconClass} aria-label="Instagram">
+                <a href={instagramUrl} target="_blank" rel="noreferrer" className={socialIconClass} aria-label="Instagram">
                   <Instagram className="h-6 w-6" />
-                </button>
-                <button type="button" className={socialIconClass} aria-label="Facebook">
+                </a>
+                <a href={facebookUrl} target="_blank" rel="noreferrer" className={socialIconClass} aria-label="Facebook">
                   <Facebook className="h-6 w-6" />
-                </button>
+                </a>
+                <a href={whatsappDirectUrl} target="_blank" rel="noreferrer" className={`${socialIconClass} hover:text-green-600`} aria-label="WhatsApp">
+                  <MessageCircle className="h-6 w-6" />
+                </a>
                 <div className="group relative">
                   <button type="button" className={`${socialIconClass} hover:text-[#07c160]`} aria-label="WeChat">
                     <svg viewBox="0 0 24 24" aria-hidden="true" className="h-6 w-6 fill-current">
