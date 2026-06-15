@@ -43,17 +43,28 @@ export default function BookingStickyBar() {
   return (
     <aside className="fixed inset-x-0 bottom-0 z-40 px-3 pb-3 sm:px-6 md:pb-5">
       <div className="mx-auto max-w-7xl">
-        <div className="relative rounded-3xl border border-[var(--color-brand-purple)]/15 bg-white/96 p-3 shadow-[0_22px_70px_-34px_rgba(31,41,55,0.72)] backdrop-blur md:hidden">
-          <div className="mb-3 flex items-start gap-3 pr-11">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-brand-purple-light)] text-[var(--color-brand-purple)]">
-              <ShieldCheck className="h-5 w-5" />
-            </div>
-            <div className="min-w-0">
-              <p className="text-sm font-bold leading-5 text-gray-900">Check insurance coverage before booking</p>
-              <p className="text-xs leading-5 text-gray-600">$0 cost may be available with eligible benefits.</p>
-            </div>
+        <div className="relative overflow-hidden rounded-3xl border border-[var(--color-brand-purple)]/15 bg-[linear-gradient(125deg,#ffffff_0%,#fff7fd_48%,#f0fff7_100%)] p-3 shadow-[0_22px_70px_-34px_rgba(31,41,55,0.72)] backdrop-blur md:hidden">
+          <div className="absolute bottom-[68px] right-[-6px] h-[132px] w-[132px] overflow-hidden">
+            <img
+              src="/images/tan-doctor-booking.png"
+              alt=""
+              aria-hidden="true"
+              className="absolute bottom-0 right-[-22px] h-[148px] w-auto max-w-none object-contain"
+            />
           </div>
-          <div className="flex items-center gap-3">
+          <div className="relative z-10 mb-3 min-h-[88px] pr-[116px]">
+            <div className="mb-2 flex items-center gap-2">
+              <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-brand-purple-light)] text-[var(--color-brand-purple)]">
+                <ShieldCheck className="h-5 w-5" />
+              </span>
+              <span className="rounded-full bg-green-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-green-700">
+                Insurance
+              </span>
+            </div>
+            <p className="text-sm font-bold leading-5 text-gray-900">Check coverage before booking</p>
+            <p className="mt-1 text-xs leading-5 text-gray-600">$0 cost may be available with eligible benefits.</p>
+          </div>
+          <div className="relative z-10 flex items-center gap-3">
             <Link
               to="/booking"
               className="flex min-h-[52px] flex-1 items-center justify-center rounded-2xl bg-[var(--color-brand-pink)] px-4 text-center text-sm font-bold leading-tight text-white shadow-lg shadow-[var(--color-brand-pink)]/25"
