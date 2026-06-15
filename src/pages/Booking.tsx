@@ -1,8 +1,19 @@
 import { ArrowRight, CalendarDays, CheckCircle2, MessageCircle, ShieldCheck } from "lucide-react";
-import { calendarBookingUrl, whatsappBookingUrl } from "../lib/booking";
+import { MouseEvent } from "react";
+import { calendarBookingUrl, whatsappDirectUrl } from "../lib/booking";
+import { trackEvent } from "../lib/analytics";
 import { trackMetaCustomEvent } from "../lib/metaPixel";
 
 export default function Booking() {
+  const openWhatsApp = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    trackMetaCustomEvent("WhatsAppBookingClick");
+    trackEvent({ eventType: "whatsapp_booking_click", eventName: "booking_whatsapp" });
+    window.setTimeout(() => {
+      window.location.href = whatsappDirectUrl;
+    }, 150);
+  };
+
   return (
     <div className="bg-white">
       <section className="border-b border-gray-100 bg-[var(--color-brand-purple-light)]/35 py-16 lg:py-20">
@@ -56,9 +67,9 @@ export default function Booking() {
           </a>
 
           <a
-            href={whatsappBookingUrl}
+            href={whatsappDirectUrl}
             data-meta-tracked="true"
-            onClick={() => trackMetaCustomEvent("WhatsAppBookingClick")}
+            onClick={openWhatsApp}
             className="group rounded-2xl border border-gray-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
           >
             <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-green-50 text-green-600">
