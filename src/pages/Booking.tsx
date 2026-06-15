@@ -1,15 +1,16 @@
 import { ArrowRight, CalendarDays, CheckCircle2, MessageCircle, ShieldCheck } from "lucide-react";
 import { MouseEvent } from "react";
-import { calendarBookingUrl, whatsappDirectUrl } from "../lib/booking";
-import { trackEvent } from "../lib/analytics";
+import { calendarBookingUrl, setBookingRedirectTarget, whatsappBookingUrl } from "../lib/booking";
 
 export default function Booking() {
+  const openCalendar = () => {
+    setBookingRedirectTarget("calendar");
+  };
+
   const openWhatsApp = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    trackEvent({ eventType: "whatsapp_booking_click", eventName: "booking_whatsapp" });
-    window.setTimeout(() => {
-      window.location.href = whatsappDirectUrl;
-    }, 150);
+    setBookingRedirectTarget("whatsapp");
+    window.location.href = whatsappBookingUrl;
   };
 
   return (
@@ -30,12 +31,13 @@ export default function Booking() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
                 href={calendarBookingUrl}
+                onClick={openCalendar}
                 className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-[var(--color-brand-pink)] px-6 text-base font-bold text-white shadow-xl shadow-[var(--color-brand-pink)]/20 transition hover:bg-[var(--color-brand-pink)]/90"
               >
                 Book free call <ArrowRight className="h-5 w-5" />
               </a>
               <a
-                href={whatsappDirectUrl}
+                href={whatsappBookingUrl}
                 data-meta-tracked="true"
                 onClick={openWhatsApp}
                 className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-green-600 px-6 text-base font-bold text-white shadow-xl shadow-green-600/15 transition hover:bg-green-700"
@@ -74,6 +76,7 @@ export default function Booking() {
         <div className="grid gap-6 lg:grid-cols-2">
           <a
             href={calendarBookingUrl}
+            onClick={openCalendar}
             className="group rounded-2xl border border-gray-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
           >
             <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--color-brand-purple-light)] text-[var(--color-brand-purple)]">
@@ -89,7 +92,7 @@ export default function Booking() {
           </a>
 
           <a
-            href={whatsappDirectUrl}
+            href={whatsappBookingUrl}
             data-meta-tracked="true"
             onClick={openWhatsApp}
             className="group rounded-2xl border border-gray-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"

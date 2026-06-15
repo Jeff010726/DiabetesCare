@@ -1,8 +1,7 @@
 import { CalendarDays, MessageCircle, ShieldCheck, X } from "lucide-react";
 import { MouseEvent, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { whatsappDirectUrl } from "../../lib/booking";
-import { trackEvent } from "../../lib/analytics";
+import { useLocation } from "react-router-dom";
+import { calendarBookingUrl, setBookingRedirectTarget, whatsappBookingUrl } from "../../lib/booking";
 
 const hiddenKey = "xt-booking-sticky-hidden";
 const hiddenPaths = new Set([
@@ -30,12 +29,14 @@ export default function BookingStickyBar() {
     setHidden(true);
   };
 
+  const openCalendar = () => {
+    setBookingRedirectTarget("calendar");
+  };
+
   const openWhatsApp = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    trackEvent({ eventType: "whatsapp_booking_click", eventName: "sticky_whatsapp" });
-    window.setTimeout(() => {
-      window.location.href = whatsappDirectUrl;
-    }, 150);
+    setBookingRedirectTarget("whatsapp");
+    window.location.href = whatsappBookingUrl;
   };
 
   if (hidden || hiddenPaths.has(normalizePath(pathname))) return null;
@@ -65,14 +66,15 @@ export default function BookingStickyBar() {
             <p className="mt-1 text-xs leading-5 text-gray-600">$0 cost may be available with eligible benefits.</p>
           </div>
           <div className="relative z-10 flex items-center gap-3">
-            <Link
-              to="/booking"
+            <a
+              href={calendarBookingUrl}
+              onClick={openCalendar}
               className="flex min-h-[52px] flex-1 items-center justify-center rounded-2xl bg-[var(--color-brand-pink)] px-4 text-center text-sm font-bold leading-tight text-white shadow-lg shadow-[var(--color-brand-pink)]/25"
             >
               Book free call
-            </Link>
+            </a>
             <a
-              href={whatsappDirectUrl}
+              href={whatsappBookingUrl}
               data-meta-tracked="true"
               onClick={openWhatsApp}
               className="flex min-h-[52px] flex-1 items-center justify-center gap-2 rounded-2xl bg-green-600 px-4 text-center text-sm font-bold leading-tight text-white shadow-lg shadow-green-600/20"
@@ -118,15 +120,16 @@ export default function BookingStickyBar() {
               </p>
             </div>
             <div className="flex flex-col gap-3">
-              <Link
-                to="/booking"
+              <a
+                href={calendarBookingUrl}
+                onClick={openCalendar}
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[var(--color-brand-pink)] px-5 text-sm font-bold text-white shadow-lg shadow-[var(--color-brand-pink)]/20 transition hover:bg-[var(--color-brand-pink)]/90"
               >
                 <CalendarDays className="h-4 w-4" />
                 Book free call
-              </Link>
+              </a>
               <a
-                href={whatsappDirectUrl}
+                href={whatsappBookingUrl}
                 data-meta-tracked="true"
                 onClick={openWhatsApp}
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-green-600 px-5 text-sm font-bold text-white shadow-lg shadow-green-600/20 transition hover:bg-green-700"

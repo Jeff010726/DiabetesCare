@@ -1,18 +1,26 @@
-import { useEffect } from "react";
+import { MouseEvent, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CalendarDays, MessageCircle } from "lucide-react";
-import { calendarBookingUrl, whatsappDirectUrl } from "../lib/booking";
-import { trackEvent } from "../lib/analytics";
+import { calendarBookingUrl, setBookingRedirectTarget, whatsappBookingUrl } from "../lib/booking";
 
 export default function BookingWhatsApp() {
   useEffect(() => {
-    trackEvent({ eventType: "whatsapp_booking_click", eventName: "booking_whatsapp" });
-    if (!whatsappDirectUrl) return;
+    setBookingRedirectTarget("whatsapp");
     const timer = window.setTimeout(() => {
-      window.location.href = whatsappDirectUrl;
-    }, 700);
+      window.location.href = whatsappBookingUrl;
+    }, 300);
     return () => window.clearTimeout(timer);
   }, []);
+
+  const openCalendar = () => {
+    setBookingRedirectTarget("calendar");
+  };
+
+  const openWhatsApp = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    setBookingRedirectTarget("whatsapp");
+    window.location.href = whatsappBookingUrl;
+  };
 
   return (
     <div className="bg-white">
@@ -26,21 +34,20 @@ export default function BookingWhatsApp() {
             Ask about coverage on WhatsApp
           </h1>
           <p className="mt-5 text-lg leading-8 text-gray-600">
-            {whatsappDirectUrl
-              ? "We are opening WhatsApp so you can ask whether your insurance may be covered and request a consultation time."
-              : "The WhatsApp direct link is not configured yet. You can use the online calendar or contact form to request a coverage check."}
+            We are opening WhatsApp so you can ask whether your insurance may be covered and request a consultation time.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            {whatsappDirectUrl && (
-              <a
-                href={whatsappDirectUrl}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 px-6 py-3 font-bold text-white transition hover:bg-green-700"
-              >
-                Ask on WhatsApp <MessageCircle className="h-5 w-5" />
-              </a>
-            )}
+            <a
+              href={whatsappBookingUrl}
+              data-meta-tracked="true"
+              onClick={openWhatsApp}
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 px-6 py-3 font-bold text-white transition hover:bg-green-700"
+            >
+              Ask on WhatsApp <MessageCircle className="h-5 w-5" />
+            </a>
             <a
               href={calendarBookingUrl}
+              onClick={openCalendar}
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--color-brand-purple)] px-6 py-3 font-bold text-white transition hover:bg-[var(--color-brand-purple)]/90"
             >
               Use online calendar <CalendarDays className="h-5 w-5" />
