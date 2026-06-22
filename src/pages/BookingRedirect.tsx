@@ -1,44 +1,37 @@
-import { useEffect, useState } from "react";
-import { ExternalLink } from "lucide-react";
-import {
-  clearBookingRedirectTarget,
-  externalBookingUrl,
-  getBookingRedirectTarget,
-  whatsappDirectUrl,
-} from "../lib/booking";
+import { CheckCircle2, MessageCircle } from "lucide-react";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { trackEvent } from "../lib/analytics";
+import { whatsappDirectUrl } from "../lib/booking";
 
 export default function BookingRedirect() {
-  const [target] = useState(() => getBookingRedirectTarget());
-  const isWhatsApp = target === "whatsapp";
-  const destinationUrl = isWhatsApp ? whatsappDirectUrl : externalBookingUrl;
+  const { t } = useTranslation("servicePages");
 
   useEffect(() => {
     trackEvent({
-      eventType: isWhatsApp ? "whatsapp_booking_click" : "booking_click",
-      eventName: isWhatsApp ? "booking_redirect_whatsapp" : "booking_redirect",
+      eventType: "booking_click",
+      eventName: "booking_form_success",
+      metadata: { destination: "booking-redirect" },
     });
-    clearBookingRedirectTarget();
-    const timer = window.setTimeout(() => {
-      window.location.href = destinationUrl;
-    }, 900);
-    return () => window.clearTimeout(timer);
-  }, [destinationUrl, isWhatsApp]);
+  }, []);
 
   return (
-    <div className="mx-auto flex min-h-[60vh] max-w-2xl flex-col items-center justify-center px-4 py-20 text-center">
-      <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--color-brand-purple-light)] text-[var(--color-brand-purple)]">
-        <ExternalLink className="h-7 w-7" />
+    <div className="mx-auto flex min-h-[68vh] max-w-2xl flex-col items-center justify-center px-4 py-16 text-center">
+      <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-3xl bg-green-50 text-green-600">
+        <CheckCircle2 className="h-9 w-9" />
       </div>
-      <h1 className="text-3xl font-bold text-gray-900">
-        {isWhatsApp ? "Opening WhatsApp" : "Opening booking page"}
-      </h1>
-      <p className="mt-3 text-gray-600">You will be redirected in a moment.</p>
+      <h1 className="text-4xl font-bold leading-tight text-gray-900 sm:text-5xl">{t("booking.success.title")}</h1>
+      <p className="mt-5 text-lg leading-8 text-gray-700">{t("booking.success.body")}</p>
+      <p className="mt-3 text-sm leading-6 text-gray-500">{t("booking.success.urgent")}</p>
       <a
-        href={destinationUrl}
-        className="mt-8 inline-flex items-center justify-center rounded-xl bg-[var(--color-brand-purple)] px-6 py-3 font-bold text-white transition hover:bg-[var(--color-brand-purple)]/90"
+        href={whatsappDirectUrl}
+        target="_blank"
+        rel="noreferrer"
+        data-meta-tracked="true"
+        className="mt-8 inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-green-600 px-7 text-base font-bold text-white shadow-lg shadow-green-600/20 transition hover:bg-green-700"
       >
-        Continue
+        <MessageCircle className="h-5 w-5" />
+        {t("booking.success.whatsappButton")}
       </a>
     </div>
   );

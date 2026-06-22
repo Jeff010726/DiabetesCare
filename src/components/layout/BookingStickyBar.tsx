@@ -1,7 +1,8 @@
-import { CalendarDays, MessageCircle, ShieldCheck, X } from "lucide-react";
+import { MessageCircle, ShieldCheck, X } from "lucide-react";
 import { MouseEvent, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { calendarBookingUrl, setBookingRedirectTarget, whatsappBookingUrl } from "../../lib/booking";
+import { useTranslation } from "react-i18next";
+import { Link, useLocation } from "react-router-dom";
+import { whatsappDirectUrl } from "../../lib/booking";
 
 const hiddenKey = "xt-booking-sticky-hidden";
 const hiddenPaths = new Set([
@@ -17,6 +18,7 @@ function normalizePath(pathname: string) {
 }
 
 export default function BookingStickyBar() {
+  const { t } = useTranslation("servicePages");
   const { pathname } = useLocation();
   const [hidden, setHidden] = useState(false);
 
@@ -29,14 +31,9 @@ export default function BookingStickyBar() {
     setHidden(true);
   };
 
-  const openCalendar = () => {
-    setBookingRedirectTarget("calendar");
-  };
-
   const openWhatsApp = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    setBookingRedirectTarget("whatsapp");
-    window.location.href = whatsappBookingUrl;
+    window.location.href = whatsappDirectUrl;
   };
 
   if (hidden || hiddenPaths.has(normalizePath(pathname))) return null;
@@ -59,34 +56,33 @@ export default function BookingStickyBar() {
                 <ShieldCheck className="h-5 w-5" />
               </span>
               <span className="rounded-full bg-green-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-green-700">
-                Insurance
+                {t("booking.sticky.mobileBadge")}
               </span>
             </div>
-            <p className="text-sm font-bold leading-5 text-gray-900">Check coverage before booking</p>
-            <p className="mt-1 text-xs leading-5 text-gray-600">$0 cost may be available with eligible benefits.</p>
+            <p className="text-sm font-bold leading-5 text-gray-900">{t("booking.sticky.mobileTitle")}</p>
+            <p className="mt-1 text-xs leading-5 text-gray-600">{t("booking.sticky.mobileDesc")}</p>
           </div>
           <div className="relative z-10 flex items-center gap-3">
-            <a
-              href={calendarBookingUrl}
-              onClick={openCalendar}
+            <Link
+              to="/booking"
               className="flex min-h-[52px] flex-1 items-center justify-center rounded-2xl bg-[var(--color-brand-pink)] px-4 text-center text-sm font-bold leading-tight text-white shadow-lg shadow-[var(--color-brand-pink)]/25"
             >
-              Book free call
-            </a>
+              {t("booking.sticky.bookButton")}
+            </Link>
             <a
-              href={whatsappBookingUrl}
+              href={whatsappDirectUrl}
               data-meta-tracked="true"
               onClick={openWhatsApp}
               className="flex min-h-[52px] flex-1 items-center justify-center gap-2 rounded-2xl bg-green-600 px-4 text-center text-sm font-bold leading-tight text-white shadow-lg shadow-green-600/20"
             >
               <MessageCircle className="h-4 w-4" />
-              WhatsApp
+              {t("booking.sticky.whatsappButton")}
             </a>
           </div>
           <button
             type="button"
             onClick={close}
-            aria-label="Close booking reminder"
+            aria-label={t("booking.sticky.close")}
             className="absolute right-3 top-4 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500"
           >
             <X className="h-4 w-4" />
@@ -109,40 +105,38 @@ export default function BookingStickyBar() {
                   <ShieldCheck className="h-5 w-5" />
                 </span>
                 <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.14em] text-green-700">
-                  Insurance check
+                  {t("booking.sticky.desktopBadge")}
                 </span>
               </div>
               <p className="text-xl font-bold leading-tight text-gray-900 lg:text-2xl">
-                See if your insurance may cover diabetes care at $0 cost
+                {t("booking.sticky.desktopTitle")}
               </p>
               <p className="mt-2 text-sm leading-6 text-gray-600">
-                Book a free 15-minute call or ask on WhatsApp before scheduling.
+                {t("booking.sticky.desktopDesc")}
               </p>
             </div>
             <div className="flex flex-col gap-3">
-              <a
-                href={calendarBookingUrl}
-                onClick={openCalendar}
+              <Link
+                to="/booking"
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[var(--color-brand-pink)] px-5 text-sm font-bold text-white shadow-lg shadow-[var(--color-brand-pink)]/20 transition hover:bg-[var(--color-brand-pink)]/90"
               >
-                <CalendarDays className="h-4 w-4" />
-                Book free call
-              </a>
+                {t("booking.sticky.bookButton")}
+              </Link>
               <a
-                href={whatsappBookingUrl}
+                href={whatsappDirectUrl}
                 data-meta-tracked="true"
                 onClick={openWhatsApp}
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-green-600 px-5 text-sm font-bold text-white shadow-lg shadow-green-600/20 transition hover:bg-green-700"
               >
                 <MessageCircle className="h-4 w-4" />
-                WhatsApp
+                {t("booking.sticky.whatsappButton")}
               </a>
             </div>
           </div>
           <button
             type="button"
             onClick={close}
-            aria-label="Close booking reminder"
+            aria-label={t("booking.sticky.close")}
             className="absolute right-4 top-4 z-20 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white/90 text-gray-500 transition hover:border-gray-300 hover:text-gray-800"
           >
             <X className="h-4 w-4" />
