@@ -160,6 +160,25 @@ export async function adminContactLeads(request: Request, env: Env) {
   return adminJson(request, env, { leads: rows.results || [] });
 }
 
+export async function adminBookings(request: Request, env: Env) {
+  const unauthorized = await requireAdmin(request, env);
+  if (unauthorized) return unauthorized;
+
+  const limit = Math.min(Math.max(Number(new URL(request.url).searchParams.get("limit") || 50), 1), 100);
+  const rows = await getDb(env)
+    .prepare(
+      `SELECT id, name, email, message, source_page, preferred_language, sheet_status, sheet_error, created_at
+       FROM contact_leads
+       WHERE source_page LIKE '%/booking%' OR message LIKE 'Booking request:%'
+       ORDER BY created_at DESC
+       LIMIT ?`,
+    )
+    .bind(limit)
+    .all();
+
+  return adminJson(request, env, { bookings: rows.results || [] });
+}
+
 export async function adminMembers(request: Request, env: Env) {
   const unauthorized = await requireAdmin(request, env);
   if (unauthorized) return unauthorized;
@@ -294,6 +313,7 @@ export function adminPage(request: Request, env: Env) {
         <button type="button" data-view="ads">Ads</button>
         <button type="button" data-view="locations">Locations</button>
         <button type="button" data-view="conversions">Conversions</button>
+        <button type="button" data-view="bookings">Bookings</button>
         <button type="button" data-view="leads">Contact Leads</button>
         <button type="button" data-view="members">Members</button>
       </nav>
@@ -338,6 +358,23 @@ export function adminPage(request: Request, env: Env) {
       return text(value).replace(/[&<>"']/g, function (char) {
         return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char];
       });
+    }
+    function parseBookingMessage(message) {
+      const fields = {};
+      String(message || "").split("\\n").forEach(function (line) {
+        const index = line.indexOf(":");
+        if (index < 0) return;
+        const key = line.slice(0, index).trim().toLowerCase();
+        const value = line.slice(index + 1).trim();
+        if (key) fields[key] = value;
+      });
+      return {
+        phone: fields.phone || "",
+        age: fields.age || "",
+        preferredLanguage: fields["preferred language"] || "",
+        availability: fields["available time"] || "",
+        pageLanguage: fields["page language"] || "",
+      };
     }
     function formatRangeLabel(data) {
       if (!data || !data.range) return "";
@@ -664,6 +701,41 @@ export function adminPage(request: Request, env: Env) {
       });
       renderRows(["Created", "Name", "Email", "Message", "Source", "Lang", "Sheet", "Sheet Error"], rows);
     }
+    async function loadBookings() {
+      $("title").textContent = "Bookings";
+      $("range-caption").textContent = "Free call and insurance coverage requests submitted from the booking form.";
+      const data = await api("/admin/api/bookings?limit=100");
+      const rows = data.bookings.map((booking) => {
+        const parsed = parseBookingMessage(booking.message);
+        const tr = document.createElement("tr");
+        const cells = [
+          date(booking.created_at),
+          booking.name,
+          booking.email,
+          parsed.phone,
+          parsed.age,
+          parsed.preferredLanguage || booking.preferred_language,
+          parsed.availability,
+          booking.source_page,
+          booking.sheet_status,
+          booking.sheet_error,
+        ];
+        cells.forEach((cell, index) => {
+          const td = document.createElement("td");
+          if (index === 8) {
+            const span = document.createElement("span");
+            span.className = "badge " + (cell === "failed" ? "failed" : "");
+            span.textContent = text(cell);
+            td.appendChild(span);
+          } else {
+            td.textContent = text(cell);
+          }
+          tr.appendChild(td);
+        });
+        return tr;
+      });
+      renderRows(["Created", "Name", "Email", "Phone", "Age", "Preferred Language", "Available Time", "Source", "Sheet", "Sheet Error"], rows);
+    }
     async function loadMembers() {
       $("title").textContent = "Members";
       $("range-caption").textContent = "";
@@ -682,6 +754,7 @@ export function adminPage(request: Request, env: Env) {
     async function load() {
       if (state.view === "members") return loadMembers();
       if (state.view === "leads") return loadLeads();
+      if (state.view === "bookings") return loadBookings();
       if (state.view === "ads") return renderAds();
       return loadAnalyticsView();
     }

@@ -93,6 +93,7 @@ After changing admin secrets, run the Worker deploy workflow again so the values
 - `POST /admin/api/logout`
 - `GET /admin/api/me`
 - `GET /admin/api/stats`
+- `GET /admin/api/bookings`
 - `GET /admin/api/contact-leads`
 - `GET /admin/api/members`
 
