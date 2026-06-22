@@ -34,7 +34,7 @@ function adminResponse(request: Request, env: Env) {
   return json(request, env, { error: "Not found" }, { status: 404 });
 }
 
-async function route(request: Request, env: Env) {
+async function route(request: Request, env: Env, ctx: ExecutionContext) {
   const url = new URL(request.url);
 
   if (request.method === "OPTIONS") {
@@ -58,7 +58,7 @@ async function route(request: Request, env: Env) {
   }
 
   if (url.pathname === "/api/analytics/collect" && request.method === "POST") return collectAnalytics(request, env);
-  if (url.pathname === "/api/contact" && request.method === "POST") return submitContact(request, env);
+  if (url.pathname === "/api/contact" && request.method === "POST") return submitContact(request, env, ctx);
   if (url.pathname === "/api/auth/register" && request.method === "POST") return register(request, env);
   if (url.pathname === "/api/auth/login" && request.method === "POST") return login(request, env);
   if (url.pathname === "/api/auth/logout" && request.method === "POST") return logout(request, env);
@@ -68,9 +68,9 @@ async function route(request: Request, env: Env) {
 }
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     try {
-      return await route(request, env);
+      return await route(request, env, ctx);
     } catch (error) {
       return serverError(request, env, error instanceof Error ? error.message : undefined);
     }

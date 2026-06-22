@@ -3,6 +3,7 @@ import { randomId } from "./crypto";
 import { getDb } from "./db";
 import { appendContactToSheet } from "./googleSheets";
 import { checkRateLimit } from "./rateLimit";
+import { sendSmtpEmail } from "./smtp";
 import type { Env } from "./types";
 
 type ContactPayload = {
@@ -17,7 +18,42 @@ function validEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-export async function submitContact(request: Request, env: Env) {
+function isBookingRequest(sourcePage: string, message: string) {
+  return sourcePage.includes("/booking") || message.startsWith("Booking request:");
+}
+
+function bookingEmailBody(input: {
+  leadId: string;
+  createdAt: string;
+  name: string;
+  email: string;
+  message: string;
+  sourcePage: string;
+  preferredLanguage: string;
+  ip: string;
+  userAgent: string;
+}) {
+  return [
+    "A new booking request was submitted.",
+    "",
+    `Lead ID: ${input.leadId}`,
+    `Submitted: ${input.createdAt}`,
+    `Name: ${input.name}`,
+    `Email: ${input.email}`,
+    `Source page: ${input.sourcePage || "-"}`,
+    `Preferred language: ${input.preferredLanguage || "-"}`,
+    `IP: ${input.ip || "-"}`,
+    `User agent: ${input.userAgent || "-"}`,
+    "",
+    "Form details:",
+    input.message,
+    "",
+    "Admin:",
+    "https://admin.xtdiabetescare.com/",
+  ].join("\n");
+}
+
+export async function submitContact(request: Request, env: Env, ctx?: ExecutionContext) {
   const rateLimited = checkRateLimit(request, env, "contact", 5, 60);
   if (rateLimited) return rateLimited;
 
@@ -64,6 +100,27 @@ export async function submitContact(request: Request, env: Env) {
       )
       .bind(leadId, name, email, message, sourcePage, preferredLanguage, ip, userAgent, sheetStatus, sheetError, now, now)
       .run();
+
+    if (isBookingRequest(sourcePage, message)) {
+      const notify = sendSmtpEmail(env, {
+        subject: `New booking request from ${name}`,
+        replyTo: email,
+        text: bookingEmailBody({
+          leadId,
+          createdAt: now,
+          name,
+          email,
+          message,
+          sourcePage,
+          preferredLanguage,
+          ip,
+          userAgent,
+        }),
+      }).catch((error) => {
+        console.error("Booking notification email failed", error instanceof Error ? error.message : error);
+      });
+      if (ctx) ctx.waitUntil(notify);
+    }
 
     return json(request, env, { ok: true, id: leadId, sheetStatus });
   } catch (error) {

@@ -79,6 +79,78 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
 
+      - name: Sync SMTP host
+        run: |
+          if [ -z "$SMTP_HOST" ]; then
+            echo "SMTP_HOST is not configured; skipping."
+            exit 0
+          fi
+          printf '%s' "$SMTP_HOST" | npx wrangler secret put SMTP_HOST
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+
+      - name: Sync SMTP port
+        run: |
+          if [ -z "$SMTP_PORT" ]; then
+            echo "SMTP_PORT is not configured; skipping."
+            exit 0
+          fi
+          printf '%s' "$SMTP_PORT" | npx wrangler secret put SMTP_PORT
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+
+      - name: Sync SMTP user
+        run: |
+          if [ -z "$SMTP_USER" ]; then
+            echo "SMTP_USER is not configured; skipping."
+            exit 0
+          fi
+          printf '%s' "$SMTP_USER" | npx wrangler secret put SMTP_USER
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+
+      - name: Sync SMTP password
+        run: |
+          if [ -z "$SMTP_PASSWORD" ]; then
+            echo "SMTP_PASSWORD is not configured; skipping."
+            exit 0
+          fi
+          printf '%s' "$SMTP_PASSWORD" | npx wrangler secret put SMTP_PASSWORD
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+
+      - name: Sync booking notification recipient
+        run: |
+          if [ -z "$BOOKING_NOTIFY_TO" ]; then
+            echo "BOOKING_NOTIFY_TO is not configured; skipping."
+            exit 0
+          fi
+          printf '%s' "$BOOKING_NOTIFY_TO" | npx wrangler secret put BOOKING_NOTIFY_TO
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          BOOKING_NOTIFY_TO: ${{ secrets.BOOKING_NOTIFY_TO }}
+
+      - name: Sync SMTP from
+        run: |
+          if [ -z "$SMTP_FROM" ]; then
+            echo "SMTP_FROM is not configured; skipping."
+            exit 0
+          fi
+          printf '%s' "$SMTP_FROM" | npx wrangler secret put SMTP_FROM
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          SMTP_FROM: ${{ secrets.SMTP_FROM }}
+
       - name: Apply D1 migrations
         run: |
           if grep -q 'database_id = "<cloudflare-d1-database-id>"' wrangler.toml || ! grep -q '\[\[d1_databases\]\]' wrangler.toml; then

@@ -28,6 +28,7 @@ Set these GitHub repository secrets:
 - `GOOGLE_SHEETS_PRIVATE_KEY`
 - `ADMIN_EMAIL`
 - `ADMIN_PASSWORD`
+- `SMTP_PASSWORD`
 
 Set this Worker variable in `wrangler.toml` after the sheet exists:
 
@@ -62,6 +63,10 @@ npx wrangler secret put GOOGLE_SHEETS_PRIVATE_KEY
 ```
 
 The contact endpoint appends rows into a tab named `Contact Leads`.
+
+## Booking notification email
+
+Booking form submissions trigger an SMTP email notification to `BOOKING_NOTIFY_TO`. Non-secret QQ SMTP defaults are stored in `wrangler.toml`; keep the QQ authorization code only in the GitHub repository secret `SMTP_PASSWORD`.
 
 ## Admin console
 

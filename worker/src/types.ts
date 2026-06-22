@@ -7,6 +7,13 @@ export interface Env {
   ADMIN_EMAIL?: string;
   ADMIN_PASSWORD?: string;
   ADMIN_PASSWORD_HASH?: string;
+  SMTP_HOST?: string;
+  SMTP_PORT?: string;
+  SMTP_USER?: string;
+  SMTP_PASSWORD?: string;
+  SMTP_FROM?: string;
+  SMTP_EHLO_DOMAIN?: string;
+  BOOKING_NOTIFY_TO?: string;
   DB?: D1Database;
 }
 

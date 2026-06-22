@@ -12,6 +12,11 @@ routes = [
 APP_ENV = "production"
 APP_ORIGIN = "https://xtdiabetescare.com"
 GOOGLE_SHEETS_SPREADSHEET_ID = "1qjOaxNH9zheEDNilwlzfLLzokqxvx8q93Fi2mBhHavI"
+SMTP_HOST = "smtp.qq.com"
+SMTP_PORT = "465"
+SMTP_USER = "3359746636@qq.com"
+SMTP_FROM = "3359746636@qq.com"
+BOOKING_NOTIFY_TO = "xtdiabetescare@gmail.com"
 
 [[d1_databases]]
 binding = "DB"
