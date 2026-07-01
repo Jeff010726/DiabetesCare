@@ -2,6 +2,7 @@ import { getDb } from "./db";
 import { randomId, sha256, verifyPassword } from "./crypto";
 import { badRequest, json, readJson, responseHeaders } from "./http";
 import { checkRateLimit } from "./rateLimit";
+import { sendSmtpEmail, smtpConfigStatus } from "./smtp";
 import type { Env } from "./types";
 
 type LoginPayload = {
@@ -179,6 +180,43 @@ export async function adminBookings(request: Request, env: Env) {
   return adminJson(request, env, { bookings: rows.results || [] });
 }
 
+export async function adminSmtpStatus(request: Request, env: Env) {
+  const unauthorized = await requireAdmin(request, env);
+  if (unauthorized) return unauthorized;
+
+  return adminJson(request, env, smtpConfigStatus(env));
+}
+
+export async function adminSmtpTest(request: Request, env: Env) {
+  const unauthorized = await requireAdmin(request, env);
+  if (unauthorized) return unauthorized;
+
+  const status = smtpConfigStatus(env);
+  if (!status.configured) {
+    return adminJson(request, env, { ok: false, skipped: true, missing: status.missing }, { status: 503 });
+  }
+
+  try {
+    const result = await sendSmtpEmail(env, {
+      subject: "XT Diabetes Care booking email test",
+      text: [
+        "This is a test email from XT Diabetes Care Admin.",
+        "",
+        `Sent at: ${new Date().toISOString()}`,
+        "If this email arrived, booking notification SMTP is working.",
+      ].join("\n"),
+    });
+    return adminJson(request, env, { ok: !result.skipped, ...result });
+  } catch (error) {
+    return adminJson(
+      request,
+      env,
+      { ok: false, error: error instanceof Error ? error.message : "SMTP test failed" },
+      { status: 500 },
+    );
+  }
+}
+
 export async function adminMembers(request: Request, env: Env) {
   const unauthorized = await requireAdmin(request, env);
   if (unauthorized) return unauthorized;
@@ -272,6 +310,9 @@ export function adminPage(request: Request, env: Env) {
     .funnel-step { display: grid; grid-template-columns: 120px 1fr 72px; gap: 12px; align-items: center; font-size: 13px; }
     .funnel-track { height: 28px; background: #eef2f7; border-radius: 8px; overflow: hidden; }
     .funnel-fill { height: 100%; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; color: white; font-size: 12px; font-weight: 850; background: #0f766e; min-width: 2px; }
+    .status-panel { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+    .status-panel strong { display: block; margin-bottom: 4px; }
+    .status-panel .primary { white-space: nowrap; }
     .tablewrap { overflow: auto; background: white; border: 1px solid #e5e7eb; border-radius: 8px; }
     table { width: 100%; border-collapse: collapse; min-width: 880px; }
     th, td { padding: 12px 14px; border-bottom: 1px solid #eef0f4; text-align: left; font-size: 14px; vertical-align: top; }
@@ -548,8 +589,33 @@ export function adminPage(request: Request, env: Env) {
         hit.addEventListener("mouseleave", clear);
       });
     }
-    function renderRows(headers, rows) {
-      $("content").innerHTML = '<section class="tablewrap"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></section>';
+    function smtpPanelHtml(status) {
+      const configured = status && status.configured;
+      const missing = status && status.missing && status.missing.length ? status.missing.join(", ") : "";
+      const details = configured
+        ? "Ready. SMTP " + escapeHtml(status.host || "-") + ":" + escapeHtml(status.port || "-") + " -> " + escapeHtml(status.to || "-")
+        : "Not ready" + (missing ? ". Missing: " + escapeHtml(missing) : ".");
+      return '<section class="panel status-panel"><div><strong>Email notification</strong><div class="muted">' + details + '</div><div class="caption" id="smtp-test-result">Booking form submissions are stored here even if email delivery fails.</div></div><button type="button" class="primary" id="smtp-test" ' + (configured ? "" : "disabled") + '>Send test email</button></section>';
+    }
+    function bindSmtpTestButton() {
+      const button = $("smtp-test");
+      const result = $("smtp-test-result");
+      if (!button || !result) return;
+      button.addEventListener("click", async () => {
+        button.disabled = true;
+        result.textContent = "Sending test email...";
+        try {
+          await api("/admin/api/smtp-test", { method: "POST" });
+          result.textContent = "Test email sent. Check the Gmail inbox and spam folder.";
+        } catch (error) {
+          result.textContent = "Test failed: " + error.message;
+        } finally {
+          button.disabled = false;
+        }
+      });
+    }
+    function renderRows(headers, rows, prefixHtml = "") {
+      $("content").innerHTML = prefixHtml + '<section class="tablewrap"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></section>';
       $("thead").innerHTML = "<tr>" + headers.map(function (h) { return "<th>" + escapeHtml(h) + "</th>"; }).join("") + "</tr>";
       $("tbody").replaceChildren.apply($("tbody"), rows);
     }
@@ -704,7 +770,10 @@ export function adminPage(request: Request, env: Env) {
     async function loadBookings() {
       $("title").textContent = "Bookings";
       $("range-caption").textContent = "Free call and insurance coverage requests submitted from the booking form.";
-      const data = await api("/admin/api/bookings?limit=100");
+      const [data, smtp] = await Promise.all([
+        api("/admin/api/bookings?limit=100"),
+        api("/admin/api/smtp-status").catch((error) => ({ configured: false, missing: ["status check failed"], error: error.message })),
+      ]);
       const rows = data.bookings.map((booking) => {
         const parsed = parseBookingMessage(booking.message);
         const tr = document.createElement("tr");
@@ -734,7 +803,8 @@ export function adminPage(request: Request, env: Env) {
         });
         return tr;
       });
-      renderRows(["Created", "Name", "Email", "Phone", "Age", "Preferred Language", "Available Time", "Source", "Sheet", "Sheet Error"], rows);
+      renderRows(["Created", "Name", "Email", "Phone", "Age", "Preferred Language", "Available Time", "Source", "Sheet", "Sheet Error"], rows, smtpPanelHtml(smtp));
+      bindSmtpTestButton();
     }
     async function loadMembers() {
       $("title").textContent = "Members";

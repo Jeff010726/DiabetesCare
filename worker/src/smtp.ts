@@ -7,11 +7,31 @@ type EmailParams = {
   replyTo?: string;
 };
 
+const requiredConfig = ["SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASSWORD", "BOOKING_NOTIFY_TO"] as const;
+
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
-function configured(env: Env) {
-  return Boolean(env.SMTP_HOST && env.SMTP_PORT && env.SMTP_USER && env.SMTP_PASSWORD && env.BOOKING_NOTIFY_TO);
+export function smtpConfigStatus(env: Env) {
+  const values = {
+    SMTP_HOST: env.SMTP_HOST,
+    SMTP_PORT: env.SMTP_PORT,
+    SMTP_USER: env.SMTP_USER,
+    SMTP_PASSWORD: env.SMTP_PASSWORD,
+    BOOKING_NOTIFY_TO: env.BOOKING_NOTIFY_TO,
+  };
+  const missing = requiredConfig.filter((key) => !values[key]);
+
+  return {
+    configured: missing.length === 0,
+    missing,
+    host: env.SMTP_HOST || "",
+    port: env.SMTP_PORT || "",
+    userConfigured: Boolean(env.SMTP_USER),
+    passwordConfigured: Boolean(env.SMTP_PASSWORD),
+    from: env.SMTP_FROM || env.SMTP_USER || "",
+    to: env.BOOKING_NOTIFY_TO || "",
+  };
 }
 
 function encodeBase64(value: string) {
@@ -83,7 +103,11 @@ function buildMessage(env: Env, params: EmailParams) {
 }
 
 export async function sendSmtpEmail(env: Env, params: EmailParams) {
-  if (!configured(env)) return { skipped: true };
+  const status = smtpConfigStatus(env);
+  if (!status.configured) {
+    console.error("SMTP email skipped; missing config", status.missing.join(", "));
+    return { skipped: true, missing: status.missing };
+  }
 
   const host = env.SMTP_HOST || "smtp.qq.com";
   const port = Number(env.SMTP_PORT || 465);

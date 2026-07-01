@@ -1,5 +1,16 @@
 import { adminAdsAnalytics, adminAnalyticsDashboard, collectAnalytics } from "./analytics";
-import { adminBookings, adminContactLeads, adminLogin, adminLogout, adminMe, adminMembers, adminPage, adminStats } from "./admin";
+import {
+  adminBookings,
+  adminContactLeads,
+  adminLogin,
+  adminLogout,
+  adminMe,
+  adminMembers,
+  adminPage,
+  adminSmtpStatus,
+  adminSmtpTest,
+  adminStats,
+} from "./admin";
 import { login, logout, me, register } from "./auth";
 import { submitContact } from "./contact";
 import { responseHeaders, json, serverError } from "./http";
@@ -27,6 +38,8 @@ function adminResponse(request: Request, env: Env) {
   if (url.pathname === "/admin/api/analytics/dashboard" && request.method === "GET") return adminAnalyticsDashboard(request, env);
   if (url.pathname === "/admin/api/analytics/ads" && request.method === "GET") return adminAdsAnalytics(request, env);
   if (url.pathname === "/admin/api/bookings" && request.method === "GET") return adminBookings(request, env);
+  if (url.pathname === "/admin/api/smtp-status" && request.method === "GET") return adminSmtpStatus(request, env);
+  if (url.pathname === "/admin/api/smtp-test" && request.method === "POST") return adminSmtpTest(request, env);
   if (url.pathname === "/admin/api/contact-leads" && request.method === "GET") return adminContactLeads(request, env);
   if (url.pathname === "/admin/api/members" && request.method === "GET") return adminMembers(request, env);
   if (request.method === "GET" && (url.pathname === "/" || url.pathname === "/index.html")) return adminPage(request, env);
