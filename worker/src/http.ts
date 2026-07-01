@@ -23,7 +23,7 @@ function allowedOrigin(request: Request, env: Env) {
 export function corsHeaders(request: Request, env: Env) {
   return {
     "Access-Control-Allow-Origin": allowedOrigin(request, env),
-    "Access-Control-Allow-Methods": "GET,POST,PATCH,OPTIONS",
+    "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type,Authorization",
     "Access-Control-Allow-Credentials": "true",
     Vary: "Origin",

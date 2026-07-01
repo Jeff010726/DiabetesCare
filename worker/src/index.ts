@@ -2,6 +2,7 @@ import { adminAdsAnalytics, adminAnalyticsDashboard, collectAnalytics } from "./
 import {
   adminBookings,
   adminContactLeads,
+  adminDeleteBooking,
   adminLogin,
   adminLogout,
   adminMe,
@@ -38,6 +39,7 @@ function adminResponse(request: Request, env: Env) {
   if (url.pathname === "/admin/api/analytics/dashboard" && request.method === "GET") return adminAnalyticsDashboard(request, env);
   if (url.pathname === "/admin/api/analytics/ads" && request.method === "GET") return adminAdsAnalytics(request, env);
   if (url.pathname === "/admin/api/bookings" && request.method === "GET") return adminBookings(request, env);
+  if (url.pathname === "/admin/api/bookings/delete" && request.method === "POST") return adminDeleteBooking(request, env);
   if (url.pathname === "/admin/api/smtp-status" && request.method === "GET") return adminSmtpStatus(request, env);
   if (url.pathname === "/admin/api/smtp-test" && request.method === "POST") return adminSmtpTest(request, env);
   if (url.pathname === "/admin/api/contact-leads" && request.method === "GET") return adminContactLeads(request, env);
