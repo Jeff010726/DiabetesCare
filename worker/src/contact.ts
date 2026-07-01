@@ -95,10 +95,24 @@ export async function submitContact(request: Request, env: Env, ctx?: ExecutionC
     await db
       .prepare(
         `INSERT INTO contact_leads
-         (id, name, email, message, source_page, preferred_language, ip, user_agent, sheet_status, sheet_error, created_at, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+         (id, name, email, message, source_page, preferred_language, ip, user_agent, sheet_status, sheet_error, email_status, created_at, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       )
-      .bind(leadId, name, email, message, sourcePage, preferredLanguage, ip, userAgent, sheetStatus, sheetError, now, now)
+      .bind(
+        leadId,
+        name,
+        email,
+        message,
+        sourcePage,
+        preferredLanguage,
+        ip,
+        userAgent,
+        sheetStatus,
+        sheetError,
+        isBookingRequest(sourcePage, message) ? "pending" : "not_applicable",
+        now,
+        now,
+      )
       .run();
 
     if (isBookingRequest(sourcePage, message)) {
@@ -116,10 +130,27 @@ export async function submitContact(request: Request, env: Env, ctx?: ExecutionC
           ip,
           userAgent,
         }),
-      }).catch((error) => {
-        console.error("Booking notification email failed", error instanceof Error ? error.message : error);
       });
-      if (ctx) ctx.waitUntil(notify);
+      const recordEmailStatus = notify
+        .then(async (result) => {
+          const status = result.skipped ? "skipped" : "sent";
+          const error = result.skipped ? `Missing SMTP config: ${(result.missing || []).join(", ")}`.slice(0, 500) : null;
+          const notifiedAt = new Date().toISOString();
+          await db
+            .prepare("UPDATE contact_leads SET email_status = ?, email_error = ?, email_notified_at = ?, updated_at = ? WHERE id = ?")
+            .bind(status, error, notifiedAt, notifiedAt, leadId)
+            .run();
+        })
+        .catch(async (error) => {
+          const message = error instanceof Error ? error.message.slice(0, 500) : "Booking notification email failed";
+          const notifiedAt = new Date().toISOString();
+          console.error("Booking notification email failed", message);
+          await db
+            .prepare("UPDATE contact_leads SET email_status = 'failed', email_error = ?, email_notified_at = ?, updated_at = ? WHERE id = ?")
+            .bind(message, notifiedAt, notifiedAt, leadId)
+            .run();
+        });
+      if (ctx) ctx.waitUntil(recordEmailStatus);
     }
 
     return json(request, env, { ok: true, id: leadId, sheetStatus });

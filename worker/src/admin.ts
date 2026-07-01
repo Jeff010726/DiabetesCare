@@ -172,7 +172,7 @@ export async function adminBookings(request: Request, env: Env) {
   const limit = Math.min(Math.max(Number(new URL(request.url).searchParams.get("limit") || 50), 1), 100);
   const rows = await getDb(env)
     .prepare(
-      `SELECT id, name, email, message, source_page, preferred_language, sheet_status, sheet_error, created_at
+      `SELECT id, name, email, message, source_page, preferred_language, sheet_status, sheet_error, email_status, email_error, email_notified_at, created_at
        FROM contact_leads
        WHERE source_page LIKE '%/booking%' OR message LIKE 'Booking request:%'
        ORDER BY created_at DESC
@@ -832,6 +832,8 @@ export function adminPage(request: Request, env: Env) {
           booking.source_page,
           booking.sheet_status,
           booking.sheet_error,
+          booking.email_status,
+          booking.email_error,
           "",
         ];
         cells.forEach((cell, index) => {
@@ -842,6 +844,11 @@ export function adminPage(request: Request, env: Env) {
             span.textContent = text(cell);
             td.appendChild(span);
           } else if (index === 10) {
+            const span = document.createElement("span");
+            span.className = "badge " + (cell === "failed" ? "failed" : "");
+            span.textContent = text(cell || "unknown");
+            td.appendChild(span);
+          } else if (index === 12) {
             const button = document.createElement("button");
             button.type = "button";
             button.className = "danger";
@@ -855,7 +862,7 @@ export function adminPage(request: Request, env: Env) {
         });
         return tr;
       });
-      renderRows(["Created", "Name", "Email", "Phone", "Age", "Preferred Language", "Available Time", "Source", "Sheet", "Sheet Error", "Action"], rows, smtpPanelHtml(smtp));
+      renderRows(["Created", "Name", "Email", "Phone", "Age", "Preferred Language", "Available Time", "Source", "Sheet", "Sheet Error", "Email", "Email Error", "Action"], rows, smtpPanelHtml(smtp));
       bindSmtpTestButton();
       bindDeleteBookingButtons();
     }
