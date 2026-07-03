@@ -12,6 +12,7 @@ type ContactPayload = {
   message?: string;
   sourcePage?: string;
   preferredLanguage?: string;
+  timeZone?: string;
 };
 
 function validEmail(email: string) {
@@ -30,6 +31,7 @@ function bookingEmailBody(input: {
   message: string;
   sourcePage: string;
   preferredLanguage: string;
+  timeZone: string;
   ip: string;
   userAgent: string;
 }) {
@@ -42,6 +44,7 @@ function bookingEmailBody(input: {
     `Email: ${input.email}`,
     `Source page: ${input.sourcePage || "-"}`,
     `Preferred language: ${input.preferredLanguage || "-"}`,
+    `Time zone: ${input.timeZone || "-"}`,
     `IP: ${input.ip || "-"}`,
     `User agent: ${input.userAgent || "-"}`,
     "",
@@ -65,6 +68,8 @@ export async function submitContact(request: Request, env: Env, ctx?: ExecutionC
   const message = payload.message?.trim() || "";
   const sourcePage = payload.sourcePage?.trim().slice(0, 200) || "";
   const preferredLanguage = payload.preferredLanguage?.trim().slice(0, 16) || "";
+  const cf = request.cf as { timezone?: string } | undefined;
+  const timeZone = (payload.timeZone?.trim() || cf?.timezone || "").slice(0, 80);
 
   if (name.length < 2) return badRequest(request, env, "Name is required");
   if (name.length > 120) return badRequest(request, env, "Name is too long");
@@ -77,7 +82,7 @@ export async function submitContact(request: Request, env: Env, ctx?: ExecutionC
   const leadId = randomId("lead_");
   const ip = request.headers.get("CF-Connecting-IP") || "";
   const userAgent = request.headers.get("User-Agent") || "";
-  const row = [now, name, email, message, sourcePage, preferredLanguage, ip, userAgent];
+  const row = [now, name, email, message, sourcePage, preferredLanguage, timeZone, ip, userAgent];
   let sheetStatus = "pending";
   let sheetError: string | null = null;
 
@@ -95,8 +100,8 @@ export async function submitContact(request: Request, env: Env, ctx?: ExecutionC
     await db
       .prepare(
         `INSERT INTO contact_leads
-         (id, name, email, message, source_page, preferred_language, ip, user_agent, sheet_status, sheet_error, email_status, created_at, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+         (id, name, email, message, source_page, preferred_language, time_zone, ip, user_agent, sheet_status, sheet_error, email_status, created_at, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       )
       .bind(
         leadId,
@@ -105,6 +110,7 @@ export async function submitContact(request: Request, env: Env, ctx?: ExecutionC
         message,
         sourcePage,
         preferredLanguage,
+        timeZone,
         ip,
         userAgent,
         sheetStatus,
@@ -127,6 +133,7 @@ export async function submitContact(request: Request, env: Env, ctx?: ExecutionC
           message,
           sourcePage,
           preferredLanguage,
+          timeZone,
           ip,
           userAgent,
         }),

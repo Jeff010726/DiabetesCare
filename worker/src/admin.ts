@@ -172,7 +172,7 @@ export async function adminBookings(request: Request, env: Env) {
   const limit = Math.min(Math.max(Number(new URL(request.url).searchParams.get("limit") || 50), 1), 100);
   const rows = await getDb(env)
     .prepare(
-      `SELECT id, name, email, message, source_page, preferred_language, sheet_status, sheet_error, email_status, email_error, email_notified_at, created_at
+      `SELECT id, name, email, message, source_page, preferred_language, time_zone, sheet_status, sheet_error, email_status, email_error, email_notified_at, created_at
        FROM contact_leads
        WHERE source_page LIKE '%/booking%' OR message LIKE 'Booking request:%'
        ORDER BY created_at DESC
@@ -296,8 +296,6 @@ export function adminPage(request: Request, env: Env) {
     .quick:hover { background: #f9fafb; }
     .primary { border: 0; border-radius: 8px; padding: 11px 14px; background: #2563eb; color: white; font-weight: 800; cursor: pointer; }
     .primary:disabled { opacity: .65; cursor: not-allowed; }
-    .danger { border: 1px solid #fecaca; border-radius: 8px; padding: 8px 10px; background: #fff1f2; color: #be123c; font-weight: 800; cursor: pointer; }
-    .danger:hover { background: #ffe4e6; }
     .insights { display: grid; gap: 12px; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 16px; }
     .insight { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 14px; min-height: 82px; box-shadow: 0 12px 28px -26px rgba(17,24,39,.45); }
     .insight strong { display: block; font-size: 12px; color: #475467; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 7px; }
@@ -442,6 +440,7 @@ export function adminPage(request: Request, env: Env) {
         age: fields.age || "",
         preferredLanguage: fields["preferred language"] || "",
         availability: fields["available time"] || "",
+        timeZone: fields["time zone"] || "",
         pageLanguage: fields["page language"] || "",
       };
     }
@@ -642,22 +641,6 @@ export function adminPage(request: Request, env: Env) {
         }
       });
     }
-    function bindDeleteBookingButtons() {
-      document.querySelectorAll("[data-delete-booking]").forEach((button) => {
-        button.addEventListener("click", async () => {
-          const id = button.dataset.deleteBooking;
-          if (!id || !confirm("Delete this booking record?")) return;
-          button.disabled = true;
-          try {
-            await api("/admin/api/bookings/delete", { method: "POST", body: JSON.stringify({ id }) });
-            await loadBookings();
-          } catch (error) {
-            alert("Delete failed: " + error.message);
-            button.disabled = false;
-          }
-        });
-      });
-    }
     function renderRows(headers, rows, prefixHtml = "") {
       $("content").innerHTML = prefixHtml + '<section class="tablewrap"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></section>';
       $("thead").innerHTML = "<tr>" + headers.map(function (h) { return "<th>" + escapeHtml(h) + "</th>"; }).join("") + "</tr>";
@@ -829,32 +812,25 @@ export function adminPage(request: Request, env: Env) {
           parsed.age,
           parsed.preferredLanguage || booking.preferred_language,
           parsed.availability,
+          booking.time_zone || parsed.timeZone,
           booking.source_page,
           booking.sheet_status,
           booking.sheet_error,
           booking.email_status,
           booking.email_error,
-          "",
         ];
         cells.forEach((cell, index) => {
           const td = document.createElement("td");
-          if (index === 8) {
+          if (index === 9) {
             const span = document.createElement("span");
             span.className = "badge " + (cell === "failed" ? "failed" : "");
             span.textContent = text(cell);
             td.appendChild(span);
-          } else if (index === 10) {
+          } else if (index === 11) {
             const span = document.createElement("span");
             span.className = "badge " + (cell === "failed" ? "failed" : "");
             span.textContent = text(cell || "unknown");
             td.appendChild(span);
-          } else if (index === 12) {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "danger";
-            button.dataset.deleteBooking = booking.id;
-            button.textContent = "Delete";
-            td.appendChild(button);
           } else {
             td.textContent = text(cell);
           }
@@ -862,9 +838,8 @@ export function adminPage(request: Request, env: Env) {
         });
         return tr;
       });
-      renderRows(["Created", "Name", "Email", "Phone", "Age", "Preferred Language", "Available Time", "Source", "Sheet", "Sheet Error", "Email", "Email Error", "Action"], rows, smtpPanelHtml(smtp));
+      renderRows(["Created", "Name", "Email", "Phone", "Age", "Preferred Language", "Available Time", "Time Zone", "Source", "Sheet", "Sheet Error", "Email", "Email Error"], rows, smtpPanelHtml(smtp));
       bindSmtpTestButton();
-      bindDeleteBookingButtons();
     }
     async function loadMembers() {
       $("title").textContent = "Members";

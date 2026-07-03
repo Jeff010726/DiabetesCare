@@ -50,6 +50,7 @@ export default function Booking() {
     setStatus("submitting");
     setError("");
 
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
     const message = [
       "Booking request: free 15-minute insurance coverage call",
       `Name: ${form.name}`,
@@ -58,6 +59,7 @@ export default function Booking() {
       `Age: ${form.age}`,
       `Preferred language: ${form.preferredLanguage}`,
       `Available time: ${form.availability}`,
+      `Time zone: ${timeZone || "Unknown"}`,
       `Page language: ${i18n.language}`,
     ].join("\n");
 
@@ -70,6 +72,7 @@ export default function Booking() {
           message,
           sourcePage: window.location.pathname,
           preferredLanguage: form.preferredLanguage || i18n.language,
+          timeZone,
         },
       });
       navigate("/booking-redirect");
