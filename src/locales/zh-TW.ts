@@ -329,6 +329,8 @@ export const zhTW = {
       success: {
         title: "已經成功預約",
         body: "我們會在我們空閒的時候於您選定的時間給您致電",
+        phoneNoticeTitle: "請放心接聽我們的電話",
+        phoneNoticeBody: "我們的團隊會從這個號碼打給您。如果您看到 929-777-4933，這是 XT Diabetes Care 正在聯絡您確認免費諮詢和保險涵蓋情況。",
         urgent: "如果您著急的話，可以透過 WhatsApp 聯絡我們",
         whatsappButton: "透過 WhatsApp 聯絡",
       },

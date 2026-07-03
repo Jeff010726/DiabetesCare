@@ -351,6 +351,8 @@
       success: {
         title: "Su solicitud de cita fue enviada",
         body: "Le llamaremos durante el horario que eligió cuando tengamos disponibilidad.",
+        phoneNoticeTitle: "Por favor conteste nuestra llamada",
+        phoneNoticeBody: "Nuestro equipo llamará desde este número. Si ve 929-777-4933, es XT Diabetes Care comunicándose sobre su consulta gratuita y verificación de cobertura.",
         urgent: "Si es urgente, puede contactarnos por WhatsApp.",
         whatsappButton: "Contactar por WhatsApp",
       },

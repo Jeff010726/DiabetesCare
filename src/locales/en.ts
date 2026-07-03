@@ -331,6 +331,8 @@ export const en = {
       success: {
         title: "Your appointment request was submitted",
         body: "We will call you during your selected time window when we are available.",
+        phoneNoticeTitle: "Please answer our call",
+        phoneNoticeBody: "Our team will call from this number. If you see 929-777-4933, it is XT Diabetes Care reaching out about your free consultation and insurance coverage check.",
         urgent: "If this is urgent, you can contact us on WhatsApp.",
         whatsappButton: "Contact on WhatsApp",
       },

@@ -1,4 +1,4 @@
-import { CheckCircle2, MessageCircle } from "lucide-react";
+import { CheckCircle2, MessageCircle, PhoneCall } from "lucide-react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { trackEvent } from "../lib/analytics";
@@ -22,6 +22,18 @@ export default function BookingRedirect() {
       </div>
       <h1 className="text-4xl font-bold leading-tight text-gray-900 sm:text-5xl">{t("booking.success.title")}</h1>
       <p className="mt-5 text-lg leading-8 text-gray-700">{t("booking.success.body")}</p>
+      <div className="mt-6 w-full rounded-3xl border border-[var(--color-brand-purple)]/15 bg-[var(--color-brand-purple-light)]/55 p-5 text-left shadow-sm sm:p-6">
+        <div className="flex items-start gap-4">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-[var(--color-brand-purple)] shadow-sm">
+            <PhoneCall className="h-6 w-6" />
+          </div>
+          <div className="min-w-0">
+            <p className="text-sm font-bold uppercase tracking-[0.12em] text-[var(--color-brand-purple)]">{t("booking.success.phoneNoticeTitle")}</p>
+            <p className="mt-2 text-3xl font-bold tracking-normal text-gray-900">929-777-4933</p>
+            <p className="mt-2 text-sm leading-6 text-gray-700">{t("booking.success.phoneNoticeBody")}</p>
+          </div>
+        </div>
+      </div>
       <p className="mt-3 text-sm leading-6 text-gray-500">{t("booking.success.urgent")}</p>
       <a
         href={whatsappDirectUrl}

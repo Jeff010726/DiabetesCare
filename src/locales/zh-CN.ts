@@ -329,6 +329,8 @@ export const zhCN = {
       success: {
         title: "已经成功预约",
         body: "我们会在我们空闲的时候于您选定的时间给您致电",
+        phoneNoticeTitle: "请放心接听我们的电话",
+        phoneNoticeBody: "我们的团队会从这个号码打给您。如果您看到 929-777-4933，这是 XT Diabetes Care 正在联系您确认免费咨询和保险覆盖情况。",
         urgent: "如果您着急的话，可以通过 WhatsApp 联系我们",
         whatsappButton: "通过 WhatsApp 联系",
       },
