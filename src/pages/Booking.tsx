@@ -30,6 +30,8 @@ export default function Booking() {
     age: "",
     preferredLanguage: "",
     availability: "",
+    insuranceMemberId: "",
+    dateOfBirth: "",
   });
 
   const scrollToForm = () => {
@@ -60,6 +62,8 @@ export default function Booking() {
       `Preferred language: ${form.preferredLanguage}`,
       `Available time: ${form.availability}`,
       `Time zone: ${timeZone || "Unknown"}`,
+      `Insurance member ID: ${form.insuranceMemberId || "-"}`,
+      `Date of birth: ${form.dateOfBirth || "-"}`,
       `Page language: ${i18n.language}`,
     ].join("\n");
 
@@ -73,6 +77,8 @@ export default function Booking() {
           sourcePage: window.location.pathname,
           preferredLanguage: form.preferredLanguage || i18n.language,
           timeZone,
+          insuranceMemberId: form.insuranceMemberId,
+          dateOfBirth: form.dateOfBirth,
         },
       });
       navigate("/booking-redirect");
@@ -223,6 +229,32 @@ export default function Booking() {
                   <option key={option} value={option}>{option}</option>
                 ))}
               </select>
+            </div>
+
+            <div className="rounded-2xl border border-green-100 bg-green-50/70 p-4">
+              <p className="text-sm font-bold text-green-900">{t("booking.form.optionalInsuranceTitle")}</p>
+              <p className="mt-1 text-sm leading-6 text-green-800">{t("booking.form.optionalInsuranceDesc")}</p>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label className="mb-1.5 block text-sm font-bold text-gray-800">{t("booking.form.fields.insuranceMemberId")}</label>
+                  <input
+                    type="text"
+                    value={form.insuranceMemberId}
+                    onChange={updateField("insuranceMemberId")}
+                    className="h-[52px] w-full rounded-2xl border border-gray-200 bg-white px-4 text-base text-gray-900 outline-none transition focus:border-[var(--color-brand-purple)] focus:ring-4 focus:ring-[var(--color-brand-purple)]/10"
+                    placeholder={t("booking.form.placeholders.insuranceMemberId")}
+                  />
+                </div>
+                <div>
+                  <label className="mb-1.5 block text-sm font-bold text-gray-800">{t("booking.form.fields.dateOfBirth")}</label>
+                  <input
+                    type="date"
+                    value={form.dateOfBirth}
+                    onChange={updateField("dateOfBirth")}
+                    className="h-[52px] w-full rounded-2xl border border-gray-200 bg-white px-4 text-base text-gray-900 outline-none transition focus:border-[var(--color-brand-purple)] focus:ring-4 focus:ring-[var(--color-brand-purple)]/10"
+                  />
+                </div>
+              </div>
             </div>
 
             {status === "error" && (

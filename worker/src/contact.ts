@@ -13,6 +13,8 @@ type ContactPayload = {
   sourcePage?: string;
   preferredLanguage?: string;
   timeZone?: string;
+  insuranceMemberId?: string;
+  dateOfBirth?: string;
 };
 
 function validEmail(email: string) {
@@ -32,6 +34,8 @@ function bookingEmailBody(input: {
   sourcePage: string;
   preferredLanguage: string;
   timeZone: string;
+  insuranceMemberId: string;
+  dateOfBirth: string;
   ip: string;
   userAgent: string;
 }) {
@@ -45,6 +49,8 @@ function bookingEmailBody(input: {
     `Source page: ${input.sourcePage || "-"}`,
     `Preferred language: ${input.preferredLanguage || "-"}`,
     `Time zone: ${input.timeZone || "-"}`,
+    `Insurance member ID: ${input.insuranceMemberId || "-"}`,
+    `Date of birth: ${input.dateOfBirth || "-"}`,
     `IP: ${input.ip || "-"}`,
     `User agent: ${input.userAgent || "-"}`,
     "",
@@ -70,6 +76,8 @@ export async function submitContact(request: Request, env: Env, ctx?: ExecutionC
   const preferredLanguage = payload.preferredLanguage?.trim().slice(0, 16) || "";
   const cf = request.cf as { timezone?: string } | undefined;
   const timeZone = (payload.timeZone?.trim() || cf?.timezone || "").slice(0, 80);
+  const insuranceMemberId = payload.insuranceMemberId?.trim().slice(0, 120) || "";
+  const dateOfBirth = payload.dateOfBirth?.trim().slice(0, 32) || "";
 
   if (name.length < 2) return badRequest(request, env, "Name is required");
   if (name.length > 120) return badRequest(request, env, "Name is too long");
@@ -82,7 +90,7 @@ export async function submitContact(request: Request, env: Env, ctx?: ExecutionC
   const leadId = randomId("lead_");
   const ip = request.headers.get("CF-Connecting-IP") || "";
   const userAgent = request.headers.get("User-Agent") || "";
-  const row = [now, name, email, message, sourcePage, preferredLanguage, timeZone, ip, userAgent];
+  const row = [now, name, email, message, sourcePage, preferredLanguage, timeZone, insuranceMemberId, dateOfBirth, ip, userAgent];
   let sheetStatus = "pending";
   let sheetError: string | null = null;
 
@@ -100,8 +108,8 @@ export async function submitContact(request: Request, env: Env, ctx?: ExecutionC
     await db
       .prepare(
         `INSERT INTO contact_leads
-         (id, name, email, message, source_page, preferred_language, time_zone, ip, user_agent, sheet_status, sheet_error, email_status, created_at, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+         (id, name, email, message, source_page, preferred_language, time_zone, insurance_member_id, date_of_birth, ip, user_agent, sheet_status, sheet_error, email_status, created_at, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       )
       .bind(
         leadId,
@@ -111,6 +119,8 @@ export async function submitContact(request: Request, env: Env, ctx?: ExecutionC
         sourcePage,
         preferredLanguage,
         timeZone,
+        insuranceMemberId,
+        dateOfBirth,
         ip,
         userAgent,
         sheetStatus,
@@ -134,6 +144,8 @@ export async function submitContact(request: Request, env: Env, ctx?: ExecutionC
           sourcePage,
           preferredLanguage,
           timeZone,
+          insuranceMemberId,
+          dateOfBirth,
           ip,
           userAgent,
         }),

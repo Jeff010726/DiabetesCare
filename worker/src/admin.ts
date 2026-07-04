@@ -172,7 +172,7 @@ export async function adminBookings(request: Request, env: Env) {
   const limit = Math.min(Math.max(Number(new URL(request.url).searchParams.get("limit") || 50), 1), 100);
   const rows = await getDb(env)
     .prepare(
-      `SELECT id, name, email, message, source_page, preferred_language, time_zone, sheet_status, sheet_error, email_status, email_error, email_notified_at, created_at
+      `SELECT id, name, email, message, source_page, preferred_language, time_zone, insurance_member_id, date_of_birth, sheet_status, sheet_error, email_status, email_error, email_notified_at, created_at
        FROM contact_leads
        WHERE source_page LIKE '%/booking%' OR message LIKE 'Booking request:%'
        ORDER BY created_at DESC
@@ -340,7 +340,7 @@ export function adminPage(request: Request, env: Env) {
     .status-panel strong { display: block; margin-bottom: 4px; }
     .status-panel .primary { white-space: nowrap; }
     .tablewrap { overflow: auto; background: white; border: 1px solid #e5e7eb; border-radius: 8px; }
-    table { width: 100%; border-collapse: collapse; min-width: 880px; }
+    table { width: 100%; border-collapse: collapse; min-width: 1180px; }
     th, td { padding: 12px 14px; border-bottom: 1px solid #eef0f4; text-align: left; font-size: 14px; vertical-align: top; }
     th { background: #f9fafb; color: #475467; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
     td.message { max-width: 360px; white-space: pre-wrap; }
@@ -441,6 +441,8 @@ export function adminPage(request: Request, env: Env) {
         preferredLanguage: fields["preferred language"] || "",
         availability: fields["available time"] || "",
         timeZone: fields["time zone"] || "",
+        insuranceMemberId: fields["insurance member id"] || "",
+        dateOfBirth: fields["date of birth"] || "",
         pageLanguage: fields["page language"] || "",
       };
     }
@@ -810,9 +812,11 @@ export function adminPage(request: Request, env: Env) {
           booking.email,
           parsed.phone,
           parsed.age,
+          booking.date_of_birth || parsed.dateOfBirth,
           parsed.preferredLanguage || booking.preferred_language,
           parsed.availability,
           booking.time_zone || parsed.timeZone,
+          booking.insurance_member_id || parsed.insuranceMemberId,
           booking.source_page,
           booking.sheet_status,
           booking.sheet_error,
@@ -821,12 +825,12 @@ export function adminPage(request: Request, env: Env) {
         ];
         cells.forEach((cell, index) => {
           const td = document.createElement("td");
-          if (index === 9) {
+          if (index === 11) {
             const span = document.createElement("span");
             span.className = "badge " + (cell === "failed" ? "failed" : "");
             span.textContent = text(cell);
             td.appendChild(span);
-          } else if (index === 11) {
+          } else if (index === 13) {
             const span = document.createElement("span");
             span.className = "badge " + (cell === "failed" ? "failed" : "");
             span.textContent = text(cell || "unknown");
@@ -838,7 +842,7 @@ export function adminPage(request: Request, env: Env) {
         });
         return tr;
       });
-      renderRows(["Created", "Name", "Email", "Phone", "Age", "Preferred Language", "Available Time", "Time Zone", "Source", "Sheet", "Sheet Error", "Email", "Email Error"], rows, smtpPanelHtml(smtp));
+      renderRows(["Created", "Name", "Email", "Phone", "Age", "Date of Birth", "Preferred Language", "Available Time", "Time Zone", "Insurance ID", "Source", "Sheet", "Sheet Error", "Email", "Email Error"], rows, smtpPanelHtml(smtp));
       bindSmtpTestButton();
     }
     async function loadMembers() {
