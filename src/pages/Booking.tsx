@@ -30,6 +30,7 @@ export default function Booking() {
     age: "",
     preferredLanguage: "",
     availability: "",
+    insuranceCompany: "",
     insuranceMemberId: "",
     dateOfBirth: "",
   });
@@ -62,6 +63,7 @@ export default function Booking() {
       `Preferred language: ${form.preferredLanguage}`,
       `Available time: ${form.availability}`,
       `Time zone: ${timeZone || "Unknown"}`,
+      `Insurance company: ${form.insuranceCompany || "-"}`,
       `Insurance member ID: ${form.insuranceMemberId || "-"}`,
       `Date of birth: ${form.dateOfBirth || "-"}`,
       `Page language: ${i18n.language}`,
@@ -77,6 +79,7 @@ export default function Booking() {
           sourcePage: window.location.pathname,
           preferredLanguage: form.preferredLanguage || i18n.language,
           timeZone,
+          insuranceCompany: form.insuranceCompany,
           insuranceMemberId: form.insuranceMemberId,
           dateOfBirth: form.dateOfBirth,
         },
@@ -235,6 +238,16 @@ export default function Booking() {
               <p className="text-sm font-bold text-green-900">{t("booking.form.optionalInsuranceTitle")}</p>
               <p className="mt-1 text-sm leading-6 text-green-800">{t("booking.form.optionalInsuranceDesc")}</p>
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label className="mb-1.5 block text-sm font-bold text-gray-800">{t("booking.form.fields.insuranceCompany")}</label>
+                  <input
+                    type="text"
+                    value={form.insuranceCompany}
+                    onChange={updateField("insuranceCompany")}
+                    className="h-[52px] w-full rounded-2xl border border-gray-200 bg-white px-4 text-base text-gray-900 outline-none transition focus:border-[var(--color-brand-purple)] focus:ring-4 focus:ring-[var(--color-brand-purple)]/10"
+                    placeholder={t("booking.form.placeholders.insuranceCompany")}
+                  />
+                </div>
                 <div>
                   <label className="mb-1.5 block text-sm font-bold text-gray-800">{t("booking.form.fields.insuranceMemberId")}</label>
                   <input
