@@ -1,4 +1,5 @@
 name = "diabetescare-api"
+account_id = "811cbfdf5fdcd2556b4ef1a0143312f8"
 main = "worker/src/index.ts"
 compatibility_date = "2026-05-19"
 compatibility_flags = ["nodejs_compat"]
