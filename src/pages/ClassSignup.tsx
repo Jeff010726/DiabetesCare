@@ -122,30 +122,38 @@ export default function ClassSignup() {
     }
 
     try {
+      const requestPayload = {
+        ...form,
+        sourcePage: window.location.pathname,
+        preferredSiteLanguage: i18n.language,
+      };
+      const hasInsuranceCards = Boolean(insuranceCards.front || insuranceCards.back);
       const formData = new FormData();
-      formData.set("fullName", form.fullName);
-      formData.set("dateOfBirth", form.dateOfBirth);
-      formData.set("email", form.email);
-      formData.set("ageRange", form.ageRange);
-      formData.set("gender", form.gender);
-      formData.set("genderOther", form.genderOther);
-      formData.set("raceEthnicity", JSON.stringify(form.raceEthnicity));
-      formData.set("primaryLanguage", form.primaryLanguage);
-      formData.set("primaryLanguageOther", form.primaryLanguageOther);
-      formData.set("stateResidence", form.stateResidence);
-      formData.set("educationLevel", form.educationLevel);
-      formData.set("hasUsHealthInsurance", form.hasUsHealthInsurance);
-      formData.set("diagnosedConditions", JSON.stringify(form.diagnosedConditions));
-      formData.set("bloodSugarMonitoring", form.bloodSugarMonitoring);
-      formData.set("diabetesMedications", JSON.stringify(form.diabetesMedications));
-      formData.set("agreementAccepted", String(form.agreementAccepted));
-      formData.set("sourcePage", window.location.pathname);
-      formData.set("preferredSiteLanguage", i18n.language);
-      if (insuranceCards.front) formData.set("insuranceCardFront", insuranceCards.front);
-      if (insuranceCards.back) formData.set("insuranceCardBack", insuranceCards.back);
+      if (hasInsuranceCards) {
+        formData.set("fullName", form.fullName);
+        formData.set("dateOfBirth", form.dateOfBirth);
+        formData.set("email", form.email);
+        formData.set("ageRange", form.ageRange);
+        formData.set("gender", form.gender);
+        formData.set("genderOther", form.genderOther);
+        formData.set("raceEthnicity", JSON.stringify(form.raceEthnicity));
+        formData.set("primaryLanguage", form.primaryLanguage);
+        formData.set("primaryLanguageOther", form.primaryLanguageOther);
+        formData.set("stateResidence", form.stateResidence);
+        formData.set("educationLevel", form.educationLevel);
+        formData.set("hasUsHealthInsurance", form.hasUsHealthInsurance);
+        formData.set("diagnosedConditions", JSON.stringify(form.diagnosedConditions));
+        formData.set("bloodSugarMonitoring", form.bloodSugarMonitoring);
+        formData.set("diabetesMedications", JSON.stringify(form.diabetesMedications));
+        formData.set("agreementAccepted", String(form.agreementAccepted));
+        formData.set("sourcePage", window.location.pathname);
+        formData.set("preferredSiteLanguage", i18n.language);
+        if (insuranceCards.front) formData.set("insuranceCardFront", insuranceCards.front);
+        if (insuranceCards.back) formData.set("insuranceCardBack", insuranceCards.back);
+      }
       await apiRequest<{ ok: boolean; id: string }>("/api/class-signup", {
         method: "POST",
-        body: formData,
+        body: hasInsuranceCards ? formData : requestPayload,
       });
       trackEvent({ eventType: "class_signup", eventName: "dsmes_class_signup_form" });
       navigate("/sign-up-class-thank-you");
