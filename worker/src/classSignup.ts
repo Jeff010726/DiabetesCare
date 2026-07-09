@@ -16,9 +16,6 @@ const insuranceCardExtensions: Record<string, string> = {
 };
 
 type ClassSignupPayload = {
-  fullName?: string;
-  dateOfBirth?: string;
-  email?: string;
   ageRange?: string;
   gender?: string;
   genderOther?: string;
@@ -49,10 +46,6 @@ type StoredInsuranceCard = {
   contentType: string;
   sizeBytes: number;
 };
-
-function validEmail(email: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
 
 function trim(value: unknown, max = 500) {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
@@ -103,9 +96,6 @@ async function readSignupInput(request: Request): Promise<{ payload: ClassSignup
     if (back) cards.push({ kind: "back", file: back });
     return {
       payload: {
-        fullName: formText(form, "fullName"),
-        dateOfBirth: formText(form, "dateOfBirth"),
-        email: formText(form, "email"),
         ageRange: formText(form, "ageRange"),
         gender: formText(form, "gender"),
         genderOther: formText(form, "genderOther"),
@@ -144,9 +134,6 @@ function insuranceCardError(cards: InsuranceCardUpload[]) {
 function signupEmailBody(input: {
   id: string;
   createdAt: string;
-  fullName: string;
-  dateOfBirth: string;
-  email: string;
   ageRange: string;
   gender: string;
   genderOther: string;
@@ -171,10 +158,6 @@ function signupEmailBody(input: {
     "",
     `Signup ID: ${input.id}`,
     `Submitted: ${input.createdAt}`,
-    `Full name: ${input.fullName}`,
-    `Date of birth: ${input.dateOfBirth}`,
-    `Email: ${input.email}`,
-    "",
     "Survey answers:",
     `1. Age: ${input.ageRange}`,
     `2. Gender: ${input.gender}${input.genderOther ? ` - ${input.genderOther}` : ""}`,
@@ -212,9 +195,6 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
   if (!input) return badRequest(request, env, "Invalid form submission");
 
   const { payload, cards } = input;
-  const fullName = trim(payload.fullName, 180);
-  const dateOfBirth = trim(payload.dateOfBirth, 32);
-  const email = trim(payload.email, 254).toLowerCase();
   const ageRange = trim(payload.ageRange, 40);
   const gender = trim(payload.gender, 80);
   const genderOther = trim(payload.genderOther, 160);
@@ -230,9 +210,6 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
   const sourcePage = trim(payload.sourcePage, 200);
   const preferredSiteLanguage = trim(payload.preferredSiteLanguage, 32);
 
-  if (fullName.length < 2) return badRequest(request, env, "Full name is required");
-  if (!dateOfBirth) return badRequest(request, env, "Date of birth is required");
-  if (!validEmail(email)) return badRequest(request, env, "Valid email is required");
   if (!ageRange) return badRequest(request, env, "Age is required");
   if (!gender) return badRequest(request, env, "Gender is required");
   if (raceEthnicity.length < 1) return badRequest(request, env, "Race/ethnicity is required");
@@ -247,6 +224,9 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
 
   const cardValidationError = insuranceCardError(cards);
   if (cardValidationError) return badRequest(request, env, cardValidationError);
+  if (cards.length !== 2 || !cards.some((card) => card.kind === "front") || !cards.some((card) => card.kind === "back")) {
+    return badRequest(request, env, "Both front and back insurance card photos are required");
+  }
   if (cards.length && !env.INSURANCE_CARDS) {
     return json(request, env, { error: "Insurance card uploads are temporarily unavailable" }, { status: 503 });
   }
@@ -293,9 +273,9 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
         )
         .bind(
           signupId,
-          fullName,
-          dateOfBirth,
-          email,
+          "",
+          "",
+          "",
           ageRange,
           gender,
           genderOther,
@@ -338,9 +318,6 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
   const emailInput = {
     id: signupId,
     createdAt: now,
-    fullName,
-    dateOfBirth,
-    email,
     ageRange,
     gender,
     genderOther,
@@ -361,8 +338,7 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
     userAgent,
   };
   const notify = sendSmtpEmail(env, {
-    subject: `New DSMES class signup from ${fullName}`,
-    replyTo: email,
+    subject: "New DSMES class signup",
     text: signupEmailBody(emailInput),
   });
   const recordEmailStatus = notify

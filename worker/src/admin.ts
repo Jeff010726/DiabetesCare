@@ -203,7 +203,7 @@ export async function adminClassSignups(request: Request, env: Env) {
   const db = getDb(env);
   const rows = await db
     .prepare(
-      `SELECT id, full_name, date_of_birth, email, age_range, gender, gender_other, race_ethnicity,
+      `SELECT id, age_range, gender, gender_other, race_ethnicity,
               primary_language, primary_language_other, state_residence, education_level, has_us_health_insurance,
               diagnosed_conditions, blood_sugar_monitoring, diabetes_medications, agreement_accepted,
               agreement_version, agreement_accepted_at, email_status, email_error, created_at
@@ -993,9 +993,6 @@ export function adminPage(request: Request, env: Env) {
         const files = Array.isArray(signup.files) ? signup.files : [];
         const cells = [
           date(signup.created_at),
-          signup.full_name,
-          signup.date_of_birth,
-          signup.email,
           signup.age_range,
           signup.gender,
           signup.gender_other,
@@ -1017,8 +1014,8 @@ export function adminPage(request: Request, env: Env) {
         ];
         cells.forEach((cell, index) => {
           const td = document.createElement("td");
-          if ([7, 13, 15, 21].includes(index)) td.className = "message";
-          if (index === 16) {
+          if ([4, 10, 12, 18].includes(index)) td.className = "message";
+          if (index === 13) {
             if (!cell.length) {
               td.textContent = "Not uploaded";
             } else {
@@ -1033,7 +1030,7 @@ export function adminPage(request: Request, env: Env) {
               });
               td.appendChild(links);
             }
-          } else if (index === 17 || index === 20) {
+          } else if (index === 14 || index === 17) {
             const span = document.createElement("span");
             span.className = "badge " + (cell === "failed" || cell === "Missing" ? "failed" : "");
             span.textContent = text(cell);
@@ -1045,7 +1042,7 @@ export function adminPage(request: Request, env: Env) {
         });
         return tr;
       });
-      renderRows(["Created", "Full Name", "DOB", "Email", "Age", "Gender", "Gender Other", "Race/Ethnicity", "Language", "Language Other", "State", "Education", "Insurance", "Conditions", "Blood Sugar Monitoring", "Diabetes Medications", "Insurance Card", "Agreement", "Agreement Version", "Accepted At", "Email", "Email Error"], rows);
+      renderRows(["Created", "Age", "Gender", "Gender Other", "Race/Ethnicity", "Language", "Language Other", "State", "Education", "Insurance", "Conditions", "Blood Sugar Monitoring", "Diabetes Medications", "Insurance Card", "Agreement", "Agreement Version", "Accepted At", "Email", "Email Error"], rows);
     }
     async function loadMembers() {
       $("title").textContent = "Members";

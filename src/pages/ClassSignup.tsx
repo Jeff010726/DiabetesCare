@@ -56,9 +56,6 @@ export default function ClassSignup() {
     back: null as File | null,
   });
   const [form, setForm] = useState({
-    fullName: "",
-    dateOfBirth: "",
-    email: "",
     ageRange: "",
     gender: "",
     genderOther: "",
@@ -114,6 +111,11 @@ export default function ClassSignup() {
       setError("Please answer all required multiple-choice questions.");
       return;
     }
+    if (!insuranceCards.front || !insuranceCards.back) {
+      setStatus("error");
+      setError("Please upload clear photos of both the front and back of your insurance card.");
+      return;
+    }
     const oversizedCard = [insuranceCards.front, insuranceCards.back].find((file) => file && file.size > maxInsuranceCardBytes);
     if (oversizedCard) {
       setStatus("error");
@@ -122,38 +124,27 @@ export default function ClassSignup() {
     }
 
     try {
-      const requestPayload = {
-        ...form,
-        sourcePage: window.location.pathname,
-        preferredSiteLanguage: i18n.language,
-      };
-      const hasInsuranceCards = Boolean(insuranceCards.front || insuranceCards.back);
       const formData = new FormData();
-      if (hasInsuranceCards) {
-        formData.set("fullName", form.fullName);
-        formData.set("dateOfBirth", form.dateOfBirth);
-        formData.set("email", form.email);
-        formData.set("ageRange", form.ageRange);
-        formData.set("gender", form.gender);
-        formData.set("genderOther", form.genderOther);
-        formData.set("raceEthnicity", JSON.stringify(form.raceEthnicity));
-        formData.set("primaryLanguage", form.primaryLanguage);
-        formData.set("primaryLanguageOther", form.primaryLanguageOther);
-        formData.set("stateResidence", form.stateResidence);
-        formData.set("educationLevel", form.educationLevel);
-        formData.set("hasUsHealthInsurance", form.hasUsHealthInsurance);
-        formData.set("diagnosedConditions", JSON.stringify(form.diagnosedConditions));
-        formData.set("bloodSugarMonitoring", form.bloodSugarMonitoring);
-        formData.set("diabetesMedications", JSON.stringify(form.diabetesMedications));
-        formData.set("agreementAccepted", String(form.agreementAccepted));
-        formData.set("sourcePage", window.location.pathname);
-        formData.set("preferredSiteLanguage", i18n.language);
-        if (insuranceCards.front) formData.set("insuranceCardFront", insuranceCards.front);
-        if (insuranceCards.back) formData.set("insuranceCardBack", insuranceCards.back);
-      }
+      formData.set("ageRange", form.ageRange);
+      formData.set("gender", form.gender);
+      formData.set("genderOther", form.genderOther);
+      formData.set("raceEthnicity", JSON.stringify(form.raceEthnicity));
+      formData.set("primaryLanguage", form.primaryLanguage);
+      formData.set("primaryLanguageOther", form.primaryLanguageOther);
+      formData.set("stateResidence", form.stateResidence);
+      formData.set("educationLevel", form.educationLevel);
+      formData.set("hasUsHealthInsurance", form.hasUsHealthInsurance);
+      formData.set("diagnosedConditions", JSON.stringify(form.diagnosedConditions));
+      formData.set("bloodSugarMonitoring", form.bloodSugarMonitoring);
+      formData.set("diabetesMedications", JSON.stringify(form.diabetesMedications));
+      formData.set("agreementAccepted", String(form.agreementAccepted));
+      formData.set("sourcePage", window.location.pathname);
+      formData.set("preferredSiteLanguage", i18n.language);
+      formData.set("insuranceCardFront", insuranceCards.front);
+      formData.set("insuranceCardBack", insuranceCards.back);
       await apiRequest<{ ok: boolean; id: string }>("/api/class-signup", {
         method: "POST",
-        body: hasInsuranceCards ? formData : requestPayload,
+        body: formData,
       });
       trackEvent({ eventType: "class_signup", eventName: "dsmes_class_signup_form" });
       navigate("/sign-up-class-thank-you");
@@ -176,7 +167,7 @@ export default function ClassSignup() {
               DSME Class sign up
             </h1>
             <p className="mt-5 max-w-3xl text-lg leading-8 text-gray-700">
-              Complete the enrollment questions and accept the confidentiality agreement so our team can follow up about class participation.
+              Complete the enrollment questions and accept the confidentiality agreement so our team can review class participation.
             </p>
           </div>
           <div className="rounded-3xl border border-white bg-white/85 p-5 shadow-xl sm:p-6">
@@ -195,16 +186,6 @@ export default function ClassSignup() {
 
       <main className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
         <form className="space-y-5" onSubmit={submit}>
-          <section className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm sm:p-6">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Your full name" value={form.fullName} onChange={updateText("fullName")} required />
-              <Field label="Date of birth" type="date" value={form.dateOfBirth} onChange={updateText("dateOfBirth")} required />
-              <div className="sm:col-span-2">
-                <Field label="Email address" type="email" value={form.email} onChange={updateText("email")} required />
-              </div>
-            </div>
-          </section>
-
           <Question title="1. What is your age?">
             <RadioGroup name="ageRange" options={ageOptions} value={form.ageRange} onChange={(value) => updateChoice("ageRange", value)} required />
           </Question>
@@ -257,25 +238,6 @@ export default function ClassSignup() {
             />
           </Question>
 
-          <section className="rounded-3xl border border-emerald-100 bg-emerald-50/45 p-5 shadow-sm sm:p-6">
-            <div className="flex items-start gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-emerald-700 shadow-sm">
-                <ImageUp className="h-5 w-5" />
-              </div>
-              <div>
-                <h2 className="text-lg font-bold text-gray-900">Insurance card photos <span className="font-medium text-gray-500">(optional)</span></h2>
-                <p className="mt-1 text-sm leading-6 text-gray-600">
-                  Upload clear photos of your card so our team can review coverage before enrollment. Images are stored privately and are only available to authorized staff.
-                </p>
-              </div>
-            </div>
-            <div className="mt-5 grid gap-4 sm:grid-cols-2">
-              <FileField label="Front of insurance card" file={insuranceCards.front} onChange={updateInsuranceCard("front")} />
-              <FileField label="Back of insurance card" file={insuranceCards.back} onChange={updateInsuranceCard("back")} />
-            </div>
-            <p className="mt-4 text-xs leading-5 text-gray-500">JPG, PNG, WEBP, HEIC, or HEIF. Maximum 8 MB per photo.</p>
-          </section>
-
           <Question title="8. Have you ever been told by a healthcare provider that you have any of the following conditions? (Select all that apply)">
             <CheckboxGroup options={conditionOptions} values={form.diagnosedConditions} onChange={(value) => toggleList("diagnosedConditions", value)} />
           </Question>
@@ -293,6 +255,25 @@ export default function ClassSignup() {
           <Question title="10. Are you currently taking medication for diabetes?">
             <CheckboxGroup options={medicationOptions} values={form.diabetesMedications} onChange={(value) => toggleList("diabetesMedications", value)} />
           </Question>
+
+          <section className="rounded-3xl border border-emerald-100 bg-emerald-50/45 p-5 shadow-sm sm:p-6">
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-emerald-700 shadow-sm">
+                <ImageUp className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-gray-900">Insurance card photos</h2>
+                <p className="mt-1 text-sm leading-6 text-gray-600">
+                  Upload clear photos of the front and back of your card. They are stored privately and are only available to authorized staff.
+                </p>
+              </div>
+            </div>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              <FileField label="Front of insurance card" file={insuranceCards.front} onChange={updateInsuranceCard("front")} required />
+              <FileField label="Back of insurance card" file={insuranceCards.back} onChange={updateInsuranceCard("back")} required />
+            </div>
+            <p className="mt-4 text-xs leading-5 text-gray-500">JPG, PNG, WEBP, HEIC, or HEIF. Maximum 8 MB per photo.</p>
+          </section>
 
           <section className="rounded-3xl border border-[var(--color-brand-purple)]/15 bg-[var(--color-brand-purple-light)]/35 p-5 sm:p-6">
             <label className="flex items-start gap-3">
@@ -362,7 +343,7 @@ function Question({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-function FileField({ label, file, onChange }: { label: string; file: File | null; onChange: (event: ChangeEvent<HTMLInputElement>) => void }) {
+function FileField({ label, file, onChange, required }: { label: string; file: File | null; onChange: (event: ChangeEvent<HTMLInputElement>) => void; required?: boolean }) {
   return (
     <label className="block">
       <span className="mb-1.5 block text-sm font-bold text-gray-800">{label}</span>
@@ -370,6 +351,7 @@ function FileField({ label, file, onChange }: { label: string; file: File | null
         type="file"
         accept={insuranceCardAccept}
         onChange={onChange}
+        required={required}
         className="block w-full cursor-pointer rounded-2xl border border-gray-200 bg-white px-3 py-3 text-sm text-gray-700 file:mr-3 file:rounded-xl file:border-0 file:bg-[var(--color-brand-purple-light)] file:px-3 file:py-2 file:text-sm file:font-bold file:text-[var(--color-brand-purple)]"
       />
       {file && <span className="mt-2 block break-all text-xs font-semibold text-emerald-700">Selected: {file.name}</span>}
