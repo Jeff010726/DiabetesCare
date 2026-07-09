@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, ReactNode, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, ClipboardList, ImageUp, ShieldCheck } from "lucide-react";
+import imageCompression from "browser-image-compression";
 import { useTranslation } from "react-i18next";
 import { apiRequest } from "../lib/api";
 import { trackEvent } from "../lib/analytics";
@@ -43,8 +44,27 @@ const medicationOptions = [
   "Yes, I am using GLP-1 receptor agonist (Semaglutide, Liraglutide, etc.)",
   "No",
 ];
-const maxInsuranceCardBytes = 8 * 1024 * 1024;
 const insuranceCardAccept = "image/jpeg,image/png,image/webp,image/heic,image/heif";
+
+function compressedCardName(name: string) {
+  const baseName = name.replace(/\.[^/.]+$/, "").replace(/[^a-zA-Z0-9-_]+/g, "-").replace(/^-+|-+$/g, "") || "insurance-card";
+  return `${baseName}.jpg`;
+}
+
+async function optimizeInsuranceCard(file: File) {
+  const optimized = await imageCompression(file, {
+    maxSizeMB: 1.5,
+    maxWidthOrHeight: 1920,
+    useWebWorker: true,
+    fileType: "image/jpeg",
+    initialQuality: 0.82,
+    preserveExif: false,
+  });
+  return new File([optimized], compressedCardName(file.name), {
+    type: "image/jpeg",
+    lastModified: Date.now(),
+  });
+}
 
 export default function ClassSignup() {
   const navigate = useNavigate();
@@ -55,6 +75,7 @@ export default function ClassSignup() {
     front: null as File | null,
     back: null as File | null,
   });
+  const [compressingCard, setCompressingCard] = useState<"front" | "back" | null>(null);
   const [form, setForm] = useState({
     ageRange: "",
     gender: "",
@@ -91,9 +112,26 @@ export default function ClassSignup() {
     });
   };
 
-  const updateInsuranceCard = (kind: "front" | "back") => (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0] || null;
-    setInsuranceCards((current) => ({ ...current, [kind]: file }));
+  const updateInsuranceCard = (kind: "front" | "back") => async (event: ChangeEvent<HTMLInputElement>) => {
+    const sourceFile = event.target.files?.[0] || null;
+    if (!sourceFile) {
+      setInsuranceCards((current) => ({ ...current, [kind]: null }));
+      return;
+    }
+
+    setError("");
+    setStatus("idle");
+    setCompressingCard(kind);
+    try {
+      const optimized = await optimizeInsuranceCard(sourceFile);
+      setInsuranceCards((current) => ({ ...current, [kind]: optimized }));
+    } catch {
+      setInsuranceCards((current) => ({ ...current, [kind]: null }));
+      setStatus("error");
+      setError("We couldn't optimize that photo. Please choose a clear JPG, PNG, or WEBP image.");
+    } finally {
+      setCompressingCard(null);
+    }
   };
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
@@ -116,10 +154,9 @@ export default function ClassSignup() {
       setError("Please upload clear photos of both the front and back of your insurance card.");
       return;
     }
-    const oversizedCard = [insuranceCards.front, insuranceCards.back].find((file) => file && file.size > maxInsuranceCardBytes);
-    if (oversizedCard) {
+    if (compressingCard) {
       setStatus("error");
-      setError("Each insurance card photo must be 8 MB or smaller.");
+      setError("Your insurance card photos are still being optimized. Please wait a moment.");
       return;
     }
 
@@ -264,15 +301,15 @@ export default function ClassSignup() {
               <div>
                 <h2 className="text-lg font-bold text-gray-900">Insurance card photos</h2>
                 <p className="mt-1 text-sm leading-6 text-gray-600">
-                  Upload clear photos of the front and back of your card. They are stored privately and are only available to authorized staff.
+                  Upload clear photos of the front and back of your card. Photos are optimized on this device before secure upload and are only available to authorized staff.
                 </p>
               </div>
             </div>
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
-              <FileField label="Front of insurance card" file={insuranceCards.front} onChange={updateInsuranceCard("front")} required />
-              <FileField label="Back of insurance card" file={insuranceCards.back} onChange={updateInsuranceCard("back")} required />
+              <FileField label="Front of insurance card" file={insuranceCards.front} onChange={updateInsuranceCard("front")} optimizing={compressingCard === "front"} required />
+              <FileField label="Back of insurance card" file={insuranceCards.back} onChange={updateInsuranceCard("back")} optimizing={compressingCard === "back"} required />
             </div>
-            <p className="mt-4 text-xs leading-5 text-gray-500">JPG, PNG, WEBP, HEIC, or HEIF. Maximum 8 MB per photo.</p>
+            <p className="mt-4 text-xs leading-5 text-gray-500">Choose a clear photo from your phone. It will be optimized before upload.</p>
           </section>
 
           <section className="rounded-3xl border border-[var(--color-brand-purple)]/15 bg-[var(--color-brand-purple-light)]/35 p-5 sm:p-6">
@@ -343,7 +380,7 @@ function Question({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-function FileField({ label, file, onChange, required }: { label: string; file: File | null; onChange: (event: ChangeEvent<HTMLInputElement>) => void; required?: boolean }) {
+function FileField({ label, file, onChange, optimizing, required }: { label: string; file: File | null; onChange: (event: ChangeEvent<HTMLInputElement>) => void; optimizing: boolean; required?: boolean }) {
   return (
     <label className="block">
       <span className="mb-1.5 block text-sm font-bold text-gray-800">{label}</span>
@@ -354,7 +391,8 @@ function FileField({ label, file, onChange, required }: { label: string; file: F
         required={required}
         className="block w-full cursor-pointer rounded-2xl border border-gray-200 bg-white px-3 py-3 text-sm text-gray-700 file:mr-3 file:rounded-xl file:border-0 file:bg-[var(--color-brand-purple-light)] file:px-3 file:py-2 file:text-sm file:font-bold file:text-[var(--color-brand-purple)]"
       />
-      {file && <span className="mt-2 block break-all text-xs font-semibold text-emerald-700">Selected: {file.name}</span>}
+      {optimizing && <span className="mt-2 block text-xs font-semibold text-[var(--color-brand-purple)]">Optimizing photo...</span>}
+      {file && !optimizing && <span className="mt-2 block break-all text-xs font-semibold text-emerald-700">Ready for secure upload: {file.name}</span>}
     </label>
   );
 }

@@ -6,7 +6,7 @@ import { sendSmtpEmail } from "./smtp";
 import type { Env } from "./types";
 
 const agreementVersion = "DSMES-confidentiality-ip-2026-07-09";
-const maxInsuranceCardBytes = 8 * 1024 * 1024;
+const maxInsuranceCardBytes = 20 * 1024 * 1024;
 const insuranceCardExtensions: Record<string, string> = {
   "image/jpeg": "jpg",
   "image/png": "png",
@@ -125,7 +125,7 @@ function insuranceCardError(cards: InsuranceCardUpload[]) {
       return "Insurance card photos must be JPG, PNG, WEBP, HEIC, or HEIF files";
     }
     if (card.file.size > maxInsuranceCardBytes) {
-      return "Each insurance card photo must be 8 MB or smaller";
+      return "Insurance card photo is too large to process";
     }
   }
   return null;
