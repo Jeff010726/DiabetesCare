@@ -15,6 +15,7 @@ export interface Env {
   SMTP_EHLO_DOMAIN?: string;
   BOOKING_NOTIFY_TO?: string;
   DB?: D1Database;
+  INSURANCE_CARDS?: R2Bucket;
 }
 
 export type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };

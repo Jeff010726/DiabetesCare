@@ -14,6 +14,17 @@ type DeleteBookingPayload = {
   id?: string;
 };
 
+type ClassSignupFileRow = {
+  id: string;
+  signup_id: string;
+  kind: "front" | "back";
+  object_key: string;
+  original_name: string;
+  content_type: string;
+  size_bytes: number;
+  created_at: string;
+};
+
 const adminCookieName = "xt_admin_session";
 const adminSessionMaxAgeSeconds = 60 * 60 * 8;
 
@@ -189,7 +200,8 @@ export async function adminClassSignups(request: Request, env: Env) {
   if (unauthorized) return unauthorized;
 
   const limit = Math.min(Math.max(Number(new URL(request.url).searchParams.get("limit") || 50), 1), 100);
-  const rows = await getDb(env)
+  const db = getDb(env);
+  const rows = await db
     .prepare(
       `SELECT id, full_name, date_of_birth, email, age_range, gender, gender_other, race_ethnicity,
               primary_language, primary_language_other, state_residence, education_level, has_us_health_insurance,
@@ -200,9 +212,65 @@ export async function adminClassSignups(request: Request, env: Env) {
        LIMIT ?`,
     )
     .bind(limit)
-    .all();
+    .all<{ id: string; [key: string]: unknown }>();
 
-  return adminJson(request, env, { signups: rows.results || [] });
+  const signups = rows.results || [];
+  const signupIds = signups.map((signup) => signup.id).filter(Boolean);
+  const filesBySignup = new Map<string, ClassSignupFileRow[]>();
+  if (signupIds.length) {
+    const files = await db
+      .prepare(
+        `SELECT id, signup_id, kind, object_key, original_name, content_type, size_bytes, created_at
+         FROM class_signup_files
+         WHERE signup_id IN (${signupIds.map(() => "?").join(", ")})
+         ORDER BY created_at ASC`,
+      )
+      .bind(...signupIds)
+      .all<ClassSignupFileRow>();
+    for (const file of files.results || []) {
+      const current = filesBySignup.get(file.signup_id) || [];
+      current.push(file);
+      filesBySignup.set(file.signup_id, current);
+    }
+  }
+
+  return adminJson(request, env, {
+    signups: signups.map((signup) => ({ ...signup, files: filesBySignup.get(signup.id) || [] })),
+  });
+}
+
+function safeDownloadFilename(value: string) {
+  return value.replace(/[\\/:*?"<>|\r\n]+/g, "_").slice(0, 180) || "insurance-card";
+}
+
+export async function adminDownloadClassSignupFile(request: Request, env: Env, signupId: string, fileId: string) {
+  const unauthorized = await requireAdmin(request, env);
+  if (unauthorized) return unauthorized;
+  if (!env.INSURANCE_CARDS) return adminJson(request, env, { error: "Insurance card storage is not configured" }, { status: 503 });
+
+  const file = await getDb(env)
+    .prepare(
+      `SELECT id, signup_id, kind, object_key, original_name, content_type, size_bytes, created_at
+       FROM class_signup_files
+       WHERE id = ? AND signup_id = ?
+       LIMIT 1`,
+    )
+    .bind(fileId, signupId)
+    .first<ClassSignupFileRow>();
+  if (!file) return adminJson(request, env, { error: "Insurance card file not found" }, { status: 404 });
+
+  const object = await env.INSURANCE_CARDS.get(file.object_key);
+  if (!object || !object.body) return adminJson(request, env, { error: "Insurance card object not found" }, { status: 404 });
+
+  return new Response(object.body, {
+    headers: {
+      ...responseHeaders(request, env),
+      "Cache-Control": "private, no-store",
+      "Content-Disposition": `attachment; filename="${safeDownloadFilename(file.original_name)}"`,
+      "Content-Length": String(object.size),
+      "Content-Type": object.httpMetadata?.contentType || file.content_type || "application/octet-stream",
+    },
+  });
 }
 
 export async function adminDeleteBooking(request: Request, env: Env) {
@@ -235,10 +303,29 @@ export async function adminDeleteClassSignup(request: Request, env: Env) {
   const id = payload?.id?.trim() || "";
   if (!id) return badRequest(request, env, "Class signup id is required");
 
-  const row = await getDb(env).prepare("SELECT id FROM class_signups WHERE id = ? LIMIT 1").bind(id).first<{ id: string }>();
+  const db = getDb(env);
+  const row = await db.prepare("SELECT id FROM class_signups WHERE id = ? LIMIT 1").bind(id).first<{ id: string }>();
   if (!row) return adminJson(request, env, { error: "Class signup not found" }, { status: 404 });
 
-  await getDb(env).prepare("DELETE FROM class_signups WHERE id = ?").bind(id).run();
+  const files = await db
+    .prepare("SELECT id, signup_id, kind, object_key, original_name, content_type, size_bytes, created_at FROM class_signup_files WHERE signup_id = ?")
+    .bind(id)
+    .all<ClassSignupFileRow>();
+  if ((files.results || []).length && !env.INSURANCE_CARDS) {
+    return adminJson(request, env, { error: "Insurance card storage is not configured" }, { status: 503 });
+  }
+  try {
+    const insuranceCards = env.INSURANCE_CARDS;
+    if (insuranceCards) {
+      await Promise.all((files.results || []).map((file) => insuranceCards.delete(file.object_key)));
+    }
+    await db.batch([
+      db.prepare("DELETE FROM class_signup_files WHERE signup_id = ?").bind(id),
+      db.prepare("DELETE FROM class_signups WHERE id = ?").bind(id),
+    ]);
+  } catch (error) {
+    return adminJson(request, env, { error: "Unable to delete class signup files" }, { status: 500 });
+  }
   return adminJson(request, env, { ok: true, id });
 }
 
@@ -382,6 +469,8 @@ export function adminPage(request: Request, env: Env) {
     td.message { max-width: 360px; white-space: pre-wrap; }
     .badge { display: inline-flex; border-radius: 999px; padding: 3px 8px; font-size: 12px; font-weight: 700; background: #eef2ff; color: #4338ca; }
     .badge.failed { background: #fff1f2; color: #be123c; }
+    .file-links { display: grid; gap: 6px; min-width: 92px; }
+    .file-link { color: #4338ca; font-size: 13px; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
     .login { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
     .login .card { width: min(420px, 100%); background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; }
     label { display: grid; gap: 6px; margin-top: 14px; font-weight: 700; font-size: 14px; }
@@ -901,6 +990,7 @@ export function adminPage(request: Request, env: Env) {
       const rows = data.signups.map((signup) => {
         const tr = document.createElement("tr");
         const agreement = signup.agreement_accepted ? "Accepted" : "Missing";
+        const files = Array.isArray(signup.files) ? signup.files : [];
         const cells = [
           date(signup.created_at),
           signup.full_name,
@@ -918,6 +1008,7 @@ export function adminPage(request: Request, env: Env) {
           listValue(signup.diagnosed_conditions),
           signup.blood_sugar_monitoring,
           listValue(signup.diabetes_medications),
+          files,
           agreement,
           signup.agreement_version,
           date(signup.agreement_accepted_at),
@@ -926,8 +1017,23 @@ export function adminPage(request: Request, env: Env) {
         ];
         cells.forEach((cell, index) => {
           const td = document.createElement("td");
-          if ([7, 13, 15, 20].includes(index)) td.className = "message";
-          if (index === 16 || index === 19) {
+          if ([7, 13, 15, 21].includes(index)) td.className = "message";
+          if (index === 16) {
+            if (!cell.length) {
+              td.textContent = "Not uploaded";
+            } else {
+              const links = document.createElement("div");
+              links.className = "file-links";
+              cell.forEach(function (file) {
+                const link = document.createElement("a");
+                link.className = "file-link";
+                link.href = "/admin/api/class-signups/" + encodeURIComponent(signup.id) + "/files/" + encodeURIComponent(file.id) + "/download";
+                link.textContent = file.kind === "back" ? "Download back" : "Download front";
+                links.appendChild(link);
+              });
+              td.appendChild(links);
+            }
+          } else if (index === 17 || index === 20) {
             const span = document.createElement("span");
             span.className = "badge " + (cell === "failed" || cell === "Missing" ? "failed" : "");
             span.textContent = text(cell);
@@ -939,7 +1045,7 @@ export function adminPage(request: Request, env: Env) {
         });
         return tr;
       });
-      renderRows(["Created", "Full Name", "DOB", "Email", "Age", "Gender", "Gender Other", "Race/Ethnicity", "Language", "Language Other", "State", "Education", "Insurance", "Conditions", "Blood Sugar Monitoring", "Diabetes Medications", "Agreement", "Agreement Version", "Accepted At", "Email", "Email Error"], rows);
+      renderRows(["Created", "Full Name", "DOB", "Email", "Age", "Gender", "Gender Other", "Race/Ethnicity", "Language", "Language Other", "State", "Education", "Insurance", "Conditions", "Blood Sugar Monitoring", "Diabetes Medications", "Insurance Card", "Agreement", "Agreement Version", "Accepted At", "Email", "Email Error"], rows);
     }
     async function loadMembers() {
       $("title").textContent = "Members";

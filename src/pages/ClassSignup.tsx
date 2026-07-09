@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, ReactNode, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, ClipboardList, ShieldCheck } from "lucide-react";
+import { ArrowRight, ClipboardList, ImageUp, ShieldCheck } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { apiRequest } from "../lib/api";
 import { trackEvent } from "../lib/analytics";
@@ -43,12 +43,18 @@ const medicationOptions = [
   "Yes, I am using GLP-1 receptor agonist (Semaglutide, Liraglutide, etc.)",
   "No",
 ];
+const maxInsuranceCardBytes = 8 * 1024 * 1024;
+const insuranceCardAccept = "image/jpeg,image/png,image/webp,image/heic,image/heif";
 
 export default function ClassSignup() {
   const navigate = useNavigate();
   const { i18n } = useTranslation();
   const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
   const [error, setError] = useState("");
+  const [insuranceCards, setInsuranceCards] = useState({
+    front: null as File | null,
+    back: null as File | null,
+  });
   const [form, setForm] = useState({
     fullName: "",
     dateOfBirth: "",
@@ -88,6 +94,11 @@ export default function ClassSignup() {
     });
   };
 
+  const updateInsuranceCard = (kind: "front" | "back") => (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null;
+    setInsuranceCards((current) => ({ ...current, [kind]: file }));
+  };
+
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setStatus("submitting");
@@ -103,15 +114,38 @@ export default function ClassSignup() {
       setError("Please answer all required multiple-choice questions.");
       return;
     }
+    const oversizedCard = [insuranceCards.front, insuranceCards.back].find((file) => file && file.size > maxInsuranceCardBytes);
+    if (oversizedCard) {
+      setStatus("error");
+      setError("Each insurance card photo must be 8 MB or smaller.");
+      return;
+    }
 
     try {
+      const formData = new FormData();
+      formData.set("fullName", form.fullName);
+      formData.set("dateOfBirth", form.dateOfBirth);
+      formData.set("email", form.email);
+      formData.set("ageRange", form.ageRange);
+      formData.set("gender", form.gender);
+      formData.set("genderOther", form.genderOther);
+      formData.set("raceEthnicity", JSON.stringify(form.raceEthnicity));
+      formData.set("primaryLanguage", form.primaryLanguage);
+      formData.set("primaryLanguageOther", form.primaryLanguageOther);
+      formData.set("stateResidence", form.stateResidence);
+      formData.set("educationLevel", form.educationLevel);
+      formData.set("hasUsHealthInsurance", form.hasUsHealthInsurance);
+      formData.set("diagnosedConditions", JSON.stringify(form.diagnosedConditions));
+      formData.set("bloodSugarMonitoring", form.bloodSugarMonitoring);
+      formData.set("diabetesMedications", JSON.stringify(form.diabetesMedications));
+      formData.set("agreementAccepted", String(form.agreementAccepted));
+      formData.set("sourcePage", window.location.pathname);
+      formData.set("preferredSiteLanguage", i18n.language);
+      if (insuranceCards.front) formData.set("insuranceCardFront", insuranceCards.front);
+      if (insuranceCards.back) formData.set("insuranceCardBack", insuranceCards.back);
       await apiRequest<{ ok: boolean; id: string }>("/api/class-signup", {
         method: "POST",
-        body: {
-          ...form,
-          sourcePage: window.location.pathname,
-          preferredSiteLanguage: i18n.language,
-        },
+        body: formData,
       });
       trackEvent({ eventType: "class_signup", eventName: "dsmes_class_signup_form" });
       navigate("/sign-up-class-thank-you");
@@ -154,8 +188,7 @@ export default function ClassSignup() {
       <main className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
         <form className="space-y-5" onSubmit={submit}>
           <section className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm sm:p-6">
-            <h2 className="text-xl font-bold text-gray-900">Your full name/date of birth/email address</h2>
-            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2">
               <Field label="Your full name" value={form.fullName} onChange={updateText("fullName")} required />
               <Field label="Date of birth" type="date" value={form.dateOfBirth} onChange={updateText("dateOfBirth")} required />
               <div className="sm:col-span-2">
@@ -215,6 +248,25 @@ export default function ClassSignup() {
               required
             />
           </Question>
+
+          <section className="rounded-3xl border border-emerald-100 bg-emerald-50/45 p-5 shadow-sm sm:p-6">
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-emerald-700 shadow-sm">
+                <ImageUp className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-gray-900">Insurance card photos <span className="font-medium text-gray-500">(optional)</span></h2>
+                <p className="mt-1 text-sm leading-6 text-gray-600">
+                  Upload clear photos of your card so our team can review coverage before enrollment. Images are stored privately and are only available to authorized staff.
+                </p>
+              </div>
+            </div>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              <FileField label="Front of insurance card" file={insuranceCards.front} onChange={updateInsuranceCard("front")} />
+              <FileField label="Back of insurance card" file={insuranceCards.back} onChange={updateInsuranceCard("back")} />
+            </div>
+            <p className="mt-4 text-xs leading-5 text-gray-500">JPG, PNG, WEBP, HEIC, or HEIF. Maximum 8 MB per photo.</p>
+          </section>
 
           <Question title="8. Have you ever been told by a healthcare provider that you have any of the following conditions? (Select all that apply)">
             <CheckboxGroup options={conditionOptions} values={form.diagnosedConditions} onChange={(value) => toggleList("diagnosedConditions", value)} />
@@ -299,6 +351,21 @@ function Question({ title, children }: { title: string; children: ReactNode }) {
       <h2 className="text-lg font-bold leading-7 text-gray-900">{title}</h2>
       <div className="mt-4">{children}</div>
     </section>
+  );
+}
+
+function FileField({ label, file, onChange }: { label: string; file: File | null; onChange: (event: ChangeEvent<HTMLInputElement>) => void }) {
+  return (
+    <label className="block">
+      <span className="mb-1.5 block text-sm font-bold text-gray-800">{label}</span>
+      <input
+        type="file"
+        accept={insuranceCardAccept}
+        onChange={onChange}
+        className="block w-full cursor-pointer rounded-2xl border border-gray-200 bg-white px-3 py-3 text-sm text-gray-700 file:mr-3 file:rounded-xl file:border-0 file:bg-[var(--color-brand-purple-light)] file:px-3 file:py-2 file:text-sm file:font-bold file:text-[var(--color-brand-purple)]"
+      />
+      {file && <span className="mt-2 block break-all text-xs font-semibold text-emerald-700">Selected: {file.name}</span>}
+    </label>
   );
 }
 

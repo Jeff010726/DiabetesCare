@@ -5,6 +5,7 @@ import {
   adminContactLeads,
   adminDeleteBooking,
   adminDeleteClassSignup,
+  adminDownloadClassSignupFile,
   adminLogin,
   adminLogout,
   adminMe,
@@ -45,6 +46,10 @@ function adminResponse(request: Request, env: Env) {
   if (url.pathname === "/admin/api/class-signups" && request.method === "GET") return adminClassSignups(request, env);
   if (url.pathname === "/admin/api/bookings/delete" && request.method === "POST") return adminDeleteBooking(request, env);
   if (url.pathname === "/admin/api/class-signups/delete" && request.method === "POST") return adminDeleteClassSignup(request, env);
+  const classSignupFileMatch = url.pathname.match(/^\/admin\/api\/class-signups\/([^/]+)\/files\/([^/]+)\/download$/);
+  if (classSignupFileMatch && request.method === "GET") {
+    return adminDownloadClassSignupFile(request, env, decodeURIComponent(classSignupFileMatch[1]), decodeURIComponent(classSignupFileMatch[2]));
+  }
   if (url.pathname === "/admin/api/smtp-status" && request.method === "GET") return adminSmtpStatus(request, env);
   if (url.pathname === "/admin/api/smtp-test" && request.method === "POST") return adminSmtpTest(request, env);
   if (url.pathname === "/admin/api/contact-leads" && request.method === "GET") return adminContactLeads(request, env);
