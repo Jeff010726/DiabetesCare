@@ -329,7 +329,7 @@ export const en = {
         },
         optionalInsuranceTitle: "Optional: help us check coverage before we call",
         optionalInsuranceDesc: "If you share your insurance company, member ID, and date of birth, our team can try to verify whether your plan may cover care before the call and tell you the result when we speak.",
-        languageOptions: ["English", "Mandarin Chinese", "Cantonese", "Spanish", "Other"],
+        languageOptions: ["English", "Mandarin Chinese", "Cantonese", "Other"],
         submitting: "Submitting...",
         submit: "Book a free call",
         fallbackError: "We couldn't submit your request. Please try again or contact us on WhatsApp.",

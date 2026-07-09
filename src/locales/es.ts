@@ -349,7 +349,7 @@
         },
         optionalInsuranceTitle: "Opcional: ayúdenos a verificar cobertura antes de llamar",
         optionalInsuranceDesc: "Si comparte la compañía de seguro, su ID de miembro y fecha de nacimiento, nuestro equipo puede intentar verificar si su plan podría cubrir la atención antes de la llamada y comentarle el resultado cuando hablemos.",
-        languageOptions: ["Inglés", "Chino mandarín", "Cantonés", "Español", "Otro"],
+        languageOptions: ["Inglés", "Chino mandarín", "Cantonés", "Otro"],
         submitting: "Enviando...",
         submit: "Reservar llamada gratis",
         fallbackError: "No pudimos enviar su solicitud. Inténtelo de nuevo o contáctenos por WhatsApp.",

@@ -327,7 +327,7 @@ export const zhCN = {
         },
         optionalInsuranceTitle: "选填：方便我们提前查询保险覆盖",
         optionalInsuranceDesc: "如果您愿意填写保险公司名称、保险单号和出生日期，我们可以在电话前尝试查询您的保险是否可能覆盖相关服务，并在通话时顺便告知结果。",
-        languageOptions: ["英语", "普通话", "粤语", "西班牙语", "其他"],
+        languageOptions: ["英语", "普通话", "粤语", "其他"],
         submitting: "提交中...",
         submit: "预约免费电话",
         fallbackError: "暂时无法提交预约。请稍后重试，或通过 WhatsApp 联系我们。",

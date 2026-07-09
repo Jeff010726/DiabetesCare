@@ -327,7 +327,7 @@ export const zhTW = {
         },
         optionalInsuranceTitle: "選填：方便我們提前查詢保險涵蓋",
         optionalInsuranceDesc: "如果您願意填寫保險公司名稱、保險單號和出生日期，我們可以在電話前嘗試查詢您的保險是否可能涵蓋相關服務，並在通話時順便告知結果。",
-        languageOptions: ["英語", "普通話", "粵語", "西班牙語", "其他"],
+        languageOptions: ["英語", "普通話", "粵語", "其他"],
         submitting: "提交中...",
         submit: "預約免費電話",
         fallbackError: "暫時無法提交預約。請稍後重試，或透過 WhatsApp 聯絡我們。",
