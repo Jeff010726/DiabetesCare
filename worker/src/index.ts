@@ -1,8 +1,10 @@
 import { adminAdsAnalytics, adminAnalyticsDashboard, collectAnalytics } from "./analytics";
 import {
   adminBookings,
+  adminClassSignups,
   adminContactLeads,
   adminDeleteBooking,
+  adminDeleteClassSignup,
   adminLogin,
   adminLogout,
   adminMe,
@@ -13,6 +15,7 @@ import {
   adminStats,
 } from "./admin";
 import { login, logout, me, register } from "./auth";
+import { submitClassSignup } from "./classSignup";
 import { submitContact } from "./contact";
 import { responseHeaders, json, serverError } from "./http";
 import type { Env } from "./types";
@@ -39,7 +42,9 @@ function adminResponse(request: Request, env: Env) {
   if (url.pathname === "/admin/api/analytics/dashboard" && request.method === "GET") return adminAnalyticsDashboard(request, env);
   if (url.pathname === "/admin/api/analytics/ads" && request.method === "GET") return adminAdsAnalytics(request, env);
   if (url.pathname === "/admin/api/bookings" && request.method === "GET") return adminBookings(request, env);
+  if (url.pathname === "/admin/api/class-signups" && request.method === "GET") return adminClassSignups(request, env);
   if (url.pathname === "/admin/api/bookings/delete" && request.method === "POST") return adminDeleteBooking(request, env);
+  if (url.pathname === "/admin/api/class-signups/delete" && request.method === "POST") return adminDeleteClassSignup(request, env);
   if (url.pathname === "/admin/api/smtp-status" && request.method === "GET") return adminSmtpStatus(request, env);
   if (url.pathname === "/admin/api/smtp-test" && request.method === "POST") return adminSmtpTest(request, env);
   if (url.pathname === "/admin/api/contact-leads" && request.method === "GET") return adminContactLeads(request, env);
@@ -74,6 +79,7 @@ async function route(request: Request, env: Env, ctx: ExecutionContext) {
 
   if (url.pathname === "/api/analytics/collect" && request.method === "POST") return collectAnalytics(request, env);
   if (url.pathname === "/api/contact" && request.method === "POST") return submitContact(request, env, ctx);
+  if (url.pathname === "/api/class-signup" && request.method === "POST") return submitClassSignup(request, env, ctx);
   if (url.pathname === "/api/auth/register" && request.method === "POST") return register(request, env);
   if (url.pathname === "/api/auth/login" && request.method === "POST") return login(request, env);
   if (url.pathname === "/api/auth/logout" && request.method === "POST") return logout(request, env);

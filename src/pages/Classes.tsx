@@ -11,8 +11,8 @@ import {
   SmilePlus,
   Users,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { bookingUrl } from "../lib/booking";
 import ProviderAccessCallout from "../components/ProviderAccessCallout";
 import TeachingTeamSection from "../components/TeachingTeamSection";
 import "../locales/servicePages";
@@ -65,10 +65,10 @@ export default function Classes() {
                 {t("classes.heroSubtitle")}
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a href={bookingUrl} className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-brand-purple)] px-7 py-4 text-base font-bold text-white shadow-lg transition hover:bg-[var(--color-brand-purple)]/90">
+                <Link to="/sign-up-class" className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-brand-purple)] px-7 py-4 text-base font-bold text-white shadow-lg transition hover:bg-[var(--color-brand-purple)]/90">
                   {t("classes.bookButton")}
                   <CheckCircle2 className="h-5 w-5" />
-                </a>
+                </Link>
                 <a href="#curriculum" className="inline-flex items-center justify-center rounded-full border-2 border-[var(--color-brand-purple)]/20 bg-white px-7 py-4 text-base font-bold text-[var(--color-brand-purple)] transition hover:bg-white/80">
                   {t("classes.viewCurriculumButton")}
                 </a>
@@ -232,9 +232,9 @@ export default function Classes() {
             </div>
           </div>
           <div className="flex items-center">
-            <a href={bookingUrl} className="inline-flex w-full items-center justify-center rounded-full bg-[var(--color-brand-purple)] px-8 py-4 font-bold text-white transition hover:bg-[var(--color-brand-purple)]/90 md:w-auto">
+            <Link to="/sign-up-class" className="inline-flex w-full items-center justify-center rounded-full bg-[var(--color-brand-purple)] px-8 py-4 font-bold text-white transition hover:bg-[var(--color-brand-purple)]/90 md:w-auto">
               {t("classes.bookButton")}
-            </a>
+            </Link>
           </div>
         </div>
 

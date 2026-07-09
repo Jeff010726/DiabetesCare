@@ -16,6 +16,9 @@ import Booking from './pages/Booking';
 import BookingWhatsApp from './pages/BookingWhatsApp';
 import ContactThankYou from './pages/ContactThankYou';
 import MemberThankYou from './pages/MemberThankYou';
+import ClassSignup from './pages/ClassSignup';
+import ClassAgreement from './pages/ClassAgreement';
+import ClassSignupThankYou from './pages/ClassSignupThankYou';
 
 export default function App() {
   return (
@@ -37,6 +40,9 @@ export default function App() {
         <Route path="booking" element={<Booking />} />
         <Route path="booking-redirect" element={<BookingRedirect />} />
         <Route path="booking-whatsapp" element={<BookingWhatsApp />} />
+        <Route path="sign-up-class" element={<ClassSignup />} />
+        <Route path="class-agreement" element={<ClassAgreement />} />
+        <Route path="sign-up-class-thank-you" element={<ClassSignupThankYou />} />
       </Route>
     </Routes>
   );

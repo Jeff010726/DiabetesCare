@@ -184,6 +184,27 @@ export async function adminBookings(request: Request, env: Env) {
   return adminJson(request, env, { bookings: rows.results || [] });
 }
 
+export async function adminClassSignups(request: Request, env: Env) {
+  const unauthorized = await requireAdmin(request, env);
+  if (unauthorized) return unauthorized;
+
+  const limit = Math.min(Math.max(Number(new URL(request.url).searchParams.get("limit") || 50), 1), 100);
+  const rows = await getDb(env)
+    .prepare(
+      `SELECT id, full_name, date_of_birth, email, age_range, gender, gender_other, race_ethnicity,
+              primary_language, primary_language_other, state_residence, education_level, has_us_health_insurance,
+              diagnosed_conditions, blood_sugar_monitoring, diabetes_medications, agreement_accepted,
+              agreement_version, agreement_accepted_at, email_status, email_error, created_at
+       FROM class_signups
+       ORDER BY created_at DESC
+       LIMIT ?`,
+    )
+    .bind(limit)
+    .all();
+
+  return adminJson(request, env, { signups: rows.results || [] });
+}
+
 export async function adminDeleteBooking(request: Request, env: Env) {
   const unauthorized = await requireAdmin(request, env);
   if (unauthorized) return unauthorized;
@@ -203,6 +224,21 @@ export async function adminDeleteBooking(request: Request, env: Env) {
   if (!row) return adminJson(request, env, { error: "Booking not found" }, { status: 404 });
 
   await getDb(env).prepare("DELETE FROM contact_leads WHERE id = ?").bind(id).run();
+  return adminJson(request, env, { ok: true, id });
+}
+
+export async function adminDeleteClassSignup(request: Request, env: Env) {
+  const unauthorized = await requireAdmin(request, env);
+  if (unauthorized) return unauthorized;
+
+  const payload = await readJson<DeleteBookingPayload>(request);
+  const id = payload?.id?.trim() || "";
+  if (!id) return badRequest(request, env, "Class signup id is required");
+
+  const row = await getDb(env).prepare("SELECT id FROM class_signups WHERE id = ? LIMIT 1").bind(id).first<{ id: string }>();
+  if (!row) return adminJson(request, env, { error: "Class signup not found" }, { status: 404 });
+
+  await getDb(env).prepare("DELETE FROM class_signups WHERE id = ?").bind(id).run();
   return adminJson(request, env, { ok: true, id });
 }
 
@@ -381,6 +417,7 @@ export function adminPage(request: Request, env: Env) {
         <button type="button" data-view="locations">Locations</button>
         <button type="button" data-view="conversions">Conversions</button>
         <button type="button" data-view="bookings">Bookings</button>
+        <button type="button" data-view="classSignups">Class Signups</button>
         <button type="button" data-view="leads">Contact Leads</button>
         <button type="button" data-view="members">Members</button>
       </nav>
@@ -847,6 +884,63 @@ export function adminPage(request: Request, env: Env) {
       renderRows(["Created", "Name", "Email", "Phone", "Age", "Date of Birth", "Preferred Language", "Available Time", "Time Zone", "Insurance Company", "Insurance ID", "Source", "Sheet", "Sheet Error", "Email", "Email Error"], rows, smtpPanelHtml(smtp));
       bindSmtpTestButton();
     }
+    async function loadClassSignups() {
+      $("title").textContent = "Class Signups";
+      $("range-caption").textContent = "DSMES class enrollment forms and confidentiality agreement acceptance.";
+      const data = await api("/admin/api/class-signups?limit=100");
+      function listValue(value) {
+        if (!value) return "";
+        try {
+          const parsed = JSON.parse(value);
+          if (Array.isArray(parsed)) return parsed.join(", ");
+        } catch (error) {
+          return value;
+        }
+        return value;
+      }
+      const rows = data.signups.map((signup) => {
+        const tr = document.createElement("tr");
+        const agreement = signup.agreement_accepted ? "Accepted" : "Missing";
+        const cells = [
+          date(signup.created_at),
+          signup.full_name,
+          signup.date_of_birth,
+          signup.email,
+          signup.age_range,
+          signup.gender,
+          signup.gender_other,
+          listValue(signup.race_ethnicity),
+          signup.primary_language,
+          signup.primary_language_other,
+          signup.state_residence,
+          signup.education_level,
+          signup.has_us_health_insurance,
+          listValue(signup.diagnosed_conditions),
+          signup.blood_sugar_monitoring,
+          listValue(signup.diabetes_medications),
+          agreement,
+          signup.agreement_version,
+          date(signup.agreement_accepted_at),
+          signup.email_status,
+          signup.email_error,
+        ];
+        cells.forEach((cell, index) => {
+          const td = document.createElement("td");
+          if ([7, 13, 15, 20].includes(index)) td.className = "message";
+          if (index === 16 || index === 19) {
+            const span = document.createElement("span");
+            span.className = "badge " + (cell === "failed" || cell === "Missing" ? "failed" : "");
+            span.textContent = text(cell);
+            td.appendChild(span);
+          } else {
+            td.textContent = text(cell);
+          }
+          tr.appendChild(td);
+        });
+        return tr;
+      });
+      renderRows(["Created", "Full Name", "DOB", "Email", "Age", "Gender", "Gender Other", "Race/Ethnicity", "Language", "Language Other", "State", "Education", "Insurance", "Conditions", "Blood Sugar Monitoring", "Diabetes Medications", "Agreement", "Agreement Version", "Accepted At", "Email", "Email Error"], rows);
+    }
     async function loadMembers() {
       $("title").textContent = "Members";
       $("range-caption").textContent = "";
@@ -866,6 +960,7 @@ export function adminPage(request: Request, env: Env) {
       if (state.view === "members") return loadMembers();
       if (state.view === "leads") return loadLeads();
       if (state.view === "bookings") return loadBookings();
+      if (state.view === "classSignups") return loadClassSignups();
       if (state.view === "ads") return renderAds();
       return loadAnalyticsView();
     }
