@@ -6,44 +6,6 @@ import { useTranslation } from "react-i18next";
 import { apiRequest } from "../lib/api";
 import { trackEvent } from "../lib/analytics";
 
-const ageOptions = ["18-24", "25-34", "35-44", "45-54", "55-64", "65+"];
-const genderOptions = ["Male", "Female", "Prefer not to answer", "Other"];
-const raceOptions = [
-  "American Indian or Alaska Native",
-  "Asian or Asian American",
-  "Black or African American",
-  "Hispanic or Latino",
-  "Middle Eastern or North African",
-  "Native Hawaiian or other Pacific Islander",
-  "White",
-  "Another race",
-];
-const languageOptions = ["English", "Spanish", "Chinese (Mandarin/Cantonese)", "Korean", "Vietnamese", "Other"];
-const educationOptions = [
-  "Did not complete high school",
-  "High school diploma/GED",
-  "Some college coursework",
-  "Bachelor's degree",
-  "Graduate degree or higher",
-];
-const insuranceOptions = ["Yes", "No", "Unsure"];
-const conditionOptions = [
-  "Prediabetes",
-  "Insulin Resistance",
-  "Type 1 diabetes",
-  "Type 2 diabetes",
-  "High blood pressure",
-  "High cholesterol",
-  "Heart disease",
-  "None of the above",
-];
-const monitoringOptions = ["Yes, daily", "Yes, weekly", "Occasionally", "No"];
-const medicationOptions = [
-  "Yes, I am taking oral medication",
-  "Yes, I am using injectable insulin",
-  "Yes, I am using GLP-1 receptor agonist (Semaglutide, Liraglutide, etc.)",
-  "No",
-];
 const insuranceCardAccept = "image/jpeg,image/png,image/webp,image/heic,image/heif";
 
 function compressedCardName(name: string) {
@@ -68,7 +30,16 @@ async function optimizeInsuranceCard(file: File) {
 
 export default function ClassSignup() {
   const navigate = useNavigate();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation("classSignup");
+  const ageOptions = t("options.ages", { returnObjects: true }) as string[];
+  const genderOptions = t("options.genders", { returnObjects: true }) as string[];
+  const raceOptions = t("options.races", { returnObjects: true }) as string[];
+  const languageOptions = t("options.languages", { returnObjects: true }) as string[];
+  const educationOptions = t("options.education", { returnObjects: true }) as string[];
+  const insuranceOptions = t("options.insurance", { returnObjects: true }) as string[];
+  const conditionOptions = t("options.conditions", { returnObjects: true }) as string[];
+  const monitoringOptions = t("options.monitoring", { returnObjects: true }) as string[];
+  const medicationOptions = t("options.medication", { returnObjects: true }) as string[];
   const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
   const [error, setError] = useState("");
   const [insuranceCards, setInsuranceCards] = useState({
@@ -128,7 +99,7 @@ export default function ClassSignup() {
     } catch {
       setInsuranceCards((current) => ({ ...current, [kind]: null }));
       setStatus("error");
-      setError("We couldn't optimize that photo. Please choose a clear JPG, PNG, or WEBP image.");
+      setError(t("fileOptimizationError"));
     } finally {
       setCompressingCard(null);
     }
@@ -141,22 +112,22 @@ export default function ClassSignup() {
 
     if (!form.agreementAccepted) {
       setStatus("error");
-      setError("Please agree to the confidentiality and intellectual property agreement before submitting.");
+      setError(t("errors.agreement"));
       return;
     }
     if (form.raceEthnicity.length < 1 || form.diagnosedConditions.length < 1 || form.diabetesMedications.length < 1) {
       setStatus("error");
-      setError("Please answer all required multiple-choice questions.");
+      setError(t("errors.choices"));
       return;
     }
     if (!insuranceCards.front || !insuranceCards.back) {
       setStatus("error");
-      setError("Please upload clear photos of both the front and back of your insurance card.");
+      setError(t("errors.cards"));
       return;
     }
     if (compressingCard) {
       setStatus("error");
-      setError("Your insurance card photos are still being optimized. Please wait a moment.");
+      setError(t("errors.optimizing"));
       return;
     }
 
@@ -187,7 +158,7 @@ export default function ClassSignup() {
       navigate("/sign-up-class-thank-you");
     } catch (submitError) {
       setStatus("error");
-      setError(submitError instanceof Error ? submitError.message : "Unable to submit the class signup form.");
+      setError(submitError instanceof Error ? submitError.message : t("errors.fallback"));
     }
   };
 
@@ -198,22 +169,22 @@ export default function ClassSignup() {
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-[var(--color-brand-purple)]/15 bg-white px-4 py-2 text-sm font-bold text-[var(--color-brand-purple)] shadow-sm">
               <ClipboardList className="h-4 w-4 text-[var(--color-brand-pink)]" />
-              DSME Class sign up
+              {t("badge")}
             </span>
             <h1 className="mt-5 max-w-4xl text-4xl font-bold leading-tight text-gray-900 sm:text-5xl">
-              DSME Class sign up
+              {t("title")}
             </h1>
             <p className="mt-5 max-w-3xl text-lg leading-8 text-gray-700">
-              Complete the enrollment questions and accept the confidentiality agreement so our team can review class participation.
+              {t("intro")}
             </p>
           </div>
           <div className="rounded-3xl border border-white bg-white/85 p-5 shadow-xl sm:p-6">
             <div className="flex items-start gap-3">
               <ShieldCheck className="mt-1 h-6 w-6 shrink-0 text-green-600" />
               <div>
-                <h2 className="text-lg font-bold text-gray-900">Confidentiality agreement required</h2>
+                <h2 className="text-lg font-bold text-gray-900">{t("agreementRequiredTitle")}</h2>
                 <p className="mt-2 text-sm leading-6 text-gray-600">
-                  You can open the agreement details before submitting. The checkbox at the end records your acceptance.
+                  {t("agreementRequiredBody")}
                 </p>
               </div>
             </div>
@@ -223,22 +194,22 @@ export default function ClassSignup() {
 
       <main className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
         <form className="space-y-5" onSubmit={submit}>
-          <Question title="1. What is your age?">
+          <Question title={t("questions.age")}>
             <RadioGroup name="ageRange" options={ageOptions} value={form.ageRange} onChange={(value) => updateChoice("ageRange", value)} required />
           </Question>
 
-          <Question title="2. What is your gender?">
+          <Question title={t("questions.gender")}>
             <RadioGroup name="gender" options={genderOptions} value={form.gender} onChange={(value) => updateChoice("gender", value)} required />
-            {form.gender === "Other" && (
-              <Field label="Other (please specify)" value={form.genderOther} onChange={updateText("genderOther")} className="mt-4" />
+            {form.gender === genderOptions[3] && (
+              <Field label={t("otherSpecify")} value={form.genderOther} onChange={updateText("genderOther")} className="mt-4" />
             )}
           </Question>
 
-          <Question title="3. What is your race/ethnicity? (Select all that apply)">
+          <Question title={t("questions.race")}>
             <CheckboxGroup options={raceOptions} values={form.raceEthnicity} onChange={(value) => toggleList("raceEthnicity", value)} />
           </Question>
 
-          <Question title="4. What is the primary language you speak?">
+          <Question title={t("questions.language")}>
             <RadioGroup
               name="primaryLanguage"
               options={languageOptions}
@@ -246,16 +217,16 @@ export default function ClassSignup() {
               onChange={(value) => updateChoice("primaryLanguage", value)}
               required
             />
-            {form.primaryLanguage === "Other" && (
-              <Field label="Other (please specify)" value={form.primaryLanguageOther} onChange={updateText("primaryLanguageOther")} className="mt-4" />
+            {form.primaryLanguage === languageOptions[5] && (
+              <Field label={t("otherSpecify")} value={form.primaryLanguageOther} onChange={updateText("primaryLanguageOther")} className="mt-4" />
             )}
           </Question>
 
-          <Question title="5. Which state do you reside in?">
-            <Field label="State" value={form.stateResidence} onChange={updateText("stateResidence")} required />
+          <Question title={t("questions.state")}>
+            <Field label={t("stateLabel")} value={form.stateResidence} onChange={updateText("stateResidence")} required />
           </Question>
 
-          <Question title="6. What is the highest level of education you have completed?">
+          <Question title={t("questions.education")}>
             <RadioGroup
               name="educationLevel"
               options={educationOptions}
@@ -265,7 +236,7 @@ export default function ClassSignup() {
             />
           </Question>
 
-          <Question title="7. Do you currently have health insurance in the U.S.?">
+          <Question title={t("questions.insurance")}>
             <RadioGroup
               name="hasUsHealthInsurance"
               options={insuranceOptions}
@@ -275,11 +246,11 @@ export default function ClassSignup() {
             />
           </Question>
 
-          <Question title="8. Have you ever been told by a healthcare provider that you have any of the following conditions? (Select all that apply)">
+          <Question title={t("questions.conditions")}>
             <CheckboxGroup options={conditionOptions} values={form.diagnosedConditions} onChange={(value) => toggleList("diagnosedConditions", value)} />
           </Question>
 
-          <Question title="9. Do you currently monitor your blood sugar levels?">
+          <Question title={t("questions.monitoring")}>
             <RadioGroup
               name="bloodSugarMonitoring"
               options={monitoringOptions}
@@ -289,7 +260,7 @@ export default function ClassSignup() {
             />
           </Question>
 
-          <Question title="10. Are you currently taking medication for diabetes?">
+          <Question title={t("questions.medication")}>
             <CheckboxGroup options={medicationOptions} values={form.diabetesMedications} onChange={(value) => toggleList("diabetesMedications", value)} />
           </Question>
 
@@ -299,17 +270,17 @@ export default function ClassSignup() {
                 <ImageUp className="h-5 w-5" />
               </div>
               <div>
-                <h2 className="text-lg font-bold text-gray-900">Insurance card photos</h2>
+                <h2 className="text-lg font-bold text-gray-900">{t("insuranceCardsTitle")}</h2>
                 <p className="mt-1 text-sm leading-6 text-gray-600">
-                  Upload clear photos of the front and back of your card. Photos are optimized on this device before secure upload and are only available to authorized staff.
+                  {t("insuranceCardsBody")}
                 </p>
               </div>
             </div>
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
-              <FileField label="Front of insurance card" file={insuranceCards.front} onChange={updateInsuranceCard("front")} optimizing={compressingCard === "front"} required />
-              <FileField label="Back of insurance card" file={insuranceCards.back} onChange={updateInsuranceCard("back")} optimizing={compressingCard === "back"} required />
+              <FileField label={t("insuranceFront")} file={insuranceCards.front} onChange={updateInsuranceCard("front")} optimizing={compressingCard === "front"} required optimizingLabel={t("optimizingPhoto")} readyLabel={t("photoReady", { name: "{{name}}" })} />
+              <FileField label={t("insuranceBack")} file={insuranceCards.back} onChange={updateInsuranceCard("back")} optimizing={compressingCard === "back"} required optimizingLabel={t("optimizingPhoto")} readyLabel={t("photoReady", { name: "{{name}}" })} />
             </div>
-            <p className="mt-4 text-xs leading-5 text-gray-500">Choose a clear photo from your phone. It will be optimized before upload.</p>
+            <p className="mt-4 text-xs leading-5 text-gray-500">{t("insuranceCardsHelp")}</p>
           </section>
 
           <section className="rounded-3xl border border-[var(--color-brand-purple)]/15 bg-[var(--color-brand-purple-light)]/35 p-5 sm:p-6">
@@ -322,9 +293,9 @@ export default function ClassSignup() {
                 className="mt-1 h-5 w-5 rounded border-gray-300 text-[var(--color-brand-purple)] focus:ring-[var(--color-brand-purple)]"
               />
               <span className="text-sm leading-6 text-gray-700">
-                I have read and agree to the{" "}
+                {t("agreementPrefix")} {" "}
                 <Link to="/class-agreement" className="font-bold text-[var(--color-brand-purple)] underline underline-offset-4">
-                  DSMES Participant Confidentiality and Intellectual Property Agreement
+                  {t("agreementTitle")}
                 </Link>
                 .
               </span>
@@ -338,7 +309,7 @@ export default function ClassSignup() {
             disabled={status === "submitting"}
             className="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl bg-[var(--color-brand-purple)] px-6 text-base font-bold text-white transition hover:bg-[var(--color-brand-purple)]/90 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {status === "submitting" ? "Submitting..." : "Submit class signup"}
+            {status === "submitting" ? t("submitting") : t("submit")}
             <ArrowRight className="h-5 w-5" />
           </button>
         </form>
@@ -380,7 +351,7 @@ function Question({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-function FileField({ label, file, onChange, optimizing, required }: { label: string; file: File | null; onChange: (event: ChangeEvent<HTMLInputElement>) => void; optimizing: boolean; required?: boolean }) {
+function FileField({ label, file, onChange, optimizing, required, optimizingLabel, readyLabel }: { label: string; file: File | null; onChange: (event: ChangeEvent<HTMLInputElement>) => void; optimizing: boolean; required?: boolean; optimizingLabel: string; readyLabel: string }) {
   return (
     <label className="block">
       <span className="mb-1.5 block text-sm font-bold text-gray-800">{label}</span>
@@ -391,8 +362,8 @@ function FileField({ label, file, onChange, optimizing, required }: { label: str
         required={required}
         className="block w-full cursor-pointer rounded-2xl border border-gray-200 bg-white px-3 py-3 text-sm text-gray-700 file:mr-3 file:rounded-xl file:border-0 file:bg-[var(--color-brand-purple-light)] file:px-3 file:py-2 file:text-sm file:font-bold file:text-[var(--color-brand-purple)]"
       />
-      {optimizing && <span className="mt-2 block text-xs font-semibold text-[var(--color-brand-purple)]">Optimizing photo...</span>}
-      {file && !optimizing && <span className="mt-2 block break-all text-xs font-semibold text-emerald-700">Ready for secure upload: {file.name}</span>}
+      {optimizing && <span className="mt-2 block text-xs font-semibold text-[var(--color-brand-purple)]">{optimizingLabel}</span>}
+      {file && !optimizing && <span className="mt-2 block break-all text-xs font-semibold text-emerald-700">{readyLabel.replace("{{name}}", file.name)}</span>}
     </label>
   );
 }

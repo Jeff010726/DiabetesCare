@@ -5,6 +5,7 @@ import { en } from "./locales/en";
 import { zhCN } from "./locales/zh-CN";
 import { zhTW } from "./locales/zh-TW";
 import { es } from "./locales/es";
+import { classSignupResources } from "./locales/classSignup";
 
 export const supportedLocales = ["en", "zh-CN", "zh-TW", "es"] as const;
 export type SupportedLocale = (typeof supportedLocales)[number];
@@ -51,6 +52,7 @@ const resources = Object.fromEntries(
       home: localeResources[locale].home,
       servicePages: localeResources[locale].servicePages,
       recipes: localeResources[locale].recipes,
+      classSignup: classSignupResources[locale],
     },
   ]),
 );
@@ -63,7 +65,7 @@ i18n
     fallbackLng: "en",
     supportedLngs: supportedLocales,
     load: "currentOnly",
-    ns: ["translation", "home", "servicePages", "recipes"],
+    ns: ["translation", "home", "servicePages", "recipes", "classSignup"],
     defaultNS: "translation",
     detection: {
       order: ["querystring", "localStorage", "navigator", "htmlTag"],
