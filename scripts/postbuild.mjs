@@ -24,6 +24,9 @@ const routes = [
   "booking",
   "booking-redirect",
   "booking-whatsapp",
+  "sign-up-class",
+  "class-agreement",
+  "sign-up-class-thank-you",
 ];
 
 for (const route of routes) {
