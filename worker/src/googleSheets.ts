@@ -73,7 +73,8 @@ export async function appendContactToSheet(env: Env, values: string[]) {
   }
 
   const accessToken = await getAccessToken(env);
-  const range = encodeURIComponent("'Contact Leads'!A:H");
+  await ensureContactPatientTypeHeader(env, accessToken);
+  const range = encodeURIComponent("'Contact Leads'!A:M");
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${env.GOOGLE_SHEETS_SPREADSHEET_ID}/values/${range}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`;
   const response = await fetch(url, {
     method: "POST",
@@ -87,6 +88,26 @@ export async function appendContactToSheet(env: Env, values: string[]) {
   if (!response.ok) {
     const body = await response.text().catch(() => "");
     throw new Error(`Google Sheets append failed: ${response.status}${body ? ` ${body.slice(0, 240)}` : ""}`);
+  }
+}
+
+async function ensureContactPatientTypeHeader(env: Env, accessToken: string) {
+  try {
+    const range = encodeURIComponent("'Contact Leads'!M1");
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${env.GOOGLE_SHEETS_SPREADSHEET_ID}/values/${range}`;
+    const response = await fetch(url, { headers: { Authorization: `Bearer ${accessToken}` } });
+    if (!response.ok) return;
+
+    const data = (await response.json()) as { values?: string[][] };
+    if (data.values?.[0]?.[0] === "Patient Type") return;
+
+    await fetch(`${url}?valueInputOption=RAW`, {
+      method: "PUT",
+      headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ values: [["Patient Type"]] }),
+    });
+  } catch (error) {
+    console.error("Could not update Contact Leads patient type header", error);
   }
 }
 

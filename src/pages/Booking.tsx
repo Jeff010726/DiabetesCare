@@ -23,10 +23,12 @@ export default function Booking() {
   const [error, setError] = useState("");
   const highlights = t("booking.hero.highlights", { returnObjects: true }) as string[];
   const languageOptions = t("booking.form.languageOptions", { returnObjects: true }) as string[];
+  const patientTypeOptions = t("booking.form.patientTypeOptions", { returnObjects: true }) as string[];
   const [form, setForm] = useState({
     name: "",
     email: "",
     phone: "",
+    patientType: "",
     age: "",
     preferredLanguage: "",
     availability: "",
@@ -59,6 +61,7 @@ export default function Booking() {
       `Name: ${form.name}`,
       `Email: ${form.email}`,
       `Phone: ${form.phone}`,
+      `Patient type: ${form.patientType}`,
       `Age: ${form.age}`,
       `Preferred language: ${form.preferredLanguage}`,
       `Available time: ${form.availability}`,
@@ -77,6 +80,7 @@ export default function Booking() {
           email: form.email,
           message,
           sourcePage: window.location.pathname,
+          patientType: form.patientType,
           preferredLanguage: form.preferredLanguage || i18n.language,
           timeZone,
           insuranceCompany: form.insuranceCompany,
@@ -189,6 +193,20 @@ export default function Booking() {
                 className="h-[52px] w-full rounded-2xl border border-gray-200 bg-white px-4 text-base text-gray-900 outline-none transition focus:border-[var(--color-brand-purple)] focus:ring-4 focus:ring-[var(--color-brand-purple)]/10"
                 placeholder={t("booking.form.placeholders.phone")}
               />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-sm font-bold text-gray-800">{t("booking.form.fields.patientType")}</label>
+              <select
+                value={form.patientType}
+                onChange={updateField("patientType")}
+                required
+                className="h-[52px] w-full rounded-2xl border border-gray-200 bg-white px-4 text-base text-gray-900 outline-none transition focus:border-[var(--color-brand-purple)] focus:ring-4 focus:ring-[var(--color-brand-purple)]/10"
+              >
+                <option value="">{t("booking.form.placeholders.patientType")}</option>
+                {patientTypeOptions.map((option) => (
+                  <option key={option} value={option}>{option}</option>
+                ))}
+              </select>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>

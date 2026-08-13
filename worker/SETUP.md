@@ -35,7 +35,7 @@ Contact Leads
 Recommended header row:
 
 ```txt
-Timestamp | Name | Email | Message | Source Page | Preferred Language | IP | User Agent
+Timestamp | Name | Email | Message | Source Page | Preferred Language | Time Zone | Insurance Company | Insurance Member ID | Date of Birth | IP | User Agent | Patient Type
 ```
 
 Create a Google Cloud service account and share the Sheet with the service account email.

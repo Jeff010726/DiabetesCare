@@ -11,6 +11,7 @@ type ContactPayload = {
   email?: string;
   message?: string;
   sourcePage?: string;
+  patientType?: string;
   preferredLanguage?: string;
   timeZone?: string;
   insuranceCompany?: string;
@@ -33,6 +34,7 @@ function bookingEmailBody(input: {
   email: string;
   message: string;
   sourcePage: string;
+  patientType: string;
   preferredLanguage: string;
   timeZone: string;
   insuranceCompany: string;
@@ -49,6 +51,7 @@ function bookingEmailBody(input: {
     `Name: ${input.name}`,
     `Email: ${input.email}`,
     `Source page: ${input.sourcePage || "-"}`,
+    `Patient type: ${input.patientType || "-"}`,
     `Preferred language: ${input.preferredLanguage || "-"}`,
     `Time zone: ${input.timeZone || "-"}`,
     `Insurance company: ${input.insuranceCompany || "-"}`,
@@ -76,6 +79,7 @@ export async function submitContact(request: Request, env: Env, ctx?: ExecutionC
   const email = payload.email?.trim().toLowerCase() || "";
   const message = payload.message?.trim() || "";
   const sourcePage = payload.sourcePage?.trim().slice(0, 200) || "";
+  const patientType = payload.patientType?.trim().slice(0, 80) || "";
   const preferredLanguage = payload.preferredLanguage?.trim().slice(0, 16) || "";
   const cf = request.cf as { timezone?: string } | undefined;
   const timeZone = (payload.timeZone?.trim() || cf?.timezone || "").slice(0, 80);
@@ -89,12 +93,13 @@ export async function submitContact(request: Request, env: Env, ctx?: ExecutionC
   if (email.length > 254) return badRequest(request, env, "Email is too long");
   if (message.length < 5) return badRequest(request, env, "Message is required");
   if (message.length > 4000) return badRequest(request, env, "Message is too long");
+  if (isBookingRequest(sourcePage, message) && !patientType) return badRequest(request, env, "Patient type is required");
 
   const now = new Date().toISOString();
   const leadId = randomId("lead_");
   const ip = request.headers.get("CF-Connecting-IP") || "";
   const userAgent = request.headers.get("User-Agent") || "";
-  const row = [now, name, email, message, sourcePage, preferredLanguage, timeZone, insuranceCompany, insuranceMemberId, dateOfBirth, ip, userAgent];
+  const row = [now, name, email, message, sourcePage, preferredLanguage, timeZone, insuranceCompany, insuranceMemberId, dateOfBirth, ip, userAgent, patientType];
   let sheetStatus = "pending";
   let sheetError: string | null = null;
 
@@ -112,8 +117,8 @@ export async function submitContact(request: Request, env: Env, ctx?: ExecutionC
     await db
       .prepare(
         `INSERT INTO contact_leads
-         (id, name, email, message, source_page, preferred_language, time_zone, insurance_company, insurance_member_id, date_of_birth, ip, user_agent, sheet_status, sheet_error, email_status, created_at, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+         (id, name, email, message, source_page, patient_type, preferred_language, time_zone, insurance_company, insurance_member_id, date_of_birth, ip, user_agent, sheet_status, sheet_error, email_status, created_at, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       )
       .bind(
         leadId,
@@ -121,6 +126,7 @@ export async function submitContact(request: Request, env: Env, ctx?: ExecutionC
         email,
         message,
         sourcePage,
+        patientType,
         preferredLanguage,
         timeZone,
         insuranceCompany,
@@ -147,6 +153,7 @@ export async function submitContact(request: Request, env: Env, ctx?: ExecutionC
           email,
           message,
           sourcePage,
+          patientType,
           preferredLanguage,
           timeZone,
           insuranceCompany,

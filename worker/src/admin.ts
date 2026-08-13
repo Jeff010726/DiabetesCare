@@ -183,7 +183,7 @@ export async function adminBookings(request: Request, env: Env) {
   const limit = Math.min(Math.max(Number(new URL(request.url).searchParams.get("limit") || 50), 1), 100);
   const rows = await getDb(env)
     .prepare(
-      `SELECT id, name, email, message, source_page, preferred_language, time_zone, insurance_company, insurance_member_id, date_of_birth, sheet_status, sheet_error, email_status, email_error, email_notified_at, created_at
+      `SELECT id, name, email, message, source_page, patient_type, preferred_language, time_zone, insurance_company, insurance_member_id, date_of_birth, sheet_status, sheet_error, email_status, email_error, email_notified_at, created_at
        FROM contact_leads
        WHERE source_page LIKE '%/booking%' OR message LIKE 'Booking request:%'
        ORDER BY created_at DESC
@@ -563,6 +563,7 @@ export function adminPage(request: Request, env: Env) {
       });
       return {
         phone: fields.phone || "",
+        patientType: fields["patient type"] || "",
         age: fields.age || "",
         preferredLanguage: fields["preferred language"] || "",
         availability: fields["available time"] || "",
@@ -938,6 +939,7 @@ export function adminPage(request: Request, env: Env) {
           booking.name,
           booking.email,
           parsed.phone,
+          booking.patient_type || parsed.patientType,
           parsed.age,
           booking.date_of_birth || parsed.dateOfBirth,
           parsed.preferredLanguage || booking.preferred_language,
@@ -953,12 +955,12 @@ export function adminPage(request: Request, env: Env) {
         ];
         cells.forEach((cell, index) => {
           const td = document.createElement("td");
-          if (index === 12) {
+          if (index === 13) {
             const span = document.createElement("span");
             span.className = "badge " + (cell === "failed" ? "failed" : "");
             span.textContent = text(cell);
             td.appendChild(span);
-          } else if (index === 14) {
+          } else if (index === 15) {
             const span = document.createElement("span");
             span.className = "badge " + (cell === "failed" ? "failed" : "");
             span.textContent = text(cell || "unknown");
@@ -970,7 +972,7 @@ export function adminPage(request: Request, env: Env) {
         });
         return tr;
       });
-      renderRows(["Created", "Name", "Email", "Phone", "Age", "Date of Birth", "Preferred Language", "Available Time", "Time Zone", "Insurance Company", "Insurance ID", "Source", "Sheet", "Sheet Error", "Email", "Email Error"], rows, smtpPanelHtml(smtp));
+      renderRows(["Created", "Name", "Email", "Phone", "Patient Type", "Age", "Date of Birth", "Preferred Language", "Available Time", "Time Zone", "Insurance Company", "Insurance ID", "Source", "Sheet", "Sheet Error", "Email", "Email Error"], rows, smtpPanelHtml(smtp));
       bindSmtpTestButton();
     }
     async function loadClassSignups() {
