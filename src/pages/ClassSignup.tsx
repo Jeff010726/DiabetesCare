@@ -32,6 +32,7 @@ export default function ClassSignup() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation("classSignup");
   const ageOptions = t("options.ages", { returnObjects: true }) as string[];
+  const patientTypeOptions = t("options.patientTypes", { returnObjects: true }) as string[];
   const genderOptions = t("options.genders", { returnObjects: true }) as string[];
   const raceOptions = t("options.races", { returnObjects: true }) as string[];
   const languageOptions = t("options.languages", { returnObjects: true }) as string[];
@@ -48,6 +49,7 @@ export default function ClassSignup() {
   });
   const [compressingCard, setCompressingCard] = useState<"front" | "back" | null>(null);
   const [form, setForm] = useState({
+    patientType: "",
     ageRange: "",
     gender: "",
     genderOther: "",
@@ -133,6 +135,7 @@ export default function ClassSignup() {
 
     try {
       const formData = new FormData();
+      formData.set("patientType", form.patientType);
       formData.set("ageRange", form.ageRange);
       formData.set("gender", form.gender);
       formData.set("genderOther", form.genderOther);
@@ -194,6 +197,10 @@ export default function ClassSignup() {
 
       <main className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
         <form className="space-y-5" onSubmit={submit}>
+          <Question title={t("questions.patientType")}>
+            <RadioGroup name="patientType" options={patientTypeOptions} value={form.patientType} onChange={(value) => updateChoice("patientType", value)} required />
+          </Question>
+
           <Question title={t("questions.age")}>
             <RadioGroup name="ageRange" options={ageOptions} value={form.ageRange} onChange={(value) => updateChoice("ageRange", value)} required />
           </Question>

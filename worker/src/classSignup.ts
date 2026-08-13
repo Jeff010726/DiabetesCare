@@ -1,5 +1,6 @@
 import { randomId } from "./crypto";
 import { getDb } from "./db";
+import { appendClassSignupToSheet } from "./googleSheets";
 import { badRequest, json, readJson, serverError } from "./http";
 import { checkRateLimit } from "./rateLimit";
 import { sendSmtpEmail } from "./smtp";
@@ -16,6 +17,7 @@ const insuranceCardExtensions: Record<string, string> = {
 };
 
 type ClassSignupPayload = {
+  patientType?: string;
   ageRange?: string;
   gender?: string;
   genderOther?: string;
@@ -96,6 +98,7 @@ async function readSignupInput(request: Request): Promise<{ payload: ClassSignup
     if (back) cards.push({ kind: "back", file: back });
     return {
       payload: {
+        patientType: formText(form, "patientType"),
         ageRange: formText(form, "ageRange"),
         gender: formText(form, "gender"),
         genderOther: formText(form, "genderOther"),
@@ -134,6 +137,7 @@ function insuranceCardError(cards: InsuranceCardUpload[]) {
 function signupEmailBody(input: {
   id: string;
   createdAt: string;
+  patientType: string;
   ageRange: string;
   gender: string;
   genderOther: string;
@@ -159,16 +163,17 @@ function signupEmailBody(input: {
     `Signup ID: ${input.id}`,
     `Submitted: ${input.createdAt}`,
     "Survey answers:",
-    `1. Age: ${input.ageRange}`,
-    `2. Gender: ${input.gender}${input.genderOther ? ` - ${input.genderOther}` : ""}`,
-    `3. Race/ethnicity: ${formatList(input.raceEthnicity)}`,
-    `4. Primary language: ${input.primaryLanguage}${input.primaryLanguageOther ? ` - ${input.primaryLanguageOther}` : ""}`,
-    `5. State of residence: ${input.stateResidence}`,
-    `6. Highest education level: ${input.educationLevel}`,
-    `7. U.S. health insurance: ${input.hasUsHealthInsurance}`,
-    `8. Conditions told by provider: ${formatList(input.diagnosedConditions)}`,
-    `9. Blood sugar monitoring: ${input.bloodSugarMonitoring}`,
-    `10. Diabetes medication: ${formatList(input.diabetesMedications)}`,
+    `1. Patient type: ${input.patientType}`,
+    `2. Age: ${input.ageRange}`,
+    `3. Gender: ${input.gender}${input.genderOther ? ` - ${input.genderOther}` : ""}`,
+    `4. Race/ethnicity: ${formatList(input.raceEthnicity)}`,
+    `5. Primary language: ${input.primaryLanguage}${input.primaryLanguageOther ? ` - ${input.primaryLanguageOther}` : ""}`,
+    `6. State of residence: ${input.stateResidence}`,
+    `7. Highest education level: ${input.educationLevel}`,
+    `8. U.S. health insurance: ${input.hasUsHealthInsurance}`,
+    `9. Conditions told by provider: ${formatList(input.diagnosedConditions)}`,
+    `10. Blood sugar monitoring: ${input.bloodSugarMonitoring}`,
+    `11. Diabetes medication: ${formatList(input.diabetesMedications)}`,
     `Insurance card photos: ${input.insuranceCardKinds.length ? input.insuranceCardKinds.join(", ") : "Not uploaded"}`,
     "",
     "Agreement:",
@@ -195,6 +200,7 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
   if (!input) return badRequest(request, env, "Invalid form submission");
 
   const { payload, cards } = input;
+  const patientType = trim(payload.patientType, 80);
   const ageRange = trim(payload.ageRange, 40);
   const gender = trim(payload.gender, 80);
   const genderOther = trim(payload.genderOther, 160);
@@ -210,6 +216,7 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
   const sourcePage = trim(payload.sourcePage, 200);
   const preferredSiteLanguage = trim(payload.preferredSiteLanguage, 32);
 
+  if (!patientType) return badRequest(request, env, "Patient type is required");
   if (!ageRange) return badRequest(request, env, "Age is required");
   if (!gender) return badRequest(request, env, "Gender is required");
   if (raceEthnicity.length < 1) return badRequest(request, env, "Race/ethnicity is required");
@@ -265,17 +272,18 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
       db
         .prepare(
           `INSERT INTO class_signups
-           (id, full_name, date_of_birth, email, age_range, gender, gender_other, race_ethnicity,
+           (id, full_name, date_of_birth, email, patient_type, age_range, gender, gender_other, race_ethnicity,
             primary_language, primary_language_other, state_residence, education_level, has_us_health_insurance,
             diagnosed_conditions, blood_sugar_monitoring, diabetes_medications, agreement_accepted, agreement_version,
-            agreement_accepted_at, source_page, preferred_site_language, ip, user_agent, created_at, updated_at)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            agreement_accepted_at, source_page, preferred_site_language, ip, user_agent, sheet_status, created_at, updated_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         )
         .bind(
           signupId,
           "",
           "",
           "",
+          patientType,
           ageRange,
           gender,
           genderOther,
@@ -295,6 +303,7 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
           preferredSiteLanguage,
           ip,
           userAgent,
+          "pending",
           now,
           now,
         ),
@@ -318,6 +327,7 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
   const emailInput = {
     id: signupId,
     createdAt: now,
+    patientType,
     ageRange,
     gender,
     genderOther,
@@ -338,9 +348,42 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
     userAgent,
   };
   const notify = sendSmtpEmail(env, {
-    subject: "New DSMES class signup",
+    subject: `New DSMES class signup: ${patientType}`,
     text: signupEmailBody(emailInput),
   });
+  const syncSheet = appendClassSignupToSheet(env, [
+    now,
+    signupId,
+    patientType,
+    ageRange,
+    gender,
+    genderOther,
+    formatList(raceEthnicity),
+    primaryLanguage,
+    primaryLanguageOther,
+    stateResidence,
+    educationLevel,
+    hasUsHealthInsurance,
+    formatList(diagnosedConditions),
+    bloodSugarMonitoring,
+    formatList(diabetesMedications),
+    "Front and back uploaded securely",
+    "Yes",
+    agreementVersion,
+    agreementAcceptedAt,
+    sourcePage,
+    preferredSiteLanguage,
+  ])
+    .then(async () => {
+      const updatedAt = new Date().toISOString();
+      await db.prepare("UPDATE class_signups SET sheet_status = 'synced', sheet_error = NULL, updated_at = ? WHERE id = ?").bind(updatedAt, signupId).run();
+    })
+    .catch(async (error) => {
+      const message = error instanceof Error ? error.message.slice(0, 500) : "Google Sheets class signup append failed";
+      const updatedAt = new Date().toISOString();
+      console.error("Google Sheets class signup append failed", message);
+      await db.prepare("UPDATE class_signups SET sheet_status = 'failed', sheet_error = ?, updated_at = ? WHERE id = ?").bind(message, updatedAt, signupId).run();
+    });
   const recordEmailStatus = notify
     .then(async (result) => {
       const status = result.skipped ? "skipped" : "sent";
@@ -360,7 +403,10 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
         .bind(message, notifiedAt, notifiedAt, signupId)
         .run();
     });
-  if (ctx) ctx.waitUntil(recordEmailStatus);
+  if (ctx) {
+    ctx.waitUntil(recordEmailStatus);
+    ctx.waitUntil(syncSheet);
+  }
 
   return json(request, env, { ok: true, id: signupId });
 }
