@@ -116,7 +116,7 @@ const classSignupHeaders = [
   "Submitted (UTC)",
   "Signup ID",
   "Patient Type",
-  "Age",
+  "Age Range (legacy)",
   "Gender",
   "Gender Other",
   "Race/Ethnicity",
@@ -134,6 +134,17 @@ const classSignupHeaders = [
   "Agreement Accepted At",
   "Source Page",
   "Site Language",
+  "Full Name",
+  "Date of Birth",
+  "Email",
+  "Phone",
+  "Address Line 1",
+  "Address Line 2",
+  "City",
+  "Postal Code",
+  "Electronic Signature Name",
+  "Signature Signed At",
+  "Signature File",
 ] as const;
 
 function classSignupRange(range: string) {
@@ -165,7 +176,7 @@ async function ensureClassSignupSheet(env: Env, accessToken: string) {
     }
   }
 
-  const headerUrl = `https://sheets.googleapis.com/v4/spreadsheets/${env.GOOGLE_SHEETS_SPREADSHEET_ID}/values/${classSignupRange("A1:U1")}`;
+  const headerUrl = `https://sheets.googleapis.com/v4/spreadsheets/${env.GOOGLE_SHEETS_SPREADSHEET_ID}/values/${classSignupRange("A1:AF1")}`;
   const headerResponse = await fetch(headerUrl, { headers: { Authorization: `Bearer ${accessToken}` } });
   if (!headerResponse.ok) throw new Error(`Google Sheets class signup header read failed: ${headerResponse.status}`);
   const headerData = (await headerResponse.json()) as { values?: string[][] };
@@ -189,8 +200,8 @@ export async function appendClassSignupToSheet(env: Env, values: string[]) {
 
   const accessToken = await getAccessToken(env);
   await ensureClassSignupSheet(env, accessToken);
-  const range = classSignupRange("A:U");
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${env.GOOGLE_SHEETS_SPREADSHEET_ID}/values/${range}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`;
+  const range = classSignupRange("A:AF");
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${env.GOOGLE_SHEETS_SPREADSHEET_ID}/values/${range}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`;
   const response = await fetch(url, {
     method: "POST",
     headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },

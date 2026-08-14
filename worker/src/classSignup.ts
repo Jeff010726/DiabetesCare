@@ -8,6 +8,7 @@ import type { Env } from "./types";
 
 const agreementVersion = "DSMES-confidentiality-ip-2026-07-09";
 const maxInsuranceCardBytes = 20 * 1024 * 1024;
+const maxSignatureBytes = 512 * 1024;
 const insuranceCardExtensions: Record<string, string> = {
   "image/jpeg": "jpg",
   "image/png": "png",
@@ -17,6 +18,14 @@ const insuranceCardExtensions: Record<string, string> = {
 };
 
 type ClassSignupPayload = {
+  fullName?: string;
+  dateOfBirth?: string;
+  email?: string;
+  phone?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  city?: string;
+  postalCode?: string;
   patientType?: string;
   ageRange?: string;
   gender?: string;
@@ -40,9 +49,9 @@ type InsuranceCardUpload = {
   file: File;
 };
 
-type StoredInsuranceCard = {
+type StoredClassSignupFile = {
   id: string;
-  kind: "front" | "back";
+  kind: "front" | "back" | "signature";
   objectKey: string;
   originalName: string;
   contentType: string;
@@ -82,22 +91,31 @@ function formFile(form: FormData, name: string) {
   return value instanceof File && value.size > 0 ? value : null;
 }
 
-async function readSignupInput(request: Request): Promise<{ payload: ClassSignupPayload; cards: InsuranceCardUpload[] } | null> {
+async function readSignupInput(request: Request): Promise<{ payload: ClassSignupPayload; cards: InsuranceCardUpload[]; signature: File | null } | null> {
   const contentType = request.headers.get("Content-Type") || "";
   if (!contentType.includes("multipart/form-data")) {
     const payload = await readJson<ClassSignupPayload>(request);
-    return payload ? { payload, cards: [] } : null;
+    return payload ? { payload, cards: [], signature: null } : null;
   }
 
   try {
     const form = await request.formData();
     const front = formFile(form, "insuranceCardFront");
     const back = formFile(form, "insuranceCardBack");
+    const signature = formFile(form, "signature");
     const cards: InsuranceCardUpload[] = [];
     if (front) cards.push({ kind: "front", file: front });
     if (back) cards.push({ kind: "back", file: back });
     return {
       payload: {
+        fullName: formText(form, "fullName"),
+        dateOfBirth: formText(form, "dateOfBirth"),
+        email: formText(form, "email"),
+        phone: formText(form, "phone"),
+        addressLine1: formText(form, "addressLine1"),
+        addressLine2: formText(form, "addressLine2"),
+        city: formText(form, "city"),
+        postalCode: formText(form, "postalCode"),
         patientType: formText(form, "patientType"),
         ageRange: formText(form, "ageRange"),
         gender: formText(form, "gender"),
@@ -116,10 +134,18 @@ async function readSignupInput(request: Request): Promise<{ payload: ClassSignup
         preferredSiteLanguage: formText(form, "preferredSiteLanguage"),
       },
       cards,
+      signature,
     };
   } catch {
     return null;
   }
+}
+
+function signatureError(signature: File | null) {
+  if (!signature) return "Electronic signature is required";
+  if (signature.type !== "image/png") return "Electronic signature must be a PNG image";
+  if (signature.size > maxSignatureBytes) return "Electronic signature is too large to process";
+  return null;
 }
 
 function insuranceCardError(cards: InsuranceCardUpload[]) {
@@ -137,6 +163,14 @@ function insuranceCardError(cards: InsuranceCardUpload[]) {
 function signupEmailBody(input: {
   id: string;
   createdAt: string;
+  fullName: string;
+  dateOfBirth: string;
+  email: string;
+  phone: string;
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  postalCode: string;
   patientType: string;
   ageRange: string;
   gender: string;
@@ -152,6 +186,7 @@ function signupEmailBody(input: {
   diabetesMedications: string[];
   insuranceCardKinds: string[];
   agreementAcceptedAt: string;
+  signatureDownloadUrl: string;
   sourcePage: string;
   preferredSiteLanguage: string;
   ip: string;
@@ -162,24 +197,32 @@ function signupEmailBody(input: {
     "",
     `Signup ID: ${input.id}`,
     `Submitted: ${input.createdAt}`,
+    "Contact details:",
+    `Name: ${input.fullName}`,
+    `Date of birth: ${input.dateOfBirth}`,
+    `Email: ${input.email}`,
+    `Phone: ${input.phone}`,
+    `Address: ${[input.addressLine1, input.addressLine2, input.city, input.stateResidence, input.postalCode].filter(Boolean).join(", ")}`,
+    "",
     "Survey answers:",
     `1. Patient type: ${input.patientType}`,
-    `2. Age: ${input.ageRange}`,
-    `3. Gender: ${input.gender}${input.genderOther ? ` - ${input.genderOther}` : ""}`,
-    `4. Race/ethnicity: ${formatList(input.raceEthnicity)}`,
-    `5. Primary language: ${input.primaryLanguage}${input.primaryLanguageOther ? ` - ${input.primaryLanguageOther}` : ""}`,
-    `6. State of residence: ${input.stateResidence}`,
-    `7. Highest education level: ${input.educationLevel}`,
-    `8. U.S. health insurance: ${input.hasUsHealthInsurance}`,
-    `9. Conditions told by provider: ${formatList(input.diagnosedConditions)}`,
-    `10. Blood sugar monitoring: ${input.bloodSugarMonitoring}`,
-    `11. Diabetes medication: ${formatList(input.diabetesMedications)}`,
+    `2. Gender: ${input.gender}${input.genderOther ? ` - ${input.genderOther}` : ""}`,
+    `3. Race/ethnicity: ${formatList(input.raceEthnicity)}`,
+    `4. Primary language: ${input.primaryLanguage}${input.primaryLanguageOther ? ` - ${input.primaryLanguageOther}` : ""}`,
+    `5. State of residence: ${input.stateResidence}`,
+    `6. Highest education level: ${input.educationLevel}`,
+    `7. U.S. health insurance: ${input.hasUsHealthInsurance}`,
+    `8. Conditions told by provider: ${formatList(input.diagnosedConditions)}`,
+    `9. Blood sugar monitoring: ${input.bloodSugarMonitoring}`,
+    `10. Diabetes medication: ${formatList(input.diabetesMedications)}`,
     `Insurance card photos: ${input.insuranceCardKinds.length ? input.insuranceCardKinds.join(", ") : "Not uploaded"}`,
     "",
     "Agreement:",
     "Accepted: Yes",
     `Agreement version: ${agreementVersion}`,
     `Accepted at: ${input.agreementAcceptedAt}`,
+    `Electronic signature: ${input.fullName}`,
+    `Signature file: ${input.signatureDownloadUrl}`,
     "",
     "Request metadata:",
     `Source page: ${input.sourcePage || "-"}`,
@@ -199,7 +242,15 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
   const input = await readSignupInput(request);
   if (!input) return badRequest(request, env, "Invalid form submission");
 
-  const { payload, cards } = input;
+  const { payload, cards, signature } = input;
+  const fullName = trim(payload.fullName, 160);
+  const dateOfBirth = trim(payload.dateOfBirth, 20);
+  const email = trim(payload.email, 254).toLowerCase();
+  const phone = trim(payload.phone, 60);
+  const addressLine1 = trim(payload.addressLine1, 200);
+  const addressLine2 = trim(payload.addressLine2, 160);
+  const city = trim(payload.city, 100);
+  const postalCode = trim(payload.postalCode, 32);
   const patientType = trim(payload.patientType, 80);
   const ageRange = trim(payload.ageRange, 40);
   const gender = trim(payload.gender, 80);
@@ -216,8 +267,12 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
   const sourcePage = trim(payload.sourcePage, 200);
   const preferredSiteLanguage = trim(payload.preferredSiteLanguage, 32);
 
+  if (!fullName) return badRequest(request, env, "Full name is required");
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateOfBirth)) return badRequest(request, env, "A valid date of birth is required");
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return badRequest(request, env, "A valid email is required");
+  if (!phone) return badRequest(request, env, "Phone number is required");
+  if (!addressLine1 || !city || !postalCode) return badRequest(request, env, "A complete address is required");
   if (!patientType) return badRequest(request, env, "Patient type is required");
-  if (!ageRange) return badRequest(request, env, "Age is required");
   if (!gender) return badRequest(request, env, "Gender is required");
   if (raceEthnicity.length < 1) return badRequest(request, env, "Race/ethnicity is required");
   if (!primaryLanguage) return badRequest(request, env, "Primary language is required");
@@ -237,6 +292,8 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
   if (cards.length && !env.INSURANCE_CARDS) {
     return json(request, env, { error: "Insurance card uploads are temporarily unavailable" }, { status: 503 });
   }
+  const signatureValidationError = signatureError(signature);
+  if (signatureValidationError) return badRequest(request, env, signatureValidationError);
 
   const now = new Date().toISOString();
   const signupId = randomId("cls_");
@@ -245,7 +302,7 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
   const userAgent = request.headers.get("User-Agent") || "";
   const db = getDb(env);
   const insuranceCards = env.INSURANCE_CARDS;
-  const storedCards: StoredInsuranceCard[] = cards.map((card) => ({
+  const storedCards: StoredClassSignupFile[] = cards.map((card) => ({
     id: randomId("csf_"),
     kind: card.kind,
     objectKey: `class-signups/${signupId}/${card.kind}.${insuranceCardExtensions[card.file.type]}`,
@@ -253,18 +310,29 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
     contentType: card.file.type,
     sizeBytes: card.file.size,
   }));
+  const storedSignature: StoredClassSignupFile = {
+    id: randomId("csf_"),
+    kind: "signature",
+    objectKey: `class-signups/${signupId}/electronic-signature.png`,
+    originalName: "electronic-signature.png",
+    contentType: "image/png",
+    sizeBytes: signature.size,
+  };
+  const storedFiles = [...storedCards, storedSignature];
+  const uploads = [
+    ...cards.map((card, index) => ({ file: card.file, stored: storedCards[index] })),
+    { file: signature, stored: storedSignature },
+  ];
   const uploadedKeys: string[] = [];
 
   try {
     if (insuranceCards) {
-      for (let index = 0; index < cards.length; index += 1) {
-        const card = cards[index];
-        const storedCard = storedCards[index];
-        await insuranceCards.put(storedCard.objectKey, card.file.stream(), {
-          httpMetadata: { contentType: storedCard.contentType },
-          customMetadata: { originalName: storedCard.originalName, signupId, kind: storedCard.kind },
+      for (const upload of uploads) {
+        await insuranceCards.put(upload.stored.objectKey, upload.file.stream(), {
+          httpMetadata: { contentType: upload.stored.contentType },
+          customMetadata: { originalName: upload.stored.originalName, signupId, kind: upload.stored.kind },
         });
-        uploadedKeys.push(storedCard.objectKey);
+        uploadedKeys.push(upload.stored.objectKey);
       }
     }
 
@@ -272,19 +340,27 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
       db
         .prepare(
           `INSERT INTO class_signups
-           (id, full_name, date_of_birth, email, patient_type, age_range, gender, gender_other, race_ethnicity,
+           (id, full_name, date_of_birth, email, phone, address_line1, address_line2, city, postal_code, signature_name, signature_signed_at,
+            patient_type, age_range, gender, gender_other, race_ethnicity,
             primary_language, primary_language_other, state_residence, education_level, has_us_health_insurance,
             diagnosed_conditions, blood_sugar_monitoring, diabetes_medications, agreement_accepted, agreement_version,
             agreement_accepted_at, source_page, preferred_site_language, ip, user_agent, sheet_status, created_at, updated_at)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         )
         .bind(
           signupId,
-          "",
-          "",
-          "",
+          fullName,
+          dateOfBirth,
+          email,
+          phone,
+          addressLine1,
+          addressLine2,
+          city,
+          postalCode,
+          fullName,
+          agreementAcceptedAt,
           patientType,
-          ageRange,
+          ageRange || "Not collected",
           gender,
           genderOther,
           JSON.stringify(raceEthnicity),
@@ -307,7 +383,7 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
           now,
           now,
         ),
-      ...storedCards.map((card) =>
+      ...storedFiles.map((card) =>
         db
           .prepare(
             `INSERT INTO class_signup_files
@@ -327,8 +403,16 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
   const emailInput = {
     id: signupId,
     createdAt: now,
+    fullName,
+    dateOfBirth,
+    email,
+    phone,
+    addressLine1,
+    addressLine2,
+    city,
+    postalCode,
     patientType,
-    ageRange,
+    ageRange: ageRange || "Not collected",
     gender,
     genderOther,
     raceEthnicity,
@@ -342,6 +426,7 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
     diabetesMedications,
     insuranceCardKinds: storedCards.map((card) => card.kind),
     agreementAcceptedAt,
+    signatureDownloadUrl: `https://admin.xtdiabetescare.com/admin/api/class-signups/${encodeURIComponent(signupId)}/files/${encodeURIComponent(storedSignature.id)}/download`,
     sourcePage,
     preferredSiteLanguage,
     ip,
@@ -355,7 +440,7 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
     now,
     signupId,
     patientType,
-    ageRange,
+    ageRange || "Not collected",
     gender,
     genderOther,
     formatList(raceEthnicity),
@@ -373,6 +458,17 @@ export async function submitClassSignup(request: Request, env: Env, ctx?: Execut
     agreementAcceptedAt,
     sourcePage,
     preferredSiteLanguage,
+    fullName,
+    dateOfBirth,
+    email,
+    phone,
+    addressLine1,
+    addressLine2,
+    city,
+    postalCode,
+    fullName,
+    agreementAcceptedAt,
+    `https://admin.xtdiabetescare.com/admin/api/class-signups/${encodeURIComponent(signupId)}/files/${encodeURIComponent(storedSignature.id)}/download`,
   ])
     .then(async () => {
       const updatedAt = new Date().toISOString();

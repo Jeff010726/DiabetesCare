@@ -1,6 +1,6 @@
-import { ChangeEvent, FormEvent, ReactNode, useState } from "react";
+import { ChangeEvent, FormEvent, PointerEvent as ReactPointerEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, ClipboardList, ImageUp, ShieldCheck } from "lucide-react";
+import { ArrowRight, ClipboardList, Eraser, ImageUp, PenLine, ShieldCheck } from "lucide-react";
 import imageCompression from "browser-image-compression";
 import { useTranslation } from "react-i18next";
 import { apiRequest } from "../lib/api";
@@ -31,7 +31,6 @@ async function optimizeInsuranceCard(file: File) {
 export default function ClassSignup() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation("classSignup");
-  const ageOptions = t("options.ages", { returnObjects: true }) as string[];
   const patientTypeOptions = t("options.patientTypes", { returnObjects: true }) as string[];
   const genderOptions = t("options.genders", { returnObjects: true }) as string[];
   const raceOptions = t("options.races", { returnObjects: true }) as string[];
@@ -48,9 +47,17 @@ export default function ClassSignup() {
     back: null as File | null,
   });
   const [compressingCard, setCompressingCard] = useState<"front" | "back" | null>(null);
+  const [signature, setSignature] = useState<Blob | null>(null);
   const [form, setForm] = useState({
+    fullName: "",
+    dateOfBirth: "",
+    email: "",
+    phone: "",
+    addressLine1: "",
+    addressLine2: "",
+    city: "",
+    postalCode: "",
     patientType: "",
-    ageRange: "",
     gender: "",
     genderOther: "",
     raceEthnicity: [] as string[],
@@ -127,6 +134,11 @@ export default function ClassSignup() {
       setError(t("errors.cards"));
       return;
     }
+    if (!signature) {
+      setStatus("error");
+      setError(t("errors.signature"));
+      return;
+    }
     if (compressingCard) {
       setStatus("error");
       setError(t("errors.optimizing"));
@@ -135,8 +147,15 @@ export default function ClassSignup() {
 
     try {
       const formData = new FormData();
+      formData.set("fullName", form.fullName);
+      formData.set("dateOfBirth", form.dateOfBirth);
+      formData.set("email", form.email);
+      formData.set("phone", form.phone);
+      formData.set("addressLine1", form.addressLine1);
+      formData.set("addressLine2", form.addressLine2);
+      formData.set("city", form.city);
+      formData.set("postalCode", form.postalCode);
       formData.set("patientType", form.patientType);
-      formData.set("ageRange", form.ageRange);
       formData.set("gender", form.gender);
       formData.set("genderOther", form.genderOther);
       formData.set("raceEthnicity", JSON.stringify(form.raceEthnicity));
@@ -153,6 +172,7 @@ export default function ClassSignup() {
       formData.set("preferredSiteLanguage", i18n.language);
       formData.set("insuranceCardFront", insuranceCards.front);
       formData.set("insuranceCardBack", insuranceCards.back);
+      formData.set("signature", signature, "electronic-signature.png");
       await apiRequest<{ ok: boolean; id: string }>("/api/class-signup", {
         method: "POST",
         body: formData,
@@ -197,26 +217,37 @@ export default function ClassSignup() {
 
       <main className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
         <form className="space-y-5" onSubmit={submit}>
-          <Question title={t("questions.patientType")}>
+          <Question title={t("contactDetailsTitle")}>
+            <p className="mb-4 text-sm leading-6 text-gray-600">{t("contactDetailsBody")}</p>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label={t("contactFields.fullName")} value={form.fullName} onChange={updateText("fullName")} autoComplete="name" required />
+              <Field label={t("contactFields.dateOfBirth")} value={form.dateOfBirth} onChange={updateText("dateOfBirth")} type="date" autoComplete="bday" required />
+              <Field label={t("contactFields.email")} value={form.email} onChange={updateText("email")} type="email" autoComplete="email" required />
+              <Field label={t("contactFields.phone")} value={form.phone} onChange={updateText("phone")} type="tel" autoComplete="tel" inputMode="tel" required />
+              <Field label={t("contactFields.addressLine1")} value={form.addressLine1} onChange={updateText("addressLine1")} autoComplete="address-line1" required className="sm:col-span-2" />
+              <Field label={t("contactFields.addressLine2")} value={form.addressLine2} onChange={updateText("addressLine2")} autoComplete="address-line2" />
+              <Field label={t("contactFields.city")} value={form.city} onChange={updateText("city")} autoComplete="address-level2" required />
+              <Field label={t("stateLabel")} value={form.stateResidence} onChange={updateText("stateResidence")} autoComplete="address-level1" required />
+              <Field label={t("contactFields.postalCode")} value={form.postalCode} onChange={updateText("postalCode")} autoComplete="postal-code" inputMode="numeric" required />
+            </div>
+          </Question>
+
+          <Question title={t("questions.patientType")} number={1}>
             <RadioGroup name="patientType" options={patientTypeOptions} value={form.patientType} onChange={(value) => updateChoice("patientType", value)} required />
           </Question>
 
-          <Question title={t("questions.age")}>
-            <RadioGroup name="ageRange" options={ageOptions} value={form.ageRange} onChange={(value) => updateChoice("ageRange", value)} required />
-          </Question>
-
-          <Question title={t("questions.gender")}>
+          <Question title={t("questions.gender")} number={2}>
             <RadioGroup name="gender" options={genderOptions} value={form.gender} onChange={(value) => updateChoice("gender", value)} required />
             {form.gender === genderOptions[3] && (
               <Field label={t("otherSpecify")} value={form.genderOther} onChange={updateText("genderOther")} className="mt-4" />
             )}
           </Question>
 
-          <Question title={t("questions.race")}>
+          <Question title={t("questions.race")} number={3}>
             <CheckboxGroup options={raceOptions} values={form.raceEthnicity} onChange={(value) => toggleList("raceEthnicity", value)} />
           </Question>
 
-          <Question title={t("questions.language")}>
+          <Question title={t("questions.language")} number={4}>
             <RadioGroup
               name="primaryLanguage"
               options={languageOptions}
@@ -229,11 +260,7 @@ export default function ClassSignup() {
             )}
           </Question>
 
-          <Question title={t("questions.state")}>
-            <Field label={t("stateLabel")} value={form.stateResidence} onChange={updateText("stateResidence")} required />
-          </Question>
-
-          <Question title={t("questions.education")}>
+          <Question title={t("questions.education")} number={5}>
             <RadioGroup
               name="educationLevel"
               options={educationOptions}
@@ -243,7 +270,7 @@ export default function ClassSignup() {
             />
           </Question>
 
-          <Question title={t("questions.insurance")}>
+          <Question title={t("questions.insurance")} number={6}>
             <RadioGroup
               name="hasUsHealthInsurance"
               options={insuranceOptions}
@@ -253,11 +280,11 @@ export default function ClassSignup() {
             />
           </Question>
 
-          <Question title={t("questions.conditions")}>
+          <Question title={t("questions.conditions")} number={7}>
             <CheckboxGroup options={conditionOptions} values={form.diagnosedConditions} onChange={(value) => toggleList("diagnosedConditions", value)} />
           </Question>
 
-          <Question title={t("questions.monitoring")}>
+          <Question title={t("questions.monitoring")} number={8}>
             <RadioGroup
               name="bloodSugarMonitoring"
               options={monitoringOptions}
@@ -267,7 +294,7 @@ export default function ClassSignup() {
             />
           </Question>
 
-          <Question title={t("questions.medication")}>
+          <Question title={t("questions.medication")} number={9}>
             <CheckboxGroup options={medicationOptions} values={form.diabetesMedications} onChange={(value) => toggleList("diabetesMedications", value)} />
           </Question>
 
@@ -309,6 +336,24 @@ export default function ClassSignup() {
             </label>
           </section>
 
+          <section className="rounded-3xl border border-[var(--color-brand-purple)]/15 bg-white p-5 shadow-sm sm:p-6">
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-brand-purple-light)] text-[var(--color-brand-purple)]">
+                <PenLine className="h-5 w-5" />
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-gray-900">{t("signatureTitle")}</h2>
+                <p className="mt-1 text-sm leading-6 text-gray-600">{t("signatureBody")}</p>
+              </div>
+            </div>
+            <SignaturePad
+              value={signature}
+              onChange={setSignature}
+              clearLabel={t("signatureClear")}
+              hint={t("signatureHint")}
+            />
+          </section>
+
           {status === "error" && <p className="rounded-2xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">{error}</p>}
 
           <button
@@ -332,9 +377,11 @@ type FieldProps = {
   type?: string;
   required?: boolean;
   className?: string;
+  autoComplete?: string;
+  inputMode?: "email" | "numeric" | "tel" | "text" | "url" | "search" | "decimal" | "none";
 };
 
-function Field({ label, value, onChange, type = "text", required, className = "" }: FieldProps) {
+function Field({ label, value, onChange, type = "text", required, className = "", autoComplete, inputMode }: FieldProps) {
   return (
     <label className={`block ${className}`}>
       <span className="mb-1.5 block text-sm font-bold text-gray-800">{label}</span>
@@ -343,18 +390,126 @@ function Field({ label, value, onChange, type = "text", required, className = ""
         value={value}
         onChange={onChange}
         required={required}
+        autoComplete={autoComplete}
+        inputMode={inputMode}
         className="h-[52px] w-full rounded-2xl border border-gray-200 bg-white px-4 text-base text-gray-900 outline-none transition focus:border-[var(--color-brand-purple)] focus:ring-4 focus:ring-[var(--color-brand-purple)]/10"
       />
     </label>
   );
 }
 
-function Question({ title, children }: { title: string; children: ReactNode }) {
+function Question({ title, number, children }: { title: string; number?: number; children: ReactNode }) {
+  const heading = number ? `${number}. ${title.replace(/^\d+\.\s*/, "")}` : title;
   return (
     <section className="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm sm:p-6">
-      <h2 className="text-lg font-bold leading-7 text-gray-900">{title}</h2>
+      <h2 className="text-lg font-bold leading-7 text-gray-900">{heading}</h2>
       <div className="mt-4">{children}</div>
     </section>
+  );
+}
+
+function SignaturePad({ value, onChange, clearLabel, hint }: { value: Blob | null; onChange: (signature: Blob | null) => void; clearLabel: string; hint: string }) {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const drawingRef = useRef(false);
+  const lastPointRef = useRef<{ x: number; y: number } | null>(null);
+
+  const point = (event: ReactPointerEvent<HTMLCanvasElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    return { x: event.clientX - bounds.left, y: event.clientY - bounds.top };
+  };
+
+  const emit = () => {
+    canvasRef.current?.toBlob((blob) => onChange(blob), "image/png");
+  };
+
+  const drawDot = (context: CanvasRenderingContext2D, next: { x: number; y: number }) => {
+    context.beginPath();
+    context.arc(next.x, next.y, 1.6, 0, Math.PI * 2);
+    context.fill();
+  };
+
+  const start = (event: ReactPointerEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    drawingRef.current = true;
+    lastPointRef.current = point(event);
+    const context = canvas.getContext("2d");
+    if (context) drawDot(context, lastPointRef.current);
+  };
+
+  const move = (event: ReactPointerEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    const lastPoint = lastPointRef.current;
+    if (!canvas || !drawingRef.current || !lastPoint) return;
+    const next = point(event);
+    const context = canvas.getContext("2d");
+    if (!context) return;
+    context.beginPath();
+    context.moveTo(lastPoint.x, lastPoint.y);
+    context.lineTo(next.x, next.y);
+    context.stroke();
+    lastPointRef.current = next;
+  };
+
+  const stop = () => {
+    if (!drawingRef.current) return;
+    drawingRef.current = false;
+    lastPointRef.current = null;
+    emit();
+  };
+
+  const clear = () => {
+    const canvas = canvasRef.current;
+    const context = canvas?.getContext("2d");
+    if (canvas && context) context.clearRect(0, 0, canvas.width, canvas.height);
+    onChange(null);
+  };
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const context = canvas.getContext("2d");
+    if (!context) return;
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    const resize = () => {
+      const bounds = canvas.getBoundingClientRect();
+      canvas.width = Math.round(bounds.width * ratio);
+      canvas.height = Math.round(bounds.height * ratio);
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      context.strokeStyle = "#24283b";
+      context.fillStyle = "#24283b";
+      context.lineWidth = 2.4;
+      context.lineCap = "round";
+      context.lineJoin = "round";
+      onChange(null);
+    };
+    resize();
+    const observer = new ResizeObserver(resize);
+    observer.observe(canvas);
+    return () => observer.disconnect();
+  }, [onChange]);
+
+  return (
+    <div className="mt-5">
+      <div className="relative overflow-hidden rounded-2xl border-2 border-dashed border-[var(--color-brand-purple)]/30 bg-[var(--color-brand-purple-light)]/20">
+        {!value && <span className="pointer-events-none absolute inset-0 flex items-center justify-center px-4 text-center text-sm text-gray-400">{hint}</span>}
+        <canvas
+          ref={canvasRef}
+          aria-label={hint}
+          className="block h-40 w-full touch-none cursor-crosshair"
+          onPointerDown={start}
+          onPointerMove={move}
+          onPointerUp={stop}
+          onPointerCancel={stop}
+          onPointerLeave={stop}
+        />
+      </div>
+      <button type="button" onClick={clear} className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 text-sm font-bold text-gray-700 transition hover:border-gray-300 hover:bg-gray-50">
+        <Eraser className="h-4 w-4" />
+        {clearLabel}
+      </button>
+    </div>
   );
 }
 

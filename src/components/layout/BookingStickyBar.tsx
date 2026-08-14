@@ -11,6 +11,9 @@ const hiddenPaths = new Set([
   "/booking-whatsapp",
   "/contact-thank-you",
   "/member-thank-you",
+  "/sign-up-class",
+  "/class-agreement",
+  "/sign-up-class-thank-you",
 ]);
 
 function normalizePath(pathname: string) {
@@ -42,15 +45,7 @@ export default function BookingStickyBar() {
     <aside className="fixed inset-x-0 bottom-0 z-40 px-3 pb-3 sm:px-6 md:pb-5">
       <div className="mx-auto max-w-7xl">
         <div className="relative overflow-hidden rounded-3xl border border-[var(--color-brand-purple)]/15 bg-[linear-gradient(125deg,#ffffff_0%,#fff7fd_48%,#f0fff7_100%)] p-3 shadow-[0_22px_70px_-34px_rgba(31,41,55,0.72)] backdrop-blur md:hidden">
-          <div className="absolute bottom-[68px] right-[-6px] h-[132px] w-[132px] overflow-hidden">
-            <img
-              src="/images/tan-doctor-booking.png"
-              alt=""
-              aria-hidden="true"
-              className="absolute bottom-0 right-[-22px] h-[148px] w-auto max-w-none object-contain"
-            />
-          </div>
-          <div className="relative z-10 mb-3 min-h-[88px] pr-[116px]">
+          <div className="relative z-10 mb-3 min-h-[88px] pr-12">
             <div className="mb-2 flex items-center gap-2">
               <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-brand-purple-light)] text-[var(--color-brand-purple)]">
                 <ShieldCheck className="h-5 w-5" />

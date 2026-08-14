@@ -203,7 +203,8 @@ export async function adminClassSignups(request: Request, env: Env) {
   const db = getDb(env);
   const rows = await db
     .prepare(
-      `SELECT id, patient_type, age_range, gender, gender_other, race_ethnicity,
+      `SELECT id, full_name, date_of_birth, email, phone, address_line1, address_line2, city, postal_code,
+              signature_name, signature_signed_at, patient_type, age_range, gender, gender_other, race_ethnicity,
               primary_language, primary_language_other, state_residence, education_level, has_us_health_insurance,
               diagnosed_conditions, blood_sugar_monitoring, diabetes_medications, agreement_accepted,
               agreement_version, agreement_accepted_at, sheet_status, sheet_error, email_status, email_error, created_at
@@ -993,10 +994,16 @@ export function adminPage(request: Request, env: Env) {
         const tr = document.createElement("tr");
         const agreement = signup.agreement_accepted ? "Accepted" : "Missing";
         const files = Array.isArray(signup.files) ? signup.files : [];
+        const insuranceFiles = files.filter(function (file) { return file.kind === "front" || file.kind === "back"; });
+        const signatureFile = files.find(function (file) { return file.kind === "signature"; });
         const cells = [
           date(signup.created_at),
+          signup.full_name,
+          signup.date_of_birth,
+          signup.email,
+          signup.phone,
+          [signup.address_line1, signup.address_line2, signup.city, signup.state_residence, signup.postal_code].filter(Boolean).join(", "),
           signup.patient_type,
-          signup.age_range,
           signup.gender,
           signup.gender_other,
           listValue(signup.race_ethnicity),
@@ -1008,7 +1015,10 @@ export function adminPage(request: Request, env: Env) {
           listValue(signup.diagnosed_conditions),
           signup.blood_sugar_monitoring,
           listValue(signup.diabetes_medications),
-          files,
+          insuranceFiles,
+          signatureFile,
+          signup.signature_name,
+          date(signup.signature_signed_at),
           agreement,
           signup.agreement_version,
           date(signup.agreement_accepted_at),
@@ -1019,8 +1029,8 @@ export function adminPage(request: Request, env: Env) {
         ];
         cells.forEach((cell, index) => {
           const td = document.createElement("td");
-          if ([5, 11, 13, 19, 21].includes(index)) td.className = "message";
-          if (index === 14) {
+          if ([9, 15, 17, 26, 28].includes(index)) td.className = "message";
+          if (index === 18) {
             if (!cell.length) {
               td.textContent = "Not uploaded";
             } else {
@@ -1030,12 +1040,22 @@ export function adminPage(request: Request, env: Env) {
                 const link = document.createElement("a");
                 link.className = "file-link";
                 link.href = "/admin/api/class-signups/" + encodeURIComponent(signup.id) + "/files/" + encodeURIComponent(file.id) + "/download";
-                link.textContent = file.kind === "back" ? "Download back" : "Download front";
+                link.textContent = file.kind === "back" ? "Download insurance back" : "Download insurance front";
                 links.appendChild(link);
               });
               td.appendChild(links);
             }
-          } else if (index === 15 || index === 18 || index === 20) {
+          } else if (index === 19) {
+            if (!cell) {
+              td.textContent = "Missing";
+            } else {
+              const link = document.createElement("a");
+              link.className = "file-link";
+              link.href = "/admin/api/class-signups/" + encodeURIComponent(signup.id) + "/files/" + encodeURIComponent(cell.id) + "/download";
+              link.textContent = "Download signature";
+              td.appendChild(link);
+            }
+          } else if (index === 22 || index === 25 || index === 27) {
             const span = document.createElement("span");
             span.className = "badge " + (cell === "failed" || cell === "Missing" ? "failed" : "");
             span.textContent = text(cell);
@@ -1047,7 +1067,7 @@ export function adminPage(request: Request, env: Env) {
         });
         return tr;
       });
-      renderRows(["Created", "Patient Type", "Age", "Gender", "Gender Other", "Race/Ethnicity", "Language", "Language Other", "State", "Education", "Insurance", "Conditions", "Blood Sugar Monitoring", "Diabetes Medications", "Insurance Card", "Agreement", "Agreement Version", "Accepted At", "Sheet", "Sheet Error", "Email", "Email Error"], rows);
+      renderRows(["Created", "Name", "DOB", "Email", "Phone", "Address", "Patient Type", "Gender", "Gender Other", "Race/Ethnicity", "Language", "Language Other", "State", "Education", "Insurance", "Conditions", "Blood Sugar Monitoring", "Diabetes Medications", "Insurance Cards", "E-signature", "Signed By", "Signed At", "Agreement", "Agreement Version", "Accepted At", "Sheet", "Sheet Error", "Email", "Email Error"], rows);
     }
     async function loadMembers() {
       $("title").textContent = "Members";
